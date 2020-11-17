@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="User">
+
+	<sql id="tableName">ns_users</sql>
+
+	<select id="selectSearchList" resultType="User" parameterType="Map">
+			SELECT
+				u.id,
+				u.username AS username,
+				u.id AS userId,
+				u.nick_name AS nickName,
+				u.enable AS status,
+				u.password AS password,
+				u.group_id AS groupId,
+				r.name AS roleName,
+				g.`name` as groupName,
+				r.id AS roleId,
+				g.parent_id AS parentGroupId,
+				u.err_pwd_count AS errPwdCount,
+				g.city_code AS cityCode,
+				g.company_lng AS cityLng,
+				g.company_lat AS cityLat
+			FROM <include refid="tableName"/> u
+			LEFT JOIN ns_roles r ON u.role_id = r.id
+			LEFT JOIN d_group g ON  u.group_id = g.id
+		  	WHERE
+		  		1=1
+			  <if test="user.nickName != null and user.nickName != ''">
+				AND u.nick_name LIKE CONCAT('%',#{user.nickName},'%')
+			  </if>
+			  <if test="user.username != null and user.username != ''">
+				AND u.username = #{user.username}
+			  </if>
+        ORDER BY u.enable DESC
+    </select>
+
+    <insert id="add" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			username,
+			nick_name,
+			password,
+			`enable`,
+			role_id,
+			group_id,
+			creator,
+		  	updater
+		)
+		VALUE
+		(
+			#{username},
+			#{nickName},
+			#{password},
+			#{status},
+			#{roleId},
+			#{groupId},
+			#{creator},
+		  	#{updater}
+		)
+	</insert>
+
+	<select id="findById" parameterType="String" resultType="User">
+		SELECT
+			u.username AS username,
+			u.id AS id,
+			u.nick_name AS nickName,
+			u.enable AS status,
+			u.password AS password,
+			u.group_id AS groupId,
+			r.name AS roleName,
+			g.`name` as groupName,
+			r.id AS roleId,
+			u.err_pwd_count AS errPwdCount
+		FROM <include refid="tableName"/> u
+		LEFT JOIN ns_roles r ON u.role_id = r.id
+		LEFT JOIN d_group g ON  u.group_id = g.id
+		WHERE u.id = #{value}
+	</select>
+
+	<update id="edit" parameterType="User">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			<if test="roleId!=null">
+				,role_id = #{roleId}
+			</if>
+			<if test="nickName!=null">
+				,nick_name = #{nickName}
+			</if>
+			<if test="password!=null and password!=''">
+				,password = #{password}
+			</if>
+			<if test="groupId!=null">
+				,group_id = #{groupId}
+			</if>
+		WHERE
+			1=1
+			<if test="id!=null">
+				AND id=#{id}
+			</if>
+	</update>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,enable = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>

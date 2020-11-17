@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="Role">
+
+	<sql id="tableName">ns_roles</sql>
+	<sql id="resources">ns_resources</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="Role">
+        SELECT
+          r.id AS id,
+          r.name AS name,
+          r.enable AS enable,
+          r.create_user_id AS createUserId,
+          dg.name AS groupName,
+          dg.id AS groupId,
+          dg.parent_id AS parentGroupId
+        FROM <include refid="tableName"/> r
+        LEFT JOIN d_group dg ON dg.id = r.group_id
+        WHERE
+        	1=1
+          <if test="role.id != '' and role.id != null">
+            AND r.id = #{role.id}
+          </if>
+          <if test="role.enable != '' and role.enable != null">
+            AND r.enable = #{role.enable}
+          </if>
+        <if test="rows > 0">
+        LIMIT #{start}, #{rows}
+        </if>
+    </select>
+
+	<insert id="add" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO ns_roles
+		(
+			`name`,
+			`enable`,
+			group_id,
+			creator,
+		  	updater
+		)
+		VALUES
+		(
+			#{name},
+			1,
+			#{groupId},
+			#{creator},
+		  	#{updater}
+		)
+	</insert>
+
+	<select id='findById' parameterType="String" resultType='Role'>
+		SELECT
+			id,
+			name,
+			group_id AS groupId
+		FROM ns_roles
+		WHERE id = #{id}
+	</select>
+
+	<update id="edit" parameterType="Role">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			<if test="name != null">
+				,name = #{name}
+			</if>
+			<if test="enable != null">
+				,enable = #{enable}
+			</if>
+			<if test="groupId != null">
+				,group_id = #{groupId}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,enable = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+	<select id="queryResourceList" resultType="Map">
+		SELECT
+			re.id AS id,
+			re.url AS url,
+			re.name AS name,
+			ri.id AS rightId
+		FROM <include refid="resources"/> re
+		LEFT JOIN ns_rights ri ON re.id = ri.resource_id
+		WHERE
+			re.enable = 1 AND re.level = 1
+		ORDER BY parent_id, resorder
+	</select>
+
+	<select id="queryUserRoleRights" resultType="Map" parameterType='Map'>
+		SELECT
+			resources.id AS id,
+			resources.url AS url,
+			resources.name AS name,
+			rights.id AS rightId,
+			resources.parent_id AS parentId,
+			resources.icon,
+			resources.func_ids AS resourceFuncs
+			<if test="id!=null">
+				,nrr.func_ids AS roleFuncs
+				,nrr.id nrrId
+			</if>
+		FROM <include refid="resources"/> resources
+		LEFT JOIN ns_rights rights ON resources.id = rights.resource_id
+		<if test="id!=null">
+			LEFT JOIN ns_roles_rights nrr ON rights.id = nrr.right_id
+			AND nrr.role_id = #{id}
+		</if>
+		WHERE
+			resources.enable = 1
+		ORDER BY resources.parent_id, resources.resorder
+	</select>
+
+	<select id="queryFuncs" resultType="Map">
+		SELECT
+			*
+		FROM ns_funcs
+		WHERE status = 1
+	</select>
+
+	<insert id="addRoleRightBatch" parameterType="Map">
+		INSERT INTO ns_roles_rights
+		(
+			`right_id`,
+			`role_id`,
+			`authority`,
+			`func_ids`
+		)
+		VALUES
+		<foreach collection="roleRights" item="item" separator=",">
+			(#{item.rightId},#{item.roleId},1,#{item.funcIds})
+		</foreach>
+	</insert>
+
+	<delete id="deleteRoleRightsByRoleId" parameterType="Map">
+		DELETE FROM ns_roles_rights
+		WHERE role_id = #{roleId}
+	</delete>
+
+</mapper>

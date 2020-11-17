@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ExceptionLog">
+
+	<sql id="tableName">l_exception_log</sql>
+
+	<select id="selectSearchListGroupByMethod" parameterType="Map" resultType="ExceptionLog">
+		SELECT
+			id,
+			method,
+			COUNT(*) AS cnt
+		FROM <include refid="tableName"/>
+		<where>
+			<if test="exceptionLog.method!=null and exceptionLog.method!=''">
+				AND method LIKE CONCAT('%',#{exceptionLog.method},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND error_date &gt; CONCAT(#{startDate},' 00:00:00')
+			</if>
+		    <if test="endDate!=null and endDate!=''">
+				AND error_date &lt; CONCAT(#{endDate},' 23:59:59')
+			</if>
+		</where>
+		GROUP BY method
+		ORDER BY cnt DESC
+	</select>
+
+	<select id="selectSearchList" parameterType="Map" resultType="ExceptionLog">
+		SELECT
+			id,
+			method,
+			error_message AS errorMessage,
+			stack_trace AS stackTrace,
+			error_date AS errorDate
+		FROM <include refid="tableName"/>
+		<where>
+			<if test="exceptionLog.method!=null and exceptionLog.method!=''">
+				AND method LIKE CONCAT('%',#{exceptionLog.method},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND error_date &gt; CONCAT(#{startDate},' 00:00:00')
+			</if>
+		    <if test="endDate!=null and endDate!=''">
+				AND error_date &lt; CONCAT(#{endDate},' 23:59:59')
+			</if>
+		</where>
+	</select>
+
+	<insert id="addBatch" parameterType="ExceptionLog">
+		INSERT INTO <include refid="tableName"/>
+		(
+			method,
+			error_message,
+			stack_trace,
+			error_date,
+			create_date
+		)
+		VALUES
+		<foreach collection="list" separator="," item="item">
+			(
+				#{item.method},
+				#{item.errorMessage},
+				#{item.stackTrace},
+				#{item.errorDate},
+				NOW()
+			)
+		</foreach>
+
+	</insert>
+
+
+</mapper>

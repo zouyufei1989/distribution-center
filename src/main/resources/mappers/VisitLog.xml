@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="VisitLog">
+
+	<sql id="tableName">l_visit_log</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="VisitLog">
+		SELECT
+		  url,
+		  module_name AS moduleName,
+		  resource_name AS resourceName,
+		  type,
+		  user_id AS userId,
+		  duration,
+		  nu.username AS userName,
+		  lvl.create_date AS createDate
+		FROM <include refid="tableName"/> lvl
+		JOIN ns_users nu ON nu.id = lvl.user_id
+		WHERE
+			1=1
+			<if test="groupId != null">
+				AND nu.group_id = #{groupId}
+			</if>
+			<if test="visitLog.type!=null">
+				AND lvl.type = #{visitLog.type}
+			</if>
+			<if test="visitLog.moduleName!=null and visitLog.moduleName!=''">
+				AND lvl.module_name = #{visitLog.moduleName}
+			</if>
+			<if test="visitLog.resourceName!=null and visitLog.resourceName!=''">
+				AND lvl.resource_name = #{visitLog.resourceName}
+			</if>
+			<if test="visitLog.userName!=null and visitLog.userName!=''">
+				AND nu.username = #{visitLog.userName}
+			</if>
+			<if test="visitLog.userId!=null">
+				AND lvl.user_id = #{visitLog.userId}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND lvl.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND lvl.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+		ORDER BY lvl.create_date DESC
+		<if test="rows != null and rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+		  COUNT(*)
+		FROM <include refid="tableName"/> lvl
+		JOIN ns_users nu ON nu.id = lvl.user_id
+		WHERE
+			1=1
+			<if test="groupId != null">
+				AND nu.group_id = #{groupId}
+			</if>
+			<if test="visitLog.type!=null">
+				AND lvl.type = #{visitLog.type}
+			</if>
+			<if test="visitLog.moduleName!=null and visitLog.moduleName!=''">
+				AND lvl.module_name = #{visitLog.moduleName}
+			</if>
+			<if test="visitLog.resourceName!=null and visitLog.resourceName!=''">
+				AND lvl.resource_name = #{visitLog.resourceName}
+			</if>
+			<if test="visitLog.userName!=null and visitLog.userName!=''">
+				AND nu.username = #{visitLog.userName}
+			</if>
+			<if test="visitLog.userId!=null">
+				AND lvl.user_id = #{visitLog.userId}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND lvl.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND lvl.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+	</select>
+
+	<insert id="add" parameterType="VisitLog">
+		INSERT INTO <include refid="tableName"/>
+		(
+			url,
+			module_name,
+			resource_name,
+			type,
+			duration,
+			user_id,
+			user_ip,
+			create_date
+		)
+		VALUES
+		(
+			#{url},
+			#{moduleName},
+			#{resourceName},
+			#{type},
+			#{duration},
+			#{userId},
+			#{userIp},
+			NOW()
+		)
+	</insert>
+
+</mapper>

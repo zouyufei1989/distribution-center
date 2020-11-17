@@ -1,0 +1,1 @@
+var JS_VERSION = 1.7;

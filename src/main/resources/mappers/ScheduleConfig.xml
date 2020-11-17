@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ScheduleConfig">
+
+	<sql id="tableName">d_schedule_config</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="ScheduleConfig">
+		SELECT
+		  id,
+		  full_class AS fullClass,
+		  `year`,
+		  `month`,
+		  `day`,
+		  `hour`,
+		  `minute`,
+		  comment,
+		  params,
+		  create_date AS createDate
+		FROM <include refid="tableName"/>
+		ORDER BY create_date DESC
+		<if test="rows != null and rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+		  COUNT(*)
+		FROM <include refid="tableName"/>
+	</select>
+
+	<select id="findById" parameterType="String" resultType="ScheduleConfig">
+		SELECT
+		  	id,
+		  	full_class AS fullClass,
+		  	`year`,
+		  	`month`,
+		  	`day`,
+		  	`hour`,
+		  	`minute`,
+		  	comment,
+		  	params
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="ScheduleConfig">
+		INSERT INTO <include refid="tableName"/>
+		(
+			full_class,
+			`year`,
+			`month`,
+			`day`,
+			`hour`,
+			`minute`,
+			comment,
+			params,
+			create_date
+		)
+		VALUES
+		(
+			#{fullClass},
+			#{year},
+			#{month},
+			#{day},
+			#{hour},
+			#{minute},
+			#{comment},
+			#{params},
+			NOW()
+		)
+	</insert>
+
+	<update id="edit" parameterType="ScheduleConfig">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,`full_class` = #{fullClass}
+			,`year` = #{year}
+			,`month` = #{month}
+			,`day` = #{day}
+			,`hour` = #{hour}
+			,`minute` = #{minute}
+			,`comment` = #{comment}
+			,`params` = #{params}
+		WHERE id = #{id}
+	</update>
+
+
+</mapper>

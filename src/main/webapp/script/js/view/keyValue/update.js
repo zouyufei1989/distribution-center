@@ -1,0 +1,1 @@
+var attrs = ["key",'value','comment'];

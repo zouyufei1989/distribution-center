@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StsVisitLog">
+
+	<sql id="tableName">l_visit_log</sql>
+
+	<select id="visitLogStsByResource" parameterType="Map" resultType="StsVisitLog">
+		SELECT
+			module_name AS moduleName,
+			resource_name AS resourceName,
+			COUNT(type=1 OR null) AS count4Read,
+			COUNT(type=2 OR null) AS count4Edit,
+			COUNT(type=3 OR null) AS count4Import,
+			COUNT(type=4 OR null) AS count4Export,
+			MAX(duration) AS maxDuration,
+			MIN(duration) AS minDuration,
+			ROUND(AVG(duration)) AS avgDuration
+		FROM <include refid="tableName"/> lvl
+		JOIN ns_users nu ON nu.id = lvl.user_id
+		WHERE
+			1=1
+			<if test="groupId != null">
+				AND nu.group_id = #{groupId}
+			</if>
+			<if test="visitLog.userId!=null">
+				AND lvl.user_id = #{visitLog.userId}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND lvl.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND lvl.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+		GROUP BY module_name,resource_name
+	</select>
+
+	<select id="visitLogStsByUser" parameterType="Map" resultType="StsVisitLog">
+		SELECT
+			nu.username AS userName,
+			COUNT(type=1 OR null) AS count4Read,
+			COUNT(type=2 OR null) AS count4Edit,
+			COUNT(type=3 OR null) AS count4Import,
+			COUNT(type=4 OR null) AS count4Export
+		FROM <include refid="tableName"/> lvl
+		JOIN ns_users nu ON nu.id = lvl.user_id
+		WHERE
+			1=1
+			<if test="groupId != null">
+				AND nu.group_id = #{groupId}
+			</if>
+			<if test="visitLog.userId!=null">
+				AND lvl.user_id = #{visitLog.userId}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND lvl.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND lvl.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+		GROUP BY nu.id
+	</select>
+
+
+</mapper>

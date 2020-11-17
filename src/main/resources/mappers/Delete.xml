@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Delete">
+
+	<insert id="backup" parameterType="Map">
+		INSERT INTO ${tableName}_del_bk
+			SELECT * from ${tableName} WHERE id IN
+			<foreach collection="ids" item="id" separator="," open="(" close=")">
+				#{id}
+			</foreach>;
+	</insert>
+
+	<delete id="delete" parameterType="Map">
+	  	DELETE FROM ${tableName} where id IN
+		<foreach collection="ids" item="id" separator="," open="(" close=")">
+			#{id}
+		</foreach>;
+	</delete>
+
+
+</mapper>

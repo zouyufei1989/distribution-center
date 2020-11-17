@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="KeyValue">
+
+	<sql id="tableName">l_key_value</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="KeyValue">
+		SELECT
+		  id,
+		  `key`,
+		  `value`,
+		  comment,
+		  create_date AS createDate
+		FROM <include refid="tableName"/>
+		WHERE
+			1=1
+			<if test="key!=null and key !=''">
+				AND `key` LIKE CONCAT('%',#{key},'%')
+			</if>
+		ORDER BY create_date DESC
+		<if test="rows != null and rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+		  COUNT(*)
+		FROM <include refid="tableName"/>
+		WHERE
+			1=1
+			<if test="key!=null and key !=''">
+				AND `key` LIKE CONCAT('%',#{key},'%')
+			</if>
+	</select>
+
+	<select id="findById" parameterType="String" resultType="KeyValue">
+		SELECT
+			id,
+		  	`key`,
+		  	`value`,
+		  	comment,
+		  	create_date AS createDate
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="KeyValue">
+		INSERT INTO <include refid="tableName"/>
+		(
+			`key`,
+			`value`,
+			comment,
+			create_date
+		)
+		VALUES
+		(
+			#{key},
+			#{value},
+			#{comment},
+			NOW()
+		)
+	</insert>
+
+	<update id="edit" parameterType="KeyValue">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,`key` = #{key}
+			,`value` = #{value}
+			,comment = #{comment}
+		WHERE id = #{id}
+	</update>
+
+
+</mapper>

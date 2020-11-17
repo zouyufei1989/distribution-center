@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Utils">
+
+	<select id="selectOpenCities" resultType="City">
+		SELECT
+			id,
+			city_lat AS cityLat,
+			city_lng AS cityLng,
+			city_ch_name AS cityChName,
+			city_name AS cityName,
+			pinyin_short AS pinyinShort,
+			city_code AS cityCode,
+			comment,
+			amap_province_name AS amapProvinceName,
+			amap_province_code AS amapProvinceCode,
+			amap_city_name AS amapCityName,
+			amap_city_code AS amapCityCode,
+			amap_city_tel AS amapCityTel,
+			amap_district_name AS amapDistrictName,
+			amap_district_code AS amapDistrictCode,
+			hot,
+			`open`
+		FROM
+			s_support_city_amap
+		WHERE `open` = 1 OR hot = 1
+	</select>
+
+	<select id="execQuerySql" parameterType="Map" resultType="java.util.LinkedHashMap">
+        ${sql}
+    </select>
+
+    <update id="execUpdateSql" parameterType="Map" >
+        ${sql}
+    </update>
+
+
+    <select id="queryForBackup" parameterType="Map" resultType="Map">
+		  SELECT
+		  	*
+		  FROM ${tableName}
+		  <if test="backupType=='INCREMENT'">
+			  WHERE
+			  	update_date &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00')
+			  	AND update_date &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+			  ORDER BY update_date
+		  </if>
+		  LIMIT #{_pagesize} OFFSET #{_skiprows}
+	</select>
+
+</mapper>

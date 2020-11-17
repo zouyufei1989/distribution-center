@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Security">
+
+	<sql id="resources">ns_resources</sql>
+
+	<select id="getUserResources" parameterType="int" resultType="Resource">
+        SELECT
+          re.id,
+          re.parent_id AS parentId,
+          re.name,
+          re.level,
+          re.url,
+          re.resorder,
+          re.func_ids AS resourceFuncIds,
+          rr.func_ids AS roleFuncIds
+        FROM ns_users u
+        INNER JOIN ns_roles r ON u.role_id = r.id
+	    INNER JOIN ns_roles_rights rr ON rr.role_id = r.id
+	    INNER JOIN ns_rights ri on ri.id= rr.right_id
+	    INNER JOIN <include refid="resources"/> re ON re.id = ri.resource_id
+        WHERE
+        	u.id = #{value}
+          	AND re.enable = 1
+    </select>
+    
+    <select id="getAllResources" resultType="Resource">
+		SELECT
+		  r.id AS id,
+		  r.parent_id AS parent_id,
+		  r.name AS name,
+		  r.level AS level,
+		  r.url AS url,
+		  r.resorder AS resorder,
+		  r.enable AS enable
+		FROM <include refid="resources"/> r
+		WHERE r.level != 0
+	</select>
+	
+	<select id="getParentResourcesName" resultType="Resource">
+		SELECT
+		  rs.id,
+		  rs.name,
+		  rs.resorder,
+		  rs.icon
+		FROM <include refid="resources"/> rs
+		WHERE rs.parent_id = 0
+	</select>
+	
+	<insert id="insertLog" parameterType="Map">
+		INSERT INTO s_login_user_log
+		(
+		  user_id,
+		  ip_address,
+		  machine_name
+		) VALUE
+		(
+		  #{userId},
+		  #{ipAddress},
+		  #{machineName}
+		)
+	</insert>
+
+</mapper>
