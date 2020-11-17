@@ -35,6 +35,8 @@ public class MvcConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
+                .excludePathPatterns("/swagger-resources/**")
+                .excludePathPatterns("/swagger-ui.html", "/configuration/ui", "/swagger-resources", "/configuration/security", "/v2/api-docs", "/webjars/**", "/**/favicon.ico")
                 .excludePathPatterns("/script/**", "/resource/**", "/css/**");
         registry.addInterceptor(visitLogInterceptor)
                 .addPathPatterns("/**")
