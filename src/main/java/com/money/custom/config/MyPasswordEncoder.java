@@ -1,7 +1,10 @@
 package com.money.custom.config;
 
+import com.money.framework.util.ExcelUtils;
 import com.money.framework.util.RSAUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,6 +19,8 @@ import java.security.spec.InvalidKeySpecException;
 
 @Component
 public class MyPasswordEncoder implements PasswordEncoder {
+
+    public final static Logger logger = LoggerFactory.getLogger(MyPasswordEncoder.class);
 
     @Value("${RSA.PRIVATE.KEY}")
     String RSA_PRI_KEY;
@@ -33,7 +38,7 @@ public class MyPasswordEncoder implements PasswordEncoder {
             String userPwd = RSAUtils.privateDecrypt(pwdInDb, RSA_PRI_KEY);
             return StringUtils.equals(pwd, userPwd);
         } catch (NoSuchAlgorithmException | BadPaddingException | InvalidKeyException | NoSuchPaddingException | InvalidKeySpecException | IOException | IllegalBlockSizeException e) {
-            e.printStackTrace();
+            logger.error("解密失败", e);
         }
         return false;
     }

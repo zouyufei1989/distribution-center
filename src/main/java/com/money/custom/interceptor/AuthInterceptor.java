@@ -32,8 +32,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         resetSessionAttrs(request);
         setPageAuth(request);
-
-        response.setHeader("Set-Cookie", String.format("JSESSIONID=%s; Path=/schaeffler; HttpOnly;SameSite=Strict", request.getSession().getId()));
         return true;
     }
 

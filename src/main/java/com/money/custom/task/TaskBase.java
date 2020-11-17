@@ -17,16 +17,12 @@ public class TaskBase {
         return LoggerFactory.getLogger(this.getClass().getName());
     }
 
-    @Value("${schaeffler.groupId}")
-    Integer groupId;
-
     @Autowired
     RedisUtils redisUtils;
 
 
     OperationalEntity getOperationInfo() {
         OperationalEntity entity = new OperationalEntity();
-        entity.setGroupId(groupId);
         entity.setUpdater(this.getClass().getSimpleName());
         entity.setCreator(this.getClass().getSimpleName());
         return entity;

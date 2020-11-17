@@ -5,7 +5,6 @@
 
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge">
-<%--    <meta http-equiv="Content-Security-Policy" content="default-src 'self' www.schaeffler.cn fonts.googleapis.com webapi.amap.com restapi.amap.com vdata.amap.com fonts.gstatic.com data: 'unsafe-eval' 'unsafe-inline' blob:; ">--%>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理系统</title>
 
