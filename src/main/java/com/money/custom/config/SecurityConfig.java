@@ -64,6 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web
                 .ignoring().antMatchers("/script/**", "/resource/**", "/css/**")
                 .and()
+                .ignoring().antMatchers("/swagger-ui.html","/webjars/**","/swagger-resources/**","/webjars/**","/v2/*")
+                .and()
                 .ignoring().mvcMatchers(SKIP_URL.toArray(new String[0]));
     }
 
