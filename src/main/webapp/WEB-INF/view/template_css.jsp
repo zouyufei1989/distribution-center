@@ -114,4 +114,7 @@
     / / 去掉高德的版本号
     }
 
+    #updateModal img {
+        height: 80px;
+    }
 </style>

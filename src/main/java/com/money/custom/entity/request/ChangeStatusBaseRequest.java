@@ -49,8 +49,4 @@ public class ChangeStatusBaseRequest<T extends IEnumKeyValue> extends Operationa
         this.ids = ids;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
 }

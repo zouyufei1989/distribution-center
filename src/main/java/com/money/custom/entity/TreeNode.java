@@ -8,7 +8,6 @@ import java.util.List;
  */
 public class TreeNode {
 
-    private static final long serialVersionUID = -2718872134543172853L;
     private int id;
     private String text;
     private String iconCls;
@@ -103,7 +102,6 @@ public class TreeNode {
 
     public class Attributes {
 
-        private static final long serialVersionUID = 1L;
         private String url;
 
         public String getPrice() {

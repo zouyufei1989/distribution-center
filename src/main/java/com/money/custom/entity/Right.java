@@ -7,7 +7,6 @@ public class Right extends BaseEntity {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5988534561757829666L;
 	private int id;
 	private int resourceId;
 	private String name;

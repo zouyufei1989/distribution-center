@@ -14,7 +14,6 @@ public class Resource extends BaseEntity {
     /**
      *
      */
-    private static final long serialVersionUID = -5283467353404597856L;
     private Integer id;
     private String url;
     private Integer level;

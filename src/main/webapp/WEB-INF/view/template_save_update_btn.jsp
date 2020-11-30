@@ -54,12 +54,18 @@
             async: true,
             cache: false,
             success: function (result) {
-                loadingEnd();
                 if (result.success === false) {
-                    Alert("", result.message || "失败！", "error");
+                    loadingEnd(function () {
+                        Alert("", result.message || "失败！", "error");
+                    });
                     return;
                 }
-                Alert("", "成功！", "success", location.reload())
+                loadingEnd(function () {
+                    $('#updateModal').modal("hide");
+                    Alert("", "成功！", "success", function () {
+                        reloadList()
+                    });
+                });
             }
         });
     }
@@ -79,12 +85,18 @@
             async: true,
             cache: false,
             success: function (result) {
-                loadingEnd();
                 if (result.success === false) {
-                    Alert("", result.message || "失败！", "error");
+                    loadingEnd(function () {
+                        Alert("", result.message || "失败！", "error");
+                    });
                     return;
                 }
-                Alert("", "成功！", "success", location.reload())
+                loadingEnd(function () {
+                    $('#updateModal').modal("hide");
+                    Alert("", "成功！", "success", function () {
+                        reloadList()
+                    });
+                });
             }
         });
     }

@@ -146,6 +146,7 @@ public class EnumUtils {
         try {
             opt = getByValue(clazz, value);
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             throw PandabusSpecException.illegalArgumentError();
         }
         return opt.isPresent() ? opt.get().getName() : IEnumKeyValue.DEFAULT_NAME;

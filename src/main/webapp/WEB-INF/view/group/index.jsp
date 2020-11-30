@@ -5,6 +5,41 @@
     <%@ include file="../template_meta.jsp" %>
     <%@ include file="../template_css.jsp" %>
     <%@ include file="../template_js.jsp" %>
+    <style type="text/css">
+        #updateModal .modal-dialog {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        #updateModal .modal-content { /*overflow-y: scroll; */
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #updateModal .modal-body {
+            overflow-y: scroll;
+            position: absolute;
+            top: 55px;
+            bottom: 65px;
+            width: 100%;
+        }
+
+        #updateModal .modal-header .close {
+            margin-right: 15px;
+        }
+
+        #updateModal .modal-footer {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+
+    </style>
 </head>
 <body>
 <%@ include file="../template_menu.jsp" %>
@@ -19,7 +54,7 @@
                     <div class="ibox-content">
                         <form role="form" class="form-inline" style="padding: 0px">
                             <%@ include file="../template_btnGroup.jsp" %>
-                            <%@ include file="../template_loading_modal.jsp" %>
+                            <%@ include file="../template_upload_modal.jsp" %>
                         </form>
                         <%@ include file="../template_grid.jsp" %>
                     </div>
@@ -29,9 +64,12 @@
     </div>
 </div>
 
+<%@ include file="update.jsp" %>
+
 </body>
 <script type="text/javascript">
     loadJS("../script/js/view/group/index.js", 1)
+    loadJS("../script/js/view/group/update.js", 1)
 </script>
 
 </html>

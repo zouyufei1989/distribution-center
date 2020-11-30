@@ -35,7 +35,7 @@
                                         <div class="upload_box" id="url" data-toggle="modal" data-target="#urlModal">+</div>
                                     </div>
                                     <div class="col-sm-5">
-                                        <img id="img_url" src="" style="width: 100%" >
+                                        <img id="img_url" src="" >
                                     </div>
                                 </div>
                                 <div class="form-group">

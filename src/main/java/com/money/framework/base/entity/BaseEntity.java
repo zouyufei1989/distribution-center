@@ -1,6 +1,8 @@
 package com.money.framework.base.entity;
 
+import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.framework.base.exception.PandabusSpecException;
+import com.money.framework.util.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -10,7 +12,21 @@ import java.lang.reflect.Field;
 import java.util.Objects;
 
 public class BaseEntity extends OperationalEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    private Integer status;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getStatusName() {
+        return EnumUtils.getNameByValue(CommonStatusEnum.class, this.status);
+    }
 
     /**
      * 获取column中的字符串，不允许为空

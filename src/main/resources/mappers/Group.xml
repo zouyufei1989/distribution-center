@@ -8,11 +8,18 @@
 	<select id="selectSearchList" parameterType="Map" resultType="Group">
 		SELECT
 			dg.id,
+			dg.parent_id AS parentId,
 			dg.name,
 			dg.status,
 			address AS address,
 			owner_name AS ownerName,
 			owner_phone AS ownerPhone,
+			dg.desc,
+			dg.thumbnail,
+			dg.detail_cover_img AS detailCoverImg,
+			dg.detail_img AS detailImg,
+			dg.`index`,
+			dg.open_rules AS openRules,
 			dg.city_code AS cityCode,
 			dg.create_date AS createDate,
 			ssca.city_ch_name AS cityName
@@ -29,7 +36,7 @@
 				AND dg.id = #{groupId}
 			</if>
 		</where>
-		ORDER BY create_date
+		ORDER BY status DESC, `index`
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
 		</if>
@@ -55,11 +62,18 @@
 	<select id="findById" parameterType="String" resultType="Group">
 		SELECT 
 			id,
+			parent_id AS parentId,
 			name,
 			status,
 			address AS address,
 			owner_name AS ownerName,
 			owner_phone AS ownerPhone,
+			`desc`,
+			thumbnail,
+			detail_cover_img AS detailCoverImg,
+			detail_img AS detailImg,
+			`index`,
+			open_rules AS openRules,
 			city_code AS cityCode
 		FROM <include refid="tableName"/>
 		WHERE id = #{id}
@@ -68,27 +82,41 @@
 	<insert id="add" parameterType="Group" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO <include refid="tableName"/>
 		(
+			parent_id,
 			name,
-			status,
+			city_code,
 			address,
 			owner_name,
 			owner_phone,
-			city_code,
+			status,
+			`desc`,
+			thumbnail,
+			detail_cover_img,
+			detail_img,
+			`index`,
+			open_rules,
 			create_date,
 			creator,
-		  	updater
+		  	create_ip
 		)
 		VALUES 
 		(
+			#{parentId},
 			#{name},
-			#{status},
+			#{cityCode},
 			#{address},
 			#{ownerName},
 			#{ownerPhone},
-			#{cityCode},
-			#{createDate},
+			#{status},
+			#{desc},
+			#{thumbnail},
+			#{detailCoverImg},
+			#{detailImg},
+			#{index},
+			#{openRules},
+			NOW(),
 			#{creator},
-		  	#{updater}
+		  	#{createIp}
 		)
 	</insert>
 
@@ -97,11 +125,18 @@
 		SET
 			update_date = NOW()
 			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="parentId != null">
+				,parent_id = #{parentId}
+			</if>
 			<if test="name != null">
 				,name = #{name}
 			</if>
-			<if test="status != null">
-				,status = #{status}
+			<if test="openRules != null">
+				,open_rules = #{openRules}
+			</if>
+			<if test="cityCode != null">
+				,city_code = #{cityCode}
 			</if>
 			<if test="address != null">
 				,address = #{address}
@@ -112,8 +147,23 @@
 			<if test="ownerPhone != null">
 				,owner_phone = #{ownerPhone}
 			</if>
-			<if test="cityCode != null and cityCode!=''">
-				,city_code = #{cityCode}
+			<if test="status != null">
+				,status = #{status}
+			</if>
+			<if test="desc != null">
+				,`desc` = #{desc}
+			</if>
+			<if test="thumbnail != null">
+				,thumbnail = #{thumbnail}
+			</if>
+			<if test="detailCoverImg != null">
+				,detail_cover_img = #{detailCoverImg}
+			</if>
+			<if test="detailImg != null">
+				,detail_img = #{detailImg}
+			</if>
+			<if test="index != null">
+				,`index` = #{index}
 			</if>
 		WHERE id = #{id}
 	</update>

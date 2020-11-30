@@ -14,14 +14,12 @@ public class User extends BaseEntity implements UserDetails {
     /**
      *
      */
-    private static final long serialVersionUID = 45264932583125076L;
     private int id;
     private String passengerId;
     private String password;
     private String username;
     private String nickName;
     private Integer roleId;
-    private Integer status;
 
     private String roleName;
     private String lastLogin;
@@ -40,7 +38,7 @@ public class User extends BaseEntity implements UserDetails {
                 ", passengerId='" + passengerId + '\'' +
                 ", username='" + username + '\'' +
                 ", roleId=" + roleId +
-                ", status=" + status +
+                ", status=" + getStatus() +
                 '}';
     }
 
@@ -56,13 +54,6 @@ public class User extends BaseEntity implements UserDetails {
         return username.equals(user.username);
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 
     @Override
     public int hashCode() {
@@ -161,7 +152,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.status.equals(CommonStatusEnum.ENABLE.getValue());
+        return getStatus().equals(CommonStatusEnum.ENABLE.getValue());
     }
 
     public void setUsername(String username) {

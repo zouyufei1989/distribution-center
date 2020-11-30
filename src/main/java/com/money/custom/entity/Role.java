@@ -9,7 +9,6 @@ public class Role extends BaseEntity {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = -8093209457228677861L;
 	private int id;
 	private String name;
 	private String enable;
