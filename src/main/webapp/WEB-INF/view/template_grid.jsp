@@ -222,6 +222,14 @@
         return link.prop("outerHTML");
     }
 
+
+    function imgPreViewFormatter(val) {
+        var img = $('<img></img>');
+        img.attr("src", val);
+        img.attr('style', "width:100px");
+        return img.prop("outerHTML");
+    }
+
     function circleInFrontTextFormatter(title, cls) {
         var sp = $('<span></span>');
         var i = $('<i class="fa fa-circle" style="font-size: xx-small;margin-right:5px"></i>');

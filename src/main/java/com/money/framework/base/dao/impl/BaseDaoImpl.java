@@ -75,12 +75,12 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
     }
 
     @Override
-    public <T extends IEnumKeyValue> int changeStatus(ChangeStatusBaseRequest<T> request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public <T extends IEnumKeyValue> int changeStatus(ChangeStatusBaseRequest<T> request) {
         checkStatusLegal(request);
         return update("changeStatus", request.buildParams());
     }
 
-    protected <T extends IEnumKeyValue> void checkStatusLegal(ChangeStatusBaseRequest<T> request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    protected <T extends IEnumKeyValue> void checkStatusLegal(ChangeStatusBaseRequest<T> request) {
         Class<T> statusEnumCls = request.getEnumClass();
         Optional<IEnumKeyValue> opt = EnumUtils.getByValue(statusEnumCls, request.getStatus());
         if (!opt.isPresent()) {

@@ -1,6 +1,7 @@
 package com.money.framework.util;
 
 import com.money.custom.entity.enums.IEnumKeyValue;
+import com.money.framework.base.exception.PandabusSpecException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class EnumUtils {
      * @throws IllegalAccessException
      * @throws NoSuchMethodException
      */
-    public static Map<String, String> getEnumEntriesVN(Class<? extends IEnumKeyValue> clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public static Map<String, String> getEnumEntriesVN(Class<? extends IEnumKeyValue> clazz) {
         Map<String, String> result = new LinkedHashMap<>();
 
         Map<String, String> nvMap = getEnumEntriesNV(clazz);
@@ -45,19 +46,23 @@ public class EnumUtils {
      * @throws IllegalAccessException
      * @throws NoSuchMethodException
      */
-    public static Map<String, String> getEnumEntriesNV(Class<? extends IEnumKeyValue> clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public static Map<String, String> getEnumEntriesNV(Class<? extends IEnumKeyValue> clazz) {
         Map<String, String> result = new LinkedHashMap<>();
 
-        Method getValue = clazz.getDeclaredMethod("getValue");
-        Method getName = clazz.getDeclaredMethod("getName");
-        Method availableForMap = clazz.getMethod("availableForMap");
+        try {
+            Method getValue = clazz.getDeclaredMethod("getValue");
+            Method getName = clazz.getDeclaredMethod("getName");
+            Method availableForMap = clazz.getMethod("availableForMap");
 
-        //得到enum的所有实例
-        Object[] objs = clazz.getEnumConstants();
-        for (Object obj : objs) {
-            if ((boolean) availableForMap.invoke(obj)) {
-                result.put(getName.invoke(obj).toString(), getValue.invoke(obj).toString());
+            //得到enum的所有实例
+            Object[] objs = clazz.getEnumConstants();
+            for (Object obj : objs) {
+                if ((boolean) availableForMap.invoke(obj)) {
+                    result.put(getName.invoke(obj).toString(), getValue.invoke(obj).toString());
+                }
             }
+        } catch (Exception ex) {
+            throw PandabusSpecException.serverError();
         }
         return result;
     }
@@ -72,17 +77,21 @@ public class EnumUtils {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public static Optional<IEnumKeyValue> getByName(Class<? extends IEnumKeyValue> clazz, String name) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method getName = clazz.getMethod("getName");
+    public static Optional<IEnumKeyValue> getByName(Class<? extends IEnumKeyValue> clazz, String name) {
+        try {
+            Method getName = clazz.getMethod("getName");
 
-        Object[] objs = clazz.getEnumConstants();
-        for (Object obj : objs) {
-            if (StringUtils.equals(getName.invoke(obj).toString(), name)) {
-                return Optional.of((IEnumKeyValue) obj);
+            Object[] objs = clazz.getEnumConstants();
+            for (Object obj : objs) {
+                if (StringUtils.equals(getName.invoke(obj).toString(), name)) {
+                    return Optional.of((IEnumKeyValue) obj);
+                }
             }
+        } catch (Exception ex) {
+            throw PandabusSpecException.serverError();
         }
-        logger.warn("name {} 在枚举{}中不存在.", name, clazz.toString());
-        return Optional.empty();
+
+        throw PandabusSpecException.illegalArgumentError();
     }
 
     /**
@@ -95,7 +104,7 @@ public class EnumUtils {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public static Object getValueByName(Class<? extends IEnumKeyValue> clazz, String name) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static Object getValueByName(Class<? extends IEnumKeyValue> clazz, String name) {
         Optional<IEnumKeyValue> opt = getByName(clazz, name);
         return opt.isPresent() ? opt.get().getValue() : IEnumKeyValue.DEFAULT_VALUE;
     }
@@ -111,22 +120,22 @@ public class EnumUtils {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public static Optional<IEnumKeyValue> getByValue(Class<? extends IEnumKeyValue> clazz, Object value) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static Optional<IEnumKeyValue> getByValue(Class<? extends IEnumKeyValue> clazz, Object value) {
         Objects.requireNonNull(value);
 
-        Method getValue = clazz.getMethod("getValue");
-
-        Object[] objs = clazz.getEnumConstants();
-        for (Object obj : objs) {
-            if (Objects.isNull(getValue.invoke(obj)) && Objects.isNull(value)) {
-                return Optional.of((IEnumKeyValue) obj);
+        try {
+            Method getValue = clazz.getMethod("getValue");
+            Object[] objs = clazz.getEnumConstants();
+            for (Object obj : objs) {
+                if (Objects.nonNull(getValue.invoke(obj)) && getValue.invoke(obj).equals(value)) {
+                    return Optional.of((IEnumKeyValue) obj);
+                }
             }
-            if (Objects.nonNull(getValue.invoke(obj)) && getValue.invoke(obj).equals(value)) {
-                return Optional.of((IEnumKeyValue) obj);
-            }
+        } catch (Exception ex) {
+            throw PandabusSpecException.serverError();
         }
-        logger.warn("value {} 在枚举{}中不存在.", value, clazz.toString());
-        return Optional.empty();
+
+        throw PandabusSpecException.illegalArgumentError();
     }
 
     public static String getNameByValue(Class<? extends IEnumKeyValue> clazz, Object value) {
@@ -137,8 +146,7 @@ public class EnumUtils {
         try {
             opt = getByValue(clazz, value);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            return "转换错误";
+            throw PandabusSpecException.illegalArgumentError();
         }
         return opt.isPresent() ? opt.get().getName() : IEnumKeyValue.DEFAULT_NAME;
     }

@@ -8,16 +8,6 @@
 
     $(document).ready(function () {
 
-        if (JS_PAGE_PARAMS['id']) {
-            if (typeof findByIdOverride === 'function') {
-                // 如果更新页面，查询详情需要自定义方法，写在findByIdOverride 方法中
-                findByIdOverride();
-            }
-            else {
-                findById();
-            }
-        }
-
         $("#btn_save").click(function () {
             if ($("#mainForm").valid() == false) {
                 return;
@@ -29,7 +19,7 @@
 
             Confirm("确定保存吗?", function () {
                 loadingStart(function () {
-                    if (JS_PAGE_PARAMS["id"]) {
+                    if (editData()) {
                         edit();
                         return;
                     }
@@ -40,10 +30,14 @@
 
         $("#btn_cancle").click(function () {
             Confirm("确定要取消编辑？", function () {
-                goBack();
+                $('#updateModal').modal('hide');
             });
         });
     });
+
+    function editData() {
+        return $('#updateModal h3').text().indexOf("编辑") === 0;
+    }
 
     function add() {
         var param = initParam();
@@ -65,14 +59,13 @@
                     Alert("", result.message || "失败！", "error");
                     return;
                 }
-                Alert("", "成功！", "success", goBack)
+                Alert("", "成功！", "success", location.reload())
             }
         });
     }
 
     function edit() {
         var param = initParam();
-        param.id = JS_PAGE_PARAMS['id'];
 
         $.ajax({
             url: 'edit',
@@ -91,14 +84,17 @@
                     Alert("", result.message || "失败！", "error");
                     return;
                 }
-                Alert("", "成功！", "success", goBack)
+                Alert("", "成功！", "success", location.reload())
             }
         });
     }
 
     function initParam() {
         var param = {};
-        param.id = JS_PAGE_PARAMS['id'];
+        if (_ROWS_CHOOSED && _ROWS_CHOOSED[0]) {
+            param.id = _ROWS_CHOOSED[0].id;
+        }
+
         $.each(attrs, function (index, item) {
             if ($("#" + item).is(":visible")) {
                 param[item] = $('#' + item).val();
@@ -120,7 +116,7 @@
             url: 'findById',
             type: 'post',
             data: {
-                id: JS_PAGE_PARAMS['id']
+                id: _ROWS_CHOOSED[0].id
             },
             async: true,
             cache: false,

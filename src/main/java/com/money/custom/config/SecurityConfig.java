@@ -7,6 +7,7 @@ import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.response.LoginResponse;
 import com.money.custom.service.RoleService;
 import com.money.custom.service.impl.SecurityServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web
                 .ignoring().antMatchers("/script/**", "/resource/**", "/css/**")
                 .and()
-                .ignoring().antMatchers("/swagger-ui.html","/webjars/**","/swagger-resources/**","/webjars/**","/v2/*")
+                .ignoring().antMatchers("/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/webjars/**", "/v2/*")
                 .and()
                 .ignoring().mvcMatchers(SKIP_URL.toArray(new String[0]));
     }
@@ -106,6 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/getLogin")
                 .successHandler((req, resp, auth) -> {
                     User loginUser = (User) auth.getPrincipal();
+                    loginUser.setPassword(StringUtils.EMPTY);
                     setSessionAttr(req, loginUser);
                     response.setCode(ResponseCodeEnum.SUCCESS.getValue());
                     resp.setContentType("application/json;charset=utf-8");

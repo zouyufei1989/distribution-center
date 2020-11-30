@@ -29,15 +29,9 @@
 
                             <div class="form-group">
 
-                                <label class="col-sm-3 control-label"> <span style="color: red;">*</span>城市编码： </label>
+                                <label class="col-sm-3 control-label"> <span style="color: red;">*</span>城市编码：</label>
                                 <div class="col-sm-7">
                                     <city-combo id="cityCode" must-choose-one="true" :city_code="cityCode"></city-combo>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label"><span style="color: red;">*</span>公司电话:</label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="phone" name="phone" required/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -50,18 +44,6 @@
                                 <label class="col-sm-3 control-label"><span style="color: red;">*</span>集团负责人:</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control" id="ownerName" name="ownerName" required/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">公司经度(高德):</label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="companyLng" name="companyLng"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">公司纬度(高德):</label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="companyLat" name="companyLat"/>
                                 </div>
                             </div>
                             <div class="form-group">

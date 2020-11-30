@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     Vue.component('upload-img-modal', {
-        props: ['id', 'title', 'target'],
+        props: ['id', 'title', 'target', 'img'],
         data: function () {
             return {
                 inputId: "input_" + this.id,
@@ -27,10 +27,13 @@
                             $('#' + _this.inputId).val('');
                             $("#" + _this.id).modal("hide");
 
-                            if(_this.target){
-                                $('#' + _this.target).val(result.imgUrl);
+                            if (_this.target) {
+                                $('#' + _this.target).val(result.fileUrl);
                             }
-                            if(uploadSuccess && typeof uploadSuccess ==='function'){
+                            if (_this.img) {
+                                $('#' + _this.img).attr("src", result.fileUrl);
+                            }
+                            if (typeof uploadSuccess === 'function') {
                                 uploadSuccess(result);
                             }
                             return;

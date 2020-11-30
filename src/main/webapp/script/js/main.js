@@ -9,7 +9,7 @@ function Alert(title, msg, type, successFuc) {
             confirmButtonText: "确定"
         }, function () {
             if (successFuc) {
-                setTimeout(successFuc, 100);
+                setTimeout(successFuc, 200);
             }
         });
     }, 300);

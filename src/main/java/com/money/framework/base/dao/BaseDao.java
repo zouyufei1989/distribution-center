@@ -28,7 +28,7 @@ public interface BaseDao {
 
     default <T> int edit(T item) {return 0;}
 
-    <T extends IEnumKeyValue> int changeStatus(ChangeStatusBaseRequest<T> request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException;
+    <T extends IEnumKeyValue> int changeStatus(ChangeStatusBaseRequest<T> request);
 
     /**
      * Retrieve a single row mapped from the statement key

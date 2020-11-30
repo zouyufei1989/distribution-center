@@ -25,12 +25,11 @@ public class UpYunUtil {
     private String THUMBNAIL_CATALOGUE;
     @Value("${web.image.upyun.middle.catalogue}")
     private String MIDDLE_CATALOGUE;
+    @Value("${web.image.upyun.host}")
+    private String URL;
     @Value("${project.name}")
     private String UPLOAD_FOLDER;
-    /**
-     * 绑定的域名
-     */
-    private static String URL = "https://portrait.pandabus.cn";
+
     private static final String PATH_SEPARATOR = "/";
 
     /**

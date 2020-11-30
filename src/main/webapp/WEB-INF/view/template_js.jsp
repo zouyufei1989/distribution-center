@@ -61,6 +61,8 @@
     loadJS("${pageContext.request.contextPath}/script/plugins/dropzone/dropzone.js");
     <!--数字countup-->
     loadJS("${pageContext.request.contextPath}/script/plugins/countUp/countUp.js");
+    <!--touchspin 按钮输入框-->
+    loadJS("${pageContext.request.contextPath}/script/plugins/inspinia/js/plugins/touchspin/jquery.bootstrap-touchspin.min.js");
 
     loadJS("${pageContext.request.contextPath}/script/js/common_cookies.js");
     loadJS("${pageContext.request.contextPath}/script/js/main.js", 1);
@@ -418,7 +420,7 @@
                     return;
                 }
                 Alert('', '上传成功', 'success', function () {
-                    if (successFunc && typeof  successFunc === "function") {
+                    if (successFunc && typeof successFunc === "function") {
                         successFunc(result);
                     }
                 });

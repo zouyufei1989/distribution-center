@@ -11,52 +11,6 @@ import java.util.Objects;
 
 public class BaseEntity extends OperationalEntity implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4553006705113237397L;
-
-    /**
-     * This
-     *
-     * @param name
-     * @return
-     */
-    public Object get(String name) {
-        try {
-            Field field = getClass().getDeclaredField(name);
-            field.setAccessible(true);
-            return field.get(this);
-        } catch (Exception e) {
-            getLogger().error(e.getMessage(), e);
-        }
-        return null;
-    }
-
-    public String getString(String name) {
-        String rtnString = "";
-        Object obj = get(name);
-        if (obj instanceof String) {
-            rtnString = (String) obj;
-        }
-        return rtnString;
-    }
-
-    public void set(String name, Object value) {
-        try {
-            Field field = getClass().getDeclaredField(name);
-            field.setAccessible(true);
-            field.set(this, value);
-        } catch (SecurityException e) {
-            getLogger().error(e.getMessage(), e);
-        } catch (NoSuchFieldException e) {
-            getLogger().error(e.getMessage(), e);
-        } catch (IllegalArgumentException e) {
-            getLogger().error(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            getLogger().error(e.getMessage(), e);
-        }
-    }
 
     /**
      * 获取column中的字符串，不允许为空
@@ -66,7 +20,7 @@ public class BaseEntity extends OperationalEntity implements Serializable {
      * @param blankErrMsg 为空错误提示
      * @return
      */
-    public String getCellStringVal(Row row, char column, String blankErrMsg) {
+    protected String getCellStringVal(Row row, char column, String blankErrMsg) {
         int rowNumber = row.getRowNum() + 1;
         String result = getCellStringVal(row, column);
         if (StringUtils.isEmpty(result)) {
@@ -82,7 +36,7 @@ public class BaseEntity extends OperationalEntity implements Serializable {
      * @param column
      * @return
      */
-    public String getCellStringVal(Row row, char column) {
+    protected String getCellStringVal(Row row, char column) {
         String result = null;
         try {
             Cell cell = row.getCell(column - 'A');
@@ -103,7 +57,7 @@ public class BaseEntity extends OperationalEntity implements Serializable {
      * @param column
      * @return
      */
-    public Integer getCellIntVal(Row row, char column) {
+    protected Integer getCellIntVal(Row row, char column) {
         int rowNum = row.getRowNum() + 1;
         Integer result = null;
         String stringVal = getCellStringVal(row, column);
@@ -126,7 +80,7 @@ public class BaseEntity extends OperationalEntity implements Serializable {
      * @param blankErrMsg
      * @return
      */
-    public Integer getCellIntVal(Row row, char column, String blankErrMsg) {
+    protected Integer getCellIntVal(Row row, char column, String blankErrMsg) {
         int rowNumber = row.getRowNum() + 1;
         Integer result = getCellIntVal(row, column);
         if (Objects.isNull(result)) {

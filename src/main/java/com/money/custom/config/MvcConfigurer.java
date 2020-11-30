@@ -35,8 +35,6 @@ public class MvcConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/swagger-resources/**")
-                .excludePathPatterns("/swagger-ui.html", "/configuration/ui", "/swagger-resources", "/configuration/security", "/v2/api-docs", "/webjars/**", "/**/favicon.ico")
                 .excludePathPatterns("/script/**", "/resource/**", "/css/**");
         registry.addInterceptor(visitLogInterceptor)
                 .addPathPatterns("/**")
@@ -71,6 +69,7 @@ public class MvcConfigurer implements WebMvcConfigurer {
         urlPattMap.put("/statistics/", Sets.newHashSet("visitLogStatistics"));
         urlPattMap.put("/exceptionLog/", Sets.newHashSet("index"));
         urlPattMap.put("/group/", Sets.newHashSet("index", "update"));
+        urlPattMap.put("/banner/", Sets.newHashSet("index"));
         urlPattMap.put("/keyValue/", Sets.newHashSet("index", "update"));
         urlPattMap.put("/scheduleConfig/", Sets.newHashSet("index", "update"));
         urlPattMap.put("/history/", Sets.newHashSet("index"));

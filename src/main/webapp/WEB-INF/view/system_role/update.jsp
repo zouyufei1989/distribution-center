@@ -6,6 +6,12 @@
     <%@ include file="../template_css.jsp" %>
     <%@ include file="../template_js.jsp" %>
     <link rel="stylesheet" href="../../css/jsTree/style.css"/>
+    <style type="text/css">
+        .jstree-clicked{
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+    </style>
 </head>
 <body>
 <%@ include file="../template_menu.jsp" %>

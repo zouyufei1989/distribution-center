@@ -23,6 +23,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/treeselect/vue-treeselect.min.css">
 <!--拖拽上传-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/dropzone/dropzone.css">
+<!--数字文本框-->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/inspinia/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css">
 
 
 <style type="text/css">
@@ -61,6 +63,17 @@
         width: 40px;
     }
 
+    .upload_box {
+        width: 100%;
+        height: 80px;
+        font-size: -webkit-xxx-large;
+        font-weight: lighter;
+        border: 1.5px dashed #e5e6e7;
+        border-radius: 3px 3px;
+        text-align: center;
+        cursor: pointer;
+    }
+
     .select2-container--default .select2-selection--single {
         height: 34px;
         line-height: 33px;
@@ -91,12 +104,14 @@
         min-width: 180px;
     }
 
-    .amap-logo{
-        display: none !important;//去掉高德地图logo
-        opacity: 0 !important;
+    .amap-logo {
+        display: none !important;
+    / / 去掉高德地图logo opacity: 0 !important;
     }
+
     .amap-copyright {
-        opacity:0;//去掉高德的版本号
+        opacity: 0;
+    / / 去掉高德的版本号
     }
 
 </style>

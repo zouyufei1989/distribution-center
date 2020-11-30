@@ -1,4 +1,4 @@
-var attrs = ['name', 'phone', 'address', 'ownerName', 'ownerPhone', 'status', 'cityCode', 'companyLat', 'companyLng'];
+var attrs = ['name', 'address', 'ownerName', 'ownerPhone', 'status', 'cityCode'];
 var VUE_CITY, VUE_ANN;
 
 $(document).ready(function () {

@@ -8,24 +8,21 @@
 	<select id="selectSearchList" parameterType="Map" resultType="Group">
 		SELECT
 			dg.id,
-			dg.id AS groupId,
 			dg.name,
 			dg.status,
-			IFNULL(address,'') AS address,
-			IFNULL(phone,'') AS phone,
-			IFNULL(owner_name,'') AS ownerName,
-			IFNULL(owner_phone,'') AS ownerPhone,
+			address AS address,
+			owner_name AS ownerName,
+			owner_phone AS ownerPhone,
 			dg.city_code AS cityCode,
 			dg.create_date AS createDate,
-			IFNULL(ssca.city_ch_name,'') AS cityName,
-			announcement_url AS announcementUrl
+			ssca.city_ch_name AS cityName
 		FROM <include refid="tableName"/> dg
 		LEFT JOIN s_support_city_amap ssca ON ssca.city_code = dg.city_code
 		<where>
-			<if test="group!=null and group.status != null and group.status != -1">
+			<if test="group.status != null and group.status != -1">
 				AND dg.status = #{group.status}
 			</if>
-			<if test="group!=null and group.name != null and group.name != ''">
+			<if test="group.name != null and group.name != ''">
 				AND dg.name LIKE CONCAT('%',#{group.name},'%')
 			</if>
 			<if test="groupId != null">
@@ -43,10 +40,10 @@
 			COUNT(*)
 		FROM <include refid="tableName"/>
 		<where>
-			<if test="group!=null and group.status != null and group.status != -1">
+			<if test="group.status != null and group.status != -1">
 				AND status = #{group.status}
 			</if>
-			<if test="group!=null and group.name != null and group.name != ''">
+			<if test="group.name != null and group.name != ''">
 				AND name LIKE CONCAT('%',#{group.name},'%')
 			</if>
 			<if test="groupId != null">
@@ -61,13 +58,9 @@
 			name,
 			status,
 			address AS address,
-			phone,
 			owner_name AS ownerName,
 			owner_phone AS ownerPhone,
-			city_code AS cityCode,
-			company_lat AS companyLat,
-			company_lng AS companyLng,
-			announcement_url AS announcementUrl
+			city_code AS cityCode
 		FROM <include refid="tableName"/>
 		WHERE id = #{id}
 	</select>
@@ -78,12 +71,9 @@
 			name,
 			status,
 			address,
-			phone,
 			owner_name,
 			owner_phone,
 			city_code,
-			company_lat,
-			company_lng,
 			create_date,
 			creator,
 		  	updater
@@ -93,12 +83,9 @@
 			#{name},
 			#{status},
 			#{address},
-			#{phone},
 			#{ownerName},
 			#{ownerPhone},
 			#{cityCode},
-			#{companyLat},
-			#{companyLng},
 			#{createDate},
 			#{creator},
 		  	#{updater}
@@ -110,15 +97,6 @@
 		SET
 			update_date = NOW()
 			,updater = #{updater}
-			<if test="companyLat!=null">
-				,company_lat = #{companyLat}
-			</if>
-			<if test="companyLng!=null">
-				,company_lng = #{companyLng}
-			</if>
-			<if test="announcementUrl!=null">
-				,announcement_url = #{announcementUrl}
-			</if>
 			<if test="name != null">
 				,name = #{name}
 			</if>
@@ -127,9 +105,6 @@
 			</if>
 			<if test="address != null">
 				,address = #{address}
-			</if>
-			<if test="phone != null">
-				,phone = #{phone}
 			</if>
 			<if test="ownerName != null">
 				,owner_name = #{ownerName}

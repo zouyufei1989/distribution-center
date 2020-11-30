@@ -68,7 +68,7 @@ function findByIdOverride() {
 						"variant" : "large"
 					}
 				},
-				"plugins" : [ "wholerow", "checkbox", "types" ],
+				"plugins" : [ "checkbox", "types" ],
 				"types" : {
 					"default" : {
 						"icon" : "glyphicon glyphicon-flash"

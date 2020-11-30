@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Banner">
+
+	<sql id="tableName">d_banner</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="Banner">
+		SELECT
+			id,
+			title,
+			href,
+			url,
+			`desc`,
+			`index`,
+			status,
+			create_date AS createDate,
+			creator,
+			update_date AS updateDate,
+			updater
+		FROM <include refid="tableName"/>
+		WHERE
+			status != -2
+		ORDER BY status DESC, `index`
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/>
+		WHERE status != -2
+	</select>
+	
+	<select id="findById" parameterType="String" resultType="Banner">
+		SELECT 
+			id,
+			title,
+			href,
+			url,
+			`desc`,
+			`index`,
+			status
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="Banner" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			id,
+			title,
+			href,
+			url,
+			`desc`,
+			`index`,
+			status,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{id},
+			#{title},
+			#{href},
+			#{url},
+			#{desc},
+			#{index},
+			#{status},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="edit" parameterType="Banner">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="title != null">
+				,title = #{title}
+			</if>
+			<if test="href != null">
+				,href = #{href}
+			</if>
+			<if test="url != null">
+				,url = #{url}
+			</if>
+			<if test="desc != null">
+				,`desc` = #{desc}
+			</if>
+			<if test="index != null">
+				,`index` = #{index}
+			</if>
+			<if test="status != null">
+				,status = #{status}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>
