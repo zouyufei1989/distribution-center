@@ -32,6 +32,9 @@
 			<if test="group.name != null and group.name != ''">
 				AND dg.name LIKE CONCAT('%',#{group.name},'%')
 			</if>
+			<if test="group.ownerName != null and group.ownerName != ''">
+				AND dg.owner_name LIKE CONCAT('%',#{group.ownerName},'%')
+			</if>
 			<if test="groupId != null">
 				AND dg.id = #{groupId}
 			</if>
@@ -52,6 +55,9 @@
 			</if>
 			<if test="group.name != null and group.name != ''">
 				AND name LIKE CONCAT('%',#{group.name},'%')
+			</if>
+			<if test="group.ownerName != null and group.ownerName != ''">
+				AND owner_name LIKE CONCAT('%',#{group.ownerName},'%')
 			</if>
 			<if test="groupId != null">
 				AND id = #{groupId}

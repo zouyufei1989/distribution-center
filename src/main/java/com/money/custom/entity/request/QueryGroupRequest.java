@@ -22,4 +22,16 @@ public class QueryGroupRequest extends QueryGridRequestBase {
         params.put("group", group);
         return params;
     }
+
+    public void setName(String name){
+        this.group.setName(name);
+    }
+
+    public void setOwnerName(String ownerName){
+        this.group.setOwnerName(ownerName);
+    }
+
+    public void setStatus(Integer status){
+        this.group.setStatus(status);
+    }
 }

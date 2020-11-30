@@ -14,7 +14,7 @@
             right: 0;
         }
 
-        #updateModal .modal-content { /*overflow-y: scroll; */
+        #updateModal .modal-content {
             position: absolute;
             top: 0;
             bottom: 0;
@@ -46,7 +46,6 @@
 
 <div id="page-wrapper" class="gray-bg">
     <%@ include file="../template_header.jsp" %>
-
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -54,7 +53,22 @@
                     <div class="ibox-content">
                         <form role="form" class="form-inline" style="padding: 0px">
                             <%@ include file="../template_btnGroup.jsp" %>
+                            <%@ include file="../vue_template/status_combo.jsp" %>
+                            <%@ include file="../template_search_export_btn.jsp" %>
                             <%@ include file="../template_upload_modal.jsp" %>
+                            <div class="param_row">
+                                <div class="form-group">
+                                    <label>门店名称:</label> <input type="text" id="name" search-param class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>状态:</label>
+                                    <status-combo id="status" search-param must_choose_one="false"></status-combo>
+                                </div>
+                                <div class="form-group">
+                                    <label>负责人:</label> <input type="text" id="ownerName" search-param class="form-control">
+                                </div>
+                                <reload-export-btn-group id="btnGroup" reload="true"></reload-export-btn-group>
+                            </div>
                         </form>
                         <%@ include file="../template_grid.jsp" %>
                     </div>
