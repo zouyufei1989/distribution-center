@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class TreeServiceImp extends BaseServiceImpl implements TreeService {
+public class TreeServiceImpl extends BaseServiceImpl implements TreeService {
 
     @Autowired
     SecurityDao securityDao;

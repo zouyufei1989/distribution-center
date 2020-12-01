@@ -27,6 +27,9 @@ function fillAdditionAttrs(result) {
         $('#sel_start_time').val(rules[1].split("-")[0]).trigger('change');
         $('#sel_end_time').val(rules[1].split("-")[1]).trigger('change');
     }
+    $('#thumbnail_url').attr('src',result.data.thumbnail);
+    $('#detailCoverImg_url').attr('src',result.data.detailCoverImg);
+    $('#detailImg_url').attr('src',result.data.detailImg);
 }
 
 function additionParam() {

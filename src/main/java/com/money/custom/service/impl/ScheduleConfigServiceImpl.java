@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class ScheduleConfigServiceImp extends BaseServiceImpl implements ScheduleConfigService {
+public class ScheduleConfigServiceImpl extends BaseServiceImpl implements ScheduleConfigService {
 
     @Autowired
     ScheduleConfigDao dao;

@@ -25,7 +25,8 @@
 			ssca.city_ch_name AS cityName
 		FROM <include refid="tableName"/> dg
 		LEFT JOIN s_support_city_amap ssca ON ssca.city_code = dg.city_code
-		<where>
+		WHERE
+			dg.status != -2
 			<if test="group.status != null and group.status != -1">
 				AND dg.status = #{group.status}
 			</if>
@@ -38,7 +39,6 @@
 			<if test="groupId != null">
 				AND dg.id = #{groupId}
 			</if>
-		</where>
 		ORDER BY status DESC, `index`
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
@@ -49,7 +49,8 @@
 		SELECT
 			COUNT(*)
 		FROM <include refid="tableName"/>
-		<where>
+		WHERE
+			status != -2
 			<if test="group.status != null and group.status != -1">
 				AND status = #{group.status}
 			</if>
@@ -62,7 +63,6 @@
 			<if test="groupId != null">
 				AND id = #{groupId}
 			</if>
-		</where>
 	</select>
 	
 	<select id="findById" parameterType="String" resultType="Group">

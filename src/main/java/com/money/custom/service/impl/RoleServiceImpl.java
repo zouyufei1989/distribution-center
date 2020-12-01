@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class RoleServiceImp extends BaseServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
 
     @Autowired
     private RoleDao roleDao;

@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    new Vue({el:'.param_row'});
+
     initGridData("list/search", null,
         [
             {name: 'name', header: '门店名称'},

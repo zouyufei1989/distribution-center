@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class VisitLogServiceImp extends BaseServiceImpl implements VisitLogService {
+public class VisitLogServiceImpl extends BaseServiceImpl implements VisitLogService {
 
     @Autowired
     VisitLogDao dao;

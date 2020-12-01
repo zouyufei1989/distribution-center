@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class KeyValueServiceImp extends BaseServiceImpl implements KeyValueService {
+public class KeyValueServiceImpl extends BaseServiceImpl implements KeyValueService {
 
     @Autowired
     KeyValueDao dao;

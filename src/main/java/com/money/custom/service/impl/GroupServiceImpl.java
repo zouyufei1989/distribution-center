@@ -18,7 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @Service
-public class GroupServiceImp extends BaseServiceImpl implements GroupService {
+public class GroupServiceImpl extends BaseServiceImpl implements GroupService {
 
     @Autowired
     GroupDao dao;

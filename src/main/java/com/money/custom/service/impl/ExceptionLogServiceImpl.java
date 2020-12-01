@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ExceptionLogServiceImp extends BaseServiceImpl implements ExceptionLogService {
+public class ExceptionLogServiceImpl extends BaseServiceImpl implements ExceptionLogService {
 
     @Autowired
     ExceptionLogDao dao;
