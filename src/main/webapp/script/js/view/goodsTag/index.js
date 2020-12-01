@@ -1,7 +1,6 @@
 $(document).ready(function () {
 
-    new Vue({el:'#status'});
-    new Vue({el:'#groupId'});
+    new Vue({el:'.param_row'});
 
     initGridData("list/search", null,
         [

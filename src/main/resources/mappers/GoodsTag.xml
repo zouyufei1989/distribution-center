@@ -41,26 +41,24 @@
 		WHERE
 			status != -2
 			<if test="goodsTag.name!=null and goodsTag.name!=''">
-				AND dgt.name LIKE CONCAT('%',#{goodsTag.name},'%')
+				AND name LIKE CONCAT('%',#{goodsTag.name},'%')
 			</if>
 			<if test="goodsTag.status!=null">
-				AND dgt.status = #{goodsTag.status}
+				AND status = #{goodsTag.status}
 			</if>
 			<if test="goodsTag.groupId!=null">
-				AND dgt.group_id = #{goodsTag.groupId}
+				AND group_id = #{goodsTag.groupId}
 			</if>
 	</select>
 	
 	<select id="findById" parameterType="String" resultType="GoodsTag">
 		SELECT 
-			dgt.id,
-			dgt.name,
-			dgt.remark,
-			dgt.status,
-			dgt.group_id AS groupId,
-			dg.name AS groupName
-		FROM <include refid="tableName"/> dgt
-		LEFT JOIN d_group dg ON dg.id = dgt.group_id
+			id,
+			name,
+			remark,
+			status,
+			group_id AS groupId
+		FROM <include refid="tableName"/>
 		WHERE id = #{id}
 	</select>
 
@@ -80,6 +78,7 @@
 			#{name},
 			#{remark},
 			#{status},
+			#{groupId},
 			NOW(),
 		  	#{creator},
 		  	#{createIp}
@@ -100,9 +99,6 @@
 			</if>
 			<if test="groupId != null">
 				,`group_id` = #{groupId}
-			</if>
-			<if test="index != null">
-				,`index` = #{index}
 			</if>
 			<if test="status != null">
 				,status = #{status}

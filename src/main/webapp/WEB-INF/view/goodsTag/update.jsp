@@ -12,36 +12,21 @@
                             <%@ include file="../vue_template/status_combo.jsp" %>
                             <form id="mainForm" class="form-horizontal form-update">
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>标题:</label>
+                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>所属门店:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="title" name="title" required/>
+                                        <group-combo id="groupId"></group-combo>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>显示排序：</label>
+                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>商品标签名称：</label>
                                     <div class="col-sm-7">
-                                        <input type="text" value="" name="index" id="index" min="0" required>
+                                        <input type="text" class="form-control" id="name" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>点击链接:</label>
+                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>备注:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="href" name="href"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>图片:</label>
-                                    <div class="col-sm-2">
-                                        <div class="upload_box" id="url" data-toggle="modal" data-target="#urlModal">+</div>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <img id="img_url" src="" >
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>描述:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="desc" name="desc"/>
+                                        <textarea name="desc" class="form-control" id="remark" rows="5"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">

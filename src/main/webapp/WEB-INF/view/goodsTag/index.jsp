@@ -25,14 +25,14 @@
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>门店:</label>
-                                    <group-combo id="groupId" must_choose_one="false"></group-combo>
+                                    <group-combo id="goodsTag.groupId" must_choose_one="false" search-param></group-combo>
                                 </div>
                                 <div class="form-group">
-                                    <label>标签名称:</label> <input type="text" id="name" search-param class="form-control">
+                                    <label>标签名称:</label> <input type="text" id="goodsTag.name" search-param class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>状态:</label>
-                                    <status-combo id="status" search-param must_choose_one="false"></status-combo>
+                                    <status-combo id="goodsTag.status" search-param must_choose_one="false"></status-combo>
                                 </div>
                                 <reload-export-btn-group id="btnGroup" reload="true"></reload-export-btn-group>
                             </div>

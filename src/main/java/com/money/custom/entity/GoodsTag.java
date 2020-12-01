@@ -7,7 +7,6 @@ public class GoodsTag extends BaseEntity {
     private Integer id;
     private String name;
     private String remark;
-    private Integer status;
 
     public Integer getId() {
         return id;
@@ -31,15 +30,5 @@ public class GoodsTag extends BaseEntity {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    @Override
-    public Integer getStatus() {
-        return status;
-    }
-
-    @Override
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 }
