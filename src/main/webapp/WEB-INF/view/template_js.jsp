@@ -429,6 +429,10 @@
         $("#" + formId).ajaxSubmit(option);
     }
 
+    function editOnModal(){
+        return $("#updateModal").length>0;
+    }
+
     $(document).ready(function () {
 
         // trigger reloadlist when press enter

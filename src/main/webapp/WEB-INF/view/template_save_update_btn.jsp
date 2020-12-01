@@ -8,6 +8,17 @@
 
     $(document).ready(function () {
 
+        if (!editOnModal()) {
+            if (JS_PAGE_PARAMS['id']) {
+                if (typeof findByIdOverride === 'function') {
+                    // 如果更新页面，查询详情需要自定义方法，写在findByIdOverride 方法中
+                    findByIdOverride();
+                } else {
+                    findById();
+                }
+            }
+        }
+
         $("#btn_save").click(function () {
             if ($("#mainForm").valid() == false) {
                 return;
@@ -30,13 +41,20 @@
 
         $("#btn_cancle").click(function () {
             Confirm("确定要取消编辑？", function () {
-                $('#updateModal').modal('hide');
+                if (editOnModal()) {
+                    $('#updateModal').modal('hide');
+                } else {
+                    goBack();
+                }
             });
         });
     });
 
     function editData() {
-        return $('#updateModal h3').text().indexOf("编辑") === 0;
+        if (editOnModal()) {
+            return $('#updateModal h3').text().indexOf("编辑") === 0;
+        }
+        return JS_PAGE_PARAMS['id'];
     }
 
     function add() {
@@ -63,7 +81,11 @@
                 loadingEnd(function () {
                     $('#updateModal').modal("hide");
                     Alert("", "成功！", "success", function () {
-                        reloadList()
+                        if (editOnModal()) {
+                            reloadList();
+                        } else {
+                            goBack();
+                        }
                     });
                 });
             }
@@ -94,18 +116,30 @@
                 loadingEnd(function () {
                     $('#updateModal').modal("hide");
                     Alert("", "成功！", "success", function () {
-                        reloadList()
+                        if (editOnModal()) {
+                            reloadList();
+                        } else {
+                            goBack();
+                        }
                     });
                 });
             }
         });
     }
 
+    function getEditRowId() {
+        if (editOnModal() && _ROWS_CHOOSED && _ROWS_CHOOSED[0]) {
+            return _ROWS_CHOOSED[0].id;
+        }
+        if (!editOnModal()) {
+            return JS_PAGE_PARAMS['id'];
+        }
+        return "";
+    }
+
     function initParam() {
         var param = {};
-        if (_ROWS_CHOOSED && _ROWS_CHOOSED[0]) {
-            param.id = _ROWS_CHOOSED[0].id;
-        }
+        param.id = getEditRowId();
 
         $.each(attrs, function (index, item) {
             if ($("#" + item).is(":visible")) {
@@ -128,7 +162,7 @@
             url: 'findById',
             type: 'post',
             data: {
-                id: _ROWS_CHOOSED[0].id
+                id: getEditRowId()
             },
             async: true,
             cache: false,

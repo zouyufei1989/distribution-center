@@ -66,7 +66,7 @@ public class UtilsServiceImpl extends BaseServiceImpl implements UtilsService {
     public List<Group> selectGroups(QueryGroupRequest request) {
         return queryRedisItems(Group.class, request.getGroupId(), RedisKeyEnum.GROUPS, uselessParam -> {
             try {
-                return groupDao.selectSearchList(new QueryGridRequestBase());
+                return groupDao.selectSearchList(new QueryGroupRequest());
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }

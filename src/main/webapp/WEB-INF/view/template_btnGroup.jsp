@@ -8,20 +8,22 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        bindModalShow('updateModal', function () {
-            if (editData()) {
-                if (typeof findByIdOverride === 'function') {
-                    // 如果更新页面，查询详情需要自定义方法，写在findByIdOverride 方法中
-                    findByIdOverride();
-                } else {
-                    findById();
+        if (editOnModal()) {
+            bindModalShow('updateModal', function () {
+                if (editData()) {
+                    if (typeof findByIdOverride === 'function') {
+                        // 如果更新页面，查询详情需要自定义方法，写在findByIdOverride 方法中
+                        findByIdOverride();
+                    } else {
+                        findById();
+                    }
                 }
-            }
-            $('.select2_demo_3').select2();
-        }, 1);
-        bindModalHide("updateModal", function () {
-            $('#updateModal form').validate().resetForm();
-        }, 0);
+                $('.select2_demo_3').select2();
+            }, 1);
+            bindModalHide("updateModal", function () {
+                $('#updateModal form').validate().resetForm();
+            }, 0);
+        }
 
         new Vue({
             el: "#div_btnGroup",
@@ -46,8 +48,15 @@
                 // bind buttons' events
                 var _this = this;
                 $("#btn_new").click(function () {
-                    $('#updateModal h3').text("新建" + _this.getModalName());
-                    $('#updateModal').modal('show');
+                    if (editOnModal()) {
+                        $('#updateModal h3').text("新建" + _this.getModalName());
+                        $('#updateModal').modal('show');
+                        return;
+                    }
+                    var params = [];
+                    params.push("from=" + JS_PAGE_NAME);
+                    params.push("funcId=" + $(this).attr('data-func-id'));
+                    window.location.href = "update?" + params.join('&');
                 });
 
                 $("#btn_update").click(function () {
@@ -60,9 +69,16 @@
                         Alert("", "选中数据不可编辑！");
                         return;
                     }
-
-                    $('#updateModal h3').text("编辑" + _this.getModalName());
-                    $('#updateModal').modal('show');
+                    if (editOnModal()) {
+                        $('#updateModal h3').text("编辑" + _this.getModalName());
+                        $('#updateModal').modal('show');
+                        return;
+                    }
+                    var params = [];
+                    params.push("from=" + JS_PAGE_NAME);
+                    params.push("id=" + _ROWS_CHOOSED[0].id);
+                    params.push("funcId=" + $(this).attr('data-func-id'));
+                    window.location.href = "update?" + params.join('&');
                 });
 
                 $("#btn_detail").click(function () {
