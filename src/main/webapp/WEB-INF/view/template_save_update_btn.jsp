@@ -7,8 +7,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-
-        if (!editOnModal()) {
+        if(!editOnModal()){
             if (JS_PAGE_PARAMS['id']) {
                 if (typeof findByIdOverride === 'function') {
                     // 如果更新页面，查询详情需要自定义方法，写在findByIdOverride 方法中
@@ -173,9 +172,8 @@
                 }
 
                 $.each(attrs, function (index, item) {
-                    if ($("#" + item).is(":visible")) {
+                    if($('#'+item).length>0){
                         $('#' + item).val(result.data[item]);
-
                         if ($('#' + item)[0].tagName === 'SELECT') {
                             $('#' + item).trigger('change');
                         }

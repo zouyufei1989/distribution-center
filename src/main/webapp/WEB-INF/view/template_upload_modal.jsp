@@ -18,30 +18,34 @@
                     Alert("", "请选择文件!");
                     return;
                 }
-                var option = {
-                    url: "${ctx}/utils/uploadFileToUpyun",
-                    type: "POST",
-                    async: true,
-                    success: function (result) {
-                        if (result.success) {
-                            $('#' + _this.inputId).val('');
-                            $("#" + _this.id).modal("hide");
+                loadingStart(function () {
+                    var option = {
+                        url: "${ctx}/utils/uploadFileToUpyun",
+                        type: "POST",
+                        async: true,
+                        success: function (result) {
+                            loadingEnd(function () {
+                                if (result.success) {
+                                    $('#' + _this.inputId).val('');
+                                    $("#" + _this.id).modal("hide");
 
-                            if (_this.target) {
-                                $('#' + _this.target).val(result.fileUrl);
-                            }
-                            if (_this.img) {
-                                $('#' + _this.img).attr("src", result.fileUrl);
-                            }
-                            if (typeof uploadSuccess === 'function') {
-                                uploadSuccess(result);
-                            }
-                            return;
+                                    if (_this.target) {
+                                        $('#' + _this.target).val(result.fileUrl);
+                                    }
+                                    if (_this.img) {
+                                        $('#' + _this.img).attr("src", result.fileUrl);
+                                    }
+                                    if (typeof uploadSuccess === 'function') {
+                                        uploadSuccess(result);
+                                    }
+                                    return;
+                                }
+                                Alert("", "上传失败!", "error");
+                            });
                         }
-                        Alert("", "上传失败!", "error");
                     }
-                }
-                $("#" + _this.formId).ajaxSubmit(option);
+                    $("#" + _this.formId).ajaxSubmit(option);
+                });
             });
         }
         ,

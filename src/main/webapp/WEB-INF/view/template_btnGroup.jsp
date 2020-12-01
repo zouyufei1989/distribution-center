@@ -8,16 +8,9 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         if (editOnModal()) {
             bindModalShow('updateModal', function () {
-                if (editData()) {
-                    if (typeof findByIdOverride === 'function') {
-                        // 如果更新页面，查询详情需要自定义方法，写在findByIdOverride 方法中
-                        findByIdOverride();
-                    } else {
-                        findById();
-                    }
-                }
                 $('.select2_demo_3').select2();
             }, 1);
             bindModalHide("updateModal", function () {
@@ -70,6 +63,12 @@
                         return;
                     }
                     if (editOnModal()) {
+                        if (typeof findByIdOverride === 'function') {
+                            // 如果更新页面，查询详情需要自定义方法，写在findByIdOverride 方法中
+                            findByIdOverride();
+                        } else {
+                            findById();
+                        }
                         $('#updateModal h3').text("编辑" + _this.getModalName());
                         $('#updateModal').modal('show');
                         return;
