@@ -13,9 +13,6 @@
             bindModalShow('updateModal', function () {
                 $('.select2_demo_3').select2();
             }, 1);
-            bindModalHide("updateModal", function () {
-                $('#updateModal form').validate().resetForm();
-            }, 0);
         }
 
         new Vue({
@@ -43,6 +40,8 @@
                 $("#btn_new").click(function () {
                     if (editOnModal()) {
                         $('#updateModal h3').text("新建" + _this.getModalName());
+                        $('#updateModal form').validate().resetForm();
+                        $('#updateModal img').attr('src','');
                         $('#updateModal').modal('show');
                         return;
                     }
@@ -70,6 +69,8 @@
                             findById();
                         }
                         $('#updateModal h3').text("编辑" + _this.getModalName());
+                        $('#updateModal form').validate().resetForm();
+                        $('#updateModal img').attr('src','');
                         $('#updateModal').modal('show');
                         return;
                     }

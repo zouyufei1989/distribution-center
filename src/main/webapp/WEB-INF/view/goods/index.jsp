@@ -46,6 +46,7 @@
 
 <div id="page-wrapper" class="gray-bg">
     <%@ include file="../template_header.jsp" %>
+
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -53,20 +54,27 @@
                     <div class="ibox-content">
                         <form role="form" class="form-inline" style="padding: 0px">
                             <%@ include file="../template_btnGroup.jsp" %>
-                            <%@ include file="../vue_template/status_combo.jsp" %>
-                            <%@ include file="../vue_template/city_combo.jsp" %>
                             <%@ include file="../template_search_export_btn.jsp" %>
                             <%@ include file="../template_upload_modal.jsp" %>
+                            <%@ include file="../vue_template/goods_show_price_combo.jsp" %>
+                            <%@ include file="../vue_template/goods_tag_combo.jsp" %>
+                            <%@ include file="../vue_template/group_combo.jsp" %>
+                            <%@ include file="../vue_template/status_combo.jsp" %>
                             <div class="param_row">
                                 <div class="form-group">
-                                    <label>门店名称:</label> <input type="text" id="group.name" search-param class="form-control">
+                                    <label>门店:</label>
+                                    <group-combo id="goods.groupId" must_choose_one="false" search-param></group-combo>
+                                </div>
+                                <div class="form-group">
+                                    <label>商品名称:</label> <input type="text" id="goods.name" search-param class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>标签:</label>
+                                    <goods-tag-combo id="goods.goodsTagId" must_choose_one="false" search-param></goods-tag-combo>
                                 </div>
                                 <div class="form-group">
                                     <label>状态:</label>
-                                    <status-combo id="group.status" search-param must_choose_one="false"></status-combo>
-                                </div>
-                                <div class="form-group">
-                                    <label>负责人:</label> <input type="text" id="group.ownerName" search-param class="form-control">
+                                    <status-combo id="goods.status" search-param must_choose_one="false"></status-combo>
                                 </div>
                                 <reload-export-btn-group id="btnGroup" reload="true"></reload-export-btn-group>
                             </div>
@@ -80,11 +88,15 @@
 </div>
 
 <%@ include file="update.jsp" %>
+<%@ include file="detailEdit.jsp" %>
+<%@ include file="detailView.jsp" %>
 
 </body>
 <script type="text/javascript">
-    loadJS("../script/js/view/group/index.js", 1)
-    loadJS("../script/js/view/group/update.js", 1)
+    loadJS("${pageContext.request.contextPath}/script/plugins/wangEditor/wangEditor.js")
+    loadJS("../script/js/view/goods/index.js", 1)
+    loadJS("../script/js/view/goods/update.js", 1)
+    loadJS("../script/js/view/goods/detail.js", 1)
 </script>
 
 </html>

@@ -8,8 +8,6 @@
                 <div class="wrapper animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-12">
-                            <%@ include file="../vue_template/city_combo.jsp" %>
-                            <%@ include file="../vue_template/status_combo.jsp" %>
                             <form id="mainForm" class="form-horizontal form-update">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>所属门店:</label>

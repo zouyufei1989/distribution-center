@@ -37,7 +37,7 @@ public class GoodsTagServiceImpl extends BaseServiceImpl implements GoodsTagServ
     }
 
     @AddChangeLog(changeLogEntity = ChangeLogEntityEnum.GOODS_TAG)
-    @RedisDel(redisKey = RedisKeyEnum.GROUPS)
+    @RedisDel(redisKey = RedisKeyEnum.GOODS_TAGS)
     @Override
     public String add(GoodsTag item) {
         dao.add(item);
@@ -45,7 +45,7 @@ public class GoodsTagServiceImpl extends BaseServiceImpl implements GoodsTagServ
     }
 
     @AddChangeLog(changeLogEntity = ChangeLogEntityEnum.GOODS_TAG)
-    @RedisDel(redisKey = RedisKeyEnum.GROUPS)
+    @RedisDel(redisKey = RedisKeyEnum.GOODS_TAGS)
     @Override
     public String edit(GoodsTag item) {
         dao.edit(item);
@@ -53,6 +53,7 @@ public class GoodsTagServiceImpl extends BaseServiceImpl implements GoodsTagServ
     }
 
     @AddChangeLog(changeLogEntity = ChangeLogEntityEnum.GOODS_TAG)
+    @RedisDel(redisKey = RedisKeyEnum.GOODS_TAGS)
     @Override
     public List<String> changeStatus(ChangeStatusRequest request) {
         dao.changeStatus(request);

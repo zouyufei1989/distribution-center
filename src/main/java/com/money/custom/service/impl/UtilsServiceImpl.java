@@ -1,13 +1,12 @@
 package com.money.custom.service.impl;
 
+import com.money.custom.dao.GoodsTagDao;
 import com.money.custom.dao.GroupDao;
 import com.money.custom.dao.RoleDao;
 import com.money.custom.dao.UtilsDao;
-import com.money.custom.entity.City;
-import com.money.custom.entity.Group;
-import com.money.custom.entity.Role;
-import com.money.custom.entity.ScheduleConfig;
+import com.money.custom.entity.*;
 import com.money.custom.entity.enums.RedisKeyEnum;
+import com.money.custom.entity.request.QueryGoodsTagRequest;
 import com.money.custom.entity.request.QueryGridRequestBase;
 import com.money.custom.entity.request.QueryGroupRequest;
 import com.money.custom.entity.request.QueryRoleRequest;
@@ -40,6 +39,8 @@ public class UtilsServiceImpl extends BaseServiceImpl implements UtilsService {
     @Autowired
     GroupDao groupDao;
     @Autowired
+    GoodsTagDao goodsTagDao;
+    @Autowired
     ScheduleConfigService scheduleConfigService;
     @Autowired
     RedisUtils redisUtils;
@@ -67,6 +68,18 @@ public class UtilsServiceImpl extends BaseServiceImpl implements UtilsService {
         return queryRedisItems(Group.class, request.getGroupId(), RedisKeyEnum.GROUPS, uselessParam -> {
             try {
                 return groupDao.selectSearchList(new QueryGroupRequest());
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+            return new ArrayList<>();
+        });
+    }
+
+    @Override
+    public List<GoodsTag> selectGoodsTags(QueryGoodsTagRequest request) {
+        return queryRedisItems(GoodsTag.class, request.getGroupId(), RedisKeyEnum.GOODS_TAGS, uselessParam -> {
+            try {
+                return goodsTagDao.selectSearchList(new QueryGoodsTagRequest());
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }

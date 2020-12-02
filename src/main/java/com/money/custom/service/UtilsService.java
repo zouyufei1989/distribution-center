@@ -10,10 +10,12 @@ public interface UtilsService extends BaseService {
 
     List<City> selectOpenCities();
 
-    List<Role> selectRoles() ;
+    List<Role> selectRoles();
 
-    List<Group> selectGroups(QueryGroupRequest request) ;
+    List<Group> selectGroups(QueryGroupRequest request);
 
-    List<ScheduleConfig> selectScheduleConfig() ;
+    List<GoodsTag> selectGoodsTags(QueryGoodsTagRequest request);
+
+    List<ScheduleConfig> selectScheduleConfig();
 
 }

@@ -19,7 +19,6 @@
                     <div class="ibox-content">
                         <form role="form" class="form-inline" style="padding: 0px">
                             <%@ include file="../template_btnGroup.jsp" %>
-                            <%@ include file="../template_loading_modal.jsp" %>
                             <%@ include file="../template_search_export_btn.jsp" %>
                             <%@ include file="../vue_template/group_combo.jsp" %>
                             <div class="param_row">

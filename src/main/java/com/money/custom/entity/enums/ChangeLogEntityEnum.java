@@ -7,6 +7,7 @@ public enum ChangeLogEntityEnum {
     GROUP(1, "GROUP"),
     BANNER(2, "BANNER"),
     GOODS_TAG(3, "GOODS_TAG"),
+    GOODS(4, "GOODS"),
     USER(97, "USER"),
     KEY_VALUE(98, "KEY_VALUE"),
     SCHEDULE_CONFIG(99, "SCHEDULE_CONFIG");

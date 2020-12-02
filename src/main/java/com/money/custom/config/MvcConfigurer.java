@@ -71,6 +71,7 @@ public class MvcConfigurer implements WebMvcConfigurer {
         urlPattMap.put("/group/", Sets.newHashSet("index", "update"));
         urlPattMap.put("/banner/", Sets.newHashSet("index"));
         urlPattMap.put("/goodsTag/", Sets.newHashSet("index"));
+        urlPattMap.put("/goods/", Sets.newHashSet("index"));
         urlPattMap.put("/keyValue/", Sets.newHashSet("index", "update"));
         urlPattMap.put("/scheduleConfig/", Sets.newHashSet("index", "update"));
         urlPattMap.put("/history/", Sets.newHashSet("index"));

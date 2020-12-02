@@ -2,6 +2,8 @@ package com.money.custom.controller;
 
 import com.money.custom.entity.dto.FileUploaded;
 import com.money.custom.entity.enums.CommonStatusEnum;
+import com.money.custom.entity.enums.GoodsShowPriceEnum;
+import com.money.custom.entity.request.QueryGoodsTagRequest;
 import com.money.custom.entity.request.QueryGroupRequest;
 import com.money.custom.service.UtilsService;
 import com.money.framework.base.annotation.SkipUserLoginCheck;
@@ -69,12 +71,28 @@ public class UtilsController extends BaseController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "selectGoodsTags")
+    public ResponseEntity<Map<String, Object>> selectGoodsTags(QueryGoodsTagRequest request) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", this.utilsService.selectGoodsTags(request));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
     @ResponseBody
     @RequestMapping(value = "selectStatus")
-    public ResponseEntity<Map<String, Object>> selectStatus() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public ResponseEntity<Map<String, Object>> selectStatus() {
         Map<String, Object> result = new HashMap<>();
         result.put("rows", EnumUtils.getEnumEntriesVN(CommonStatusEnum.class));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "selectGoodsShowPrice")
+    public ResponseEntity<Map<String, Object>> selectGoodsShowPrice() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", EnumUtils.getEnumEntriesVN(GoodsShowPriceEnum.class));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -87,6 +105,9 @@ public class UtilsController extends BaseController {
         result.put("fileUrl", fileUploaded.getUrl());
         result.put("fileUploaded", fileUploaded);
         result.put("message", "上传成功！");
+
+        result.put("errno", 0);
+        result.put("data", new String[]{fileUploaded.getUrl()});
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

@@ -1,15 +1,14 @@
 package com.money.custom.entity.enums;
 
-public enum CommonStatusEnum implements IEnumKeyValue {
+public enum GoodsShowPriceEnum implements IEnumKeyValue {
 
-    ENABLE(1, "启用"),
-    DISABLE(0, "禁用"),
-    DELETED(-2, "删除");
+    HIDE(0, "隐藏"),
+    SHOW(1, "展示");
 
     private Integer value;
     private String name;
 
-    CommonStatusEnum(Integer value, String name) {
+    GoodsShowPriceEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }
@@ -22,11 +21,6 @@ public enum CommonStatusEnum implements IEnumKeyValue {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public boolean availableForMap() {
-        return this != CommonStatusEnum.DELETED;
     }
 
 }

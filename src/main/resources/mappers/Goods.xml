@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Goods">
+
+	<sql id="tableName">d_goods</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="Goods">
+		SELECT
+			dgs.id,
+			dgs.name,
+			dg.name AS groupName,
+			dgs.desc,
+			dgs.detail,
+			dgs.profit_rate AS profitRate,
+			dgs.price,
+			dgs.unit,
+			dgs.thumbnail,
+			dgt.name AS goodsTagName,
+			dgs.status,
+			dgs.create_date AS createDate
+		FROM <include refid="tableName"/> dgs
+		LEFT JOIN d_group dg ON dg.id = dgs.group_id
+		LEFT JOIN d_goods_tag dgt ON dgt.id = dgs.goods_tag_id
+		WHERE
+			dgs.status != -2
+			<if test="goods.name!=null and goods.name!=''">
+				AND dgs.name LIKE CONCAT('%',#{goods.name},'%')
+			</if>
+			<if test="goods.status!=null">
+				AND dgs.status = #{goods.status}
+			</if>
+			<if test="goods.goodsTagId!=null">
+				AND dgs.goods_tag_id = #{goods.goodsTagId}
+			</if>
+			<if test="goods.groupId!=null">
+				AND dgs.group_id = #{goods.groupId}
+			</if>
+		ORDER BY status DESC
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/>
+		WHERE
+			status != -2
+			<if test="goods.name!=null and goods.name!=''">
+				AND name LIKE CONCAT('%',#{goods.name},'%')
+			</if>
+			<if test="goods.status!=null">
+				AND status = #{goods.status}
+			</if>
+			<if test="goods.goodsTagId!=null">
+				AND goods_tag_id = #{goods.goodsTagId}
+			</if>
+			<if test="goods.groupId!=null">
+				AND group_id = #{goods.groupId}
+			</if>
+	</select>
+	
+	<select id="findById" parameterType="String" resultType="Goods">
+		SELECT 
+			group_id AS groupId,
+			name,
+			profit_rate AS profitRate,
+			goods_tag_id AS goodsTagId,
+			price,
+			show_price showPrice,
+			unit,
+			`desc`,
+			detail,
+			status,
+			thumbnail
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="Goods" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			name,
+			profit_rate,
+			goods_tag_id,
+			price,
+			show_price,
+			unit,
+			status,
+			thumbnail,
+			`desc`,
+			group_id,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{name},
+			#{profitRate},
+			#{goodsTagId},
+			#{price},
+			#{showPrice},
+			#{unit},
+			#{status},
+			#{thumbnail},
+			#{desc},
+			#{groupId},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="edit" parameterType="Goods">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="name != null">
+				,name = #{name}
+			</if>
+			<if test="profitRate != null">
+				,profit_rate = #{profitRate}
+			</if>
+			<if test="goodsTagId != null">
+				,goods_tag_id = #{goodsTagId}
+			</if>
+			<if test="price != null">
+				,price = #{price}
+			</if>
+			<if test="showPrice != null">
+				,show_price = #{showPrice}
+			</if>
+			<if test="unit != null">
+				,unit = #{unit}
+			</if>
+			<if test="status != null">
+				,status = #{status}
+			</if>
+			<if test="thumbnail != null">
+				,thumbnail = #{thumbnail}
+			</if>
+			<if test="desc != null">
+				,`desc` = #{desc}
+			</if>
+			<if test="detail != null">
+				,`detail` = #{detail}
+			</if>
+			<if test="groupId != null">
+				,`group_id` = #{groupId}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>
