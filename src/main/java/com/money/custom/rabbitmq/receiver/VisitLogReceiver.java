@@ -14,21 +14,21 @@ import java.util.Map;
 
 @Component
 @RabbitListener(queues = QueueConsts.VISIT_LOG_QUEUE)
-public class VisitLogReceiver {
-
-    private static final Logger LOG = LoggerFactory.getLogger(VisitLogReceiver.class);
+public class VisitLogReceiver extends ReceiverBase {
 
     @Autowired
     VisitLogService visitLogService;
 
     @RabbitHandler
-    public void process(Map<String,Object> message) {
-        if (message.size() == 0) {
-            return;
-        }
+    public void process(Map message) {
+        processMessage(message);
+    }
+
+    @Override
+    void doProcess(Map message) {
         VisitLog log = (VisitLog) message.get("visitLog");
         visitLogService.add(log);
-        LOG.info("添加访问记录");
+        getLogger().info("添加访问记录");
     }
 
 }

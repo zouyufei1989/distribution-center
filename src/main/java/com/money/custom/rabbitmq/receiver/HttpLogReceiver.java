@@ -22,18 +22,18 @@ import java.util.Map;
 
 @Component
 @RabbitListener(queues = QueueConsts.HTTP_LOG_QUEUE)
-public class HttpLogReceiver {
-
-    private static final Logger LOG = LoggerFactory.getLogger(HttpLogReceiver.class);
+public class HttpLogReceiver extends ReceiverBase{
 
     @Autowired
     HttpLogDao httpLogDao;
 
     @RabbitHandler
     public void process(Map message) {
-        if (message.size() == 0) {
-            return;
-        }
+        processMessage(message);
+    }
+
+    @Override
+    void doProcess(Map message) {
         HttpLog log = (HttpLog) message.get("log");
         if (StringUtils.isNotEmpty(log.getResponse()) && log.getResponse().length() > 5000) {
             recordToFile(log);
@@ -41,10 +41,10 @@ public class HttpLogReceiver {
         }
 
         httpLogDao.add(log);
-        LOG.info("添加http访问记录");
+        getLogger().info("添加http访问记录");
     }
 
-    private static void recordToFile(HttpLog log) {
+    private void recordToFile(HttpLog log) {
 
         String logType = null;
         try {
@@ -60,10 +60,10 @@ public class HttpLogReceiver {
             filePath = FileUtils.saveToFile("httpLogs", JSON.toJSONString(log), logName);
         } catch (IOException e) {
             e.printStackTrace();
-            LOG.error("recordToFile fail", e);
+            getLogger().error("recordToFile fail", e);
         }
 
-        LOG.info("记录http日志{}", filePath);
+        getLogger().info("记录http日志{}", filePath);
     }
 
 }

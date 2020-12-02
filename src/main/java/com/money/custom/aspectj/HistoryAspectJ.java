@@ -9,6 +9,7 @@ import com.money.framework.base.entity.OperationalEntity;
 import com.money.framework.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -20,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 @Component
@@ -51,6 +53,7 @@ public class HistoryAspectJ implements ApplicationContextAware {
             logger.warn("无id返回的方法，无法记录历史操作记录");
         } else {
             Map<String, Object> messageData = new HashMap<>(4);
+            messageData.put("classType", point.getSignature().getDeclaringType());
             messageData.put("updater", getUpdater(args));
             messageData.put("ids", getEntityKeyId(result));
             messageData.put("type", addChangeLog.changeLogEntity().getName());
