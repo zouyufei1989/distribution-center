@@ -14,7 +14,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>标题:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="title" name="title" required/>
+                                        <input type="text" class="form-control" id="title" name="title" required maxlength="20"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -41,7 +41,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;"></span>描述:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="desc" name="desc"/>
+                                        <input type="text" class="form-control" id="desc" name="desc" maxlength="500"/>
                                     </div>
                                 </div>
                                 <div class="form-group">

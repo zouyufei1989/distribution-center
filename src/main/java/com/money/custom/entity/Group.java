@@ -1,21 +1,35 @@
 package com.money.custom.entity;
 
 import com.money.framework.base.entity.BaseEntity;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class Group extends BaseEntity {
 
     private Integer id;
     private Integer parentId;
+    @Length(max = 50,message = "门店名称不可超过50个字符")
+    @NotBlank(message = "请输入门店名称")
     private String name;
+    @NotBlank(message = "请选择所在城市")
     private String cityCode;
+    @Length(max = 255,message = "详细地址不可超过255个字符")
+    @NotBlank(message = "请输入详细地址")
     private String address;
+    @NotBlank(message = "请输入负责人姓名")
     private String ownerName;
+    @NotBlank(message = "请输入店铺电话")
     private String ownerPhone;
+    @Length(max = 500,message = "门店描述不可超过500个字符")
     private String desc;
     private String thumbnail;
     private String detailCoverImg;
     private String detailImg;
+    @NotNull(message = "请输入门店排序")
     private Integer index;
+    @NotBlank(message = "请选择营业时间")
     private String openRules;
 
     private String cityName;

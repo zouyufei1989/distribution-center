@@ -5,19 +5,33 @@ import com.money.framework.base.annotation.IgnoreXss;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public class Goods extends BaseEntity {
 
     private Integer id;
+    @Length(max = 20, message = "商品名称不可超过20个字符")
+    @NotBlank(message = "请输入商品名称")
     private String name;
+    @Min(value = 0, message = "毛利率需大于0")
+    @NotBlank(message = "请输入毛利率")
     private Integer profitRate; // ÷1000
+    @NotBlank(message = "请选择商品标签")
     private Integer goodsTagId;
+    @Min(value = 0, message = "单价需大于0")
+    @NotBlank(message = "请输入单价")
     private Integer price;   // ÷100
+    @NotBlank(message = "请选择是否展示价格")
     private Integer showPrice;
+    @Length(max = 20, message = "单位不可超过20个字符")
+    @NotBlank(message = "请输入单位")
     private String unit;
     private String thumbnail;
+    @Length(max = 500, message = "描述不可超过500个字符")
     private String desc;
     @IgnoreXss
     private String detail;
@@ -32,7 +46,7 @@ public class Goods extends BaseEntity {
     }
 
     public String getPrice4Show() {
-        if(Objects.isNull(price)){
+        if (Objects.isNull(price)) {
             return StringUtils.EMPTY;
         }
         return String.format("%.2f", this.price / 100.0);

@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +46,7 @@ public class GroupController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@RequestBody Group group) {
+    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody Group group, BindingResult bindingResult) {
         Map<String, Object> result = new HashMap<>();
         this.groupService.add(group);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -62,7 +64,7 @@ public class GroupController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@RequestBody Group group) {
+    public ResponseEntity<Map<String, Object>> edit(@Valid @RequestBody Group group, BindingResult bindingResult) {
         Map<String, Object> result = new HashMap<>();
         this.groupService.edit(group);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -71,7 +73,7 @@ public class GroupController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@RequestBody ChangeStatusRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public ResponseEntity<Map<String, Object>> changeStatus(@RequestBody ChangeStatusRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Map<String, Object> result = new HashMap<>();
         this.groupService.changeStatus(request);
         return new ResponseEntity<>(result, HttpStatus.OK);

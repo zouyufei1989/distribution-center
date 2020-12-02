@@ -18,13 +18,13 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"> <span style="color: red;">*</span>商品标签名称：</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="name" required>
+                                        <input type="text" class="form-control" id="name" required maxlength="20">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;"></span>备注:</label>
                                     <div class="col-sm-7">
-                                        <textarea name="desc" class="form-control" id="remark" rows="5"></textarea>
+                                        <textarea name="desc" class="form-control" id="remark" rows="5" maxlength="200"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">

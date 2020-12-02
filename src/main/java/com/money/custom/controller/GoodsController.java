@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +46,7 @@ public class GoodsController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@RequestBody Goods item) {
+    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody Goods item, BindingResult bindingResult) {
         Map<String, Object> result = new HashMap<>();
         this.goodsService.add(item);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -62,7 +64,7 @@ public class GoodsController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@RequestBody Goods item) {
+    public ResponseEntity<Map<String, Object>> edit(@Valid @RequestBody Goods item, BindingResult bindingResult) {
         Map<String, Object> result = new HashMap<>();
         this.goodsService.edit(item);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -71,7 +73,7 @@ public class GoodsController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@RequestBody ChangeStatusRequest request) {
+    public ResponseEntity<Map<String, Object>> changeStatus(@RequestBody ChangeStatusRequest request) {
         Map<String, Object> result = new HashMap<>();
         this.goodsService.changeStatus(request);
         return new ResponseEntity<>(result, HttpStatus.OK);

@@ -18,7 +18,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"> <span style="color: red;">*</span>商品名称：</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="name" required>
+                                        <input type="text" class="form-control" id="name" required maxlength="20">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -63,7 +63,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"> <span style="color: red;">*</span>简介：</label>
                                     <div class="col-sm-7">
-                                        <textarea name="desc" class="form-control" id="desc" rows="5"></textarea>
+                                        <textarea name="desc" class="form-control" id="desc" rows="5" maxlength="500"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">

@@ -12,7 +12,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>门店名称:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="name" name="name" required/>
+                                        <input type="text" class="form-control" id="name" name="name" required maxlength="50"/>
                                     </div>
                                 </div>
 
@@ -25,7 +25,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>详细地址:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="address" name="address" required/>
+                                        <input type="text" class="form-control" id="address" name="address" required maxlength="255"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -43,7 +43,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;"></span>店铺简介:</label>
                                     <div class="col-sm-7">
-                                        <textarea name="desc" class="form-control" id="desc" rows="5"></textarea>
+                                        <textarea name="desc" class="form-control" id="desc" rows="5" maxlength="500"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -93,7 +93,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>门店排序:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" value="" name="index" id="index" min="0" required>
+                                        <input type="text" value="" name="index" id="index" min="0" required >
                                     </div>
                                 </div>
                                 <div class="form-group">
