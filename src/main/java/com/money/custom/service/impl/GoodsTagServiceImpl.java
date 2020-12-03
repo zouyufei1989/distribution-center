@@ -2,12 +2,12 @@ package com.money.custom.service.impl;
 
 import com.money.custom.dao.GoodsTagDao;
 import com.money.custom.entity.GoodsTag;
-import com.money.custom.entity.enums.ChangeLogEntityEnum;
+import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.enums.RedisKeyEnum;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryGoodsTagRequest;
 import com.money.custom.service.GoodsTagService;
-import com.money.framework.base.annotation.AddChangeLog;
+import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.annotation.RedisDel;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class GoodsTagServiceImpl extends BaseServiceImpl implements GoodsTagServ
         return dao.findById(id);
     }
 
-    @AddChangeLog(changeLogEntity = ChangeLogEntityEnum.GOODS_TAG)
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS_TAG)
     @RedisDel(redisKey = RedisKeyEnum.GOODS_TAGS)
     @Override
     public String add(GoodsTag item) {
@@ -44,7 +44,7 @@ public class GoodsTagServiceImpl extends BaseServiceImpl implements GoodsTagServ
         return item.getId().toString();
     }
 
-    @AddChangeLog(changeLogEntity = ChangeLogEntityEnum.GOODS_TAG)
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS_TAG)
     @RedisDel(redisKey = RedisKeyEnum.GOODS_TAGS)
     @Override
     public String edit(GoodsTag item) {
@@ -52,7 +52,7 @@ public class GoodsTagServiceImpl extends BaseServiceImpl implements GoodsTagServ
         return item.getId().toString();
     }
 
-    @AddChangeLog(changeLogEntity = ChangeLogEntityEnum.GOODS_TAG)
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS_TAG)
     @RedisDel(redisKey = RedisKeyEnum.GOODS_TAGS)
     @Override
     public List<String> changeStatus(ChangeStatusRequest request) {

@@ -1,7 +1,5 @@
 package com.money.custom.rabbitmq.receiver;
 
-import com.money.custom.entity.History;
-import com.money.custom.entity.enums.ChangeLogEntityEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 

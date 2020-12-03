@@ -76,6 +76,7 @@
 <script type="text/javascript">
     var CONTENT_PATH = '${pageContext.request.contextPath}/';
     var CITY_CODE = '${sessionScope.user.cityCode}';
+    var LOGIN_USER = '${sessionScope.user.username}';
     var CITY_NAME = '${sessionScope.user.cityName}';
     var CITY_CENTER = [${sessionScope.user.cityLng}, ${sessionScope.user.cityLat}];
     var JS_FUNC_LIST = ${sessionScope.funcList}; //所有页面操作按钮

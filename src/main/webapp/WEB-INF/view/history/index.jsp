@@ -31,9 +31,6 @@
 
 <script type="text/javascript">
     loadJS("../script/js/view/history/index.js", 1);
-    loadJS("../script/js/view/history/route.js", 1);
-    loadJS("../script/js/view/history/device.js", 1);
-    loadJS("../script/js/view/history/vehicle.js", 1);
-    loadJS("../script/js/view/history/driver.js", 1);
+    loadJS("../script/js/view/history/group.js", 1);
 </script>
 </html>

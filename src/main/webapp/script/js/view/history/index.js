@@ -6,14 +6,8 @@ $(document).ready(function () {
 function queryHistory() {
     var type = JS_PAGE_PARAMS['type'];
     var option = null;
-    if (type == "DEVICE") {
-        option = DEVICE_OPTION;
-    } else if (type == "VEHICLE") {
-        option = VEHICLE_OPTION;
-    } else if (type == "DRIVER") {
-        option = DRIVER_OPTION;
-    } else if (type == "ROUTE") {
-        option = ROUTE_OPTION;
+    if (type == "GROUP") {
+        option = GROUP_OPTION;
     }
 
     $.ajax({

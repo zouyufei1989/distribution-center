@@ -1,5 +1,7 @@
 package com.money.custom.entity;
 
+import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.entity.BaseEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -33,6 +35,10 @@ public class Group extends BaseEntity {
     private String openRules;
 
     private String cityName;
+
+    public String getHistoryType(){
+        return HistoryEntityEnum.GROUP.getName();
+    }
 
 
     public String getAddress() {

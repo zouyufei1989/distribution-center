@@ -2,12 +2,12 @@ package com.money.custom.service.impl;
 
 import com.money.custom.dao.GroupDao;
 import com.money.custom.entity.Group;
-import com.money.custom.entity.enums.ChangeLogEntityEnum;
+import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.enums.RedisKeyEnum;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryGridRequestBase;
 import com.money.custom.service.GroupService;
-import com.money.framework.base.annotation.AddChangeLog;
+import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.annotation.RedisDel;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.UploadUtils;
@@ -41,7 +41,7 @@ public class GroupServiceImpl extends BaseServiceImpl implements GroupService {
         return dao.findById(id);
     }
 
-    @AddChangeLog(changeLogEntity = ChangeLogEntityEnum.GROUP)
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GROUP)
     @RedisDel(redisKey = RedisKeyEnum.GROUPS)
     @Override
     public String add(Group item) {
@@ -49,7 +49,7 @@ public class GroupServiceImpl extends BaseServiceImpl implements GroupService {
         return item.getId().toString();
     }
 
-    @AddChangeLog(changeLogEntity = ChangeLogEntityEnum.GROUP)
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GROUP)
     @RedisDel(redisKey = RedisKeyEnum.GROUPS)
     @Override
     public String edit(Group item) {
@@ -57,7 +57,7 @@ public class GroupServiceImpl extends BaseServiceImpl implements GroupService {
         return item.getId().toString();
     }
 
-    @AddChangeLog(changeLogEntity = ChangeLogEntityEnum.GROUP)
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GROUP)
     @RedisDel(redisKey = RedisKeyEnum.GROUPS)
     @Override
     public List<String> changeStatus(ChangeStatusRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {

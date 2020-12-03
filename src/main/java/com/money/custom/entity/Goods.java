@@ -1,6 +1,7 @@
 package com.money.custom.entity;
 
 import com.money.custom.entity.enums.GoodsShowPriceEnum;
+import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.framework.base.annotation.IgnoreXss;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.EnumUtils;
@@ -37,6 +38,10 @@ public class Goods extends BaseEntity {
     private String detail;
 
     private String goodsTagName;
+
+    public String getHistoryType(){
+        return HistoryEntityEnum.GOODS.getName();
+    }
 
     public String getProfitRate4Show() {
         if (Objects.isNull(this.profitRate)) {

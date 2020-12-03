@@ -1,5 +1,6 @@
 package com.money.custom.entity;
 
+import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.framework.base.entity.BaseEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -20,6 +21,10 @@ public class Banner extends BaseEntity {
     private String desc;
     @NotNull(message = "请输入顺序")
     private Integer index;
+
+    public String getHistoryType(){
+        return HistoryEntityEnum.BANNER.getName();
+    }
 
     public Integer getId() {
         return id;

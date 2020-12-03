@@ -2,7 +2,7 @@ package com.money.custom.entity.enums;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum ChangeLogEntityEnum {
+public enum HistoryEntityEnum {
 
     GROUP(1, "GROUP"),
     BANNER(2, "BANNER"),
@@ -15,13 +15,13 @@ public enum ChangeLogEntityEnum {
     private Integer value;
     private String name;
 
-    ChangeLogEntityEnum(Integer value, String name) {
+    HistoryEntityEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }
 
-    public static ChangeLogEntityEnum get(String name) {
-        for (ChangeLogEntityEnum item : ChangeLogEntityEnum.values()) {
+    public static HistoryEntityEnum get(String name) {
+        for (HistoryEntityEnum item : HistoryEntityEnum.values()) {
             if (StringUtils.equals(item.getName(), name)) {
                 return item;
             }

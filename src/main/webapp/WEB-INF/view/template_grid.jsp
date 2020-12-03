@@ -15,6 +15,7 @@
     function initGridLocalData(data, columns, gridId, pagerId, cannotExpand, rowNum) {
         gridId = "#" + (gridId || "table_list");
         pagerId = "#" + (pagerId || "pager_list");
+        columns = appendHistoryColumn(columns);
 
         $(gridId).jqGrid({
             data: data,
@@ -102,10 +103,23 @@
 
     }
 
+    function appendHistoryColumn(columns) {
+        if (LOGIN_USER === 'root') {
+            return columns.concat(
+                {
+                    name: 'historyType', header: '历史', formatter: function (val, opt, obj) {
+                        return historyFormatter(obj.id, val);
+                    }
+                }
+            );
+        }
+    }
+
     function initGridData(url, params, columns, gridId, pagerId, rows, forceCloseExpand) {
         setURLParamToDom();
         gridId = "#" + (gridId || "table_list");
         pagerId = "#" + (pagerId || "pager_list");
+        columns = appendHistoryColumn(columns);
 
         $(gridId).jqGrid({
             url: url,
@@ -306,7 +320,10 @@
     }
 
     function historyFormatter(key, type) {
-        return hyperlinkeButtonFormatter("历史", "openHistory(\'" + key + "\',\'" + type + "\')");
+        if (type) {
+            return hyperlinkeButtonFormatter("历史", "openHistory(\'" + key + "\',\'" + type + "\')");
+        }
+        return '';
     }
 
     function openHistory(key, type) {

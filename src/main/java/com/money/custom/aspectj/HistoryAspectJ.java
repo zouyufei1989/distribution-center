@@ -3,13 +3,12 @@ package com.money.custom.aspectj;
 import com.google.common.collect.Lists;
 import com.money.custom.rabbitmq.QueueConsts;
 import com.money.custom.utils.RabbitMqUtils;
-import com.money.framework.base.annotation.AddChangeLog;
+import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.entity.ExcelMultipartFile;
 import com.money.framework.base.entity.OperationalEntity;
 import com.money.framework.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -21,7 +20,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 @Component
@@ -44,8 +42,8 @@ public class HistoryAspectJ implements ApplicationContextAware {
     public void doing() {
     }
 
-    @Around("doing() && @annotation(addChangeLog)")
-    public Object process(ProceedingJoinPoint point, AddChangeLog addChangeLog) throws Throwable {
+    @Around("doing() && @annotation(addHistoryLog)")
+    public Object process(ProceedingJoinPoint point, AddHistoryLog addHistoryLog) throws Throwable {
         Object[] args = point.getArgs();
         Object result = point.proceed(args);
 
@@ -56,7 +54,7 @@ public class HistoryAspectJ implements ApplicationContextAware {
             messageData.put("classType", point.getSignature().getDeclaringType());
             messageData.put("updater", getUpdater(args));
             messageData.put("ids", getEntityKeyId(result));
-            messageData.put("type", addChangeLog.changeLogEntity().getName());
+            messageData.put("type", addHistoryLog.historyLogEntity().getName());
             messageData.put("createDate", DateUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
             rabbitMqUtils.send(QueueConsts.HISTORY_QUEUE, messageData);
 
