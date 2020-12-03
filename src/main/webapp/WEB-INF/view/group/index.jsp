@@ -6,6 +6,12 @@
     <%@ include file="../template_css.jsp" %>
     <%@ include file="../template_js.jsp" %>
     <style type="text/css">
+        @media (min-width: 1292px) {
+            .modal-lg {
+                width: 1200px;
+            }
+        }
+
         #updateModal .modal-dialog {
             position: absolute;
             top: 0;
@@ -24,7 +30,7 @@
         #updateModal .modal-body {
             overflow-y: scroll;
             position: absolute;
-            top: 55px;
+            top: 20px;
             bottom: 65px;
             width: 100%;
         }
@@ -37,6 +43,10 @@
             position: absolute;
             width: 100%;
             bottom: 0;
+        }
+
+        .amap-sug-result {
+            z-index: 9999;
         }
 
     </style>
@@ -80,6 +90,7 @@
 </div>
 
 <%@ include file="update.jsp" %>
+<%@ include file="showOnMap.jsp" %>
 
 </body>
 <script type="text/javascript">

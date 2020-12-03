@@ -114,7 +114,11 @@
     / / 去掉高德的版本号
     }
 
-    #updateModal img {
+    #mainForm img {
         height: 80px;
+    }
+
+    #updateModal .wrapper {
+        margin-top: 50px;
     }
 </style>

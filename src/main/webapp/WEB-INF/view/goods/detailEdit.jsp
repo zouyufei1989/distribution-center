@@ -8,7 +8,7 @@
                 <div class="wrapper animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form id="mainForm" class="form-horizontal form-update">
+                            <form id="mainForm" class="form-horizontal ">
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <div id="detailEditor"></div>

@@ -20,6 +20,8 @@
 			dg.detail_img AS detailImg,
 			dg.`index`,
 			dg.open_rules AS openRules,
+			dg.lng,
+			dg.lat,
 			dg.city_code AS cityCode,
 			dg.create_date AS createDate,
 			ssca.city_ch_name AS cityName
@@ -75,6 +77,8 @@
 			owner_name AS ownerName,
 			owner_phone AS ownerPhone,
 			`desc`,
+			lng,
+			lat,
 			thumbnail,
 			detail_cover_img AS detailCoverImg,
 			detail_img AS detailImg,
@@ -96,6 +100,8 @@
 			owner_phone,
 			status,
 			`desc`,
+			lng,
+			lat,
 			thumbnail,
 			detail_cover_img,
 			detail_img,
@@ -115,6 +121,8 @@
 			#{ownerPhone},
 			#{status},
 			#{desc},
+			#{lng},
+			#{lat},
 			#{thumbnail},
 			#{detailCoverImg},
 			#{detailImg},
@@ -155,6 +163,12 @@
 			</if>
 			<if test="status != null">
 				,status = #{status}
+			</if>
+			<if test="lng != null">
+				,lng = #{lng}
+			</if>
+			<if test="lat != null">
+				,lat = #{lat}
 			</if>
 			<if test="desc != null">
 				,`desc` = #{desc}

@@ -7,15 +7,14 @@
                 <h3></h3>
                 <div class="wrapper animated fadeInRight">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <form id="mainForm" class="form-horizontal form-update">
+                        <div class="col-lg-5">
+                            <form id="mainForm" class="form-horizontal">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>门店名称:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="name" name="name" required maxlength="50"/>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"> <span style="color: red;">*</span>所在城市：</label>
                                     <div class="col-sm-7">
@@ -23,9 +22,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>辅助地址:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="searchAddress" name="searchAddress" placeholder="输入地址搜索..."/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>详细地址:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="address" name="address" required maxlength="255"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>经度:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="lng" name="lng" required onkeyup="refreshStationMarker()"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>纬度:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="lat" name="lat" required onkeyup="refreshStationMarker()"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -102,13 +119,19 @@
                                         <status-combo id="status" must-choose-one="true"></status-combo>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-sm-3"></div>
-                                    <div class="col-sm-6">
-                                        <%@ include file="../template_save_update_btn.jsp" %>
-                                    </div>
-                                </div>
                             </form>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="mapContainer" style="width: 100%; height: 822px;"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 text-center" style="margin-top: 45px">
+                                    <%@ include file="../template_save_update_btn.jsp" %>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

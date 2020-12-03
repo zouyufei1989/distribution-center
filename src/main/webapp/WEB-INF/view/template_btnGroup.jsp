@@ -12,6 +12,7 @@
         if (editOnModal()) {
             bindModalShow('updateModal', function () {
                 $('.select2_demo_3').select2();
+                $('.select2_demo_3').trigger('change');
             }, 1);
         }
 

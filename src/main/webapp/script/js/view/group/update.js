@@ -1,12 +1,13 @@
-var attrs = ['name', 'cityCode', 'address', 'ownerName', 'ownerPhone', 'status', 'desc', 'thumbnail', 'detailCoverImg', 'detailImg', 'index', 'openRules'];
+var attrs = ['name', 'cityCode', 'address', 'ownerName', 'ownerPhone', 'status', 'desc', 'thumbnail', 'detailCoverImg', 'detailImg', 'index', 'openRules','lng','lat'];
 var VUE_CITY;
+var mapModel;
 
 $(document).ready(function () {
     new Vue({el: '#status'});
     new Vue({el: '#thumbnailModal'});
     new Vue({el: '#detailCoverImgModal'});
     new Vue({el: '#detailImgModal'});
-    VUE_CITY = new Vue({el: '#cityCode', data: {cityCode: null}});
+
     $("#index").TouchSpin({
         verticalbuttons: true,
         buttondown_class: 'btn btn-white',
@@ -16,6 +17,22 @@ $(document).ready(function () {
     initWeekday('sel_end_weekday');
     initTime('sel_start_time');
     initTime('sel_end_time');
+
+
+    VUE_CITY = new Vue({el: '#cityCode', data: {cityCode: null}});
+    $('#cityCode').on('change', function () {
+        var city = $('#cityCode').select2('data')[0].text;
+        if (mapModel) {
+            mapModel.api.setCity(city);
+        } else {
+            mapModel = createMapModel("mapContainer", city);
+            mapModel.api.initAutoCompleteControl('searchAddress', function (e) {
+                $('#lng').val(e.poi.location.lng);
+                $('#lat').val(e.poi.location.lat);
+                refreshStationMarker();
+            }, city);
+        }
+    });
 });
 
 function fillAdditionAttrs(result) {
@@ -30,6 +47,7 @@ function fillAdditionAttrs(result) {
     $('#thumbnail_url').attr('src',result.data.thumbnail);
     $('#detailCoverImg_url').attr('src',result.data.detailCoverImg);
     $('#detailImg_url').attr('src',result.data.detailImg);
+    refreshStationMarker();
 }
 
 function additionParam() {
@@ -58,4 +76,15 @@ function initTime(ele) {
         var timeStr = new Date(time + i * 1000 * 60).Format('hh:mm');
         $('#' + ele).append("<option value='" + timeStr + "'>" + timeStr + "</option>");
     }
+}
+
+function refreshStationMarker() {
+    mapModel.api.clearAll();
+    var marker = mapModel.api.addMarker($('#lng').val(), $('#lat').val(), ICON_ARR['station'].icon, ICON_ARR['station'].offset, '', true);
+    mapModel.event.onMarkerDragend(marker, function (e) {
+        var eventLnglat = e.target.getPosition();
+        $('#lat').val(eventLnglat.lat);
+        $('#lng').val(eventLnglat.lng);
+    });
+    mapModel.entity.map.setFitView();
 }

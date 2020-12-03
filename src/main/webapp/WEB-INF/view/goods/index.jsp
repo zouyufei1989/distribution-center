@@ -24,7 +24,7 @@
         #updateModal .modal-body {
             overflow-y: scroll;
             position: absolute;
-            top: 55px;
+            top: 20px;
             bottom: 65px;
             width: 100%;
         }

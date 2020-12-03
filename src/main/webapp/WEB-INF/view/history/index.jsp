@@ -32,5 +32,8 @@
 <script type="text/javascript">
     loadJS("../script/js/view/history/index.js", 1);
     loadJS("../script/js/view/history/group.js", 1);
+    loadJS("../script/js/view/history/banner.js", 1);
+    loadJS("../script/js/view/history/goods.js", 1);
+    loadJS("../script/js/view/history/goodsTag.js", 1);
 </script>
 </html>

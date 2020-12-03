@@ -10,7 +10,7 @@
                         <div class="col-lg-12">
                             <%@ include file="../vue_template/city_combo.jsp" %>
                             <%@ include file="../vue_template/status_combo.jsp" %>
-                            <form id="mainForm" class="form-horizontal form-update">
+                            <form id="mainForm" class="form-horizontal ">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>标题:</label>
                                     <div class="col-sm-7">

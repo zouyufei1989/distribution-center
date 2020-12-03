@@ -53,13 +53,15 @@
 	
 	<select id="findById" parameterType="String" resultType="GoodsTag">
 		SELECT 
-			id,
-			name,
-			remark,
-			status,
-			group_id AS groupId
-		FROM <include refid="tableName"/>
-		WHERE id = #{id}
+			dgt.id,
+			dgt.name,
+			dgt.remark,
+			dgt.status,
+			dgt.group_id AS groupId,
+			dg.name AS groupName
+		FROM <include refid="tableName"/> dgt
+		LEFT JOIN d_group dg ON dg.id = dgt.group_id
+		WHERE dgt.id = #{id}
 	</select>
 
 	<insert id="add" parameterType="GoodsTag" useGeneratedKeys="true" keyProperty="id">

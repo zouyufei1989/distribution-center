@@ -64,19 +64,23 @@
 	
 	<select id="findById" parameterType="String" resultType="Goods">
 		SELECT 
-			group_id AS groupId,
-			name,
-			profit_rate AS profitRate,
-			goods_tag_id AS goodsTagId,
-			price,
-			show_price showPrice,
-			unit,
-			`desc`,
-			detail,
-			status,
-			thumbnail
-		FROM <include refid="tableName"/>
-		WHERE id = #{id}
+			dgs.group_id AS groupId,
+			dgs.name,
+			dgs.profit_rate AS profitRate,
+			dgs.goods_tag_id AS goodsTagId,
+			dgs.price,
+			dgs.show_price showPrice,
+			dgs.unit,
+			dgs.`desc`,
+			dgs.detail,
+			dgs.status,
+			dgs.thumbnail,
+			dg.name AS groupName,
+			dgt.name AS goodsTagName
+		FROM <include refid="tableName"/> dgs
+		LEFT JOIN d_group dg ON dg.id = dgs.group_id
+		LEFT JOIN d_goods_tag dgt ON dgt.id = dgs.goods_tag_id
+		WHERE dgs.id = #{id}
 	</select>
 
 	<insert id="add" parameterType="Goods" useGeneratedKeys="true" keyProperty="id">

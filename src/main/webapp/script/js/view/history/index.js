@@ -8,6 +8,12 @@ function queryHistory() {
     var option = null;
     if (type == "GROUP") {
         option = GROUP_OPTION;
+    }else if (type == "GOODS") {
+        option = GOODS_OPTION;
+    }if (type == "GOODS_TAG") {
+        option = GOODSTAG_OPTION;
+    }if (type == "BANNER") {
+        option = BANNER_OPTION;
     }
 
     $.ajax({

@@ -3,6 +3,7 @@ package com.money.custom.entity;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.entity.BaseEntity;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
@@ -12,19 +13,19 @@ public class Group extends BaseEntity {
 
     private Integer id;
     private Integer parentId;
-    @Length(max = 50,message = "门店名称不可超过50个字符")
+    @Length(max = 50, message = "门店名称不可超过50个字符")
     @NotBlank(message = "请输入门店名称")
     private String name;
     @NotBlank(message = "请选择所在城市")
     private String cityCode;
-    @Length(max = 255,message = "详细地址不可超过255个字符")
+    @Length(max = 255, message = "详细地址不可超过255个字符")
     @NotBlank(message = "请输入详细地址")
     private String address;
     @NotBlank(message = "请输入负责人姓名")
     private String ownerName;
     @NotBlank(message = "请输入店铺电话")
     private String ownerPhone;
-    @Length(max = 500,message = "门店描述不可超过500个字符")
+    @Length(max = 500, message = "门店描述不可超过500个字符")
     private String desc;
     private String thumbnail;
     private String detailCoverImg;
@@ -33,13 +34,42 @@ public class Group extends BaseEntity {
     private Integer index;
     @NotBlank(message = "请选择营业时间")
     private String openRules;
+    @NotNull(message = "门店经纬度不可为空")
+    private Double lng;
+    @NotNull(message = "门店经纬度不可为空")
+    private Double lat;
 
     private String cityName;
 
-    public String getHistoryType(){
+    public String getHistoryType() {
         return HistoryEntityEnum.GROUP.getName();
     }
 
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public String getOpenRules4Show() {
+        if (StringUtils.isEmpty(openRules)) {
+            return "";
+        }
+        String[] weekdayAndTimespan = openRules.split("@");
+        String[] weekdays = weekdayAndTimespan[0].split("-");
+        String[] timeSpans = weekdayAndTimespan[1].split("-");
+        return String.format("%s 至 %s<br>%s - %s", weekdays[0], weekdays[1], timeSpans[0], timeSpans[1]);
+    }
 
     public String getAddress() {
         return address;

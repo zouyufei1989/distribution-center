@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class Goods extends BaseEntity {
@@ -19,14 +20,14 @@ public class Goods extends BaseEntity {
     @NotBlank(message = "请输入商品名称")
     private String name;
     @Min(value = 0, message = "毛利率需大于0")
-    @NotBlank(message = "请输入毛利率")
+    @NotNull(message = "请输入毛利率")
     private Integer profitRate; // ÷1000
-    @NotBlank(message = "请选择商品标签")
+    @NotNull(message = "请选择商品标签")
     private Integer goodsTagId;
     @Min(value = 0, message = "单价需大于0")
-    @NotBlank(message = "请输入单价")
+    @NotNull(message = "请输入单价")
     private Integer price;   // ÷100
-    @NotBlank(message = "请选择是否展示价格")
+    @NotNull(message = "请选择是否展示价格")
     private Integer showPrice;
     @Length(max = 20, message = "单位不可超过20个字符")
     @NotBlank(message = "请输入单位")
