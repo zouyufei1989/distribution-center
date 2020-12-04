@@ -100,7 +100,7 @@
         margin-left: 10px;
     }
 
-    select {
+    .param_row select {
         min-width: 180px;
     }
 
@@ -121,4 +121,5 @@
     #updateModal .wrapper {
         margin-top: 50px;
     }
+
 </style>
