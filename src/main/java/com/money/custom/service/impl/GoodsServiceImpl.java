@@ -1,27 +1,55 @@
 package com.money.custom.service.impl;
 
+import com.google.common.collect.Lists;
 import com.money.custom.dao.GoodsDao;
+import com.money.custom.dao.GoodsItemDao;
 import com.money.custom.entity.Goods;
+import com.money.custom.entity.GoodsItem;
+import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.request.MoAGoods4SingleRequest;
 import com.money.custom.entity.request.ChangeStatusRequest;
+import com.money.custom.entity.request.QueryGoodsItemRequest;
 import com.money.custom.entity.request.QueryGoodsRequest;
 import com.money.custom.service.GoodsService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
 
     @Autowired
     GoodsDao dao;
+    @Autowired
+    GoodsItemDao itemDao;
 
     @Override
     public List<Goods> selectSearchList(QueryGoodsRequest request) {
-        return dao.selectSearchList(request);
+        List<Goods> goods = dao.selectSearchList(request);
+        if (CollectionUtils.isEmpty(goods)) {
+            return goods;
+        }
+
+        Set<String> goodsIdSet = goods.stream().map(g -> g.getId().toString()).collect(Collectors.toSet());
+        List<GoodsItem> items = itemDao.selectSearchList(new QueryGoodsItemRequest(goodsIdSet));
+        if (CollectionUtils.isNotEmpty(items)) {
+            Map<Integer, List<GoodsItem>> map = items.stream().collect(Collectors.groupingBy(GoodsItem::getGoodsId));
+            goods.forEach(g -> {
+                g.setItems(map.get(g.getId()));
+            });
+        }
+
+        return goods;
     }
 
     @Override
@@ -31,21 +59,41 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
 
     @Override
     public Goods findById(String id) {
-        return dao.findById(id);
+        Goods goods = dao.findById(id);
+        List<GoodsItem> goodsItems = itemDao.selectSearchList(new QueryGoodsItemRequest(id));
+        goods.setItems(goodsItems);
+        return goods;
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS)
     @Override
-    public String add(Goods item) {
-        dao.add(item);
-        return item.getId().toString();
+    @Transactional
+    public String addSingleItem(MoAGoods4SingleRequest request) {
+        Goods goods = new Goods(request);
+        dao.add(goods);
+
+        itemDao.addBatch(Lists.newArrayList(new GoodsItem(request, goods.getId())));
+        return goods.getId().toString();
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS)
     @Override
-    public String edit(Goods item) {
-        dao.edit(item);
-        return item.getId().toString();
+    @Transactional
+    public String editSingleItem(MoAGoods4SingleRequest request) {
+        Goods goodsSrc = findById(request.getId().toString());
+        Assert.notNull(goodsSrc, "商品不存在");
+        Assert.isTrue(goodsSrc.getType().equals(GoodsTypeEnum.SINGLE.getValue()), "商品不可修改");
+        Assert.isTrue(goodsSrc.getItems().size() == 1, "商品无法修改");
+
+        Goods goods = new Goods(request);
+        goods.setId(request.getId());
+        dao.edit(goods);
+
+        GoodsItem item = new GoodsItem(request,goodsSrc.getId());
+        item.setId(goodsSrc.getItems().get(0).getId());
+        itemDao.edit(item);
+
+        return request.getId().toString();
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS)

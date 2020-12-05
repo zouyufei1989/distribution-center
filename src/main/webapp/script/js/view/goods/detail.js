@@ -48,7 +48,7 @@ function initWangEditor() {
 function saveDetail(){
     loadingStart(function(){
         $.ajax({
-            url: 'edit',
+            url: 'editGoodsDetail',
             type: 'post',
             headers: {
                 "Cache-Control": "no-cache",

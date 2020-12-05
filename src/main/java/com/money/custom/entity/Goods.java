@@ -1,65 +1,79 @@
 package com.money.custom.entity;
 
-import com.money.custom.entity.enums.GoodsShowPriceEnum;
+import com.google.common.collect.Lists;
+import com.money.custom.entity.enums.GoodsCombineEnum;
+import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
-import com.money.framework.base.annotation.IgnoreXss;
+import com.money.custom.entity.request.MoAGoods4SingleRequest;
 import com.money.framework.base.entity.BaseEntity;
-import com.money.framework.util.EnumUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.constraints.Length;
+import com.money.framework.util.DateUtils;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import java.util.List;
 
 public class Goods extends BaseEntity {
 
     private Integer id;
-    @Length(max = 20, message = "商品名称不可超过20个字符")
-    @NotBlank(message = "请输入商品名称")
     private String name;
-    @Min(value = 0, message = "毛利率需大于0")
-    @NotNull(message = "请输入毛利率")
-    private Integer profitRate; // ÷1000
-    @NotNull(message = "请选择商品标签")
-    private Integer goodsTagId;
-    @Min(value = 0, message = "单价需大于0")
-    @NotNull(message = "请输入单价")
-    private Integer price;   // ÷100
-    @NotNull(message = "请选择是否展示价格")
-    private Integer showPrice;
-    @Length(max = 20, message = "单位不可超过20个字符")
-    @NotBlank(message = "请输入单位")
-    private String unit;
-    private String thumbnail;
-    @Length(max = 500, message = "描述不可超过500个字符")
-    private String desc;
-    @IgnoreXss
-    private String detail;
+    private Integer combine;
+    private Integer type;
+    private List<GoodsItem> items;
+    private String effectiveDate;
+    private String expireDate;
 
-    private String goodsTagName;
+    public Goods() {}
 
-    public String getHistoryType(){
-        return HistoryEntityEnum.GOODS.getName();
+    public Goods(MoAGoods4SingleRequest request) {
+        this.name = request.getName();
+        this.combine = GoodsCombineEnum.SINGLE.getValue();
+        this.type = GoodsTypeEnum.SINGLE.getValue();
+        this.effectiveDate = DateUtils.nowDate();
+        this.expireDate = Consts.SINGLE_GOODS_EXPIRE_DATE;
+        this.setStatus(request.getStatus());
+        copyOperationInfo(request);
     }
 
-    public String getProfitRate4Show() {
-        if (Objects.isNull(this.profitRate)) {
-            return StringUtils.EMPTY;
-        }
-        return String.format("%.2f", this.profitRate / 100.0) + "%";
+    public String getDesc4SingleShow() {
+        return items.get(0).getDesc();
     }
 
-    public String getPrice4Show() {
-        if (Objects.isNull(price)) {
-            return StringUtils.EMPTY;
-        }
-        return String.format("%.2f", this.price / 100.0);
+    public String getProfitRate4SingleShow() {
+        return items.get(0).getProfitRate4Show();
     }
 
-    public String getShowPriceName() {
-        return EnumUtils.getNameByValue(GoodsShowPriceEnum.class, this.showPrice);
+    public String getPrice4SingleShow() {
+        return items.get(0).getPrice4Show();
+    }
+
+    public String getGoodsTagName4SingleShow() {
+        return items.get(0).getGoodsTagName();
+    }
+
+    public String getUnit4SingleShow() {
+        return items.get(0).getUnit();
+    }
+
+    public String getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(String effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public List<GoodsItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<GoodsItem> items) {
+        this.items = items;
     }
 
     public Integer getId() {
@@ -78,75 +92,23 @@ public class Goods extends BaseEntity {
         this.name = name;
     }
 
-    public Integer getProfitRate() {
-        return profitRate;
+    public Integer getCombine() {
+        return combine;
     }
 
-    public void setProfitRate(Integer profitRate) {
-        this.profitRate = profitRate;
+    public void setCombine(Integer combine) {
+        this.combine = combine;
     }
 
-    public Integer getGoodsTagId() {
-        return goodsTagId;
+    public Integer getType() {
+        return type;
     }
 
-    public void setGoodsTagId(Integer goodsTagId) {
-        this.goodsTagId = goodsTagId;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public Integer getShowPrice() {
-        return showPrice;
-    }
-
-    public void setShowPrice(Integer showPrice) {
-        this.showPrice = showPrice;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public String getGoodsTagName() {
-        return goodsTagName;
-    }
-
-    public void setGoodsTagName(String goodsTagName) {
-        this.goodsTagName = goodsTagName;
+    public String getHistoryType() {
+        return HistoryEntityEnum.GOODS.getName();
     }
 }

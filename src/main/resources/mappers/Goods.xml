@@ -9,29 +9,25 @@
 		SELECT
 			dgs.id,
 			dgs.name,
+			dgs.combine,
+			dgs.type,
 			dg.name AS groupName,
-			dgs.desc,
-			dgs.detail,
-			dgs.profit_rate AS profitRate,
-			dgs.price,
-			dgs.unit,
-			dgs.thumbnail,
-			dgt.name AS goodsTagName,
 			dgs.status,
 			dgs.create_date AS createDate
 		FROM <include refid="tableName"/> dgs
 		LEFT JOIN d_group dg ON dg.id = dgs.group_id
-		LEFT JOIN d_goods_tag dgt ON dgt.id = dgs.goods_tag_id
 		WHERE
 			dgs.status != -2
 			<if test="goods.name!=null and goods.name!=''">
-				AND dgs.name LIKE CONCAT('%',#{goods.name},'%')
+				AND EXISTS
+				(SELECT 1 FROM d_group_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goods.name},'%')
 			</if>
 			<if test="goods.status!=null">
 				AND dgs.status = #{goods.status}
 			</if>
 			<if test="goods.goodsTagId!=null">
-				AND dgs.goods_tag_id = #{goods.goodsTagId}
+				AND EXISTS
+				(SELECT 1 FROM d_group_item WHERE dgs.id = goods_id AND goods_tag_id = #{goods.goodsTagId}
 			</if>
 			<if test="goods.groupId!=null">
 				AND dgs.group_id = #{goods.groupId}
@@ -45,41 +41,39 @@
 	<select id="selectSearchListCount" parameterType="Map" resultType="int">
 		SELECT
 			COUNT(*)
-		FROM <include refid="tableName"/>
+		FROM <include refid="tableName"/> dgs
 		WHERE
-			status != -2
+			dgs.status != -2
 			<if test="goods.name!=null and goods.name!=''">
-				AND name LIKE CONCAT('%',#{goods.name},'%')
+				AND EXISTS
+				(SELECT 1 FROM d_group_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goods.name},'%')
 			</if>
 			<if test="goods.status!=null">
-				AND status = #{goods.status}
+				AND dgs.status = #{goods.status}
 			</if>
 			<if test="goods.goodsTagId!=null">
-				AND goods_tag_id = #{goods.goodsTagId}
+				AND EXISTS
+				(SELECT 1 FROM d_group_item WHERE dgs.id = goods_id AND goods_tag_id = #{goods.goodsTagId}
 			</if>
 			<if test="goods.groupId!=null">
-				AND group_id = #{goods.groupId}
+				AND dgs.group_id = #{goods.groupId}
 			</if>
+		ORDER BY status DESC
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
 	</select>
 	
 	<select id="findById" parameterType="String" resultType="Goods">
 		SELECT 
 			dgs.group_id AS groupId,
 			dgs.name,
-			dgs.profit_rate AS profitRate,
-			dgs.goods_tag_id AS goodsTagId,
-			dgs.price,
-			dgs.show_price showPrice,
-			dgs.unit,
-			dgs.`desc`,
-			dgs.detail,
 			dgs.status,
-			dgs.thumbnail,
-			dg.name AS groupName,
-			dgt.name AS goodsTagName
+			dgs.type,
+			dgs.combine,
+			dg.name AS groupName
 		FROM <include refid="tableName"/> dgs
 		LEFT JOIN d_group dg ON dg.id = dgs.group_id
-		LEFT JOIN d_goods_tag dgt ON dgt.id = dgs.goods_tag_id
 		WHERE dgs.id = #{id}
 	</select>
 
@@ -87,15 +81,12 @@
 		INSERT INTO <include refid="tableName"/>
 		(
 			name,
-			profit_rate,
-			goods_tag_id,
-			price,
-			show_price,
-			unit,
 			status,
-			thumbnail,
-			`desc`,
+			combine,
+			type,
 			group_id,
+			effective_date,
+			expire_date,
 			create_date,
 			creator,
 			create_ip
@@ -103,15 +94,12 @@
 		VALUES 
 		(
 			#{name},
-			#{profitRate},
-			#{goodsTagId},
-			#{price},
-			#{showPrice},
-			#{unit},
 			#{status},
-			#{thumbnail},
-			#{desc},
+			#{combine},
+			#{type},
 			#{groupId},
+			#{effectiveDate},
+			#{expireDate},
 			NOW(),
 		  	#{creator},
 		  	#{createIp}
@@ -127,35 +115,8 @@
 			<if test="name != null">
 				,name = #{name}
 			</if>
-			<if test="profitRate != null">
-				,profit_rate = #{profitRate}
-			</if>
-			<if test="goodsTagId != null">
-				,goods_tag_id = #{goodsTagId}
-			</if>
-			<if test="price != null">
-				,price = #{price}
-			</if>
-			<if test="showPrice != null">
-				,show_price = #{showPrice}
-			</if>
-			<if test="unit != null">
-				,unit = #{unit}
-			</if>
 			<if test="status != null">
 				,status = #{status}
-			</if>
-			<if test="thumbnail != null">
-				,thumbnail = #{thumbnail}
-			</if>
-			<if test="desc != null">
-				,`desc` = #{desc}
-			</if>
-			<if test="detail != null">
-				,`detail` = #{detail}
-			</if>
-			<if test="groupId != null">
-				,`group_id` = #{groupId}
 			</if>
 		WHERE id = #{id}
 	</update>

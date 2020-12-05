@@ -1,19 +1,18 @@
 package com.money.custom.entity.request;
 
-import com.money.custom.entity.Goods;
-import com.money.custom.entity.GoodsTag;
+import com.money.custom.entity.GoodsItem;
 
 import java.util.Map;
 
 public class QueryGoodsRequest extends QueryGridRequestBase {
 
-    private Goods goods = new Goods();
+    private GoodsItem goods = new GoodsItem();
 
-    public Goods getGoods() {
+    public GoodsItem getGoods() {
         return goods;
     }
 
-    public void setGoods(Goods goods) {
+    public void setGoods(GoodsItem goods) {
         this.goods = goods;
     }
 

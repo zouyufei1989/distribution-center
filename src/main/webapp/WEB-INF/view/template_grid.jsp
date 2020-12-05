@@ -105,7 +105,7 @@
 
     function appendHistoryColumn(columns) {
         if (LOGIN_USER === 'root') {
-            return columns.concat(
+            columns = columns.concat(
                 {
                     name: 'historyType', header: '历史', formatter: function (val, opt, obj) {
                         return historyFormatter(obj.id, val);
@@ -113,6 +113,7 @@
                 }
             );
         }
+        return columns;
     }
 
     function initGridData(url, params, columns, gridId, pagerId, rows, forceCloseExpand) {

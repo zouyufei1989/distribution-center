@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="GoodsItem">
+
+	<sql id="tableName">d_goods_item</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="GoodsItem">
+		SELECT
+			dgi.id,
+			dgi.goods_id AS goodsId,
+			dgi.name,
+			dg.name AS groupName,
+			dgi.desc,
+			dgi.detail,
+			dgi.profit_rate AS profitRate,
+			dgi.price,
+			dgi.unit,
+			dgi.thumbnail,
+			dgt.name AS goodsTagName,
+			dgt.id AS goodsTagId,
+			dgi.show_price AS showPrice,
+			dgi.create_date AS createDate
+		FROM <include refid="tableName"/> dgi
+		LEFT JOIN d_goods dgs ON dgs.id = dgi.goods_id
+		LEFT JOIN d_group dg ON dg.id = dgs.group_id
+		LEFT JOIN d_goods_tag dgt ON dgt.id = dgi.goods_tag_id
+		WHERE
+			1=1
+			<if test="goodsIdSet!=null and goodsIdSet.size()>0">
+				AND dgi.goods_id IN
+				<foreach collection="goodsIdSet" item="goodsId" open="(" separator="," close=")">
+					#{goodsId}
+				</foreach>
+			</if>
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<insert id="addBatch" parameterType="GoodsItem" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			goods_id,
+			name,
+			profit_rate,
+			goods_tag_id,
+			price,
+			show_price,
+			unit,
+			thumbnail,
+			`desc`,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		<foreach collection="list" separator="," item="item">
+			(
+			#{item.goodsId},
+			#{item.name},
+			#{item.profitRate},
+			#{item.goodsTagId},
+			#{item.price},
+			#{item.showPrice},
+			#{item.unit},
+			#{item.thumbnail},
+			#{item.desc},
+			NOW(),
+		  	#{item.creator},
+		  	#{item.createIp}
+		)
+		</foreach>
+	</insert>
+
+	<update id="edit" parameterType="GoodsItem">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="name != null">
+				,name = #{name}
+			</if>
+			<if test="profitRate != null">
+				,profit_rate = #{profitRate}
+			</if>
+			<if test="goodsTagId != null">
+				,goods_tag_id = #{goodsTagId}
+			</if>
+			<if test="price != null">
+				,price = #{price}
+			</if>
+			<if test="showPrice != null">
+				,show_price = #{showPrice}
+			</if>
+			<if test="unit != null">
+				,unit = #{unit}
+			</if>
+			<if test="thumbnail != null">
+				,thumbnail = #{thumbnail}
+			</if>
+			<if test="desc != null">
+				,`desc` = #{desc}
+			</if>
+			<if test="detail != null">
+				,`detail` = #{detail}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+</mapper>

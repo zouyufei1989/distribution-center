@@ -1,10 +1,10 @@
 package com.money.custom.controller;
 
-import com.money.custom.entity.Banner;
-import com.money.custom.entity.Goods;
+import com.money.custom.entity.GoodsItem;
 import com.money.custom.entity.request.ChangeStatusRequest;
+import com.money.custom.entity.request.MoAGoods4SingleRequest;
+import com.money.custom.entity.request.ModifyGoodsDetailRequest;
 import com.money.custom.entity.request.QueryGoodsRequest;
-import com.money.custom.entity.request.QueryGroupRequest;
 import com.money.custom.service.GoodsService;
 import com.money.framework.base.annotation.VisitLogFlag;
 import com.money.framework.base.entity.VisitLogTypeEnum;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,10 +46,10 @@ public class GoodsController extends BaseController {
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
-    @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody Goods item, BindingResult bindingResult) {
+    @RequestMapping(value = "addSingleItem", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody MoAGoods4SingleRequest request, BindingResult bindingResult) {
         Map<String, Object> result = new HashMap<>();
-        this.goodsService.add(item);
+        this.goodsService.addSingleItem(request);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -63,10 +64,10 @@ public class GoodsController extends BaseController {
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
-    @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@Valid @RequestBody Goods item, BindingResult bindingResult) {
+    @RequestMapping(value = "editSingleItem", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> edit(@Valid @RequestBody MoAGoods4SingleRequest request, BindingResult bindingResult) {
         Map<String, Object> result = new HashMap<>();
-        this.goodsService.edit(item);
+        this.goodsService.editSingleItem(request);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -76,6 +77,19 @@ public class GoodsController extends BaseController {
     public ResponseEntity<Map<String, Object>> changeStatus(@RequestBody ChangeStatusRequest request) {
         Map<String, Object> result = new HashMap<>();
         this.goodsService.changeStatus(request);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "editGoodsDetail", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> changeStatus(@Valid @RequestBody ModifyGoodsDetailRequest request, BindingResult bindingResult) {
+        Map<String, Object> result = new HashMap<>();
+        MoAGoods4SingleRequest editRequest = new MoAGoods4SingleRequest();
+        editRequest.setId(request.getId());
+        editRequest.setDetail(request.getDetail());
+        editRequest.copyOperationInfo(request);
+        this.goodsService.editSingleItem(editRequest);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
