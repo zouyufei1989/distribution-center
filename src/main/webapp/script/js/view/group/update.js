@@ -1,6 +1,7 @@
-var attrs = ['name', 'cityCode', 'address', 'ownerName', 'ownerPhone', 'status', 'desc', 'thumbnail', 'detailCoverImg', 'detailImg', 'index', 'openRules','lng','lat'];
+var attrs = ['name', 'cityCode', 'address', 'ownerName', 'ownerPhone', 'status', 'desc', 'thumbnail', 'detailCoverImg', 'detailImg', 'index', 'openRules', 'lng', 'lat'];
 var VUE_CITY;
 var mapModel;
+
 
 $(document).ready(function () {
     new Vue({el: '#status'});
@@ -19,18 +20,24 @@ $(document).ready(function () {
     initTime('sel_end_time');
 
 
-    VUE_CITY = new Vue({el: '#cityCode', data: {cityCode: null}});
+    VUE_CITY = new Vue({el: '#cityCode', data: {cityCode: null, cityName: null}});
     $('#cityCode').on('change', function () {
-        var city = $('#cityCode').select2('data')[0].text;
+        var city = $('#cityCode').select2('data')[0];
         if (mapModel) {
-            mapModel.api.setCity(city);
+            if($('#cityCode').select2('data')[0].id != VUE_CITY.cityCode){
+                VUE_CITY.cityCode = city.id;
+                VUE_CITY.cityName = city.text;
+                mapModel.api.setCity(city.text);
+            }
         } else {
-            mapModel = createMapModel("mapContainer", city);
+            mapModel = createMapModel("mapContainer", city.text);
             mapModel.api.initAutoCompleteControl('searchAddress', function (e) {
                 $('#lng').val(e.poi.location.lng);
                 $('#lat').val(e.poi.location.lat);
                 refreshStationMarker();
-            }, city);
+            }, city.text);
+            VUE_CITY.cityCode = city.id;
+            VUE_CITY.cityName = city.text;
         }
     });
 });
@@ -44,9 +51,9 @@ function fillAdditionAttrs(result) {
         $('#sel_start_time').val(rules[1].split("-")[0]).trigger('change');
         $('#sel_end_time').val(rules[1].split("-")[1]).trigger('change');
     }
-    $('#thumbnail_url').attr('src',result.data.thumbnail);
-    $('#detailCoverImg_url').attr('src',result.data.detailCoverImg);
-    $('#detailImg_url').attr('src',result.data.detailImg);
+    $('#thumbnail_url').attr('src', result.data.thumbnail);
+    $('#detailCoverImg_url').attr('src', result.data.detailCoverImg);
+    $('#detailImg_url').attr('src', result.data.detailImg);
     refreshStationMarker();
 }
 

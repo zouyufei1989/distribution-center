@@ -18,7 +18,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"> <span style="color: red;">*</span>所在城市：</label>
                                     <div class="col-sm-7">
-                                        <city-combo id="cityCode" must-choose-one="true" :city_code="cityCode"></city-combo>
+                                        <city-combo id="cityCode" must-choose-one="true" :city_code="cityCode" :city_name="cityName"></city-combo>
                                     </div>
                                 </div>
                                 <div class="form-group">

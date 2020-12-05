@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     Vue.component('city-combo', {
-        props : [ 'id', 'must_choose_one' ,'city_code'],
+        props : [ 'id', 'must_choose_one' ,'city_code','city_name'],
         data : function() {
             var items = this.must_choose_one=="false" ? [ {
                 name : '请选择',
