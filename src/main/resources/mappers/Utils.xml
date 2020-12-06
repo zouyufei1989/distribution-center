@@ -49,4 +49,8 @@
 		  LIMIT #{_pagesize} OFFSET #{_skiprows}
 	</select>
 
+	<select id="generateSerialNumber" resultType="String" parameterType="String">
+		SELECT get_serial_number(#{id})
+	</select>
+
 </mapper>

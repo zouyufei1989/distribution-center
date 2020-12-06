@@ -3,6 +3,7 @@ package com.money.custom.controller;
 import com.money.custom.entity.dto.FileUploaded;
 import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.enums.GoodsShowPriceEnum;
+import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.QueryGoodsTagRequest;
 import com.money.custom.entity.request.QueryGroupRequest;
 import com.money.custom.service.UtilsService;
@@ -85,6 +86,14 @@ public class UtilsController extends BaseController {
     public ResponseEntity<Map<String, Object>> selectStatus() {
         Map<String, Object> result = new HashMap<>();
         result.put("rows", EnumUtils.getEnumEntriesVN(CommonStatusEnum.class));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "generateBonusSerialNumber")
+    public ResponseEntity<Map<String, Object>> generateBonusSerialNumber() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("serialNumber", utilsService.generateSerialNumber(SerialNumberEnum.BONUS_PLAN));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

@@ -56,11 +56,18 @@
         return JS_PAGE_PARAMS['id'];
     }
 
+    function getAddUrl() {
+        if (typeof customAddUrl === 'undefined') {
+            return 'add';
+        }
+        return customAddUrl || 'add';
+    }
+
     function add() {
         var param = initParam();
 
         $.ajax({
-            url: customAddUrl || 'add',
+            url: getAddUrl(),
             type: 'post',
             headers: {
                 "Cache-Control": "no-cache",
@@ -91,11 +98,18 @@
         });
     }
 
+    function getEditUrl() {
+        if (typeof customEditUrl === 'undefined') {
+            return 'edit';
+        }
+        return customEditUrl || 'edit';
+    }
+
     function edit() {
         var param = initParam();
 
         $.ajax({
-            url: customEditUrl || 'edit',
+            url: getEditUrl(),
             type: 'post',
             headers: {
                 "Cache-Control": "no-cache",

@@ -8,6 +8,7 @@ public enum HistoryEntityEnum {
     BANNER(2, "BANNER"),
     GOODS_TAG(3, "GOODS_TAG"),
     GOODS(4, "GOODS"),
+    BONUS_PLAN(5, "BONUS_PLAN"),
     USER(97, "USER"),
     KEY_VALUE(98, "KEY_VALUE"),
     SCHEDULE_CONFIG(99, "SCHEDULE_CONFIG");

@@ -1,6 +1,7 @@
 package com.money.custom.service;
 
 import com.money.custom.entity.*;
+import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.*;
 import com.money.framework.base.service.BaseService;
 
@@ -18,4 +19,5 @@ public interface UtilsService extends BaseService {
 
     List<ScheduleConfig> selectScheduleConfig();
 
+    String generateSerialNumber(SerialNumberEnum type);
 }

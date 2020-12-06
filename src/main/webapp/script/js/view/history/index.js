@@ -14,6 +14,8 @@ function queryHistory() {
         option = GOODSTAG_OPTION;
     }if (type == "BANNER") {
         option = BANNER_OPTION;
+    }if (type == "BONUS_PLAN") {
+        option = BONUS_PLAN_OPTION;
     }
 
     $.ajax({

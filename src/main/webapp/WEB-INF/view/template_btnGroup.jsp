@@ -44,6 +44,9 @@
                         $('#updateModal form').validate().resetForm();
                         $('#updateModal img').attr('src','');
                         $('#updateModal').modal('show');
+                        if(typeof additionFunc4Add === 'function'){
+                            additionFunc4Add();
+                        }
                         return;
                     }
                     var params = [];
@@ -81,19 +84,6 @@
                     params.push("funcId=" + $(this).attr('data-func-id'));
                     window.location.href = "update?" + params.join('&');
                 });
-
-                $("#btn_detail").click(function () {
-                    if (_ROWS_CHOOSED.length != 1) {
-                        Alert("", "请选择一条需要查看的数据！");
-                        return;
-                    }
-                    var params = [];
-                    params.push("from=" + JS_PAGE_NAME);
-                    params.push("id=" + _ROWS_CHOOSED[0].id);
-                    params.push("funcId=" + $(this).attr('data-func-id'));
-                    window.location.href = "detail?" + params.join('&');
-                });
-
 
                 $("#btn_disable").click(function () {
                     Confirm("确定要禁用选中行？", function () {

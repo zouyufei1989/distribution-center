@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BonusPlan">
+
+	<sql id="tableName">d_bonus_plan</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="BonusPlan">
+		SELECT
+			dbp.id,
+			dbp.serial_number AS serialNumber,
+			dbp.name,
+			dbp.bonus_rate AS bonusRate,
+			dbp.cashback_first AS cashbackFirst,
+			dbp.cashback_amount AS cashbackAmount,
+			dbp.status,
+			dbp.desc,
+			dbp.group_id,
+			dbp.create_date AS createDate,
+			dg.name AS groupName,
+			IFNULL(planUsed.cnt,0) AS usedCount
+		FROM <include refid="tableName"/> dbp
+		LEFT JOIN d_group dg ON dg.id = dbp.group_id
+		LEFT JOIN
+		(
+			SELECT bonus_plan_id, COUNT(*) cnt FROM d_customer_group GROUP BY bonus_plan_id
+		) planUsed ON planUsed.bonus_plan_id = dbp.id
+		WHERE
+			dbp.status != -2
+			<if test="bonusPlan.name!=null and bonusPlan.name!=''">
+				AND dbp.name LIKE CONCAT('%',#{bonusPlan.name},'%')
+			</if>
+			<if test="bonusPlan.serialNumber!=null and bonusPlan.serialNumber!=''">
+				AND dbp.serial_number LIKE CONCAT('%',#{bonusPlan.serialNumber},'%')
+			</if>
+			<if test="bonusPlan.status!=null">
+				AND dgs.status = #{bonusPlan.status}
+			</if>
+			<if test="bonusPlan.groupId!=null">
+				AND dgs.group_id = #{bonusPlan.groupId}
+			</if>
+		ORDER BY status DESC
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/> dbp
+		WHERE
+			dbp.status != -2
+			<if test="bonusPlan.name!=null and bonusPlan.name!=''">
+				AND dbp.name LIKE CONCAT('%',#{bonusPlan.name},'%')
+			</if>
+			<if test="bonusPlan.serialNumber!=null and bonusPlan.serialNumber!=''">
+				AND dbp.serial_number LIKE CONCAT('%',#{bonusPlan.serialNumber},'%')
+			</if>
+			<if test="bonusPlan.status!=null">
+				AND dgs.status = #{bonusPlan.status}
+			</if>
+			<if test="bonusPlan.groupId!=null">
+				AND dgs.group_id = #{bonusPlan.groupId}
+			</if>
+	</select>
+	
+	<select id="findById" parameterType="String" resultType="BonusPlan">
+		SELECT 
+			dbp.id,
+			dbp.serial_number AS serialNumber,
+			dbp.name,
+			dbp.bonus_rate AS bonusRate,
+			dbp.cashback_first AS cashbackFirst,
+			dbp.cashback_amount AS cashbackAmount,
+			dbp.status,
+			dbp.desc,
+			dbp.group_id AS groupId,
+			dg.name AS groupName,
+			(SELECT COUNT(*) FROM d_customer_group WHERE bonus_plan_id = dbp.id) AS usedCount
+		FROM <include refid="tableName"/> dbp
+		LEFT JOIN d_group dg ON dg.id = dbp.group_id
+		WHERE dbp.id = #{id}
+	</select>
+
+	<insert id="add" parameterType="BonusPlan" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			serial_number,
+			`name`,
+			bonus_rate,
+			cashback_first,
+			cashback_amount,
+			status,
+			`desc`,
+			group_id,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{serialNumber},
+			#{name},
+			#{bonusRate},
+			#{cashbackFirst},
+			#{cashbackAmount},
+			#{status},
+			#{desc},
+			#{groupId},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="edit" parameterType="BonusPlan">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="name != null">
+				,`name` = #{name}
+			</if>
+			<if test="desc != null">
+				,`desc` = #{desc}
+			</if>
+			<if test="bonusRate != null">
+				,`bonus_rate` = #{bonusRate}
+			</if>
+			<if test="cashbackFirst != null">
+				,cashback_first = #{cashbackFirst}
+			</if>
+			<if test="cashbackAmount != null">
+				,cashback_amount = #{cashbackAmount}
+			</if>
+			<if test="status != null">
+				,status = #{status}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>

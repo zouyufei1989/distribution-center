@@ -58,10 +58,6 @@
 			<if test="goods.groupId!=null">
 				AND dgs.group_id = #{goods.groupId}
 			</if>
-		ORDER BY status DESC
-		<if test="rows != null and  rows > 0">
-			LIMIT #{start}, #{rows}
-		</if>
 	</select>
 	
 	<select id="findById" parameterType="String" resultType="Goods">

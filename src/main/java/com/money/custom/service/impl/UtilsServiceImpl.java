@@ -6,6 +6,7 @@ import com.money.custom.dao.RoleDao;
 import com.money.custom.dao.UtilsDao;
 import com.money.custom.entity.*;
 import com.money.custom.entity.enums.RedisKeyEnum;
+import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.QueryGoodsTagRequest;
 import com.money.custom.entity.request.QueryGridRequestBase;
 import com.money.custom.entity.request.QueryGroupRequest;
@@ -98,6 +99,11 @@ public class UtilsServiceImpl extends BaseServiceImpl implements UtilsService {
             }
             return new ArrayList<>();
         });
+    }
+
+    @Override
+    public String generateSerialNumber(SerialNumberEnum type) {
+        return dao.generateSerialNumber(type);
     }
 
 
