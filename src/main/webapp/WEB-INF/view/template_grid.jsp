@@ -5,6 +5,18 @@
     <div id="pager_list"></div>
 </div>
 
+<div class="modal inmodal fade" id="gridImgPreview" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="wrapper animated fadeInRight"  style="height:300px">
+                    <div id="preview" style="height: 300px; background-size: 100%; background-repeat: no-repeat;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
     var _DEFAULT_LINK_COLOR = '#23c6c8';
@@ -198,6 +210,10 @@
                 if (gridLoadComplete && typeof gridLoadComplete === 'function') {
                     gridLoadComplete(XMLHttpRequest);
                 }
+                $('img').click(function (e) {
+                    $('#preview').css('background-image',"url("+$(e.target).attr('src')+")");
+                    $('#gridImgPreview').modal('show');
+                });
             },
             gridComplete: function (e) {
                 _ROWS_CHOOSED = [];
@@ -241,7 +257,8 @@
     function imgPreViewFormatter(val) {
         var img = $('<img></img>');
         img.attr("src", val);
-        img.attr('style', "width:100px");
+        img.css('width', "100px");
+        img.css('cursor', "pointer");
         return img.prop("outerHTML");
     }
 
