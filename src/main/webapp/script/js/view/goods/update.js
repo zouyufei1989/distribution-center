@@ -5,9 +5,13 @@ var customAddUrl = "addSingleItem";
 $(document).ready(function () {
     new Vue({el: '#status'});
     new Vue({el: '#groupId'});
-    new Vue({el: '#goodsTagId'});
+    var vue_goodstag = new Vue({el: '#goodsTagId', data: {groupId: null}});
     new Vue({el: '#showPrice'});
     new Vue({el: '#thumbnailModal'});
+
+    $('#groupId').change(function () {
+        vue_goodstag.groupId = $('#groupId').val();
+    });
 
     $("#price").TouchSpin({
         verticalbuttons: true,

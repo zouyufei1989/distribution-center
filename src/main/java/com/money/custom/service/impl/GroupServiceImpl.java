@@ -42,7 +42,6 @@ public class GroupServiceImpl extends BaseServiceImpl implements GroupService {
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GROUP)
-    @RedisDel(redisKey = RedisKeyEnum.GROUPS)
     @Override
     public String add(Group item) {
         dao.add(item);
@@ -50,7 +49,6 @@ public class GroupServiceImpl extends BaseServiceImpl implements GroupService {
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GROUP)
-    @RedisDel(redisKey = RedisKeyEnum.GROUPS)
     @Override
     public String edit(Group item) {
         dao.edit(item);
@@ -58,7 +56,6 @@ public class GroupServiceImpl extends BaseServiceImpl implements GroupService {
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GROUP)
-    @RedisDel(redisKey = RedisKeyEnum.GROUPS)
     @Override
     public List<String> changeStatus(ChangeStatusRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         dao.changeStatus(request);

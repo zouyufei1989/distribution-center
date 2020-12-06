@@ -2,28 +2,46 @@
 
 <script type="text/javascript">
     Vue.component('goods-tag-combo', {
-        props: ['id', 'must_choose_one'],
+        props: ['id', 'must_choose_one', 'group_id'],
         data: function () {
-            var data = this.must_choose_one == "false" ? [{
-                name: '请选择',
-                id: ''
-            }] : [];
-            $.ajax({
-                url: '${ctx}/utils/selectGoodsTags',
-                data: {rows:0,page:1},
-                type: 'post',
-                async: false,
-                cached:false,
-                success: function (result) {
-                    for (var i = 0; i < result.rows.length; i++) {
-                        if (result.rows[i].status === 1) {
-                            data.push(result.rows[i]);
-                        }
-                    }
-                }
-            });
+            var data = this.load();
             return {
                 items: data
+            }
+        },
+        watch: {
+            group_id: function (newValue, oldValue) {
+                var _this = this;
+                this.items = this.load();
+                _this.$nextTick(function () {
+                    /*现在数据已经渲染完毕*/
+                    $('#' + _this.id).select2();
+                    $('#' + _this.id).val(_this.value || _this.items[0].id).trigger('change');
+                })
+            }
+        },
+        methods: {
+            load: function () {
+                var _this = this;
+                var data = this.must_choose_one == "false" ? [{
+                    name: '请选择',
+                    id: ''
+                }] : [];
+                $.ajax({
+                    url: '${ctx}/goodsTag/list/search',
+                    data: {rows: 0, page: 1, 'goodsTag.groupId': _this.group_id},
+                    type: 'post',
+                    async: false,
+                    cached: false,
+                    success: function (result) {
+                        for (var i = 0; i < result.rows.length; i++) {
+                            if (result.rows[i].status === 1) {
+                                data.push(result.rows[i]);
+                            }
+                        }
+                    }
+                });
+                return data;
             }
         },
         mounted: function () {

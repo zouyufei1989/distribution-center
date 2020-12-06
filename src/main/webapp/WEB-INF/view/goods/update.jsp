@@ -30,7 +30,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>商品标签:</label>
                                     <div class="col-sm-7">
-                                        <goods-tag-combo id="goodsTagId" must-choose-one="true"></goods-tag-combo>
+                                        <goods-tag-combo id="goodsTagId" must-choose-one="true" :group_id = 'groupId'></goods-tag-combo>
                                     </div>
                                 </div>
                                 <div class="form-group">

@@ -65,23 +65,6 @@ public class UtilsController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "selectGroups")
-    public ResponseEntity<Map<String, Object>> selectGroups(QueryGroupRequest request) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", this.utilsService.selectGroups(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "selectGoodsTags")
-    public ResponseEntity<Map<String, Object>> selectGoodsTags(QueryGoodsTagRequest request) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", this.utilsService.selectGoodsTags(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-
-    @ResponseBody
     @RequestMapping(value = "selectStatus")
     public ResponseEntity<Map<String, Object>> selectStatus() {
         Map<String, Object> result = new HashMap<>();

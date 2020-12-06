@@ -28,6 +28,9 @@
 			<if test="goodsTag.groupId!=null">
 				AND dgt.group_id = #{goodsTag.groupId}
 			</if>
+			<if test="groupId!=null">
+				AND dgt.group_id = #{groupId}
+			</if>
 		ORDER BY status DESC
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
@@ -48,6 +51,9 @@
 			</if>
 			<if test="goodsTag.groupId!=null">
 				AND group_id = #{goodsTag.groupId}
+			</if>
+			<if test="groupId!=null">
+				AND group_id = #{groupId}
 			</if>
 	</select>
 	

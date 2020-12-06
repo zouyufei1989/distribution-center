@@ -65,31 +65,6 @@ public class UtilsServiceImpl extends BaseServiceImpl implements UtilsService {
     }
 
     @Override
-    public List<Group> selectGroups(QueryGroupRequest request) {
-        return queryRedisItems(Group.class, request.getGroupId(), RedisKeyEnum.GROUPS, uselessParam -> {
-            try {
-                return groupDao.selectSearchList(new QueryGroupRequest());
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-            return new ArrayList<>();
-        });
-    }
-
-    @Override
-    public List<GoodsTag> selectGoodsTags(QueryGoodsTagRequest request) {
-        return queryRedisItems(GoodsTag.class, request.getGroupId(), RedisKeyEnum.GOODS_TAGS, uselessParam -> {
-            try {
-                return goodsTagDao.selectSearchList(new QueryGoodsTagRequest());
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-            return new ArrayList<>();
-        });
-    }
-
-
-    @Override
     public List<ScheduleConfig> selectScheduleConfig() {
         return queryRedisItems(ScheduleConfig.class, null, RedisKeyEnum.SCHEDULE_CONFIG, uselessParam -> {
             try {

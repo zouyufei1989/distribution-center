@@ -20,17 +20,20 @@
 			dgs.status != -2
 			<if test="goods.name!=null and goods.name!=''">
 				AND EXISTS
-				(SELECT 1 FROM d_group_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goods.name},'%')
+				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goods.name},'%'))
 			</if>
 			<if test="goods.status!=null">
 				AND dgs.status = #{goods.status}
 			</if>
 			<if test="goods.goodsTagId!=null">
 				AND EXISTS
-				(SELECT 1 FROM d_group_item WHERE dgs.id = goods_id AND goods_tag_id = #{goods.goodsTagId}
+				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND goods_tag_id = #{goods.goodsTagId})
 			</if>
 			<if test="goods.groupId!=null">
 				AND dgs.group_id = #{goods.groupId}
+			</if>
+			<if test="groupId!=null">
+				AND dgs.group_id = #{groupId}
 			</if>
 		ORDER BY status DESC
 		<if test="rows != null and  rows > 0">
@@ -46,17 +49,20 @@
 			dgs.status != -2
 			<if test="goods.name!=null and goods.name!=''">
 				AND EXISTS
-				(SELECT 1 FROM d_group_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goods.name},'%')
+				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goods.name},'%'))
 			</if>
 			<if test="goods.status!=null">
 				AND dgs.status = #{goods.status}
 			</if>
 			<if test="goods.goodsTagId!=null">
 				AND EXISTS
-				(SELECT 1 FROM d_group_item WHERE dgs.id = goods_id AND goods_tag_id = #{goods.goodsTagId}
+				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND goods_tag_id = #{goods.goodsTagId})
 			</if>
 			<if test="goods.groupId!=null">
 				AND dgs.group_id = #{goods.groupId}
+			</if>
+			<if test="groupId!=null">
+				AND dgs.group_id = #{groupId}
 			</if>
 	</select>
 	

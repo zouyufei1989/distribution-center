@@ -1,6 +1,11 @@
+var searchVue;
 $(document).ready(function () {
 
-    new Vue({el: '.param_row'});
+    searchVue = new Vue({el: '.param_row', data: {groupId: null}});
+    $('.param_row [data-type="groupSelect"]').change(function () {
+        searchVue.groupId = $('.param_row [data-type="groupSelect"]').val();
+        console.log($('.param_row [data-type="groupSelect"]').val());
+    });
 
     initGridData("list/search", null,
         [

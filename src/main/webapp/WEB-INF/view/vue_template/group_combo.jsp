@@ -9,7 +9,7 @@
                 id: ''
             }] : [];
             $.ajax({
-                url: '${ctx}/utils/selectGroups',
+                url: '${ctx}/group/list/search',
                 data: {rows:0,page:1},
                 type: 'post',
                 async: false,
@@ -35,7 +35,7 @@
 
 
 <template id="group-combo-template">
-    <select :id="id" class="select2_demo_3 form-control m-b">
+    <select :id="id" class="select2_demo_3 form-control m-b" data-type="groupSelect">
         <option v-for="(item,index) in items" :key="item.id" :value="item.id" :data-city-code="item.cityCode">{{item.name}}</option>
     </select>
 </template>

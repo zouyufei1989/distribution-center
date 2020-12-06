@@ -13,10 +13,6 @@ public interface UtilsService extends BaseService {
 
     List<Role> selectRoles();
 
-    List<Group> selectGroups(QueryGroupRequest request);
-
-    List<GoodsTag> selectGoodsTags(QueryGoodsTagRequest request);
-
     List<ScheduleConfig> selectScheduleConfig();
 
     String generateSerialNumber(SerialNumberEnum type);

@@ -34,10 +34,13 @@
 				AND dbp.serial_number LIKE CONCAT('%',#{bonusPlan.serialNumber},'%')
 			</if>
 			<if test="bonusPlan.status!=null">
-				AND dgs.status = #{bonusPlan.status}
+				AND dbp.status = #{bonusPlan.status}
 			</if>
 			<if test="bonusPlan.groupId!=null">
-				AND dgs.group_id = #{bonusPlan.groupId}
+				AND dbp.group_id = #{bonusPlan.groupId}
+			</if>
+			<if test="groupId!=null">
+				AND dbp.group_id = #{groupId}
 			</if>
 		ORDER BY status DESC
 		<if test="rows != null and  rows > 0">
@@ -58,10 +61,13 @@
 				AND dbp.serial_number LIKE CONCAT('%',#{bonusPlan.serialNumber},'%')
 			</if>
 			<if test="bonusPlan.status!=null">
-				AND dgs.status = #{bonusPlan.status}
+				AND dbp.status = #{bonusPlan.status}
 			</if>
 			<if test="bonusPlan.groupId!=null">
-				AND dgs.group_id = #{bonusPlan.groupId}
+				AND dbp.group_id = #{bonusPlan.groupId}
+			</if>
+			<if test="groupId!=null">
+				AND dbp.group_id = #{groupId}
 			</if>
 	</select>
 	
