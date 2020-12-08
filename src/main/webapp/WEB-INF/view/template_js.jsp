@@ -434,6 +434,10 @@
         return $("#updateModal").length>0;
     }
 
+    function getEleId4JQ(docId){
+        return '#'+docId.replace(new RegExp('\\.','g'),'\\.');
+    }
+
     $(document).ready(function () {
 
         // trigger reloadlist when press enter

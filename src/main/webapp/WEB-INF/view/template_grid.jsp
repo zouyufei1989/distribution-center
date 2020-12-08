@@ -289,10 +289,10 @@
 
     function setURLParamToDom() {
         for (var key in JS_PAGE_PARAMS) {
-            if ($('#' + key).length > 0) {
-                $('#' + key).val(JS_PAGE_PARAMS[key]);
-                if ($('#' + key)[0].tagName === 'SELECT') {
-                    $('#' + key).trigger('change');
+            if ($(getEleId4JQ(key)).length > 0) {
+                $(getEleId4JQ(key)).val(JS_PAGE_PARAMS[key]);
+                if ($(getEleId4JQ(key))[0].tagName === 'SELECT') {
+                    $(getEleId4JQ(key)).trigger('change');
                 }
             }
         }
