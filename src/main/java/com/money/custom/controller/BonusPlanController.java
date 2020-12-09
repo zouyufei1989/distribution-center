@@ -5,6 +5,8 @@ import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryBonusPlanRequest;
 import com.money.custom.service.BonusPlanService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,54 +29,45 @@ import java.util.Map;
 public class BonusPlanController extends BaseController {
 
     @Autowired
-    private BonusPlanService bannerService;
+    private BonusPlanService bonusPlanService;
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "list/search")
-    public ResponseEntity<Map<String, Object>> listSearch(QueryBonusPlanRequest request) {
-        Map<String, Object> result = new HashMap<>();
-        int recordCount = this.bannerService.selectSearchListCount(request);
-        result.put("records", recordCount);
-        result.put("total", request.calTotalPage(recordCount));
-        result.put("rows", this.bannerService.selectSearchList(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase listSearch(QueryBonusPlanRequest request) {
+        int recordCount = this.bonusPlanService.selectSearchListCount(request);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.bonusPlanService.selectSearchList(request));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody BonusPlan item, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
-        this.bannerService.add(item);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase add(@Valid @RequestBody BonusPlan item, BindingResult bindingResult) {
+        this.bonusPlanService.add(item);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "findById", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> findById(String id) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", this.bannerService.findById(id));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase findById(String id) {
+        return ResponseBase.success(this.bonusPlanService.findById(id));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@Valid @RequestBody BonusPlan item, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
-        this.bannerService.edit(item);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase edit(@Valid @RequestBody BonusPlan item, BindingResult bindingResult) {
+        this.bonusPlanService.edit(item);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> changeStatus(@RequestBody ChangeStatusRequest request) {
-        Map<String, Object> result = new HashMap<>();
-        this.bannerService.changeStatus(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase changeStatus(@RequestBody ChangeStatusRequest request) {
+        this.bonusPlanService.changeStatus(request);
+        return ResponseBase.success();
     }
 
 

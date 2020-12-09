@@ -2,6 +2,7 @@ package com.money.custom.controller;
 
 import com.money.custom.entity.TreeNode;
 import com.money.custom.service.TreeService;
+import com.money.framework.base.entity.GridResponseBase;
 import com.money.framework.base.entity.OperationalEntity;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class TreeCategoryController extends BaseController {
 
     @RequestMapping(value = "/getCategorys", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<List<TreeNode>> getCategorys(OperationalEntity entity) {
+    public GridResponseBase getCategorys(OperationalEntity entity) {
         List<TreeNode> treeNodes = treeService.buildCategory(entity.getLoginUser());
-        return new ResponseEntity<>(treeNodes, HttpStatus.OK);
+        return new GridResponseBase(treeNodes);
     }
 
 }

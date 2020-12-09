@@ -7,8 +7,11 @@ import com.money.custom.entity.enums.GoodsShowPriceEnum;
 import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.QueryGoodsTagRequest;
 import com.money.custom.entity.request.QueryGroupRequest;
+import com.money.custom.entity.response.UploadResponse;
 import com.money.custom.service.UtilsService;
 import com.money.framework.base.annotation.SkipUserLoginCheck;
+import com.money.framework.base.entity.GridResponseBase;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.exception.PandabusSpecException;
 import com.money.framework.base.web.controller.BaseController;
 import com.money.framework.util.DateUtils;
@@ -48,109 +51,51 @@ public class UtilsController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "selectOpenCities")
-    public ResponseEntity<Map<String, Object>> selectOpenCities() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", this.utilsService.selectOpenCities());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase selectOpenCities() {
+        return new GridResponseBase(this.utilsService.selectOpenCities());
     }
 
     @ResponseBody
     @RequestMapping(value = "selectRoles")
-    public ResponseEntity<Map<String, Object>> selectRoles() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", this.utilsService.selectRoles());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase selectRoles() {
+        return new GridResponseBase(this.utilsService.selectRoles());
     }
 
     @ResponseBody
     @RequestMapping(value = "selectStatus")
-    public ResponseEntity<Map<String, Object>> selectStatus() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", EnumUtils.getEnumEntriesVN(CommonStatusEnum.class));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase selectStatus() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(CommonStatusEnum.class));
     }
 
     @ResponseBody
     @RequestMapping(value = "generateBonusSerialNumber")
-    public ResponseEntity<Map<String, Object>> generateBonusSerialNumber() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("serialNumber", utilsService.generateSerialNumber(SerialNumberEnum.BONUS_PLAN));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase generateBonusSerialNumber() {
+        return ResponseBase.success(utilsService.generateSerialNumber(SerialNumberEnum.BONUS_PLAN));
     }
 
     @ResponseBody
     @RequestMapping(value = "generateCustomerSerialNumber")
-    public ResponseEntity<Map<String, Object>> generateCustomerSerialNumber() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("serialNumber", utilsService.generateSerialNumber(SerialNumberEnum.CUSTOMER));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase generateCustomerSerialNumber() {
+        return ResponseBase.success(utilsService.generateSerialNumber(SerialNumberEnum.CUSTOMER));
     }
 
     @ResponseBody
     @RequestMapping(value = "selectGoodsShowPrice")
-    public ResponseEntity<Map<String, Object>> selectGoodsShowPrice() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", EnumUtils.getEnumEntriesVN(GoodsShowPriceEnum.class));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase selectGoodsShowPrice() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(GoodsShowPriceEnum.class));
     }
 
     @ResponseBody
     @RequestMapping(value = "selectCustomerType")
-    public ResponseEntity<Map<String, Object>> selectCustomerType() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", EnumUtils.getEnumEntriesVN(CustomerTypeEnum.class));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase selectCustomerType() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(CustomerTypeEnum.class));
     }
 
     @ResponseBody
     @RequestMapping(value = "uploadFileToUpyun", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> uploadFileToUpyun(@RequestParam("file") MultipartFile file) throws IOException {
-        Map<String, Object> result = new HashMap<>();
+    public UploadResponse uploadFileToUpyun(@RequestParam("file") MultipartFile file) throws IOException {
         FileUploaded fileUploaded = uploadUtils.saveFileToUpyun(file);
-        result.put("success", true);
-        result.put("fileUrl", fileUploaded.getUrl());
-        result.put("fileUploaded", fileUploaded);
-        result.put("message", "上传成功！");
-
-        result.put("errno", 0);
-        result.put("data", new String[]{fileUploaded.getUrl()});
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "uploadFileToUpyunCompress", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> uploadFileToUpyunCompress(@RequestParam("uploadFile") MultipartFile uploadFile, Integer percent) throws IOException {
-        Map<String, Object> result = new HashMap<>();
-        String url = uploadUtils.saveFileToUpyunCompress(uploadFile, percent);
-        result.put("success", true);
-        result.put("fileUrl", url);
-        result.put("message", "上传成功！");
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "uploadFile", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        Map<String, Object> result = new HashMap<>();
-        FileUploaded fileUploaded = uploadUtils.saveFile(file, true);
-        result.put("success", true);
-        result.put("imgUrl", fileUploaded.getUrl());
-        result.put("fileUploaded", fileUploaded);
-        result.put("message", "上传成功！");
-
-        result.put("errno", 0);
-        result.put("data", new String[]{fileUploaded.getUrl()});
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "uploadFile4Balance")
-    public ResponseEntity<Map<String, Object>> uploadFile4Balance(@RequestParam("file") MultipartFile file, String fileName) throws Exception {
-        Map<String, Object> result = new HashMap<>();
-        String url = uploadUtils.saveFile(file, fileName, false);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return UploadResponse.success(fileUploaded);
     }
 
     @SkipUserLoginCheck
@@ -180,19 +125,19 @@ public class UtilsController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "convertWeekByDate")
-    public ResponseEntity<Map<String, String>> convertWeekByDate() {
-        return new ResponseEntity<>(DateUtils.convertWeekByDate(new Date()), HttpStatus.OK);
+    public ResponseBase convertWeekByDate() {
+        return ResponseBase.success(DateUtils.convertWeekByDate(new Date()));
     }
 
     @ResponseBody
     @RequestMapping(value = "convertMonthByDate")
-    public ResponseEntity<Map<String, String>> convertMonthByDate() {
-        return new ResponseEntity<>(DateUtils.convertMonthByDate(new Date()), HttpStatus.OK);
+    public ResponseBase convertMonthByDate() {
+        return ResponseBase.success(DateUtils.convertMonthByDate(new Date()));
     }
 
     @ResponseBody
     @RequestMapping(value = "convertYearByDate")
-    public ResponseEntity<Map<String, String>> convertYearByDate() {
-        return new ResponseEntity<>(DateUtils.convertYearByDate(new Date()), HttpStatus.OK);
+    public ResponseBase convertYearByDate() {
+        return ResponseBase.success(DateUtils.convertYearByDate(new Date()));
     }
 }

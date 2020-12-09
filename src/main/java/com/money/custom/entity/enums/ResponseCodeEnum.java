@@ -12,7 +12,8 @@ public enum ResponseCodeEnum {
     ILLEGAL_STATUS(4, "非法状态"),
     WEEK_PASSWORD(5, "密码由数字、大小写字母和特殊字符组成，最短长度8位"),
     UPLOAD_FAIL(6, "上传失败"),
-    LOGIN_FAIL(7, "登录失败"),
+    LOGIN_FAIL(7, "用户名、密码错误"),
+    WRONG_VERIFY_CODE(8, "验证码错误"),
 
     SUCCESS(0, "成功");
 

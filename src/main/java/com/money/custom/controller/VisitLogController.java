@@ -3,6 +3,7 @@ package com.money.custom.controller;
 import com.money.custom.entity.request.QueryVisitLogRequest;
 import com.money.custom.service.VisitLogService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,9 @@ public class VisitLogController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "list/search")
-    public ResponseEntity<Map<String, Object>> listSearch(QueryVisitLogRequest request) {
-        Map<String, Object> result = new HashMap<>();
+    public GridResponseBase listSearch(QueryVisitLogRequest request) {
         int recordCount = this.visitLogService.selectSearchListCount(request);
-        result.put("records", recordCount);
-        result.put("total", request.calTotalPage(recordCount));
-        result.put("rows", this.visitLogService.selectSearchList(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.visitLogService.selectSearchList(request));
     }
 
 }

@@ -4,6 +4,7 @@ package com.money.custom.controller;
 import com.money.custom.entity.request.QueryVisitLogRequest;
 import com.money.custom.service.StsVisitLogService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,17 +26,13 @@ public class StsVisitLogController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "visitLogStsByResource")
-    public ResponseEntity<Map<String, Object>> vehicleTripAnalyse(QueryVisitLogRequest request) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", stsVisitLogService.visitLogStsByResource(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase vehicleTripAnalyse(QueryVisitLogRequest request) {
+        return new GridResponseBase(this.stsVisitLogService.visitLogStsByResource(request));
     }
 
     @ResponseBody
     @RequestMapping(value = "visitLogStsByUser")
-    public ResponseEntity<Map<String, Object>> visitLogStsByUser(QueryVisitLogRequest request) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", stsVisitLogService.visitLogStsByUser(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase visitLogStsByUser(QueryVisitLogRequest request) {
+        return new GridResponseBase(this.stsVisitLogService.visitLogStsByUser(request));
     }
 }

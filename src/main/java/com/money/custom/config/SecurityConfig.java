@@ -5,9 +5,10 @@ import com.money.custom.entity.Consts;
 import com.money.custom.entity.User;
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.response.LoginResponse;
-import com.money.custom.entity.response.ResponseBase;
 import com.money.custom.service.RoleService;
 import com.money.custom.service.impl.SecurityServiceImpl;
+import com.money.framework.base.entity.ResponseBase;
+import com.money.framework.base.exception.PandabusSpecException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -120,9 +121,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
                     if (e instanceof BadCredentialsException) {
-                        out.write(new ObjectMapper().writeValueAsString(new ResponseBase("用户名、密码错误", ResponseCodeEnum.LOGIN_FAIL)));
+                        out.write(new ObjectMapper().writeValueAsString(ResponseBase.error(ResponseCodeEnum.LOGIN_FAIL)));
                     } else {
-                        out.write(new ObjectMapper().writeValueAsString(new ResponseBase(e.getMessage(), ResponseCodeEnum.LOGIN_FAIL)));
+                        out.write(new ObjectMapper().writeValueAsString(ResponseBase.error(ResponseCodeEnum.WRONG_VERIFY_CODE)));
                     }
                     out.flush();
                     out.close();

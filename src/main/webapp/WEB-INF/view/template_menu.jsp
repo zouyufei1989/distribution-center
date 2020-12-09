@@ -53,7 +53,7 @@
                     data: {
                         loginUserName: '${sessionScope.user.nickName}',
                         loginUserRole: '${sessionScope.user.roleName}',
-                        menuData: data
+                        menuData: data.rows
                     },
                     methods:{
                         isActive:function(menu){

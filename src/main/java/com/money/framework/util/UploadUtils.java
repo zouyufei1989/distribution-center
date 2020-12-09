@@ -44,8 +44,6 @@ public class UploadUtils {
 
     @Value("${download.file}")
     String getFileUrl;
-    @Value("${upload.balance.url}")
-    String upload4Balance;
 
     @Autowired
     UpYunUtil upYunUtil;
@@ -99,65 +97,8 @@ public class UploadUtils {
         return new TempFile(file);
     }
 
-    public String saveFile(MultipartFile multipartFile, String fileName, boolean balance) throws IOException {
-        File folder = new File(uploadFolder);
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-
-        String fileFullName = uploadFolder + "/" + fileName;
-        File file = new File(fileFullName);
-        multipartFile.transferTo(file);
-
-        if (balance) {
-            loadbalanceFile(file, fileName);
-        }
-
-        return String.format("%s?fileName=%s", getFileUrl, fileFullName);
-    }
-
-    public FileUploaded saveFile(MultipartFile multipartFile, boolean balance) throws IOException {
-        String fileName = generateFileName(multipartFile);
-        String url = saveFile(multipartFile, fileName, balance);
-
-        FileUploaded fileUploaded = new FileUploaded();
-        fileUploaded.setUrl(url);
-        fileUploaded.setUploadDateTime(new Date());
-        fileUploaded.setSrcFileName(multipartFile.getOriginalFilename());
-
-        return fileUploaded;
-    }
-
     private String generateFileName(MultipartFile file) {
         return System.currentTimeMillis() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
     }
 
-
-    void loadbalanceFile(File file, String fileName) throws IOException {
-        InetAddress addr = InetAddress.getLocalHost();
-        String[] ips = serverIp.split(";");
-        HashSet<String> ipSet = Sets.newHashSet(ips);
-        ipSet.remove(addr.getHostAddress());
-
-        for (String ip : ipSet) {
-            String url = String.format(upload4Balance, ip, serverPort);
-            logger.info("balance file to :" + url);
-
-            HttpPost httpPost = new HttpPost(url);
-            CloseableHttpClient client = HttpClientBuilder.create().build();
-            CloseableHttpResponse resp = null;
-            String respondBody = null;
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(200000000).build();
-            httpPost.setConfig(requestConfig);
-
-            MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-            multipartEntityBuilder.addBinaryBody("file", file);
-            multipartEntityBuilder.addTextBody("fileName", fileName);
-            HttpEntity httpEntity = multipartEntityBuilder.build();
-            httpPost.setEntity(httpEntity);
-            resp = client.execute(httpPost);
-            respondBody = EntityUtils.toString(resp.getEntity());
-            logger.info("balance file result:" + respondBody);
-        }
-    }
 }

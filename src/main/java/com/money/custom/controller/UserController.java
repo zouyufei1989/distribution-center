@@ -5,6 +5,8 @@ import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryUserRequest;
 import com.money.custom.service.UserService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.apache.commons.lang3.StringUtils;
@@ -61,12 +63,11 @@ public class UserController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @RequestMapping(value = "list/search")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> listSearch(QueryUserRequest request) {
+    public GridResponseBase listSearch(QueryUserRequest request) {
         Map<String, Object> result = new HashMap<>();
         List<User> users = this.userService.selectSearchList(request);
-        users.stream().forEach(user -> user.setPassword(StringUtils.EMPTY));
-        result.put("rows", users);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        users.forEach(user -> user.setPassword(StringUtils.EMPTY));
+        return new GridResponseBase(users);
     }
 
     /**
@@ -79,10 +80,9 @@ public class UserController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@RequestBody User item) throws NoSuchPaddingException, NoSuchAlgorithmException, IOException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException, InvalidKeySpecException {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase add(@RequestBody User item) throws NoSuchPaddingException, NoSuchAlgorithmException, IOException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException, InvalidKeySpecException {
         this.userService.add(item);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     /**
@@ -95,10 +95,9 @@ public class UserController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> edit(@RequestBody User user) throws NoSuchPaddingException, NoSuchAlgorithmException, IOException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException, InvalidKeySpecException {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase edit(@RequestBody User user) throws NoSuchPaddingException, NoSuchAlgorithmException, IOException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException, InvalidKeySpecException {
         this.userService.edit(user);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     /**
@@ -111,10 +110,8 @@ public class UserController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "findById", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> findById(String id) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", this.userService.findById(id));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase findById(String id) {
+        return ResponseBase.success(this.userService.findById(id));
     }
 
     /**
@@ -127,18 +124,16 @@ public class UserController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@RequestBody ChangeStatusRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase edit(@RequestBody ChangeStatusRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         this.userService.changeStatus(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @RequestMapping(value = "changePwd", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> changePwd(@RequestBody User user) throws NoSuchPaddingException, NoSuchAlgorithmException, IOException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException, InvalidKeySpecException {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase changePwd(@RequestBody User user) throws NoSuchPaddingException, NoSuchAlgorithmException, IOException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException, InvalidKeySpecException {
         this.userService.changePwd(user);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 }

@@ -7,6 +7,8 @@ import com.money.custom.entity.request.ModifyGoodsDetailRequest;
 import com.money.custom.entity.request.QueryGoodsRequest;
 import com.money.custom.service.GoodsService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,62 +37,52 @@ public class GoodsController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "list/search")
-    public ResponseEntity<Map<String, Object>> listSearch(QueryGoodsRequest request) {
-        Map<String, Object> result = new HashMap<>();
+    public GridResponseBase listSearch(QueryGoodsRequest request) {
         int recordCount = this.goodsService.selectSearchListCount(request);
-        result.put("records", recordCount);
-        result.put("total", request.calTotalPage(recordCount));
-        result.put("rows", this.goodsService.selectSearchList(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.goodsService.selectSearchList(request));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "addSingleItem", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody MoAGoods4SingleRequest request, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase add(@Valid @RequestBody MoAGoods4SingleRequest request, BindingResult bindingResult) {
         this.goodsService.addSingleItem(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "findById", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> findById(String id) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", this.goodsService.findById(id));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase findById(String id) {
+        return ResponseBase.success(this.goodsService.findById(id));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "editSingleItem", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@Valid @RequestBody MoAGoods4SingleRequest request, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase edit(@Valid @RequestBody MoAGoods4SingleRequest request, BindingResult bindingResult) {
         this.goodsService.editSingleItem(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> changeStatus(@RequestBody ChangeStatusRequest request) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase changeStatus(@RequestBody ChangeStatusRequest request) {
         this.goodsService.changeStatus(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "editGoodsDetail", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> changeStatus(@Valid @RequestBody ModifyGoodsDetailRequest request, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase changeStatus(@Valid @RequestBody ModifyGoodsDetailRequest request, BindingResult bindingResult) {
         MoAGoods4SingleRequest editRequest = new MoAGoods4SingleRequest();
         editRequest.setId(request.getId());
         editRequest.setDetail(request.getDetail());
         editRequest.copyOperationInfo(request);
         this.goodsService.editSingleItem(editRequest);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
 

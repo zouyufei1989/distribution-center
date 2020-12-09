@@ -5,6 +5,8 @@ import com.money.custom.entity.ScheduleConfig;
 import com.money.custom.entity.request.QueryGridRequestBase;
 import com.money.custom.service.ScheduleConfigService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,44 +29,35 @@ public class ScheduleConfigController extends BaseController {
     @Autowired
     private ScheduleConfigService scheduleConfigService;
 
-
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "list/search")
-    public ResponseEntity<Map<String, Object>> listSearch(QueryGridRequestBase request)  {
-        Map<String, Object> result = new HashMap<>();
+    public GridResponseBase listSearch(QueryGridRequestBase request)  {
         int recordCount = this.scheduleConfigService.selectSearchListCount(request);
-        result.put("records", recordCount);
-        result.put("total", request.calTotalPage(recordCount));
-        result.put("rows", this.scheduleConfigService.selectSearchList(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.scheduleConfigService.selectSearchList(request));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@RequestBody ScheduleConfig scheduleConfig)  {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase add(@RequestBody ScheduleConfig scheduleConfig)  {
         this.scheduleConfigService.add(scheduleConfig);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "findById", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> findById(String id)  {
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", this.scheduleConfigService.findById(id));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase findById(String id)  {
+        return ResponseBase.success(this.scheduleConfigService.findById(id));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@RequestBody ScheduleConfig scheduleConfig)  {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase edit(@RequestBody ScheduleConfig scheduleConfig)  {
         this.scheduleConfigService.edit(scheduleConfig);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
 }

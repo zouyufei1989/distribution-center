@@ -20,6 +20,14 @@ public class ResponseBase {
         return responseBase;
     }
 
+    public static ResponseBase error(ResponseCodeEnum type) {
+        ResponseBase responseBase = new ResponseBase();
+        responseBase.success = false;
+        responseBase.code = type.getValue();
+        responseBase.message = type.getName();
+        return responseBase;
+    }
+
     public ResponseBase error(Throwable ex) {
         this.success = false;
         if (ex instanceof PandabusSpecException) {

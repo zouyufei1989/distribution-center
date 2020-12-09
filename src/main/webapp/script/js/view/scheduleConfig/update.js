@@ -22,7 +22,7 @@ function initWangEditor() {
         'table',  // 表格
         'image',  // 插入图片
     ];
-    editor.customConfig.uploadImgServer = '../utils/uploadFile';
+    editor.customConfig.uploadImgServer = '../utils/uploadFileToUpyun';
     editor.customConfig.uploadFileName = 'file';
     editor.create()
 }

@@ -3,6 +3,7 @@ package com.money.custom.controller;
 import com.money.custom.entity.request.QueryExceptionLogRequest;
 import com.money.custom.service.ExceptionLogService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +27,14 @@ public class ExceptionLogController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "list/search")
-    public ResponseEntity<Map<String, Object>> listSearch(QueryExceptionLogRequest request) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", this.exceptionLogService.selectSearchList(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase listSearch(QueryExceptionLogRequest request) {
+        return new GridResponseBase(this.exceptionLogService.selectSearchList(request));
     }
 
     @ResponseBody
     @RequestMapping(value = "selectSearchListGroupByMethod")
-    public ResponseEntity<Map<String, Object>> selectSearchListGroupByMethod(QueryExceptionLogRequest request) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("rows", this.exceptionLogService.selectSearchListGroupByMethod(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public GridResponseBase selectSearchListGroupByMethod(QueryExceptionLogRequest request) {
+        return new GridResponseBase(this.exceptionLogService.selectSearchListGroupByMethod(request));
     }
 
 }

@@ -12,6 +12,10 @@ public class GridResponseBase extends ResponseBase {
         this.rows = rows;
     }
 
+    public GridResponseBase(Object rows) {
+        this.rows = rows;
+    }
+
     public Integer getRecords() {
         return records;
     }

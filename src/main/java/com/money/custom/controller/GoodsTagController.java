@@ -5,6 +5,8 @@ import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryGoodsTagRequest;
 import com.money.custom.service.GoodsTagService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,49 +34,40 @@ public class GoodsTagController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "list/search")
-    public ResponseEntity<Map<String, Object>> listSearch(QueryGoodsTagRequest request) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase listSearch(QueryGoodsTagRequest request) {
         int recordCount = this.goodsTagService.selectSearchListCount(request);
-        result.put("records", recordCount);
-        result.put("total", request.calTotalPage(recordCount));
-        result.put("rows", this.goodsTagService.selectSearchList(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.goodsTagService.selectSearchList(request));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody GoodsTag item, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase add(@Valid @RequestBody GoodsTag item, BindingResult bindingResult) {
         this.goodsTagService.add(item);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "findById", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> findById(String id) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", this.goodsTagService.findById(id));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase findById(String id) {
+        return ResponseBase.success(this.goodsTagService.findById(id));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@Valid  @RequestBody GoodsTag item, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase edit(@Valid  @RequestBody GoodsTag item, BindingResult bindingResult) {
         this.goodsTagService.edit(item);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> changeStatus(@RequestBody ChangeStatusRequest request) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase changeStatus(@RequestBody ChangeStatusRequest request) {
         this.goodsTagService.changeStatus(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
 

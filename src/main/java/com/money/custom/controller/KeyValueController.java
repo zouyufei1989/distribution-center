@@ -4,6 +4,8 @@ import com.money.custom.entity.KeyValue;
 import com.money.custom.entity.request.QueryKeyValueRequest;
 import com.money.custom.service.KeyValueService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,40 +33,32 @@ public class KeyValueController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "list/search")
-    public ResponseEntity<Map<String, Object>> listSearch(QueryKeyValueRequest request)  {
-        Map<String, Object> result = new HashMap<>();
+    public GridResponseBase listSearch(QueryKeyValueRequest request)  {
         int recordCount = this.keyValueService.selectSearchListCount(request);
-        result.put("records", recordCount);
-        result.put("total", request.calTotalPage(recordCount));
-        result.put("rows", this.keyValueService.selectSearchList(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.keyValueService.selectSearchList(request));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@RequestBody KeyValue keyValue)  {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase add(@RequestBody KeyValue keyValue)  {
         this.keyValueService.add(keyValue);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "findById", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> findById(String id)  {
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", this.keyValueService.findById(id));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase findById(String id)  {
+        return ResponseBase.success(this.keyValueService.findById(id));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@RequestBody KeyValue keyValue)  {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase edit(@RequestBody KeyValue keyValue)  {
         this.keyValueService.edit(keyValue);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
 }

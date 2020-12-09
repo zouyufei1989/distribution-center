@@ -1,6 +1,7 @@
 package com.money.custom.entity.response;
 
 import com.money.custom.entity.User;
+import com.money.framework.base.entity.ResponseBase;
 
 public class LoginResponse extends ResponseBase {
 

@@ -8,6 +8,8 @@ import com.money.custom.entity.request.QueryGroupRequest;
 import com.money.custom.service.BannerService;
 import com.money.custom.service.CustomerService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +37,17 @@ public class CustomerController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "list/search")
-    public ResponseEntity<Map<String, Object>> listSearch(QueryCustomerRequest request) {
-        Map<String, Object> result = new HashMap<>();
+    public GridResponseBase listSearch(QueryCustomerRequest request) {
         int recordCount = this.customerService.selectSearchListCount(request);
-        result.put("records", recordCount);
-        result.put("total", request.calTotalPage(recordCount));
-        result.put("rows", this.customerService.selectSearchList(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.customerService.selectSearchList(request));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody MoACustomerRequest request, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase add(@Valid @RequestBody MoACustomerRequest request, BindingResult bindingResult) {
         this.customerService.add(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
 //    @VisitLogFlag(type = VisitLogTypeEnum.READ)
