@@ -27,13 +27,7 @@ import java.util.Objects;
 public class LoginController extends BaseController {
 
     @Autowired
-    private LoginService loginService;
-
-    @Autowired
     UserService userService;
-
-    @Autowired
-    private RoleService roleService;
 
     @Autowired
     RedisUtils redisUtils;

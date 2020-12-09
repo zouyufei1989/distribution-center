@@ -14,7 +14,7 @@ public class ResponseBase {
         this.code = code.getValue();
     }
 
-    public boolean success(){
+    public boolean success() {
         return code.equals(ResponseCodeEnum.SUCCESS.getValue());
     }
 

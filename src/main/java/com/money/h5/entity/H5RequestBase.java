@@ -4,6 +4,15 @@ public class H5RequestBase {
 
     private String sign;
     private Long timestamp;
+    private String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getSign() {
         return sign;

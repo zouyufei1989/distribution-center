@@ -3,6 +3,7 @@ package com.money.custom.service.impl;
 import com.money.custom.dao.UserDao;
 import com.money.custom.entity.User;
 import com.money.custom.entity.enums.CommonStatusEnum;
+import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryUserRequest;
 import com.money.custom.service.UserService;
@@ -82,7 +83,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
             String srcPwd = RSAUtils.privateDecrypt(password, RSA_PRI_KEY);
             Pattern pattern = Pattern.compile("(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}");
             if (!pattern.matcher(srcPwd).matches()) {
-                throw new PandabusSpecException("密码由数字、大小写字母和特殊字符组成，最短长度8位");
+                throw  PandabusSpecException.businessError(ResponseCodeEnum.WEEK_PASSWORD);
             }
         }
     }

@@ -20,15 +20,10 @@ public class SecurityServiceImpl extends BaseServiceImpl implements UserDetailsS
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        try {
-            UserDetails userDetails = loginService.findUserByName(s);
-            if (Objects.isNull(userDetails)) {
-                throw new UsernameNotFoundException("Username " + s + " not found");
-            }
-            return userDetails;
-        } catch (Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
-            throw PandabusSpecException.serverError();
+        UserDetails userDetails = loginService.findUserByName(s);
+        if (Objects.isNull(userDetails)) {
+            throw new UsernameNotFoundException("Username " + s + " not found");
         }
+        return userDetails;
     }
 }

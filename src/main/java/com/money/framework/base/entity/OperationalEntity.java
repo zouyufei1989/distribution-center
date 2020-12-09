@@ -1,6 +1,7 @@
 package com.money.framework.base.entity;
 
 import com.money.custom.entity.User;
+import com.money.h5.entity.H5RequestBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,6 +80,17 @@ public class OperationalEntity implements Serializable {
         this.updateDate = src.getUpdateDate();
 
         setGroupId(src.getGroupId());
+    }
+
+    public void copyOperationInfo(H5RequestBase h5RequestBase) {
+        this.creator = h5RequestBase.getPhone();
+        this.updater = h5RequestBase.getPhone();
+
+        this.createIp = "0.0.0.0";
+        this.updateIp = "0.0.0.0";
+
+        this.createDate = new Date();
+        this.updateDate = new Date();
     }
 
     public User getLoginUser() {

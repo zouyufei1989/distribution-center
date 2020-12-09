@@ -57,7 +57,7 @@ public class GroupServiceImpl extends BaseServiceImpl implements GroupService {
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GROUP)
     @Override
-    public List<String> changeStatus(ChangeStatusRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public List<String> changeStatus(ChangeStatusRequest request) {
         dao.changeStatus(request);
         return request.getIds();
     }

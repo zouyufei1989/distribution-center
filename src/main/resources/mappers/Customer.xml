@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Customer">
+
+	<sql id="tableName">d_customer</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="Customer">
+		SELECT
+			dc.id,
+			dc.name,
+			dcg.serial_number AS `customerGroup.serialNumber`,
+			dcg.status AS `customerGroup.status`,
+			dc.phone,
+			dbp.name AS `customerGroup.bonusPlanName`,
+			dbp.id AS `customerGroup.bonusPlanId`,
+			0 AS packageCount,
+			dw.sum_money AS `wallet.sumMoney`,
+			dg.name AS groupName,
+			dcg.expire_date AS `customerGroup.expireDate`,
+			dcg.create_date AS createDate,
+			dcg.group_id AS `customerGroup.groupId`,
+			dcg.type AS `customerGroup.type`,
+			dcg.id AS `customerGroup.id`
+		FROM <include refid="tableName"/>  dc
+		LEFT JOIN d_customer_group dcg ON dcg.customer_id = dc.id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		LEFT JOIN d_bonus_plan dbp ON dbp.id = dcg.bonus_plan_id
+		LEFT JOIN d_wallet dw ON dw.id = dcg.wallet_id
+		WHERE
+			dcg.status != -2
+			<if test="exactPhone!=null and exactPhone!=''">
+				AND dc.phone = #{exactPhone}
+			</if>
+			<if test="customer.name!=null and customer.name!=''">
+				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
+			</if>
+			<if test="customer.phone!=null and customer.phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{customer.phone},'%')
+			</if>
+			<if test="customer.customerGroup.serialNumber!=null and customer.customerGroup.serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{customer.customerGroup.serialNumber},'%')
+			</if>
+			<if test="customer.customerGroup.type!=null">
+				AND dcg.type = #{customer.customerGroup.type}
+			</if>
+			<if test="customer.customerGroup.status!=null">
+				AND dcg.status = #{customer.customerGroup.status}
+			</if>
+			<if test="customer.customerGroup.bonusPlanId!=null">
+				AND dcg.bonus_plan_id = #{customer.customerGroup.bonusPlanId}
+			</if>
+		ORDER BY dcg.status DESC
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/>  dc
+		LEFT JOIN d_customer_group dcg ON dcg.customer_id = dc.id
+		WHERE
+			dcg.status != -2
+			<if test="exactPhone!=null and exactPhone!=''">
+				AND dc.phone = #{exactPhone}
+			</if>
+			<if test="customer.name!=null and customer.name!=''">
+				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
+			</if>
+			<if test="customer.phone!=null and customer.phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{customer.phone},'%')
+			</if>
+			<if test="customer.customerGroup.serialNumber!=null and customer.customerGroup.serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{customer.customerGroup.serialNumber},'%')
+			</if>
+			<if test="customer.customerGroup.type!=null">
+				AND dcg.type = #{customer.customerGroup.type}
+			</if>
+			<if test="customer.customerGroup.status!=null">
+				AND dcg.status = #{customer.customerGroup.status}
+			</if>
+			<if test="customer.customerGroup.bonusPlanId!=null">
+				AND dcg.bonus_plan_id = #{customer.customerGroup.bonusPlanId}
+			</if>
+	</select>
+	
+	<select id="findById" parameterType="String" resultType="Customer">
+		SELECT 
+			id,
+			title,
+			href,
+			url,
+			`desc`,
+			`index`,
+			status
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			id,
+			name,
+			phone,
+			open_id,
+			nick_name,
+			head_cover,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{id},
+			#{name},
+			#{phone},
+			#{openId},
+			#{nickName},
+			#{headCover},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="edit" parameterType="Customer">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="name != null">
+				,name = #{name}
+			</if>
+			<if test="phone != null">
+				,phone = #{phone}
+			</if>
+			<if test="openId != null">
+				,open_id = #{openId}
+			</if>
+			<if test="headCover != null">
+				,`head_cover` = #{headCover}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>

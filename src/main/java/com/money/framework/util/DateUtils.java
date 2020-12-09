@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.MonthDay;
 import java.time.Year;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -93,6 +94,11 @@ public final class DateUtils {
     // 获取本月最后一天
     public static String getNowMonthEnd() {
         return Year.now().atMonth(MonthDay.now().getMonth()).atEndOfMonth().format(DAY_FORMATTER);
+    }
+
+    // 获取本月最后一天
+    public static String getMonthEnd(String date) {
+        return YearMonth.parse(date, DateTimeFormatter.ofPattern("yyyy-MM")).atEndOfMonth().format(DAY_FORMATTER);
     }
 
     // 获取下月月初时间

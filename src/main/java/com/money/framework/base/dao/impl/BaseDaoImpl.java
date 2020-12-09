@@ -2,6 +2,7 @@ package com.money.framework.base.dao.impl;
 
 import com.google.common.collect.Lists;
 import com.money.custom.entity.enums.IEnumKeyValue;
+import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.request.ChangeStatusBaseRequest;
 import com.money.custom.entity.request.QueryGridRequestBase;
 import com.money.framework.base.annotation.SQLContext;
@@ -84,7 +85,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
         Class<T> statusEnumCls = request.getEnumClass();
         Optional<IEnumKeyValue> opt = EnumUtils.getByValue(statusEnumCls, request.getStatus());
         if (!opt.isPresent()) {
-            throw new PandabusSpecException("状态错误.");
+            throw  PandabusSpecException.businessError(ResponseCodeEnum.ILLEGAL_STATUS);
         }
     }
 

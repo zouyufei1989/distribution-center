@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CustomerGroup">
+
+	<sql id="tableName">d_customer_group</sql>
+
+	<select id="findById" parameterType="String" resultType="CustomerGroup">
+		SELECT
+			id,
+			wallet_id AS walletId,
+			bonus_wallet_id AS bonusWalletId,
+			customer_id AS customerId,
+			group_id AS groupId,
+			bonus_plan_id AS bonusPlanId,
+			status,
+			serial_number AS serialNumber,
+			`type`,
+			expire_date AS expireDate,
+			bank_card_number AS bankCardNumber,
+			bank_name AS bankName,
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="CustomerGroup" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			id,
+			wallet_id,
+			bonus_wallet_id,
+			customer_id,
+			group_id,
+			bonus_plan_id,
+			status,
+			serial_number,
+			`type`,
+			expire_date,
+			bank_card_number,
+			bank_name,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{id},
+			#{walletId},
+			#{bonusWalletId},
+			#{customerId},
+			#{groupId},
+			#{bonusPlanId},
+			#{status},
+			#{serialNumber},
+			#{type},
+			#{expireDate},
+			#{bankCardNumber},
+			#{bankName},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="edit" parameterType="CustomerGroup">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="walletId != null">
+				,wallet_id = #{walletId}
+			</if>
+			<if test="bonusWalletId != null">
+				,bonus_wallet_id = #{bonusWalletId}
+			</if>
+			<if test="customerId != null">
+				,customer_id = #{customerId}
+			</if>
+			<if test="groupId != null">
+				,`group_id` = #{groupId}
+			</if>
+			<if test="bonusPlanId != null">
+				,`bonus_plan_id` = #{bonusPlanId}
+			</if>
+			<if test="status != null">
+				,status = #{status}
+			</if>
+			<if test="type != null">
+				,`type` = #{type}
+			</if>
+			<if test="expireDate != null">
+				,`expire_date` = #{expireDate}
+			</if>
+			<if test="bankCardNumber != null">
+				,bank_card_number = #{bankCardNumber}
+			</if>
+			<if test="bankName != null">
+				,bank_name = #{bankName}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>

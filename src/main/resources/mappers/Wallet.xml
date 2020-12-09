@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Wallet">
+
+	<sql id="tableName">d_wallet</sql>
+
+	<select id="findById" parameterType="String" resultType="Wallet">
+		SELECT 
+			id,
+			sum_money AS sumMoney,
+			used_money AS usedMoney,
+			available_money AS availableMoney
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="Wallet" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			sum_money,
+			used_money,
+			available_money,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{sumMoney},
+			#{usedMoney},
+			#{availableMoney},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="edit" parameterType="Customer">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="sumMoney != null">
+				,sum_money = #{sumMoney}
+			</if>
+			<if test="usedMoney != null">
+				,used_money = #{usedMoney}
+			</if>
+			<if test="availableMoney != null">
+				,available_money = #{availableMoney}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+</mapper>

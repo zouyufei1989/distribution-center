@@ -42,6 +42,7 @@ public class CheckSignAspectJ {
     }
 
     private void checkArg(H5RequestBase arg) {
+        Assert.notNull(arg.getPhone(), "手机号不可为空");
         Assert.notNull(arg.getTimestamp(), "参数缺少时间戳");
         Assert.isTrue(Math.abs(arg.getTimestamp() - System.currentTimeMillis()) < TIMESTAMP_TIMEOUT_MMS, "时间戳已过期");
         Assert.hasText(arg.getSign(), "参数缺少签名");

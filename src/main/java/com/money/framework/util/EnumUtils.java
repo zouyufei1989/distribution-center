@@ -62,7 +62,7 @@ public class EnumUtils {
                 }
             }
         } catch (Exception ex) {
-            throw PandabusSpecException.serverError();
+            throw new RuntimeException(ex.getMessage(), ex);
         }
         return result;
     }
@@ -88,10 +88,10 @@ public class EnumUtils {
                 }
             }
         } catch (Exception ex) {
-            throw PandabusSpecException.serverError();
+            throw new RuntimeException(ex);
         }
 
-        throw PandabusSpecException.illegalArgumentError();
+        throw new IllegalArgumentException(name + "不存在");
     }
 
     /**
@@ -132,10 +132,10 @@ public class EnumUtils {
                 }
             }
         } catch (Exception ex) {
-            throw PandabusSpecException.serverError();
+            throw new RuntimeException(ex);
         }
 
-        throw PandabusSpecException.illegalArgumentError();
+        throw new IllegalArgumentException(value + "不存在");
     }
 
     public static String getNameByValue(Class<? extends IEnumKeyValue> clazz, Object value) {
@@ -143,12 +143,7 @@ public class EnumUtils {
             return "";
         }
         Optional<IEnumKeyValue> opt = null;
-        try {
-            opt = getByValue(clazz, value);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            throw PandabusSpecException.illegalArgumentError();
-        }
+        opt = getByValue(clazz, value);
         return opt.isPresent() ? opt.get().getName() : IEnumKeyValue.DEFAULT_NAME;
     }
 

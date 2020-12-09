@@ -1,13 +1,18 @@
 package com.money.custom.aspectj;
 
 import com.alibaba.fastjson.JSON;
+import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.framework.base.entity.ExcelMultipartFile;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.exception.PandabusSpecException;
+import com.money.h5.entity.H5ResponseBase;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -44,41 +49,29 @@ public class SysLogAspectJ {
     @Around(value = "anyMethod()")
     public Object process(ProceedingJoinPoint point) {
         long start = System.currentTimeMillis();
-
+        String fullName = point.getTarget().getClass().getName();
+        String methodName = point.getSignature().getName();
+        MethodSignature signature = (MethodSignature) point.getSignature();
         // 访问目标方法的参数：
         Object[] args = point.getArgs();
         Object returnValue = null;
+        String params = "";
+        try {
+            if (args[0] instanceof ExcelMultipartFile) {
+                params = ((ExcelMultipartFile) args[0]).getOriginalFilename();
+            } else {
+                params = JSON.toJSONString(args);
+            }
+        } catch (Exception e) {
+            params = "参数不可JSON序列化";
+        }
+
         try {
             checkValidError(args);
             returnValue = point.proceed(args);
         } catch (Throwable ex) {
-            String fullName = point.getTarget().getClass().getName();
-            String methodName = point.getSignature().getName();
-            String params = "";
-            try {
-                if (args[0] instanceof ExcelMultipartFile) {
-                    params = ((ExcelMultipartFile) args[0]).getOriginalFilename();
-                } else {
-                    params = JSON.toJSONString(args);
-                }
-            } catch (Exception e) {
-                params = "参数不可JSON序列化";
-            }
-
             logger.error(String.format("%s.%s(%s)", fullName, methodName, params), ex);
-
-            Map<String, Object> result = new HashMap<>();
-            result.put("success", false);
-            result.put("message", "服务器异常");
-            if(ex instanceof IllegalArgumentException){
-                result.put("message", ex.getMessage());
-            }
-            if (ex instanceof PandabusSpecException) {
-                result.put("message", ((PandabusSpecException) ex).getMsg());
-            }
-            result.put("args", params);
-
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            returnValue = new ResponseBase().error(ex);
         }
 
         long execMM = System.currentTimeMillis() - start;
@@ -95,7 +88,7 @@ public class SysLogAspectJ {
                 BindingResult bindingResult = (BindingResult) arg;
                 if (bindingResult.hasErrors()) {
                     List<String> errorList = bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList());
-                    throw new PandabusSpecException(StringUtils.join(errorList, "\r\n"));
+                    throw new IllegalArgumentException(StringUtils.join(errorList, "\r\n"));
                 }
             }
         }

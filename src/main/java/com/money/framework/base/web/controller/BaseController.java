@@ -1,5 +1,6 @@
 package com.money.framework.base.web.controller;
 
+import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.framework.base.entity.OperationalEntity;
 import com.money.framework.base.exception.PandabusSpecException;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public abstract class BaseController {
 
     protected void requireGroupId(OperationalEntity operationalEntity) {
         if (Objects.isNull(operationalEntity.getGroupId())) {
-            throw new PandabusSpecException("当前账号无所属公司");
+            throw PandabusSpecException.businessError(ResponseCodeEnum.GROUP_ID_NEEDED);
         }
     }
 }

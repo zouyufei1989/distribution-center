@@ -1,6 +1,7 @@
 package com.money.custom.controller;
 
 import com.money.custom.dao.UtilsDao;
+import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.framework.base.annotation.SkipUserLoginCheck;
 import com.money.framework.base.entity.TempFile;
 import com.money.framework.base.exception.PandabusSpecException;
@@ -124,7 +125,7 @@ public class TestController extends BaseController {
         try (TempFile file = uploadUtils.getFileFromIp(param1, param2)) {
             long fileLength = file.getFile().length();
             if (fileLength > 1024 * 1024 * 100) { //最大100MB
-                throw new PandabusSpecException("读取日志过大 ： " + (fileLength / 1024 / 1024) + "MB");
+                throw PandabusSpecException.businessError(ResponseCodeEnum.LOG_TOO_LARGE, ResponseCodeEnum.LOG_TOO_LARGE.getName() + (fileLength / 1024 / 1024) + "MB");
             }
 
             FileReader fileReader = new FileReader(file.getFile());

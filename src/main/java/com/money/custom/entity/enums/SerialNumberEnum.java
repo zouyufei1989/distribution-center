@@ -2,8 +2,9 @@ package com.money.custom.entity.enums;
 
 public enum SerialNumberEnum {
 
-    BONUS_PLAN("BP", "BP"),
-    ACTIVITY("AC", "积分");
+    BONUS_PLAN("BP", "积分方案"),
+    CUSTOMER("CS", "客户"),
+    ACTIVITY("AC", "活动");
 
     private String value;
     private String desc;

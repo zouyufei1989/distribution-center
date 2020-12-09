@@ -40,7 +40,7 @@ public class BaseEntity extends OperationalEntity implements Serializable {
         int rowNumber = row.getRowNum() + 1;
         String result = getCellStringVal(row, column);
         if (StringUtils.isEmpty(result)) {
-            throw new PandabusSpecException(String.format("行%s:%s", rowNumber, blankErrMsg));
+            throw new IllegalArgumentException(String.format("行%s:%s", rowNumber, blankErrMsg));
         }
         return result;
     }
@@ -60,7 +60,7 @@ public class BaseEntity extends OperationalEntity implements Serializable {
                 result = cell.getStringCellValue();
             }
         } catch (Exception ex) {
-            throw new PandabusSpecException(String.format("读取行%s,列%s 错误.", row.getRowNum() + 1, column));
+            throw new IllegalArgumentException(String.format("读取行%s,列%s 错误.", row.getRowNum() + 1, column));
         }
         return result;
     }
@@ -79,7 +79,7 @@ public class BaseEntity extends OperationalEntity implements Serializable {
         String stringVal = getCellStringVal(row, column);
         if (StringUtils.isNotBlank(stringVal)) {
             if (!StringUtils.isNumeric(stringVal)) {
-                throw new PandabusSpecException(String.format("行%s:(%s)无法转换成数字", rowNum, stringVal));
+                throw new IllegalArgumentException(String.format("行%s:(%s)无法转换成数字", rowNum, stringVal));
             }
             result = Integer.parseInt(stringVal);
         }
@@ -100,7 +100,7 @@ public class BaseEntity extends OperationalEntity implements Serializable {
         int rowNumber = row.getRowNum() + 1;
         Integer result = getCellIntVal(row, column);
         if (Objects.isNull(result)) {
-            throw new PandabusSpecException(String.format("行%s:%s", rowNumber, blankErrMsg));
+            throw new IllegalArgumentException(String.format("行%s:%s", rowNumber, blankErrMsg));
         }
         return result;
     }

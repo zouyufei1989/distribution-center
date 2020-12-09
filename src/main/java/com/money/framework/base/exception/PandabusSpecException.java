@@ -1,34 +1,42 @@
 package com.money.framework.base.exception;
 
-import com.money.custom.entity.Consts;
+import com.money.custom.entity.enums.ResponseCodeEnum;
 
 public class PandabusSpecException extends RuntimeException {
 
     private String msg;
+    private Integer code;
 
-    public static PandabusSpecException serverError() {
-        return serverError(Consts.COMMON_ERR_MSG);
+    public PandabusSpecException() {}
+
+    public PandabusSpecException(Exception ex) {
+        super(ex);
     }
 
-    public static PandabusSpecException illegalArgumentError() {
-        return serverError(Consts.ARGS_ERR_MSG);
+    public static PandabusSpecException businessError(ResponseCodeEnum errType) {
+        return businessError(errType,errType.getName());
     }
 
-    public static PandabusSpecException serverError(String msg) {
-        return new PandabusSpecException(msg);
+    public static PandabusSpecException businessError(ResponseCodeEnum errType, String message) {
+        PandabusSpecException ex = new PandabusSpecException();
+        ex.setMsg(message);
+        ex.setCode(errType.getValue());
+        return ex;
     }
 
-    public PandabusSpecException(String msg) {
-        super(msg);
+    public void setMsg(String msg) {
         this.msg = msg;
     }
 
-    public PandabusSpecException(String msg, Exception ex) {
-        super(msg, ex);
-        this.msg = msg;
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
     public String getMsg() {
         return msg;
+    }
+
+    public Integer getCode() {
+        return code;
     }
 }

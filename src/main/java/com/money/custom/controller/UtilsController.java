@@ -2,6 +2,7 @@ package com.money.custom.controller;
 
 import com.money.custom.entity.dto.FileUploaded;
 import com.money.custom.entity.enums.CommonStatusEnum;
+import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.GoodsShowPriceEnum;
 import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.QueryGoodsTagRequest;
@@ -26,10 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
@@ -81,10 +79,26 @@ public class UtilsController extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "generateCustomerSerialNumber")
+    public ResponseEntity<Map<String, Object>> generateCustomerSerialNumber() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("serialNumber", utilsService.generateSerialNumber(SerialNumberEnum.CUSTOMER));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "selectGoodsShowPrice")
     public ResponseEntity<Map<String, Object>> selectGoodsShowPrice() {
         Map<String, Object> result = new HashMap<>();
         result.put("rows", EnumUtils.getEnumEntriesVN(GoodsShowPriceEnum.class));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "selectCustomerType")
+    public ResponseEntity<Map<String, Object>> selectCustomerType() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", EnumUtils.getEnumEntriesVN(CustomerTypeEnum.class));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -145,7 +159,7 @@ public class UtilsController extends BaseController {
         File file = new File(fileName);
         if (!file.exists()) {
             getLogger().error("文件不存在:" + fileName);
-            throw new PandabusSpecException("file not found.");
+            throw new FileNotFoundException();
         }
 
         try (FileInputStream fis = new FileInputStream(file); OutputStream os = response.getOutputStream();) {

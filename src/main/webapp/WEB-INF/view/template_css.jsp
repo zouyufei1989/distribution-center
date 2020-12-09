@@ -101,7 +101,7 @@
     }
 
     .param_row select {
-        min-width: 180px;
+        min-width: 120px;
     }
 
     .amap-logo {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BonusWallet">
+
+	<sql id="tableName">d_bonus_wallet</sql>
+
+	<select id="findById" parameterType="String" resultType="BonusWallet">
+		SELECT 
+			id,
+			sum_bonus AS sumBonus,
+			pending_bonus AS pendingBonus,
+			used_bonus AS usedBonus,
+			available_bonus AS availableBonus
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="BonusWallet" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			sum_bonus,
+			pending_bonus,
+			used_bonus,
+			available_bonus,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{sumBonus},
+			#{pendingBonus},
+			#{usedBonus},
+			#{availableBonus},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="edit" parameterType="BonusWallet">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="sumBonus != null">
+				,sum_bonus = #{sumBonus}
+			</if>
+			<if test="pendingBonus != null">
+				,pending_bonus = #{pendingBonus}
+			</if>
+			<if test="usedBonus != null">
+				,used_bonus = #{usedBonus}
+			</if>
+			<if test="availableBonus != null">
+				,available_bonus = #{availableBonus}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+</mapper>

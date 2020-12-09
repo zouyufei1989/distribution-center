@@ -5,12 +5,14 @@ import com.money.custom.entity.Consts;
 import com.money.custom.entity.User;
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.response.LoginResponse;
+import com.money.custom.entity.response.ResponseBase;
 import com.money.custom.service.RoleService;
 import com.money.custom.service.impl.SecurityServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -101,7 +103,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private void securityLogin(HttpSecurity http) throws Exception {
-        LoginResponse response = new LoginResponse();
         http.formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/getLogin")
@@ -109,19 +110,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     User loginUser = (User) auth.getPrincipal();
                     loginUser.setPassword(StringUtils.EMPTY);
                     setSessionAttr(req, loginUser);
-                    response.setCode(ResponseCodeEnum.SUCCESS.getValue());
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
-                    out.write(new ObjectMapper().writeValueAsString(response));
+                    out.write(new ObjectMapper().writeValueAsString(new LoginResponse()));
                     out.flush();
                     out.close();
                 })
                 .failureHandler((req, resp, e) -> {
-                    response.setCode(ResponseCodeEnum.ERROR.getValue());
-                    response.setMessage(e.getMessage());
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
-                    out.write(new ObjectMapper().writeValueAsString(response));
+                    if (e instanceof BadCredentialsException) {
+                        out.write(new ObjectMapper().writeValueAsString(new ResponseBase("用户名、密码错误", ResponseCodeEnum.LOGIN_FAIL)));
+                    } else {
+                        out.write(new ObjectMapper().writeValueAsString(new ResponseBase(e.getMessage(), ResponseCodeEnum.LOGIN_FAIL)));
+                    }
                     out.flush();
                     out.close();
                 })
@@ -130,7 +132,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
+    protected AuthenticationManager authenticationManager() {
         return new ProviderManager(Collections.singletonList(myAuthenticationProvider()));
     }
 

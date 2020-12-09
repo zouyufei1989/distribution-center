@@ -6,6 +6,8 @@ import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryGroupRequest;
 import com.money.custom.service.BannerService;
 import com.money.framework.base.annotation.VisitLogFlag;
+import com.money.framework.base.entity.GridResponseBase;
+import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import com.money.framework.util.UploadUtils;
@@ -35,49 +37,40 @@ public class BannerController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "list/search")
-    public ResponseEntity<Map<String, Object>> listSearch(QueryGroupRequest request) {
-        Map<String, Object> result = new HashMap<>();
+    public GridResponseBase listSearch(QueryGroupRequest request) {
         int recordCount = this.bannerService.selectSearchListCount(request);
-        result.put("records", recordCount);
-        result.put("total", request.calTotalPage(recordCount));
-        result.put("rows", this.bannerService.selectSearchList(request));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.bannerService.selectSearchList(request));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> add(@Valid @RequestBody Banner item, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase add(@Valid @RequestBody Banner item, BindingResult bindingResult) {
         this.bannerService.add(item);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
     @RequestMapping(value = "findById", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> findById(String id) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", this.bannerService.findById(id));
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseBase findById(String id) {
+        return ResponseBase.success(this.bannerService.findById(id));
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> edit(@Valid @RequestBody Banner item, BindingResult bindingResult) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase edit(@Valid @RequestBody Banner item, BindingResult bindingResult) {
         this.bannerService.edit(item);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> changeStatus(@RequestBody ChangeStatusRequest request) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase changeStatus(@RequestBody ChangeStatusRequest request) {
         this.bannerService.changeStatus(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseBase.success();
     }
 
 
