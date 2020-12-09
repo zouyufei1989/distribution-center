@@ -3,6 +3,7 @@ package com.money.custom.service.impl;
 import com.money.custom.dao.CustomerGroupDao;
 import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.request.AssignBonusPlanRequest;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.service.CustomerGroupService;
 import com.money.framework.base.annotation.AddHistoryLog;

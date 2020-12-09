@@ -15,7 +15,7 @@
 			dbp.cashback_amount AS cashbackAmount,
 			dbp.status,
 			dbp.desc,
-			dbp.group_id,
+			dbp.group_id AS groupId,
 			dbp.create_date AS createDate,
 			dg.name AS groupName,
 			IFNULL(planUsed.cnt,0) AS usedCount

@@ -1,6 +1,7 @@
 package com.money.custom.service;
 
 import com.money.custom.entity.CustomerGroup;
+import com.money.custom.entity.request.AssignBonusPlanRequest;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.framework.base.service.BaseService;
 

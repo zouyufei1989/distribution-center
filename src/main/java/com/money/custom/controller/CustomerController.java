@@ -1,11 +1,10 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.Banner;
-import com.money.custom.entity.request.ChangeStatusRequest;
-import com.money.custom.entity.request.MoACustomerRequest;
-import com.money.custom.entity.request.QueryCustomerRequest;
-import com.money.custom.entity.request.QueryGroupRequest;
+import com.money.custom.entity.CustomerGroup;
+import com.money.custom.entity.request.*;
 import com.money.custom.service.BannerService;
+import com.money.custom.service.CustomerGroupService;
 import com.money.custom.service.CustomerService;
 import com.money.framework.base.annotation.VisitLogFlag;
 import com.money.framework.base.entity.GridResponseBase;
@@ -33,6 +32,8 @@ public class CustomerController extends BaseController {
 
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    CustomerGroupService customerGroupService;
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
@@ -47,6 +48,14 @@ public class CustomerController extends BaseController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseBase add(@Valid @RequestBody MoACustomerRequest request, BindingResult bindingResult) {
         this.customerService.add(request);
+        return ResponseBase.success();
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "assignBonusPlan", method = RequestMethod.POST)
+    public ResponseBase assignBonusPlan(@Valid @RequestBody AssignBonusPlanRequest request, BindingResult bindingResult) {
+        this.customerGroupService.edit(request.getEditObj());
         return ResponseBase.success();
     }
 

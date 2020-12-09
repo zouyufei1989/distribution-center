@@ -16,7 +16,19 @@ $(document).ready(function () {
             {name: 'createDate', header: '创建时间'},
             {name: 'customerGroup.statusName', header: '状态'},
             {name: 'index', header: '操作'},
-            {name: 'id', header: "id", hidden: true},
+            {name: 'customerGroup.groupId', header: "groupId", hidden: true},
+            {name: 'customerGroup.bonusPlanId', header: "bonusPlanId", hidden: true},
+            {name: 'customerGroup.type', header: "type", hidden: true},
+            {name: 'customerGroup.id', header: "customerGroup.id", key: true, hidden: true},
         ]);
-
 });
+
+function onSelectRow(row_id, status) {
+    if (_ROWS_CHOOSED.length === 1 && _ROWS_CHOOSED[0]['customerGroup.type'] == 2) {
+        $('#btn_bonus_plan').removeAttr('disabled');
+        $('#btn_bonus_plan').addClass('btn-outline');
+    } else {
+        $('#btn_bonus_plan').attr('disabled','disabled');
+        $('#btn_bonus_plan').removeClass('btn-outline');
+    }
+}
