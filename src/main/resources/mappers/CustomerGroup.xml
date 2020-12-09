@@ -18,7 +18,7 @@
 			`type`,
 			expire_date AS expireDate,
 			bank_card_number AS bankCardNumber,
-			bank_name AS bankName,
+			bank_name AS bankName
 		FROM <include refid="tableName"/>
 		WHERE id = #{id}
 	</select>

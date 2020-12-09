@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Objects;
@@ -54,9 +55,11 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 
     @Override
     public Customer findById(String id) {
-        return dao.findById(id);
+        CustomerGroup customerGroup = customerGroupService.findById(id);
+        Customer customer = dao.findById(customerGroup.getCustomerId().toString());
+        customer.setCustomerGroup(customerGroup);
+        return customer;
     }
-
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER)
     @Override
@@ -132,9 +135,25 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER)
     @Override
-    public String edit(MoACustomerRequest item) {
-        dao.edit(item);
-        return item.getId().toString();
+    @Transactional
+    public String edit(MoACustomerRequest request) {
+        CustomerGroup customerGroup = customerGroupService.findById(request.getId().toString());
+        Assert.notNull(customerGroup, "客户门店关系不存在");
+
+        CustomerGroup customerGroupUpdate = new CustomerGroup();
+        customerGroupUpdate.setId(customerGroup.getId());
+        customerGroupUpdate.setType(request.getType());
+        customerGroupUpdate.setExpireDate(request.getExpireDate());
+        customerGroupUpdate.setBankName(request.getBankName());
+        customerGroupUpdate.setBankCardNumber(request.getBankCardNumber());
+        customerGroupUpdate.copyOperationInfo(request);
+        customerGroupService.edit(customerGroupUpdate);
+
+        Customer updateCustomer = new Customer();
+        updateCustomer.setId(customerGroup.getCustomerId());
+        updateCustomer.setName(request.getName());
+        dao.edit(updateCustomer);
+        return updateCustomer.getId().toString();
     }
 
 }

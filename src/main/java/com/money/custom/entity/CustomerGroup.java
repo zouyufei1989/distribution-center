@@ -30,7 +30,7 @@ public class CustomerGroup extends BaseEntity {
         setBonusWalletId(bonusWalletId);
         setBankCardNumber(request.getBankCardNumber());
         setBankName(request.getBankName());
-        setExpireDate(DateUtils.getMonthEnd(request.getExpireDate()));
+        setExpireDate(request.getExpireDate());
         setSerialNumber(request.getSerialNumber());
         setStatus(request.getStatus());
         setType(request.getType());

@@ -19,7 +19,12 @@ $(document).ready(function () {
             {name: 'customerGroup.groupId', header: "groupId", hidden: true},
             {name: 'customerGroup.bonusPlanId', header: "bonusPlanId", hidden: true},
             {name: 'customerGroup.type', header: "type", hidden: true},
-            {name: 'customerGroup.id', header: "customerGroup.id", key: true, hidden: true},
+            {name: 'customerGroup.id', header: "type", key: true, hidden: true},
+            {
+                name: 'id', header: "id", hidden: true, formatter: function (val, opt, obj) {
+                    return obj.customerGroup.id;
+                }
+            },
         ]);
 });
 
@@ -28,7 +33,7 @@ function onSelectRow(row_id, status) {
         $('#btn_bonus_plan').removeAttr('disabled');
         $('#btn_bonus_plan').addClass('btn-outline');
     } else {
-        $('#btn_bonus_plan').attr('disabled','disabled');
+        $('#btn_bonus_plan').attr('disabled', 'disabled');
         $('#btn_bonus_plan').removeClass('btn-outline');
     }
 }

@@ -16,7 +16,17 @@ $(document).ready(function () {
 });
 
 function fillAdditionAttrs(result) {
-    $('#img_url').attr('src', result.data.url);
+    if(result.data.customerGroup.type ==1){
+        $('#normal').trigger('click');
+    }else{
+        $('#shareholder').trigger('click');
+    }
+    $('#groupId').val(result.data.customerGroup.groupId).trigger('change');
+    $('#serialNumber').val(result.data.customerGroup.serialNumber);
+    $('#expireDate').val(result.data.customerGroup.expireDate);
+    $('#bankCardNumber').val(result.data.customerGroup.bankCardNumber);
+    $('#bankName').val(result.data.customerGroup.bankName);
+    $('#status').val(result.data.customerGroup.status).trigger('change');
 }
 
 function additionParam() {

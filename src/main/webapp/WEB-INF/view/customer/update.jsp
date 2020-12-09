@@ -53,15 +53,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>银行卡号:</label>
+                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>银行卡号:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="bankCardNumber" name="bankCardNumber" required maxlength="20">
+                                        <input type="text" class="form-control" id="bankCardNumber" name="bankCardNumber"  maxlength="20">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>开户行:</label>
+                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>开户行:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="bankName" name="bankName" required maxlength="50"/>
+                                        <input type="text" class="form-control" id="bankName" name="bankName"  maxlength="50"/>
                                     </div>
                                 </div>
                                 <div class="form-group">

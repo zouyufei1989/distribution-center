@@ -89,12 +89,11 @@
 	<select id="findById" parameterType="String" resultType="Customer">
 		SELECT 
 			id,
-			title,
-			href,
-			url,
-			`desc`,
-			`index`,
-			status
+			name,
+			phone,
+			open_id AS openId,
+			nick_name AS nickName,
+			head_cover AS headCover
 		FROM <include refid="tableName"/>
 		WHERE id = #{id}
 	</select>

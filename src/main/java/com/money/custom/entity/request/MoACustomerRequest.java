@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 public class MoACustomerRequest extends OperationalEntity {
 
     private Integer id;
+
     @NotBlank(message = "请输入客户姓名")
     @Length(max = 20, message = "客户姓名不可超过20个字符")
     private String name;
@@ -20,10 +21,8 @@ public class MoACustomerRequest extends OperationalEntity {
     @NotNull(message = "请选择顾客类型")
     private Integer type;
     private String expireDate;
-    @NotBlank(message = "请输入银行卡号")
     @Length(max = 20, message = "银行卡号不可超过20个字符")
     private String bankCardNumber;
-    @NotBlank(message = "请输入开户行")
     @Length(max = 20, message = "开户行不可超过50个字符")
     private String bankName;
     @NotNull(message = "请选择状态")
@@ -35,14 +34,6 @@ public class MoACustomerRequest extends OperationalEntity {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -99,5 +90,13 @@ public class MoACustomerRequest extends OperationalEntity {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

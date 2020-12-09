@@ -59,24 +59,21 @@ public class CustomerController extends BaseController {
         return ResponseBase.success();
     }
 
-//    @VisitLogFlag(type = VisitLogTypeEnum.READ)
-//    @ResponseBody
-//    @RequestMapping(value = "findById", method = RequestMethod.POST)
-//    public ResponseEntity<Map<String, Object>> findById(String id) {
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("data", this.bannerService.findById(id));
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
-//
-//    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
-//    @ResponseBody
-//    @RequestMapping(value = "edit", method = RequestMethod.POST)
-//    public ResponseEntity<Map<String, Object>> edit(@Valid @RequestBody Banner item, BindingResult bindingResult) {
-//        Map<String, Object> result = new HashMap<>();
-//        this.bannerService.edit(item);
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
-//
+    @VisitLogFlag(type = VisitLogTypeEnum.READ)
+    @ResponseBody
+    @RequestMapping(value = "findById", method = RequestMethod.POST)
+    public ResponseBase findById(String id) {
+        return ResponseBase.success(customerService.findById(id));
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public ResponseBase edit(@Valid @RequestBody MoACustomerRequest request, BindingResult bindingResult) {
+        this.customerService.edit(request);
+        return ResponseBase.success();
+    }
+
 //    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
 //    @ResponseBody
 //    @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
