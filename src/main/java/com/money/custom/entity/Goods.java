@@ -1,6 +1,5 @@
 package com.money.custom.entity;
 
-import ch.qos.logback.core.util.StringCollectionUtil;
 import com.money.custom.entity.enums.GoodsCombineEnum;
 import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
@@ -23,6 +22,8 @@ public class Goods extends BaseEntity {
     private String effectiveDate;
     private String expireDate;
     private String desc;
+    private Integer cnt;
+    private Integer goodsItemTypeCnt;
 
     public Goods() {}
 
@@ -32,6 +33,8 @@ public class Goods extends BaseEntity {
         this.type = GoodsTypeEnum.SINGLE.getValue();
         this.effectiveDate = DateUtils.nowDate();
         this.expireDate = Consts.SINGLE_GOODS_EXPIRE_DATE;
+        this.cnt = 1;
+        this.goodsItemTypeCnt = 1;
         this.setStatus(request.getStatus());
         copyOperationInfo(request);
     }
@@ -43,8 +46,26 @@ public class Goods extends BaseEntity {
         this.type = GoodsTypeEnum.PACKAGE.getValue();
         this.effectiveDate = DateUtils.nowDate();
         this.expireDate = Consts.PACKAGE_GOODS_EXPIRE_DATE;
+        this.cnt = request.getCnt();
+        this.goodsItemTypeCnt = 0;
         this.setStatus(request.getStatus());
         copyOperationInfo(request);
+    }
+
+    public Integer getGoodsItemTypeCnt() {
+        return goodsItemTypeCnt;
+    }
+
+    public void setGoodsItemTypeCnt(Integer goodsItemTypeCnt) {
+        this.goodsItemTypeCnt = goodsItemTypeCnt;
+    }
+
+    public Integer getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(Integer cnt) {
+        this.cnt = cnt;
     }
 
     public String getDesc() {

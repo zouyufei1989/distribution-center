@@ -1,6 +1,7 @@
 package com.money.custom.service.impl;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.money.custom.dao.GoodsDao;
 import com.money.custom.dao.GoodsItemDao;
 import com.money.custom.entity.Goods;
@@ -29,6 +30,8 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
     GoodsDao dao;
     @Autowired
     GoodsItemDao itemDao;
+    @Autowired
+    GoodsItemDao goodsItemDao;
 
     @Override
     public List<Goods> selectSearchList(QueryGoodsRequest request) {
@@ -113,6 +116,34 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
         goods.setId(request.getId());
         dao.edit(goods);
         return goods.getId().toString();
+    }
+
+    @Transactional
+    @Override
+    public String assignGoods4Package(AssignGoods4PackageRequest request) {
+        Goods packageGoods = findById(request.getGoodsId().toString());
+        Assert.notNull(packageGoods, "套餐不存在");
+        Assert.isTrue(packageGoods.getType().equals(GoodsTypeEnum.PACKAGE.getValue()), "非套餐，不可操作");
+
+        QueryGoodsItemRequest queryGoodsItemRequest = new QueryGoodsItemRequest();
+        queryGoodsItemRequest.setIdSet(Sets.newHashSet(request.getGoodsItemIdList()));
+        List<GoodsItem> goodsItems = goodsItemDao.selectSearchList(queryGoodsItemRequest);
+        Assert.isTrue(goodsItems.size() == request.getGoodsItemIdList().size(), "商品数量对比失败");
+        Assert.isTrue(goodsItems.stream().allMatch(i -> i.getGroupId().equals(packageGoods.getGroupId())), "不可跨公司分配商品");
+
+        goodsItems.forEach(g -> {
+            g.setCnt(packageGoods.getCnt());
+            g.setGoodsId(packageGoods.getId());
+            g.copyOperationInfo(request);
+        });
+        goodsItemDao.addBatch(goodsItems);
+
+        Goods goods = new Goods();
+        goods.setId(packageGoods.getId());
+        goods.copyOperationInfo(request);
+        dao.edit(goods);
+
+        return request.getGoodsId().toString();
     }
 
 }

@@ -5,6 +5,11 @@
     <%@ include file="../template_meta.jsp" %>
     <%@ include file="../template_css.jsp" %>
     <%@ include file="../template_js.jsp" %>
+    <style type="text/css">
+        #packageGoodsModal option {
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
 <%@ include file="../template_menu.jsp" %>
@@ -28,7 +33,7 @@
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>门店:</label>
-                                    <group-combo id="goods.groupId" must_choose_one="false" search-param ></group-combo>
+                                    <group-combo id="goods.groupId" must_choose_one="false" search-param></group-combo>
                                 </div>
                                 <div class="form-group">
                                     <label>套餐名称:</label> <input type="text" id="goods.name" search-param class="form-control">
@@ -50,14 +55,13 @@
 </div>
 
 <%@ include file="update.jsp" %>
-<%--<%@ include file="detailEdit.jsp" %>--%>
-<%--<%@ include file="detailView.jsp" %>--%>
+<%@ include file="editPackageGoods.jsp" %>
 
 </body>
 <script type="text/javascript">
     loadJS("../script/js/view/package/index.js", 1)
     loadJS("../script/js/view/package/update.js", 1)
-    // loadJS("../script/js/view/package/detail.js", 1)
+    loadJS("../script/js/view/package/editPackageGoods.js", 1)
 </script>
 
 </html>

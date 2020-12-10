@@ -1,5 +1,6 @@
 package com.money.custom.controller;
 
+import com.money.custom.entity.request.AssignGoods4PackageRequest;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.MoAGoods4PackageRequest;
 import com.money.custom.entity.request.QueryGoodsRequest;
@@ -55,6 +56,14 @@ public class PackageController extends BaseController {
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     public ResponseBase edit(@Valid @RequestBody MoAGoods4PackageRequest request, BindingResult bindingResult) {
         this.goodsService.editPackageItem(request);
+        return ResponseBase.success();
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "assignGoods4Package", method = RequestMethod.POST)
+    public ResponseBase assignGoods4Package(@Valid @RequestBody AssignGoods4PackageRequest request, BindingResult bindingResult) {
+        this.goodsService.assignGoods4Package(request);
         return ResponseBase.success();
     }
 

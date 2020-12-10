@@ -63,6 +63,8 @@
     loadJS("${pageContext.request.contextPath}/script/plugins/countUp/countUp.js");
     <!--touchspin 按钮输入框-->
     loadJS("${pageContext.request.contextPath}/script/plugins/inspinia/js/plugins/touchspin/jquery.bootstrap-touchspin.min.js");
+    <!--双向选择框-->
+    loadJS("${pageContext.request.contextPath}/script/plugins/duallistbox/jquery.bootstrap-duallistbox.js");
 
     loadJS("${pageContext.request.contextPath}/script/js/common_cookies.js");
     loadJS("${pageContext.request.contextPath}/script/js/main.js", 1);

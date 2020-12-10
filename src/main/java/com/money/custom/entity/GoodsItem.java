@@ -26,7 +26,6 @@ public class GoodsItem extends BaseEntity {
     private String detail;
     private Integer cnt;
 
-
     public GoodsItem() {}
 
     public GoodsItem(MoAGoods4SingleRequest request,Integer goodsId) {

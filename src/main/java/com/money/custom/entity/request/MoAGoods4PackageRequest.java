@@ -15,6 +15,16 @@ public class MoAGoods4PackageRequest extends OperationalEntity {
     private String desc;
     @NotNull(message = "请选择套餐状态")
     private Integer status;
+    @NotNull(message = "请输入次数")
+    private Integer cnt;
+
+    public Integer getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(Integer cnt) {
+        this.cnt = cnt;
+    }
 
     public Integer getStatus() {
         return status;

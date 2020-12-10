@@ -2,10 +2,7 @@ package com.money.custom.service;
 
 import com.money.custom.entity.Goods;
 import com.money.custom.entity.GoodsItem;
-import com.money.custom.entity.request.MoAGoods4PackageRequest;
-import com.money.custom.entity.request.MoAGoods4SingleRequest;
-import com.money.custom.entity.request.ChangeStatusRequest;
-import com.money.custom.entity.request.QueryGoodsRequest;
+import com.money.custom.entity.request.*;
 import com.money.framework.base.service.BaseService;
 
 import java.util.List;
@@ -27,5 +24,7 @@ public interface GoodsService extends BaseService {
     String addPackageItem(MoAGoods4PackageRequest request);
 
     String editPackageItem(MoAGoods4PackageRequest request);
+
+    String assignGoods4Package(AssignGoods4PackageRequest request);
 
 }

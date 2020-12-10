@@ -9,6 +9,7 @@
 		SELECT
 			dgi.id,
 			dgi.goods_id AS goodsId,
+			dg.id AS groupId,
 			dgi.name,
 			dg.name AS groupName,
 			dgi.desc,
@@ -33,6 +34,12 @@
 					#{goodsId}
 				</foreach>
 			</if>
+			<if test="idSet!=null and idSet.size()>0">
+				AND dgi.id IN
+				<foreach collection="idSet" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
 		</if>
@@ -46,6 +53,7 @@
 			profit_rate,
 			goods_tag_id,
 			price,
+			cnt,
 			show_price,
 			unit,
 			thumbnail,
@@ -62,6 +70,7 @@
 			#{item.profitRate},
 			#{item.goodsTagId},
 			#{item.price},
+			#{item.cnt},
 			#{item.showPrice},
 			#{item.unit},
 			#{item.thumbnail},

@@ -13,6 +13,8 @@
 			dgs.type,
 			dg.name AS groupName,
 			dgs.status,
+			dgs.cnt,
+			dgs.goods_item_type_cnt AS goodsItemTypeCnt,
 			dgs.desc,
 			dgs.create_date AS createDate
 		FROM <include refid="tableName"/> dgs
@@ -92,10 +94,12 @@
 	</select>
 	
 	<select id="findById" parameterType="String" resultType="Goods">
-		SELECT 
+		SELECT
+			dgs.id,
 			dgs.group_id AS groupId,
 			dgs.name,
 			dgs.status,
+			dgs.cnt,
 			dgs.type,
 			dgs.combine,
 			dg.name AS groupName,
@@ -113,6 +117,8 @@
 			combine,
 			`type`,
 			`desc`,
+			cnt,
+			goods_item_type_cnt,
 			group_id,
 			effective_date,
 			expire_date,
@@ -127,6 +133,8 @@
 			#{combine},
 			#{type},
 			#{desc},
+			#{cnt},
+			#{goodsItemTypeCnt},
 			#{groupId},
 			#{effectiveDate},
 			#{expireDate},
@@ -142,6 +150,7 @@
 			update_date = NOW()
 			,updater = #{updater}
 			,update_ip = #{updateIp}
+			,goods_item_type_cnt = (SELECT COUNT(*) FROM d_goods_item WHERE goods_id = #{id})
 			<if test="name != null">
 				,name = #{name}
 			</if>
@@ -150,6 +159,9 @@
 			</if>
 			<if test="status != null">
 				,status = #{status}
+			</if>
+			<if test="cnt != null">
+				,cnt = #{cnt}
 			</if>
 		WHERE id = #{id}
 	</update>

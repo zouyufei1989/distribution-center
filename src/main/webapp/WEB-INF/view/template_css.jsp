@@ -25,6 +25,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/dropzone/dropzone.css">
 <!--数字文本框-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/inspinia/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css">
+<!--双向选择框-->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/duallistbox/bootstrap-duallistbox.css">
 
 
 <style type="text/css">
