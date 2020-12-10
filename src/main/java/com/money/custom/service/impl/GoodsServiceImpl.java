@@ -7,10 +7,7 @@ import com.money.custom.entity.Goods;
 import com.money.custom.entity.GoodsItem;
 import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
-import com.money.custom.entity.request.MoAGoods4SingleRequest;
-import com.money.custom.entity.request.ChangeStatusRequest;
-import com.money.custom.entity.request.QueryGoodsItemRequest;
-import com.money.custom.entity.request.QueryGoodsRequest;
+import com.money.custom.entity.request.*;
 import com.money.custom.service.GoodsService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
@@ -89,7 +86,7 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
         goods.setId(request.getId());
         dao.edit(goods);
 
-        GoodsItem item = new GoodsItem(request,goodsSrc.getId());
+        GoodsItem item = new GoodsItem(request, goodsSrc.getId());
         item.setId(goodsSrc.getItems().get(0).getId());
         itemDao.edit(item);
 
@@ -101,6 +98,21 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
     public List<String> changeStatus(ChangeStatusRequest request) {
         dao.changeStatus(request);
         return request.getIds();
+    }
+
+    @Override
+    public String addPackageItem(MoAGoods4PackageRequest request) {
+        Goods goods = new Goods(request);
+        dao.add(goods);
+        return goods.getId().toString();
+    }
+
+    @Override
+    public String editPackageItem(MoAGoods4PackageRequest request) {
+        Goods goods = new Goods(request);
+        goods.setId(request.getId());
+        dao.edit(goods);
+        return goods.getId().toString();
     }
 
 }

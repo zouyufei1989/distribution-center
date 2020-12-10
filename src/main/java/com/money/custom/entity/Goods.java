@@ -1,14 +1,17 @@
 package com.money.custom.entity;
 
-import com.google.common.collect.Lists;
+import ch.qos.logback.core.util.StringCollectionUtil;
 import com.money.custom.entity.enums.GoodsCombineEnum;
 import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.request.MoAGoods4PackageRequest;
 import com.money.custom.entity.request.MoAGoods4SingleRequest;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.DateUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Goods extends BaseEntity {
 
@@ -19,6 +22,7 @@ public class Goods extends BaseEntity {
     private List<GoodsItem> items;
     private String effectiveDate;
     private String expireDate;
+    private String desc;
 
     public Goods() {}
 
@@ -32,23 +36,57 @@ public class Goods extends BaseEntity {
         copyOperationInfo(request);
     }
 
+    public Goods(MoAGoods4PackageRequest request) {
+        this.name = request.getName();
+        this.desc = request.getDesc();
+        this.combine = GoodsCombineEnum.COMBINE.getValue();
+        this.type = GoodsTypeEnum.PACKAGE.getValue();
+        this.effectiveDate = DateUtils.nowDate();
+        this.expireDate = Consts.PACKAGE_GOODS_EXPIRE_DATE;
+        this.setStatus(request.getStatus());
+        copyOperationInfo(request);
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
     public String getDesc4SingleShow() {
+        if (Objects.isNull(this.type) || !this.type.equals(GoodsTypeEnum.SINGLE.getValue())) {
+            return StringUtils.EMPTY;
+        }
         return items.get(0).getDesc();
     }
 
     public String getProfitRate4SingleShow() {
+        if (Objects.isNull(this.type) || !this.type.equals(GoodsTypeEnum.SINGLE.getValue())) {
+            return StringUtils.EMPTY;
+        }
         return items.get(0).getProfitRate4Show();
     }
 
     public String getPrice4SingleShow() {
+        if (Objects.isNull(this.type) || !this.type.equals(GoodsTypeEnum.SINGLE.getValue())) {
+            return StringUtils.EMPTY;
+        }
         return items.get(0).getPrice4Show();
     }
 
     public String getGoodsTagName4SingleShow() {
+        if (Objects.isNull(this.type) || !this.type.equals(GoodsTypeEnum.SINGLE.getValue())) {
+            return StringUtils.EMPTY;
+        }
         return items.get(0).getGoodsTagName();
     }
 
     public String getUnit4SingleShow() {
+        if (Objects.isNull(this.type) || !this.type.equals(GoodsTypeEnum.SINGLE.getValue())) {
+            return StringUtils.EMPTY;
+        }
         return items.get(0).getUnit();
     }
 

@@ -1,8 +1,7 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.request.ChangeStatusRequest;
-import com.money.custom.entity.request.MoAGoods4SingleRequest;
-import com.money.custom.entity.request.ModifyGoodsDetailRequest;
+import com.money.custom.entity.request.MoAGoods4PackageRequest;
 import com.money.custom.entity.request.QueryGoodsRequest;
 import com.money.custom.service.GoodsService;
 import com.money.framework.base.annotation.VisitLogFlag;
@@ -20,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 
-@VisitLogFlag(module = "商品管理", resource = "商品信息管理")
+@VisitLogFlag(module = "商品管理", resource = "套餐管理")
 @Controller
-@RequestMapping("/goods/*")
-public class GoodsController extends BaseController {
+@RequestMapping("/package/*")
+public class PackageController extends BaseController {
 
     @Autowired
     private GoodsService goodsService;
@@ -39,8 +38,8 @@ public class GoodsController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseBase add(@Valid @RequestBody MoAGoods4SingleRequest request, BindingResult bindingResult) {
-        this.goodsService.addSingleItem(request);
+    public ResponseBase add(@Valid @RequestBody MoAGoods4PackageRequest request, BindingResult bindingResult) {
+        this.goodsService.addPackageItem(request);
         return ResponseBase.success();
     }
 
@@ -54,8 +53,8 @@ public class GoodsController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ResponseBase edit(@Valid @RequestBody MoAGoods4SingleRequest request, BindingResult bindingResult) {
-        this.goodsService.editSingleItem(request);
+    public ResponseBase edit(@Valid @RequestBody MoAGoods4PackageRequest request, BindingResult bindingResult) {
+        this.goodsService.editPackageItem(request);
         return ResponseBase.success();
     }
 
@@ -66,18 +65,5 @@ public class GoodsController extends BaseController {
         this.goodsService.changeStatus(request);
         return ResponseBase.success();
     }
-
-    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
-    @ResponseBody
-    @RequestMapping(value = "editGoodsDetail", method = RequestMethod.POST)
-    public ResponseBase changeStatus(@Valid @RequestBody ModifyGoodsDetailRequest request, BindingResult bindingResult) {
-        MoAGoods4SingleRequest editRequest = new MoAGoods4SingleRequest();
-        editRequest.setId(request.getId());
-        editRequest.setDetail(request.getDetail());
-        editRequest.copyOperationInfo(request);
-        this.goodsService.editSingleItem(editRequest);
-        return ResponseBase.success();
-    }
-
 
 }

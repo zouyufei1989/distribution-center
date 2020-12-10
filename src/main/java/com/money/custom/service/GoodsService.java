@@ -2,6 +2,7 @@ package com.money.custom.service;
 
 import com.money.custom.entity.Goods;
 import com.money.custom.entity.GoodsItem;
+import com.money.custom.entity.request.MoAGoods4PackageRequest;
 import com.money.custom.entity.request.MoAGoods4SingleRequest;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryGoodsRequest;
@@ -22,5 +23,9 @@ public interface GoodsService extends BaseService {
     String editSingleItem(MoAGoods4SingleRequest request);
 
     List<String> changeStatus(ChangeStatusRequest request);
+
+    String addPackageItem(MoAGoods4PackageRequest request);
+
+    String editPackageItem(MoAGoods4PackageRequest request);
 
 }

@@ -1,6 +1,4 @@
 var attrs = ['groupId', 'name', 'profitRate', 'price', 'unit', 'thumbnail', 'desc', 'status', 'goodsTagId', 'showPrice'];
-var customEditUrl = "editSingleItem";
-var customAddUrl = "addSingleItem";
 
 $(document).ready(function () {
     new Vue({el: '#status'});

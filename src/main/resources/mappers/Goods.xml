@@ -13,24 +13,37 @@
 			dgs.type,
 			dg.name AS groupName,
 			dgs.status,
+			dgs.desc,
 			dgs.create_date AS createDate
 		FROM <include refid="tableName"/> dgs
 		LEFT JOIN d_group dg ON dg.id = dgs.group_id
 		WHERE
 			dgs.status != -2
+			<if test="goods.type!=null">
+				AND dgs.type = #{goods.type}
+			</if>
 			<if test="goods.name!=null and goods.name!=''">
-				AND EXISTS
-				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goods.name},'%'))
+				AND dgs.name LIKE CONCAT('%',#{goods.name},'%')
 			</if>
 			<if test="goods.status!=null">
 				AND dgs.status = #{goods.status}
 			</if>
-			<if test="goods.goodsTagId!=null">
+			<if test="goodsItem.name!=null and goodsItem.name!=''">
 				AND EXISTS
-				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND goods_tag_id = #{goods.goodsTagId})
+				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goodsItem.name},'%'))
+			</if>
+			<if test="goodsItem.status!=null">
+				AND dgs.status = #{goodsItem.status}
 			</if>
 			<if test="goods.groupId!=null">
 				AND dgs.group_id = #{goods.groupId}
+			</if>
+			<if test="goodsItem.goodsTagId!=null">
+				AND EXISTS
+				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND goods_tag_id = #{goodsItem.goodsTagId})
+			</if>
+			<if test="goodsItem.groupId!=null">
+				AND dgs.group_id = #{goodsItem.groupId}
 			</if>
 			<if test="groupId!=null">
 				AND dgs.group_id = #{groupId}
@@ -47,19 +60,31 @@
 		FROM <include refid="tableName"/> dgs
 		WHERE
 			dgs.status != -2
+			<if test="goods.type!=null">
+				AND dgs.type = #{goods.type}
+			</if>
 			<if test="goods.name!=null and goods.name!=''">
-				AND EXISTS
-				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goods.name},'%'))
+				AND dgs.name LIKE CONCAT('%',#{goods.name},'%')
 			</if>
 			<if test="goods.status!=null">
 				AND dgs.status = #{goods.status}
 			</if>
-			<if test="goods.goodsTagId!=null">
+			<if test="goodsItem.name!=null and goodsItem.name!=''">
 				AND EXISTS
-				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND goods_tag_id = #{goods.goodsTagId})
+				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND name LIKE CONCAT('%',#{goodsItem.name},'%'))
+			</if>
+			<if test="goodsItem.status!=null">
+				AND dgs.status = #{goodsItem.status}
 			</if>
 			<if test="goods.groupId!=null">
 				AND dgs.group_id = #{goods.groupId}
+			</if>
+			<if test="goodsItem.goodsTagId!=null">
+				AND EXISTS
+				(SELECT 1 FROM d_goods_item WHERE dgs.id = goods_id AND goods_tag_id = #{goodsItem.goodsTagId})
+			</if>
+			<if test="goodsItem.groupId!=null">
+				AND dgs.group_id = #{goodsItem.groupId}
 			</if>
 			<if test="groupId!=null">
 				AND dgs.group_id = #{groupId}
@@ -73,7 +98,8 @@
 			dgs.status,
 			dgs.type,
 			dgs.combine,
-			dg.name AS groupName
+			dg.name AS groupName,
+			dgs.desc
 		FROM <include refid="tableName"/> dgs
 		LEFT JOIN d_group dg ON dg.id = dgs.group_id
 		WHERE dgs.id = #{id}
@@ -85,7 +111,8 @@
 			name,
 			status,
 			combine,
-			type,
+			`type`,
+			`desc`,
 			group_id,
 			effective_date,
 			expire_date,
@@ -99,6 +126,7 @@
 			#{status},
 			#{combine},
 			#{type},
+			#{desc},
 			#{groupId},
 			#{effectiveDate},
 			#{expireDate},
@@ -116,6 +144,9 @@
 			,update_ip = #{updateIp}
 			<if test="name != null">
 				,name = #{name}
+			</if>
+			<if test="desc != null">
+				,`desc` = #{desc}
 			</if>
 			<if test="status != null">
 				,status = #{status}

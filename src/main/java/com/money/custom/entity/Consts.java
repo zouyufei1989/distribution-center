@@ -11,4 +11,6 @@ public interface Consts {
     String ARGS_ERR_MSG = "服务器异常";
 
     String SINGLE_GOODS_EXPIRE_DATE = "2099-12-31";
+
+    String PACKAGE_GOODS_EXPIRE_DATE = "2099-12-31";
 }
