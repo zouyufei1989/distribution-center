@@ -32,7 +32,7 @@
             },
             methods: {
                 getModalName: function () {
-                    return $('#header_level_nav a:eq(1)').text().replace("管理", "");
+                    return $('#header_level_nav a:eq(1)').text().replace("管理", "").replace("维护", "");
                 }
             },
             mounted() {

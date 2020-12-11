@@ -5,7 +5,12 @@
     <%@ include file="../template_meta.jsp" %>
     <%@ include file="../template_css.jsp" %>
     <%@ include file="../template_js.jsp" %>
+
     <style type="text/css">
+        .layui-tree-entry {
+            padding: 20px;
+        }
+
         #updateModal .modal-dialog {
             position: absolute;
             top: 0;
@@ -39,7 +44,12 @@
             bottom: 0;
         }
 
+        span :has([data-type="type"]) {
+            color: red
+        }
+
     </style>
+
 </head>
 <body>
 <%@ include file="../template_menu.jsp" %>
@@ -56,25 +66,23 @@
                             <%@ include file="../template_btnGroup.jsp" %>
                             <%@ include file="../template_search_export_btn.jsp" %>
                             <%@ include file="../template_upload_modal.jsp" %>
-                            <%@ include file="../vue_template/goods_show_price_combo.jsp" %>
-                            <%@ include file="../vue_template/goods_tag_combo.jsp" %>
                             <%@ include file="../vue_template/group_combo.jsp" %>
                             <%@ include file="../vue_template/status_combo.jsp" %>
+                            <%@ include file="../vue_template/activity_scope_combo.jsp" %>
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>门店:</label>
-                                    <group-combo id="goodsItem.groupId" must_choose_one="false" search-param ></group-combo>
+                                    <group-combo id="goods.groupId" must_choose_one="false" search-param></group-combo>
                                 </div>
                                 <div class="form-group">
-                                    <label>商品名称:</label> <input type="text" id="goodsItem.name" search-param class="form-control">
+                                    <label>活动编号:</label> <input type="text" id="goods.serialNumber" search-param class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label>标签:</label>
-                                    <goods-tag-combo id="goodsItem.goodsTagId" must_choose_one="false" :group_id="groupId" search-param></goods-tag-combo>
+                                    <label>活动名称:</label> <input type="text" id="goods.name" search-param class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>状态:</label>
-                                    <status-combo id="goodsItem.status" search-param must_choose_one="false"></status-combo>
+                                    <status-combo id="goods.status" search-param must_choose_one="false"></status-combo>
                                 </div>
                                 <reload-export-btn-group id="btnGroup" reload="true"></reload-export-btn-group>
                             </div>
@@ -88,15 +96,12 @@
 </div>
 
 <%@ include file="update.jsp" %>
-<%@ include file="detailEdit.jsp" %>
-<%@ include file="detailView.jsp" %>
 
 </body>
 <script type="text/javascript">
-    loadJS("${pageContext.request.contextPath}/script/plugins/wangEditor/wangEditor.js")
-    loadJS("../script/js/view/goods/index.js", 1)
-    loadJS("../script/js/view/goods/update.js", 1)
-    loadJS("../script/js/view/goods/detail.js", 1)
+    loadJS("../script/js/view/activity/index.js", 1)
+    loadJS("../script/js/view/activity/update.js", 1)
+    loadJS("../script/js/view/activity/editActivityGoods.js", 1)
 </script>
 
 </html>

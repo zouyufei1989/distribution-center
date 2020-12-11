@@ -1,5 +1,6 @@
 package com.money.custom.controller;
 
+import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.MoAGoods4SingleRequest;
 import com.money.custom.entity.request.ModifyGoodsDetailRequest;
@@ -32,6 +33,7 @@ public class GoodsController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "list/search")
     public GridResponseBase listSearch(QueryGoodsRequest request) {
+        request.getGoods().setType(GoodsTypeEnum.SINGLE.getValue());
         int recordCount = this.goodsService.selectSearchListCount(request);
         return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.goodsService.selectSearchList(request));
     }

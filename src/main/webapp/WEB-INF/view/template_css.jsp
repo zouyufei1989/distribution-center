@@ -28,6 +28,8 @@
 <!--双向选择框-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/duallistbox/bootstrap-duallistbox.css">
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/layui/css/layui.css">
+
 
 <style type="text/css">
 

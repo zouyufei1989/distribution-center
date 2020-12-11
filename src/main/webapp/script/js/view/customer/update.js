@@ -42,7 +42,7 @@ function additionFunc4Add() {
         async: true,
         cache: false,
         success: function (result) {
-            $('#serialNumber').val(result.serialNumber);
+            $('#serialNumber').val(result.data);
         }
     });
 }

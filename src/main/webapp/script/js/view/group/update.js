@@ -79,7 +79,7 @@ function initWeekday(ele) {
 
 function initTime(ele) {
     var time = new Date('2020-01-01 00:00:00').getTime();
-    for (var i = 0; i < 24 * 60; i++) {
+    for (var i = 0; i < 24 * 60; i+=5) {
         var timeStr = new Date(time + i * 1000 * 60).Format('hh:mm');
         $('#' + ele).append("<option value='" + timeStr + "'>" + timeStr + "</option>");
     }

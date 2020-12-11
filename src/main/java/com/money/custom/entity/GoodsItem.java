@@ -13,6 +13,7 @@ import java.util.Objects;
 public class GoodsItem extends BaseEntity {
 
     private Integer id;
+    private Integer parentId;
     private Integer goodsId;
     private String name;
     private Integer profitRate; // ÷1000
@@ -41,6 +42,14 @@ public class GoodsItem extends BaseEntity {
         this.desc = request.getDesc();
         this.cnt = 1;
         copyOperationInfo(request);
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public Integer getGoodsId() {

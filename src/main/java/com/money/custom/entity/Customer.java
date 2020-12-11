@@ -21,11 +21,11 @@ public class Customer extends BaseEntity {
     public Customer(MoACustomerRequest request) {
         copyOperationInfo(request);
         name = request.getName();
+        phone = request.getPhone();
     }
 
     public Customer(AddCustomer4WechatRequest request) {
         openId = request.getOpenId();
-        phone = request.getPhone();
         nickName = request.getNickName();
         headCover = request.getHeadCover();
 

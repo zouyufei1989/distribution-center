@@ -42,7 +42,6 @@
                                     <label>状态:</label>
                                     <status-combo id="goods.status" search-param must_choose_one="false"></status-combo>
                                 </div>
-                                <input type="hidden" id="goods.type" value="2" search-param class="form-control">
                                 <reload-export-btn-group id="btnGroup" reload="true"></reload-export-btn-group>
                             </div>
                         </form>

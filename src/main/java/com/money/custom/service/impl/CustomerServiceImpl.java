@@ -12,22 +12,16 @@ import com.money.custom.entity.request.MoACustomerRequest;
 import com.money.custom.entity.request.QueryCustomerRequest;
 import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
-import com.money.framework.base.entity.OperationalEntity;
 import com.money.framework.base.exception.PandabusSpecException;
 import com.money.framework.base.service.impl.BaseServiceImpl;
-import com.money.framework.util.DateUtils;
 import com.money.h5.entity.request.AddCustomer4WechatRequest;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl extends BaseServiceImpl implements CustomerService {
@@ -126,7 +120,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 
         getLogger().info("创建customerGroup: {} - {}", request.getGroupId(), request.getPhone());
 
-        CustomerGroup customerGroup = new CustomerGroup(request, utilsService.generateSerialNumber(SerialNumberEnum.CUSTOMER), customer.getId(), walletId, bonusWalletId);
+        CustomerGroup customerGroup = new CustomerGroup(request, utilsService.generateSerialNumber(SerialNumberEnum.CS), customer.getId(), walletId, bonusWalletId);
         customerGroupService.add(customerGroup);
 
         return customer.getId().toString();

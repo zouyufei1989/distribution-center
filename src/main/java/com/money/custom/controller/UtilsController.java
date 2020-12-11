@@ -1,18 +1,12 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.dto.FileUploaded;
-import com.money.custom.entity.enums.CommonStatusEnum;
-import com.money.custom.entity.enums.CustomerTypeEnum;
-import com.money.custom.entity.enums.GoodsShowPriceEnum;
-import com.money.custom.entity.enums.SerialNumberEnum;
-import com.money.custom.entity.request.QueryGoodsTagRequest;
-import com.money.custom.entity.request.QueryGroupRequest;
+import com.money.custom.entity.enums.*;
 import com.money.custom.entity.response.UploadResponse;
 import com.money.custom.service.UtilsService;
 import com.money.framework.base.annotation.SkipUserLoginCheck;
 import com.money.framework.base.entity.GridResponseBase;
 import com.money.framework.base.entity.ResponseBase;
-import com.money.framework.base.exception.PandabusSpecException;
 import com.money.framework.base.web.controller.BaseController;
 import com.money.framework.util.DateUtils;
 import com.money.framework.util.EnumUtils;
@@ -20,8 +14,6 @@ import com.money.framework.util.UploadUtils;
 import com.money.framework.util.upyun.UpYunUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,10 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/utils/*")
@@ -70,13 +59,19 @@ public class UtilsController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "generateBonusSerialNumber")
     public ResponseBase generateBonusSerialNumber() {
-        return ResponseBase.success(utilsService.generateSerialNumber(SerialNumberEnum.BONUS_PLAN));
+        return ResponseBase.success(utilsService.generateSerialNumber(SerialNumberEnum.BP));
     }
 
     @ResponseBody
     @RequestMapping(value = "generateCustomerSerialNumber")
     public ResponseBase generateCustomerSerialNumber() {
-        return ResponseBase.success(utilsService.generateSerialNumber(SerialNumberEnum.CUSTOMER));
+        return ResponseBase.success(utilsService.generateSerialNumber(SerialNumberEnum.CS));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "generateActivitySerialNumber")
+    public ResponseBase generateActivitySerialNumber() {
+        return ResponseBase.success(utilsService.generateSerialNumber(SerialNumberEnum.GA));
     }
 
     @ResponseBody
@@ -89,6 +84,12 @@ public class UtilsController extends BaseController {
     @RequestMapping(value = "selectCustomerType")
     public GridResponseBase selectCustomerType() {
         return new GridResponseBase(EnumUtils.getEnumEntriesVN(CustomerTypeEnum.class));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "selectActivityScope")
+    public GridResponseBase selectActivityScope() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(ActivityScopeEnum.class));
     }
 
     @ResponseBody

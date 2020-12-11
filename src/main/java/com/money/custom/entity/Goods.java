@@ -1,12 +1,15 @@
 package com.money.custom.entity;
 
 import com.money.custom.entity.enums.GoodsCombineEnum;
+import com.money.custom.entity.enums.ActivityScopeEnum;
 import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.request.MoAGoods4ActivityRequest;
 import com.money.custom.entity.request.MoAGoods4PackageRequest;
 import com.money.custom.entity.request.MoAGoods4SingleRequest;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.DateUtils;
+import com.money.framework.util.EnumUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
@@ -24,32 +27,139 @@ public class Goods extends BaseEntity {
     private String desc;
     private Integer cnt;
     private Integer goodsItemTypeCnt;
+    private String serialNumber;
+    private Integer scope;
+    private Integer maxCntPerCus;
+    private String coverImg;
+    private Integer sumPrice;
 
     public Goods() {}
 
-    public Goods(MoAGoods4SingleRequest request) {
-        this.name = request.getName();
-        this.combine = GoodsCombineEnum.SINGLE.getValue();
-        this.type = GoodsTypeEnum.SINGLE.getValue();
-        this.effectiveDate = DateUtils.nowDate();
-        this.expireDate = Consts.SINGLE_GOODS_EXPIRE_DATE;
-        this.cnt = 1;
-        this.goodsItemTypeCnt = 1;
-        this.setStatus(request.getStatus());
-        copyOperationInfo(request);
+    public static Goods build4SingleAdd(MoAGoods4SingleRequest request, String serialNumber) {
+        Goods item = new Goods();
+        item.combine = GoodsCombineEnum.SINGLE.getValue();
+        item.type = GoodsTypeEnum.SINGLE.getValue();
+        item.effectiveDate = DateUtils.nowDate();
+        item.expireDate = Consts.SINGLE_GOODS_EXPIRE_DATE;
+        item.cnt = 1;
+        item.goodsItemTypeCnt = 1;
+        item.scope = ActivityScopeEnum.ALL.getValue();
+        item.maxCntPerCus = Consts.MAX_CNT_PER_CUSTOMER;
+
+
+        item.name = request.getName();
+        item.setStatus(request.getStatus());
+        item.serialNumber = serialNumber;
+        item.sumPrice = request.getPrice();
+        item.copyOperationInfo(request);
+        return item;
     }
 
-    public Goods(MoAGoods4PackageRequest request) {
-        this.name = request.getName();
-        this.desc = request.getDesc();
-        this.combine = GoodsCombineEnum.COMBINE.getValue();
-        this.type = GoodsTypeEnum.PACKAGE.getValue();
-        this.effectiveDate = DateUtils.nowDate();
-        this.expireDate = Consts.PACKAGE_GOODS_EXPIRE_DATE;
-        this.cnt = request.getCnt();
-        this.goodsItemTypeCnt = 0;
-        this.setStatus(request.getStatus());
-        copyOperationInfo(request);
+    public static Goods build4SingleEdit(MoAGoods4SingleRequest request) {
+        Goods item = new Goods();
+        item.name = request.getName();
+        item.sumPrice = request.getPrice();
+        item.setStatus(request.getStatus());
+        item.copyOperationInfo(request);
+        return item;
+    }
+
+    public static Goods build4PackageAdd(MoAGoods4PackageRequest request, String serialNumber) {
+        Goods item = new Goods();
+
+        item.combine = GoodsCombineEnum.COMBINE.getValue();
+        item.type = GoodsTypeEnum.PACKAGE.getValue();
+        item.effectiveDate = DateUtils.nowDate();
+        item.expireDate = Consts.PACKAGE_GOODS_EXPIRE_DATE;
+        item.goodsItemTypeCnt = 0;
+        item.scope = ActivityScopeEnum.ALL.getValue();
+        item.maxCntPerCus = Consts.MAX_CNT_PER_CUSTOMER;
+
+        item.setStatus(request.getStatus());
+        item.name = request.getName();
+        item.desc = request.getDesc();
+        item.cnt = request.getCnt();
+        item.serialNumber = serialNumber;
+
+        item.copyOperationInfo(request);
+        return item;
+    }
+
+    public static Goods build4PackageEdit(MoAGoods4PackageRequest request) {
+        Goods item = new Goods();
+
+        item.setStatus(request.getStatus());
+        item.name = request.getName();
+        item.desc = request.getDesc();
+        item.cnt = request.getCnt();
+
+        item.copyOperationInfo(request);
+        return item;
+    }
+
+    public static Goods build4ActivityAdd(MoAGoods4ActivityRequest request) {
+        Goods item = new Goods();
+
+        item.combine = GoodsCombineEnum.SINGLE.getValue();
+        item.type = GoodsTypeEnum.ACTIVITY.getValue();
+        item.effectiveDate = DateUtils.nowDate();
+        item.expireDate = request.getExpireDate();
+        item.goodsItemTypeCnt = request.getItems().size();
+        item.scope = request.getScope();
+        item.maxCntPerCus = request.getMaxCntPerCus();
+
+        item.setStatus(request.getStatus());
+        item.name = request.getName();
+        item.desc = request.getDesc();
+        item.cnt = request.getItems().stream().mapToInt(MoAGoods4ActivityRequest.ActivityItem::getCnt).sum();
+        item.serialNumber = request.getSerialNumber();
+
+        item.copyOperationInfo(request);
+        return item;
+    }
+
+    public Integer getSumPrice() {
+        return sumPrice;
+    }
+
+    public void setSumPrice(Integer sumPrice) {
+        this.sumPrice = sumPrice;
+    }
+
+    public String getScopeName() {
+        return EnumUtils.getNameByValue(ActivityScopeEnum.class, this.scope);
+    }
+
+    public String getCoverImg() {
+        return coverImg;
+    }
+
+    public void setCoverImg(String coverImg) {
+        this.coverImg = coverImg;
+    }
+
+    public Integer getScope() {
+        return scope;
+    }
+
+    public void setScope(Integer scope) {
+        this.scope = scope;
+    }
+
+    public Integer getMaxCntPerCus() {
+        return maxCntPerCus;
+    }
+
+    public void setMaxCntPerCus(Integer maxCntPerCus) {
+        this.maxCntPerCus = maxCntPerCus;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public Integer getGoodsItemTypeCnt() {

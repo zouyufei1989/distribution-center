@@ -16,6 +16,7 @@
 			dgi.detail,
 			dgi.profit_rate AS profitRate,
 			dgi.price,
+			dgi.cnt,
 			dgi.unit,
 			dgi.thumbnail,
 			dgt.name AS goodsTagName,
@@ -49,6 +50,7 @@
 		INSERT INTO <include refid="tableName"/>
 		(
 			goods_id,
+			parent_id,
 			name,
 			profit_rate,
 			goods_tag_id,
@@ -66,6 +68,7 @@
 		<foreach collection="list" separator="," item="item">
 			(
 			#{item.goodsId},
+			#{item.parentId},
 			#{item.name},
 			#{item.profitRate},
 			#{item.goodsTagId},

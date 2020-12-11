@@ -13,4 +13,6 @@ public interface Consts {
     String SINGLE_GOODS_EXPIRE_DATE = "2099-12-31";
 
     String PACKAGE_GOODS_EXPIRE_DATE = "2099-12-31";
+
+    Integer MAX_CNT_PER_CUSTOMER = 9999;
 }

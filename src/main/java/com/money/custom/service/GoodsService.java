@@ -23,8 +23,10 @@ public interface GoodsService extends BaseService {
 
     String addPackageItem(MoAGoods4PackageRequest request);
 
-    String editPackageItem(MoAGoods4PackageRequest request);
+//    String editPackageItem(MoAGoods4PackageRequest request);
 
     String assignGoods4Package(AssignGoods4PackageRequest request);
+
+    String addActivityWithItem(MoAGoods4ActivityRequest request);
 
 }

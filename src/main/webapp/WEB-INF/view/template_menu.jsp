@@ -69,7 +69,7 @@
                         }
                     }
                 });
-                initHeaderNav(data);
+                initHeaderNav(data.rows);
 
                 initInspina();
             }

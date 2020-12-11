@@ -8,8 +8,10 @@ import com.money.custom.entity.Goods;
 import com.money.custom.entity.GoodsItem;
 import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.GoodsService;
+import com.money.custom.service.UtilsService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
@@ -32,6 +34,8 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
     GoodsItemDao itemDao;
     @Autowired
     GoodsItemDao goodsItemDao;
+    @Autowired
+    UtilsService utilsService;
 
     @Override
     public List<Goods> selectSearchList(QueryGoodsRequest request) {
@@ -69,7 +73,7 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
     @Override
     @Transactional
     public String addSingleItem(MoAGoods4SingleRequest request) {
-        Goods goods = new Goods(request);
+        Goods goods = Goods.build4SingleAdd(request, utilsService.generateSerialNumber(SerialNumberEnum.GS));
         dao.add(goods);
 
         itemDao.addBatch(Lists.newArrayList(new GoodsItem(request, goods.getId())));
@@ -85,7 +89,7 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
         Assert.isTrue(goodsSrc.getType().equals(GoodsTypeEnum.SINGLE.getValue()), "商品不可修改");
         Assert.isTrue(goodsSrc.getItems().size() == 1, "商品无法修改");
 
-        Goods goods = new Goods(request);
+        Goods goods = Goods.build4SingleEdit(request);
         goods.setId(request.getId());
         dao.edit(goods);
 
@@ -105,18 +109,18 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
 
     @Override
     public String addPackageItem(MoAGoods4PackageRequest request) {
-        Goods goods = new Goods(request);
+        Goods goods = Goods.build4PackageAdd(request, utilsService.generateSerialNumber(SerialNumberEnum.GP));
         dao.add(goods);
         return goods.getId().toString();
     }
 
-    @Override
-    public String editPackageItem(MoAGoods4PackageRequest request) {
-        Goods goods = new Goods(request);
-        goods.setId(request.getId());
-        dao.edit(goods);
-        return goods.getId().toString();
-    }
+//    @Override
+//    public String editPackageItem(MoAGoods4PackageRequest request) {
+//        Goods goods = Goods.build4PackageEdit(request);
+//        goods.setId(request.getId());
+//        dao.edit(goods);
+//        return goods.getId().toString();
+//    }
 
     @Transactional
     @Override
@@ -135,15 +139,42 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
             g.setCnt(packageGoods.getCnt());
             g.setGoodsId(packageGoods.getId());
             g.copyOperationInfo(request);
+            g.setParentId(g.getId());
         });
         goodsItemDao.addBatch(goodsItems);
 
         Goods goods = new Goods();
         goods.setId(packageGoods.getId());
+        goods.setSumPrice(goodsItems.stream().mapToInt(i -> i.getPrice() * i.getCnt()).sum());
         goods.copyOperationInfo(request);
         dao.edit(goods);
 
         return request.getGoodsId().toString();
+    }
+
+    @Transactional
+    @Override
+    public String addActivityWithItem(MoAGoods4ActivityRequest request) {
+        Goods goods = Goods.build4ActivityAdd(request);
+        dao.add(goods);
+
+        QueryGoodsItemRequest queryGoodsItemRequest = new QueryGoodsItemRequest();
+        queryGoodsItemRequest.setIdSet(request.getItems().stream().map(i -> i.getGoodsItemId().toString()).collect(Collectors.toSet()));
+        List<GoodsItem> items = goodsItemDao.selectSearchList(queryGoodsItemRequest);
+
+        Assert.isTrue(items.size() == request.getItems().size(), "商品数量不一致");
+        items.forEach(i -> {
+            i.setParentId(i.getId());
+            i.setGoodsId(goods.getId());
+            i.setCnt(request.getItems().stream().filter(r -> r.getGoodsItemId().equals(i.getId())).findAny().get().getCnt());
+            i.copyOperationInfo(request);
+        });
+        goodsItemDao.addBatch(items);
+
+        goods.setSumPrice(items.stream().mapToInt(i -> i.getPrice() * i.getCnt()).sum());
+        dao.edit(goods);
+
+        return goods.getId().toString();
     }
 
 }

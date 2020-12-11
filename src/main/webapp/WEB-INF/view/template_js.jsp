@@ -66,6 +66,8 @@
     <!--双向选择框-->
     loadJS("${pageContext.request.contextPath}/script/plugins/duallistbox/jquery.bootstrap-duallistbox.js");
 
+    loadJS("${pageContext.request.contextPath}/script/plugins/layui/layui.js");
+
     loadJS("${pageContext.request.contextPath}/script/js/common_cookies.js");
     loadJS("${pageContext.request.contextPath}/script/js/main.js", 1);
 </script>
@@ -113,6 +115,7 @@
                 }
             }
         }
+        return array;
     }
 
     //对Date的扩展，将 Date 转化为指定格式的String

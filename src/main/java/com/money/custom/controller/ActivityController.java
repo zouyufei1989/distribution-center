@@ -1,10 +1,7 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.enums.GoodsTypeEnum;
-import com.money.custom.entity.request.AssignGoods4PackageRequest;
-import com.money.custom.entity.request.ChangeStatusRequest;
-import com.money.custom.entity.request.MoAGoods4PackageRequest;
-import com.money.custom.entity.request.QueryGoodsRequest;
+import com.money.custom.entity.request.*;
 import com.money.custom.service.GoodsService;
 import com.money.framework.base.annotation.VisitLogFlag;
 import com.money.framework.base.entity.GridResponseBase;
@@ -21,10 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 
-@VisitLogFlag(module = "商品管理", resource = "套餐管理")
+@VisitLogFlag(module = "商品管理", resource = "活动内容维护")
 @Controller
-@RequestMapping("/package/*")
-public class PackageController extends BaseController {
+@RequestMapping("/activity/*")
+public class ActivityController extends BaseController {
 
     @Autowired
     private GoodsService goodsService;
@@ -33,7 +30,7 @@ public class PackageController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "list/search")
     public GridResponseBase listSearch(QueryGoodsRequest request) {
-        request.getGoods().setType(GoodsTypeEnum.PACKAGE.getValue());
+        request.getGoods().setType(GoodsTypeEnum.ACTIVITY.getValue());
         int recordCount = this.goodsService.selectSearchListCount(request);
         return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.goodsService.selectSearchList(request));
     }
@@ -41,8 +38,8 @@ public class PackageController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseBase add(@Valid @RequestBody MoAGoods4PackageRequest request, BindingResult bindingResult) {
-        this.goodsService.addPackageItem(request);
+    public ResponseBase add(@Valid @RequestBody MoAGoods4ActivityRequest request, BindingResult bindingResult) {
+        this.goodsService.addActivityWithItem(request);
         return ResponseBase.success();
     }
 
@@ -52,7 +49,7 @@ public class PackageController extends BaseController {
     public ResponseBase findById(String id) {
         return ResponseBase.success(this.goodsService.findById(id));
     }
-
+//
 //    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
 //    @ResponseBody
 //    @RequestMapping(value = "edit", method = RequestMethod.POST)
@@ -60,14 +57,7 @@ public class PackageController extends BaseController {
 //        this.goodsService.editPackageItem(request);
 //        return ResponseBase.success();
 //    }
-
-    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
-    @ResponseBody
-    @RequestMapping(value = "assignGoods4Package", method = RequestMethod.POST)
-    public ResponseBase assignGoods4Package(@Valid @RequestBody AssignGoods4PackageRequest request, BindingResult bindingResult) {
-        this.goodsService.assignGoods4Package(request);
-        return ResponseBase.success();
-    }
+//
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody

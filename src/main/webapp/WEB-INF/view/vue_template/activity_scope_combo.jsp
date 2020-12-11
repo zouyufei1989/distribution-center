@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <script type="text/javascript">
-    Vue.component('status-combo', {
+    Vue.component('activity-scope-combo', {
         props: ['id', 'must_choose_one'],
         data: function () {
             var data = this.must_choose_one == "false" ? [{
@@ -9,7 +9,7 @@
                 name: '请选择'
             }] : [];
             $.ajax({
-                url: '${ctx}/utils/selectStatus',
+                url: '${ctx}/utils/selectActivityScope',
                 data: {},
                 type: 'post',
                 async: false,
@@ -24,19 +24,17 @@
                 }
             });
             return {
-                items: sort(data, (i, j) => {
-                    return i.value == j.value ? 0 : i.value - j.value;
-                })
+                items: data
             }
         }, mounted: function () {
             $('.select2_demo_3').select2();
 
-        }, template: '#status-combo-template'
+        }, template: '#activity-scope-combo-template'
     })
 </script>
 
 
-<template id="status-combo-template">
+<template id="activity-scope-combo-template">
     <select :id="id" class="select2_demo_3 form-control m-b">
         <option v-for="(item,index) in items" :value="item.value">{{item.name}}</option>
     </select>
