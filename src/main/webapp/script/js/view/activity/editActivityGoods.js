@@ -2,6 +2,7 @@ var TREE;
 
 $(document).ready(function () {
     initTree();
+    $("input[id^='txt_cnt_']").on('change',buildTips);
 });
 
 function initTree() {
@@ -120,7 +121,7 @@ function initNodeBtnGroup(id) {
     var btnGroup = $('<div class="input-group input-group-sm" style="float: right;width: 100px"></div>');
     var btnLeft = $('<span class="input-group-btn"> <button class="btn btn-default" style="margin-right: 5px" type="button" onclick="changeCnt(' + id + ',' + -1 + ')">-</button></span>');
     var btnRight = $('<span class="input-group-btn"> <button class="btn btn-default" style="margin-left: 5px" type="button" onclick="changeCnt(' + id + ',' + 1 + ')">+</button></span>');
-    var inp = $('<input type="text" style="width:50px" class="form-control" digits min="0" value="1">');
+    var inp = $('<input type="text" onchange="buildTips()" style="width:50px" class="form-control" digits min="0" value="1">');
     inp.attr('id', 'txt_cnt_' + id);
 
     btnGroup.append(btnLeft);
@@ -138,5 +139,5 @@ function removeNodeBtnGroup(id) {
 function changeCnt(id, step) {
     var src = Number.parseInt($('#txt_cnt_' + id).val());
     $('#txt_cnt_' + id).val(src + step);
-    buildTips();
+    $('#txt_cnt_' + id).trigger('change');
 }
