@@ -27,9 +27,14 @@ public class Group extends BaseEntity {
     private String ownerPhone;
     @Length(max = 500, message = "门店描述不可超过500个字符")
     private String desc;
+    @NotBlank(message = "请上传缩略图")
     private String thumbnail;
+    @NotBlank(message = "请上传详情封面")
     private String detailCoverImg;
+    @NotBlank(message = "请上传详情图片")
     private String detailImg;
+    @NotBlank(message = "请上传介绍视频")
+    private String video;
     @NotNull(message = "请输入门店排序")
     private Integer index;
     @NotBlank(message = "请选择营业时间")
@@ -69,6 +74,14 @@ public class Group extends BaseEntity {
         String[] weekdays = weekdayAndTimespan[0].split("-");
         String[] timeSpans = weekdayAndTimespan[1].split("-");
         return String.format("%s 至 %s<br>%s - %s", weekdays[0], weekdays[1], timeSpans[0], timeSpans[1]);
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 
     public String getAddress() {

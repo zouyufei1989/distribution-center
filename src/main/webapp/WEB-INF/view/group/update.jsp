@@ -91,6 +91,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>介绍视频:</label>
+                                    <div class="col-sm-2">
+                                        <div class="upload_box" id="video" data-toggle="modal" data-target="#videoModal">+</div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <figure>
+                                            <iframe id="videoUrl" style="width:100%" src="" frameborder="0" allowfullscreen></iframe>
+                                        </figure>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>营业时间:</label>
                                     <div class="col-sm-2">
                                         <select id="sel_start_weekday" class="select2_demo_3 form-control m-b" style="width: 100% !important;"> </select>
@@ -143,3 +154,4 @@
 <upload-img-modal id="thumbnailModal" title="缩略图" img="thumbnail_url"></upload-img-modal>
 <upload-img-modal id="detailCoverImgModal" title="详情封面" img="detailCoverImg_url"></upload-img-modal>
 <upload-img-modal id="detailImgModal" title="详情" img="detailImg_url"></upload-img-modal>
+<upload-img-modal id="videoModal" title="介绍视频" img="videoUrl"></upload-img-modal>
