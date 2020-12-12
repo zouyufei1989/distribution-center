@@ -1,5 +1,4 @@
 var TREE;
-var data = [{name: 'a', id: 1, type: 'type'}, {name: 'b', id: 2, type: 'type', children: [{name: 'b1', id: 3, type: 'goods'}, {name: 'b2', id: 4, type: 'goods'}]}];
 
 $(document).ready(function () {
     initTree();
@@ -17,7 +16,6 @@ function initTree() {
             onlyIconControl: true,
             data: [],
             oncheck: function (obj) {
-                console.log(obj.data)
                 var srcObj = obj.data['data-src'];
                 if (srcObj.type === 'goods') {
                     if (obj.checked) {
@@ -25,10 +23,31 @@ function initTree() {
                     } else {
                         removeNodeBtnGroup(srcObj.id);
                     }
+                    buildTips();
                 }
             }
         });
     });
+}
+
+function buildTips() {
+    var cnt = TREE.getChecked('id').length;
+    if (cnt === 0) {
+        $('#priceTip').html("当前已选择0项内容，共价值0元");
+        return;
+    }
+
+    cnt = TREE.getChecked('id').map(i => i.children).reduce((i, j) => {
+        return i.concat(j)
+    }).length;
+    var sumPrice = TREE.getChecked('id').map(i => i.children).reduce((i, j) => {
+        return i.concat(j)
+    }).map(i => {
+        return i['data-src'].price * $('#txt_cnt_' + i.id).val();
+    }).reduce((i, j) => {
+        return i + j
+    });
+    $('#priceTip').html("当前已选择" + cnt + "项内容，共价值" + (sumPrice / 100).toFixed(2) + "元");
 }
 
 function fillTreeWithGoods() {
@@ -46,6 +65,7 @@ function fillTreeWithGoods() {
                 var goods = response.rows.map(i => {
                     return {
                         name: i.name + "(" + i.price4SingleShow + "元/" + i.unit4SingleShow + ")",
+                        price: i.items[0].price,
                         id: i.items[0].id,
                         type: 'goods',
                         typeName: i.goodsTagName4SingleShow
@@ -56,7 +76,7 @@ function fillTreeWithGoods() {
 
                 $.each(goodsMap, function (key, val) {
                     treeData.push({
-                        id:new GUID().newGUID(),
+                        id: new GUID().newGUID(),
                         name: key,
                         type: 'type',
                         children: val
@@ -65,6 +85,7 @@ function fillTreeWithGoods() {
                 TREE.reload('id', {
                     data: parseTreeNode(treeData),
                 });
+                buildTips();
             } else {
                 Alter('', response.message, 'error');
             }
@@ -117,4 +138,5 @@ function removeNodeBtnGroup(id) {
 function changeCnt(id, step) {
     var src = Number.parseInt($('#txt_cnt_' + id).val());
     $('#txt_cnt_' + id).val(src + step);
+    buildTips();
 }
