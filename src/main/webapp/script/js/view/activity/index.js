@@ -7,7 +7,7 @@ $(document).ready(function () {
         [
             {name: 'serialNumber', header: '活动编号'},
             {name: 'name', header: '活动名称'},
-            {name: 'sumPrice', header: '价值'},
+            {name: 'sumPrice4Show', header: '价值'},
             {name: 'goodsItemTypeCnt', header: '内涵商品数'},
             {name: 'i', header: '已赠送数量'},
             {name: 'desc', header: '备注'},
@@ -23,7 +23,7 @@ function subGridRowExpanded(subgrid_id, row_id, rowExpanded) {
         url: 'findById',
         type: 'post',
         data: {
-            id: getEditRowId()
+            id: row_id
         },
         async: true,
         cache: false,

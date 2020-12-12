@@ -32,6 +32,7 @@ public class Goods extends BaseEntity {
     private Integer maxCntPerCus;
     private String coverImg;
     private Integer sumPrice;
+    private Integer expireMonthCnt;
 
     public Goods() {}
 
@@ -103,19 +104,46 @@ public class Goods extends BaseEntity {
         item.combine = GoodsCombineEnum.SINGLE.getValue();
         item.type = GoodsTypeEnum.ACTIVITY.getValue();
         item.effectiveDate = DateUtils.nowDate();
+
+
         item.expireDate = request.getExpireDate();
         item.goodsItemTypeCnt = request.getItems().size();
         item.scope = request.getScope();
         item.maxCntPerCus = request.getMaxCntPerCus();
-
         item.setStatus(request.getStatus());
         item.name = request.getName();
         item.desc = request.getDesc();
         item.cnt = request.getItems().stream().mapToInt(MoAGoods4ActivityRequest.ActivityItem::getCnt).sum();
         item.serialNumber = request.getSerialNumber();
+        item.coverImg = request.getCoverImg();
+        item.setExpireMonthCnt(request.getExpireMonthCnt());
 
         item.copyOperationInfo(request);
         return item;
+    }
+
+    public static Goods build4ActivityEdit(MoAGoods4ActivityRequest request) {
+        Goods item = new Goods();
+        item.setId(request.getId());
+        item.expireDate = request.getExpireDate();
+        item.scope = request.getScope();
+        item.maxCntPerCus = request.getMaxCntPerCus();
+        item.setStatus(request.getStatus());
+        item.name = request.getName();
+        item.desc = request.getDesc();
+        item.coverImg = request.getCoverImg();
+        item.setExpireMonthCnt(request.getExpireMonthCnt());
+
+        item.copyOperationInfo(request);
+        return item;
+    }
+
+    public Integer getExpireMonthCnt() {
+        return expireMonthCnt;
+    }
+
+    public void setExpireMonthCnt(Integer expireMonthCnt) {
+        this.expireMonthCnt = expireMonthCnt;
     }
 
     public Integer getSumPrice() {
@@ -205,6 +233,13 @@ public class Goods extends BaseEntity {
             return StringUtils.EMPTY;
         }
         return items.get(0).getPrice4Show();
+    }
+
+    public String getSumPrice4Show() {
+        if (Objects.isNull(sumPrice)) {
+            return org.apache.commons.lang3.StringUtils.EMPTY;
+        }
+        return String.format("%.2f", this.sumPrice / 100.0);
     }
 
     public String getGoodsTagName4SingleShow() {

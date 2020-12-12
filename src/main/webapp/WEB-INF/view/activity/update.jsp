@@ -30,10 +30,11 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"> <span style="color: red;">*</span>活动有效期：</label>
                                     <div class="col-sm-5">
-                                        <input type="text" value="" id="expireDate">
+                                        <input type="text" class="form-control" id="expireMonthCnt" min="1">
                                     </div>
                                     <div class="col-sm-2 text-center">
-                                       至  <label class="control-label" id="lbl_expireDate"></label>
+                                         <label class="control-label">至 </label>
+                                         <label class="control-label" id="lbl_expireDate"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -72,7 +73,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" hide-4-update>
                         <hr/>
                         <%@ include file="editActivityGoods.jsp" %>
                     </div>

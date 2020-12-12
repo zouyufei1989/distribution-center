@@ -118,7 +118,9 @@
 			dgs.scope,
 			dgs.max_cnt_per_cus AS maxCntPerCus,
 			dgs.goods_item_type_cnt AS goodsItemTypeCnt,
-			dgs.serial_number AS serialNumber
+			dgs.serial_number AS serialNumber,
+			dgs.cover_img AS coverImg,
+			dgs.expire_month_cnt AS expireMonthCnt
 		FROM <include refid="tableName"/> dgs
 		LEFT JOIN d_group dg ON dg.id = dgs.group_id
 		WHERE dgs.id = #{id}
@@ -142,6 +144,7 @@
 			cover_img,
 			effective_date,
 			expire_date,
+			expire_month_cnt,
 			create_date,
 			creator,
 			create_ip
@@ -163,6 +166,7 @@
 			#{coverImg},
 			#{effectiveDate},
 			#{expireDate},
+			#{expireMonthCnt},
 			NOW(),
 		  	#{creator},
 		  	#{createIp}
@@ -193,6 +197,18 @@
 			</if>
 			<if test="sumPrice != null">
 				,sum_price = #{sumPrice}
+			</if>
+			<if test="expireMonthCnt != null">
+				,expire_month_cnt = #{expireMonthCnt}
+			</if>
+			<if test="expireDate != null">
+				,expire_date = #{expireDate}
+			</if>
+			<if test="scope != null">
+				,`scope` = #{scope}
+			</if>
+			<if test="maxCntPerCus != null">
+				,max_cnt_per_cus = #{maxCntPerCus}
 			</if>
 		WHERE id = #{id}
 	</update>

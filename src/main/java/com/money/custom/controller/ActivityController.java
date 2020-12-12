@@ -49,15 +49,15 @@ public class ActivityController extends BaseController {
     public ResponseBase findById(String id) {
         return ResponseBase.success(this.goodsService.findById(id));
     }
-//
-//    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
-//    @ResponseBody
-//    @RequestMapping(value = "edit", method = RequestMethod.POST)
-//    public ResponseBase edit(@Valid @RequestBody MoAGoods4PackageRequest request, BindingResult bindingResult) {
-//        this.goodsService.editPackageItem(request);
-//        return ResponseBase.success();
-//    }
-//
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public ResponseBase edit(@Valid @RequestBody MoAGoods4ActivityRequest request, BindingResult bindingResult) {
+        this.goodsService.editActivity(request);
+        return ResponseBase.success();
+    }
+
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody

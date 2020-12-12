@@ -194,4 +194,12 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
         return goods.getId().toString();
     }
 
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS)
+    @Override
+    public String editActivity(MoAGoods4ActivityRequest request) {
+        Goods goods = Goods.build4ActivityEdit(request);
+        dao.edit(goods);
+        return goods.getId().toString();
+    }
+
 }

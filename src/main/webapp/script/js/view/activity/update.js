@@ -1,4 +1,4 @@
-var attrs = ['groupId', 'serialNumber', 'name', 'scope', 'maxCntPerCus', 'desc', 'status', 'coverImg'];
+var attrs = ['groupId', 'serialNumber', 'name', 'scope', 'maxCntPerCus', 'desc', 'status', 'coverImg', 'expireMonthCnt'];
 
 $(document).ready(function () {
     new Vue({el: '#status'});
@@ -6,8 +6,8 @@ $(document).ready(function () {
     new Vue({el: '#coverImgModal'});
     new Vue({el: '#scope'});
 
-    $('#expireDate').change(function () {
-        var month = $('#expireDate').val();
+    $('#expireMonthCnt').change(function () {
+        var month = $('#expireMonthCnt').val();
         if (isNaN(month)) {
             return;
         }
@@ -15,7 +15,7 @@ $(document).ready(function () {
         $('#lbl_expireDate').html(new Date(new Date().setMonth(new Date().getMonth() + month)).Format("yyyy-MM-dd"));
     });
 
-    $("#expireDate").TouchSpin({
+    $("#expireMonthCnt").TouchSpin({
         verticalbuttons: true,
         initval: 0,
         min: 1,
@@ -51,21 +51,29 @@ function additionFunc4Add() {
         }
     });
 
+    $('#expireMonthCnt').val(1);
+    $('[hide-4-update]').show();
     fillTreeWithGoods();
 }
 
 function fillAdditionAttrs(result) {
-    $('#coverImgUrl').attr('src', result.data.coverImgUrl);
+    $('#coverImgUrl').attr('src', result.data.coverImg);
+    $('[hide-4-update]').hide();
 }
 
 function additionParam() {
-    return {
-        coverImg: $('#coverImgUrl').attr('src'),
-        expireDate: $('#lbl_expireDate').text(),
-        items: TREE.getChecked('id').map(i => i.children).reduce((i, j) => {
+    var selectedItems = [];
+    if (TREE.getChecked('id').length > 0) {
+        selectedItems = TREE.getChecked('id').map(i => i.children).reduce((i, j) => {
             return i.concat(j)
         }).map(i => {
             return {goodsItemId: i.id, cnt: $('#txt_cnt_' + i.id).val()}
         })
+    }
+
+    return {
+        coverImg: $('#coverImgUrl').attr('src'),
+        expireDate: $('#lbl_expireDate').text(),
+        items: selectedItems
     };
 }

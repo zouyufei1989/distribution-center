@@ -29,4 +29,6 @@ public interface GoodsService extends BaseService {
 
     String addActivityWithItem(MoAGoods4ActivityRequest request);
 
+    String editActivity(MoAGoods4ActivityRequest request);
+
 }

@@ -26,6 +26,8 @@ public class MoAGoods4ActivityRequest extends OperationalEntity {
     private Integer scope;
     @NotNull(message = "请输入每人最多领取次数")
     private Integer maxCntPerCus;
+    @NotNull(message = "请输入活动有效期")
+    private Integer expireMonthCnt;
 
     private List<ActivityItem> items;
 
@@ -47,6 +49,14 @@ public class MoAGoods4ActivityRequest extends OperationalEntity {
 
     public void setMaxCntPerCus(Integer maxCntPerCus) {
         this.maxCntPerCus = maxCntPerCus;
+    }
+
+    public Integer getExpireMonthCnt() {
+        return expireMonthCnt;
+    }
+
+    public void setExpireMonthCnt(Integer expireMonthCnt) {
+        this.expireMonthCnt = expireMonthCnt;
     }
 
     public void setItems(List<ActivityItem> items) {
