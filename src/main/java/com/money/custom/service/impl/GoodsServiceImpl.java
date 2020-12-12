@@ -172,24 +172,24 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
     @Transactional
     @Override
     public String addActivityWithItem(MoAGoods4ActivityRequest request) {
-        Goods goods = Goods.build4ActivityAdd(request);
-        dao.add(goods);
-
         QueryGoodsItemRequest queryGoodsItemRequest = new QueryGoodsItemRequest();
         queryGoodsItemRequest.setIdSet(request.getItems().stream().map(i -> i.getGoodsItemId().toString()).collect(Collectors.toSet()));
         List<GoodsItem> items = goodsItemDao.selectSearchList(queryGoodsItemRequest);
-
         Assert.isTrue(items.size() == request.getItems().size(), "商品数量不一致");
+
+        Goods goods = Goods.build4ActivityAdd(request);
+        items.forEach(i -> {
+            i.setCnt(request.getItems().stream().filter(r -> r.getGoodsItemId().equals(i.getId())).findAny().get().getCnt());
+        });
+        goods.setSumPrice(items.stream().mapToInt(i -> i.getPrice() * i.getCnt()).sum());
+        dao.add(goods);
+
         items.forEach(i -> {
             i.setParentId(i.getId());
             i.setGoodsId(goods.getId());
-            i.setCnt(request.getItems().stream().filter(r -> r.getGoodsItemId().equals(i.getId())).findAny().get().getCnt());
             i.copyOperationInfo(request);
         });
         goodsItemDao.addBatch(items);
-
-        goods.setSumPrice(items.stream().mapToInt(i -> i.getPrice() * i.getCnt()).sum());
-        dao.edit(goods);
 
         return goods.getId().toString();
     }

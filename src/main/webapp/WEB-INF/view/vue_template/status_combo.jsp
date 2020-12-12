@@ -15,7 +15,10 @@
                 async: false,
                 cached: false,
                 success: function (result) {
-                    for (var key in result.rows) {
+                    var sortedItems = sort(result.rows, (i, j) => {
+                        return i.value == j.value ? 0 : i.value - j.value;
+                    });
+                    for (var key in sortedItems) {
                         data.push({
                             value: key,
                             name: result.rows[key]
@@ -24,9 +27,7 @@
                 }
             });
             return {
-                items: sort(data, (i, j) => {
-                    return i.value == j.value ? 0 : i.value - j.value;
-                })
+                items: data
             }
         }, mounted: function () {
             $('.select2_demo_3').select2();

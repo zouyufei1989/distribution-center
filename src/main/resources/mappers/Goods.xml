@@ -37,7 +37,7 @@
 				AND dgs.status = #{goods.status}
 			</if>
 			<if test="goods.serialNumber!=null and goods.serialNumber!=''">
-				AND gds.serial_number LIKE CONCAT('%',#{goods.serialNumber},'%')
+				AND dgs.serial_number LIKE CONCAT('%',#{goods.serialNumber},'%')
 			</if>
 			<if test="goodsItem.name!=null and goodsItem.name!=''">
 				AND EXISTS
