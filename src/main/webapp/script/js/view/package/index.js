@@ -21,7 +21,7 @@ function subGridRowExpanded(subgrid_id, row_id, rowExpanded) {
         url: 'findById',
         type: 'post',
         data: {
-            id: getEditRowId()
+            id: row_id
         },
         async: true,
         cache: false,

@@ -16,3 +16,4 @@ $(document).ready(function () {
         buttonup_class: 'btn btn-white'
     });
 });
+

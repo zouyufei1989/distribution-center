@@ -156,6 +156,7 @@
             },
             onSelectRow: function (row_id, status) {
                 var rowSelect = $("#" + this.id).jqGrid("getRowData", row_id);
+                console.log(row_id+":"+status);
                 if (status) {
                     //选中
                     _ROWS_CHOOSED.push(rowSelect);
@@ -202,7 +203,7 @@
             },
             subGridRowExpanded: function (subgrid_id, row_id) {
                 // 展开后自动选中
-                $("#" + this.id).jqGrid('setSelection', row_id);
+                //$("#" + this.id).jqGrid('setSelection', row_id);
                 var rowExpanded = $("#" + this.id).jqGrid("getRowData", row_id);
                 subGridRowExpanded(subgrid_id, row_id, rowExpanded);
             },

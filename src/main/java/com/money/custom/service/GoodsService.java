@@ -21,9 +21,9 @@ public interface GoodsService extends BaseService {
 
     List<String> changeStatus(ChangeStatusRequest request);
 
-    String addPackageItem(MoAGoods4PackageRequest request);
+    String addPackage(MoAGoods4PackageRequest request);
 
-//    String editPackageItem(MoAGoods4PackageRequest request);
+    String editPackage(MoAGoods4PackageRequest request);
 
     String assignGoods4Package(AssignGoods4PackageRequest request);
 

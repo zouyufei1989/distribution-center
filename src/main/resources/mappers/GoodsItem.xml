@@ -118,6 +118,9 @@
 			<if test="detail != null">
 				,`detail` = #{detail}
 			</if>
+			<if test="cnt != null">
+				,`cnt` = #{cnt}
+			</if>
 		WHERE id = #{id}
 	</update>
 

@@ -42,7 +42,7 @@ public class PackageController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseBase add(@Valid @RequestBody MoAGoods4PackageRequest request, BindingResult bindingResult) {
-        this.goodsService.addPackageItem(request);
+        this.goodsService.addPackage(request);
         return ResponseBase.success();
     }
 
@@ -53,13 +53,13 @@ public class PackageController extends BaseController {
         return ResponseBase.success(this.goodsService.findById(id));
     }
 
-//    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
-//    @ResponseBody
-//    @RequestMapping(value = "edit", method = RequestMethod.POST)
-//    public ResponseBase edit(@Valid @RequestBody MoAGoods4PackageRequest request, BindingResult bindingResult) {
-//        this.goodsService.editPackageItem(request);
-//        return ResponseBase.success();
-//    }
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public ResponseBase edit(@Valid @RequestBody MoAGoods4PackageRequest request, BindingResult bindingResult) {
+        this.goodsService.editPackage(request);
+        return ResponseBase.success();
+    }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody

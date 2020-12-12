@@ -27,6 +27,7 @@ public class MoAGoods4SingleRequest extends OperationalEntity {
     @Length(max = 20, message = "单位不可超过20个字符")
     @NotBlank(message = "请输入单位")
     private String unit;
+    @NotBlank(message = "请上传商品展示图")
     private String thumbnail;
     @Length(max = 500, message = "描述不可超过500个字符")
     private String desc;

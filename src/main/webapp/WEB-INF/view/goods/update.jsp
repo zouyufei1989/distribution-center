@@ -61,7 +61,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>简介：</label>
+                                    <label class="col-sm-3 control-label"> 简介：</label>
                                     <div class="col-sm-7">
                                         <textarea name="desc" class="form-control" id="desc" rows="5" maxlength="500"></textarea>
                                     </div>

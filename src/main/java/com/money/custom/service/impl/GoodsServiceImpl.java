@@ -107,21 +107,37 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
         return request.getIds();
     }
 
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS)
     @Override
-    public String addPackageItem(MoAGoods4PackageRequest request) {
+    public String addPackage(MoAGoods4PackageRequest request) {
         Goods goods = Goods.build4PackageAdd(request, utilsService.generateSerialNumber(SerialNumberEnum.GP));
         dao.add(goods);
         return goods.getId().toString();
     }
 
-//    @Override
-//    public String editPackageItem(MoAGoods4PackageRequest request) {
-//        Goods goods = Goods.build4PackageEdit(request);
-//        goods.setId(request.getId());
-//        dao.edit(goods);
-//        return goods.getId().toString();
-//    }
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS)
+    @Transactional
+    @Override
+    public String editPackage(MoAGoods4PackageRequest request) {
+        Goods goods = Goods.build4PackageEdit(request);
+        goods.setId(request.getId());
+        dao.edit(goods);
 
+        List<GoodsItem> items = itemDao.selectSearchList(new QueryGoodsItemRequest(request.getId().toString()));
+        if (CollectionUtils.isNotEmpty(items)) {
+            GoodsItem item = new GoodsItem();
+            items.forEach(i -> {
+                item.setId(i.getId());
+                item.setCnt(request.getCnt());
+                item.copyOperationInfo(request);
+                itemDao.edit(item);
+            });
+        }
+
+        return goods.getId().toString();
+    }
+
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS)
     @Transactional
     @Override
     public String assignGoods4Package(AssignGoods4PackageRequest request) {
@@ -152,6 +168,7 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
         return request.getGoodsId().toString();
     }
 
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GOODS)
     @Transactional
     @Override
     public String addActivityWithItem(MoAGoods4ActivityRequest request) {
