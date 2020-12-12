@@ -22,9 +22,13 @@
 			dgs.desc,
 			dgs.serial_number AS serialNumber,
 			dgs.cover_img AS coverImg,
-			dgs.create_date AS createDate
+			dgs.create_date AS createDate,
+			assignInfo.assignCnt
 		FROM <include refid="tableName"/> dgs
 		LEFT JOIN d_group dg ON dg.id = dgs.group_id
+		LEFT JOIN (
+			SELECT goods_id,SUM(sum_cnt) AS assignCnt FROM d_assign_activity_item GROUP BY goods_id
+		) assignInfo ON assignInfo.goods_id = dgs.id
 		WHERE
 			dgs.status != -2
 			<if test="goods.type!=null">
@@ -120,6 +124,7 @@
 			dgs.goods_item_type_cnt AS goodsItemTypeCnt,
 			dgs.serial_number AS serialNumber,
 			dgs.cover_img AS coverImg,
+			dgs.expire_date AS expireDate,
 			dgs.expire_month_cnt AS expireMonthCnt
 		FROM <include refid="tableName"/> dgs
 		LEFT JOIN d_group dg ON dg.id = dgs.group_id

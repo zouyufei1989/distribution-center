@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 
-@VisitLogFlag(module = "商品管理", resource = "活动内容维护")
+@VisitLogFlag(module = "套餐/活动管理", resource = "活动管理")
 @Controller
 @RequestMapping("/activity/*")
 public class ActivityController extends BaseController {
@@ -57,7 +57,6 @@ public class ActivityController extends BaseController {
         this.goodsService.editActivity(request);
         return ResponseBase.success();
     }
-
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody

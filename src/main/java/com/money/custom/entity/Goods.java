@@ -34,6 +34,8 @@ public class Goods extends BaseEntity {
     private Integer sumPrice;
     private Integer expireMonthCnt;
 
+    private Integer assignCnt;
+
     public Goods() {}
 
     public static Goods build4SingleAdd(MoAGoods4SingleRequest request, String serialNumber) {
@@ -136,6 +138,14 @@ public class Goods extends BaseEntity {
 
         item.copyOperationInfo(request);
         return item;
+    }
+
+    public Integer getAssignCnt() {
+        return assignCnt;
+    }
+
+    public void setAssignCnt(Integer assignCnt) {
+        this.assignCnt = assignCnt;
     }
 
     public Integer getExpireMonthCnt() {

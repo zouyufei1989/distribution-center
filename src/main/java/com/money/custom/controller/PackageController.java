@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 
-@VisitLogFlag(module = "商品管理", resource = "套餐管理")
+@VisitLogFlag(module = "套餐/活动管理", resource = "套餐管理")
 @Controller
 @RequestMapping("/package/*")
 public class PackageController extends BaseController {

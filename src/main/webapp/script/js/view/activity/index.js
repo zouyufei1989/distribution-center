@@ -9,11 +9,12 @@ $(document).ready(function () {
             {name: 'name', header: '活动名称'},
             {name: 'sumPrice4Show', header: '价值'},
             {name: 'goodsItemTypeCnt', header: '内涵商品数'},
-            {name: 'i', header: '已赠送数量'},
+            {name: 'assignCnt', header: '已赠送数量'},
             {name: 'desc', header: '备注'},
             {name: 'createDate', header: '创建时间', formatter: dateFormatter},
             {name: 'expireDate', header: '活动截止时间'},
             {name: 'statusName', header: '状态'},
+            {name: 'sumPrice', header: "sumPrice", hidden: true},
             {name: 'id', header: "id", hidden: true},
         ]);
 });

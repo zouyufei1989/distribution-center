@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AssignActivity">
+
+	<sql id="tableName">d_assign_activity</sql>
+
+	<select id="querySummary" resultType="Map">
+		SELECT
+			COUNT(*) AS cnt,
+			SUM(assign_customer_cnt) AS assignCustomerSum,
+			SUM(sum_price) AS totalPrice
+		FROM <include refid="tableName"/>
+	</select>
+
+	<select id="selectSearchList" parameterType="Map" resultType="AssignActivity">
+		SELECT
+			daa.id,
+			daa.create_date AS createDate,
+			nu.username AS ceator,
+			daa.name,
+			daa.contain_goods_cnt AS containGoodsCnt,
+			daa.sum_price AS sumPrice,
+			daa.assign_customer_cnt AS assignCustomerCnt
+		FROM <include refid="tableName"/> daa
+		LEFT JOIN ns_users nu ON nu.id = daa.creator
+		WHERE
+			status != -2
+			<if test="name!=null and name!=''">
+				AND daa.name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="creator!=null and creator!=''">
+				AND nu.username LIKE CONCAT('%',#{creator},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND daa.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND daa.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+			<if test="groupId!=null">
+				AND daa.group_id = #{groupId}
+			</if>
+		ORDER BY status DESC
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/> daa
+		LEFT JOIN ns_users nu ON nu.id = daa.creator
+		WHERE
+			status != -2
+			<if test="name!=null and name!=''">
+				AND daa.name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="creator!=null and creator!=''">
+				AND nu.username LIKE CONCAT('%',#{creator},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND daa.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND daa.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+			<if test="groupId!=null">
+				AND daa.group_id = #{groupId}
+			</if>
+	</select>
+	
+	<insert id="add" parameterType="AssignActivity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			goods_id,
+			goods_name,
+			contain_goods_cnt,
+			sum_price,
+			assign_customer_cnt,
+			assign_sum_cnt,
+			status,
+			group_id,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{goodsId},
+			#{goodsName},
+			#{containGoodsCnt},
+			#{sumPrice},
+			#{assignCustomerCnt},
+			#{assignSumCnt},
+			#{status},
+			#{groupId},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<insert id="addBatch" parameterType="AssignActivityItem" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO d_assign_activity_item
+		(
+			assign_activity_id,
+			goods_id,
+			customer_group_id,
+			sum_cnt,
+			used_cnt,
+			available_cnt,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES
+		<foreach collection="list" separator="," item="item">
+			(
+				#{item.assignActivityId},
+				#{item.goodsId},
+				#{item.customerGroupId},
+				#{item.sumCnt},
+				#{item.usedCnt},
+				#{item.availableCnt},
+				NOW(),
+				#{item.creator},
+				#{item.createIp}
+			)
+		</foreach>
+	</insert>
+
+</mapper>

@@ -64,7 +64,6 @@
                         <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                     </button>
                     <h5>{{title}}</h5>
-                    <hr/>
                     <form class="form-horizontal" :id="formId" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">{{title}}:</label>

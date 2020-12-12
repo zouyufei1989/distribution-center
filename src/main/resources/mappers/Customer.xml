@@ -32,6 +32,9 @@
 			<if test="exactPhone!=null and exactPhone!=''">
 				AND dc.phone = #{exactPhone}
 			</if>
+			<if test="nameOrPhone!=null and nameOrPhone!=''">
+				AND (dc.phone LIKE CONCAT('%',#{nameOrPhone},'%') OR dc.name LIKE CONCAT('%',#{nameOrPhone},'%'))
+			</if>
 			<if test="customer.name!=null and customer.name!=''">
 				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
 			</if>
@@ -49,6 +52,12 @@
 			</if>
 			<if test="customer.customerGroup.bonusPlanId!=null">
 				AND dcg.bonus_plan_id = #{customer.customerGroup.bonusPlanId}
+			</if>
+			<if test="customerGroupIds!=null and customerGroupIds.size()>0">
+				AND dcg.id IN
+				<foreach collection="customerGroupIds" open="(" separator="," close=")" item="id">
+					#{id}
+				</foreach>
 			</if>
 		ORDER BY dcg.status DESC
 		<if test="rows != null and  rows > 0">
@@ -66,6 +75,9 @@
 			<if test="exactPhone!=null and exactPhone!=''">
 				AND dc.phone = #{exactPhone}
 			</if>
+			<if test="nameOrPhone!=null and nameOrPhone!=''">
+				AND (dc.phone LIKE CONCAT('%',#{nameOrPhone},'%') OR dc.name LIKE CONCAT('%',#{nameOrPhone},'%'))
+			</if>
 			<if test="customer.name!=null and customer.name!=''">
 				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
 			</if>
@@ -83,6 +95,12 @@
 			</if>
 			<if test="customer.customerGroup.bonusPlanId!=null">
 				AND dcg.bonus_plan_id = #{customer.customerGroup.bonusPlanId}
+			</if>
+			<if test="customerGroupIds!=null and customerGroupIds.size()>0">
+				AND dcg.id IN
+				<foreach collection="customerGroupIds" open="(" separator="," close=")" item="id">
+					#{id}
+				</foreach>
 			</if>
 	</select>
 	

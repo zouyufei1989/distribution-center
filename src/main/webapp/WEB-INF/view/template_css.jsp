@@ -126,4 +126,8 @@
         margin-top: 50px;
     }
 
+    .modal-body >.wrapper{
+        margin-top:25px !important;
+    }
+
 </style>

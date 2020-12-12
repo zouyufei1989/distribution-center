@@ -35,7 +35,6 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h3 class="m-t-none m-b">修改密码</h3>
-                        <hr/>
                         <form role="form" id="pwdForm">
                             <div class="form-group">
                                 <label class="control-label"><span style="color: red;">*</span>新密码：</label> <input type="password" class="form-control" name="pass_newPassword" id="pass_newPassword" required strictPwd="true">

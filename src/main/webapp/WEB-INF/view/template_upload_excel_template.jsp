@@ -48,7 +48,6 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <h5>{{title}}</h5>
-                    <hr/>
                     <form class="form-horizontal" :id="formId" enctype="multipart/form-data">
                         <div class="form-group">
                             导入模版:<a :href="template_url">点此下载</a>

@@ -470,6 +470,9 @@
             headers: {"X-XSRF-TOKEN": getCookie('XSRF-TOKEN')}
         });
 
+        $('.modal-body h3').after('<hr/>');
+        $('.modal-body h5').after('<hr/>');
+
     });
 
     loadJS("${pageContext.request.contextPath}/script/js/common_map.js", 1)

@@ -44,8 +44,8 @@
             bottom: 0;
         }
 
-        span :has([data-type="type"]) {
-            color: red
+        #div_assignActivity td{
+            line-height: 2 ;
         }
 
     </style>
@@ -96,12 +96,14 @@
 </div>
 
 <%@ include file="update.jsp" %>
+<%@ include file="assignActivity.jsp" %>
 
 </body>
 <script type="text/javascript">
     loadJS("../script/js/view/activity/index.js", 1)
     loadJS("../script/js/view/activity/update.js", 1)
     loadJS("../script/js/view/activity/editActivityGoods.js", 1)
+    loadJS("../script/js/view/activity/assignActivity.js", 1)
 </script>
 
 </html>

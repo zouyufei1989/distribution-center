@@ -16,6 +16,11 @@ public class Customer extends BaseEntity {
     private String nickName;
     private String headCover;
 
+    private CustomerGroup customerGroup = new CustomerGroup();
+    private Wallet wallet = new Wallet();
+    private BonusWallet bonusWallet = new BonusWallet();
+
+
     public Customer() {}
 
     public Customer(MoACustomerRequest request) {
@@ -32,9 +37,6 @@ public class Customer extends BaseEntity {
         copyOperationInfo(request);
     }
 
-    private CustomerGroup customerGroup = new CustomerGroup();
-    private Wallet wallet = new Wallet();
-    private BonusWallet bonusWallet = new BonusWallet();
 
     public Wallet getWallet() {
         return wallet;
