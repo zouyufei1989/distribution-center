@@ -3,6 +3,9 @@ package com.money.custom.entity;
 import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.request.AssignActivityRequest;
 import com.money.framework.base.entity.BaseEntity;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 public class AssignActivity extends BaseEntity {
 
@@ -23,6 +26,13 @@ public class AssignActivity extends BaseEntity {
         this.assignSumCnt = request.getItems().stream().mapToInt(AssignActivityRequest.AssignItem::getCnt).sum();
         setStatus(CommonStatusEnum.ENABLE.getValue());
         copyOperationInfo(request);
+    }
+
+    public String getSumPrice4Show() {
+        if (Objects.isNull(this.sumPrice)) {
+            return StringUtils.EMPTY;
+        }
+        return String.format("%.2f", this.sumPrice / 100.0);
     }
 
     public Integer getId() {

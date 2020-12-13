@@ -17,8 +17,8 @@
 		SELECT
 			daa.id,
 			daa.create_date AS createDate,
-			nu.username AS ceator,
-			daa.name,
+			nu.username AS creator,
+			daa.goods_name AS goodsName,
 			daa.contain_goods_cnt AS containGoodsCnt,
 			daa.sum_price AS sumPrice,
 			daa.assign_customer_cnt AS assignCustomerCnt
@@ -26,11 +26,11 @@
 		LEFT JOIN ns_users nu ON nu.id = daa.creator
 		WHERE
 			status != -2
-			<if test="name!=null and name!=''">
-				AND daa.name LIKE CONCAT('%',#{name},'%')
+			<if test="goodsName!=null and goodsName!=''">
+				AND daa.goods_name LIKE CONCAT('%',#{goodsName},'%')
 			</if>
-			<if test="creator!=null and creator!=''">
-				AND nu.username LIKE CONCAT('%',#{creator},'%')
+			<if test="creatorName!=null and creatorName!=''">
+				AND nu.username LIKE CONCAT('%',#{creatorName},'%')
 			</if>
 			<if test="startDate!=null and startDate!=''">
 				AND daa.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
@@ -54,11 +54,11 @@
 		LEFT JOIN ns_users nu ON nu.id = daa.creator
 		WHERE
 			status != -2
-			<if test="name!=null and name!=''">
-				AND daa.name LIKE CONCAT('%',#{name},'%')
+			<if test="goodsName!=null and goodsName!=''">
+				AND daa.goods_name LIKE CONCAT('%',#{goodsName},'%')
 			</if>
-			<if test="creator!=null and creator!=''">
-				AND nu.username LIKE CONCAT('%',#{creator},'%')
+			<if test="creatorName!=null and creatorName!=''">
+				AND nu.username LIKE CONCAT('%',#{creatorName},'%')
 			</if>
 			<if test="startDate!=null and startDate!=''">
 				AND daa.create_date &gt;= CONCAT(#{startDate},' 00:00:00')

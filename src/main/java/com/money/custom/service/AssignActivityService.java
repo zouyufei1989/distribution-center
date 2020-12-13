@@ -6,6 +6,7 @@ import com.money.custom.entity.request.QueryAssignActivityRequest;
 import com.money.framework.base.service.BaseService;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AssignActivityService extends BaseService {
 
@@ -15,4 +16,5 @@ public interface AssignActivityService extends BaseService {
 
     String add(AssignActivityRequest item);
 
+    List<Map<String, Object>> querySummary();
 }

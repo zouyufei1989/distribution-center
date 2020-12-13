@@ -20,6 +20,7 @@ import org.springframework.util.Assert;
 
 import javax.management.Query;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,5 +73,10 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
 
 
         return assignActivity.getId().toString();
+    }
+
+    @Override
+    public List<Map<String, Object>> querySummary() {
+        return dao.querySummary();
     }
 }

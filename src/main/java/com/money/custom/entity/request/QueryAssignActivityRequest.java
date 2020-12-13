@@ -1,15 +1,13 @@
 package com.money.custom.entity.request;
 
-import com.money.custom.entity.Customer;
-
 import java.util.Map;
 
 public class QueryAssignActivityRequest extends QueryGridRequestBase {
 
     private String startDate;
     private String endDate;
-    private String creator;
-    private String name;
+    private String goodsName;
+    private String creatorName;
 
 
     @Override
@@ -17,9 +15,13 @@ public class QueryAssignActivityRequest extends QueryGridRequestBase {
         Map<String, Object> params = super.buildParams();
         params.put("startDate", startDate);
         params.put("endDate", endDate);
-        params.put("creator", creator);
-        params.put("name", name);
+        params.put("creatorName", creatorName);
+        params.put("goodsName", goodsName);
         return params;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
     }
 
     public void setStartDate(String startDate) {
@@ -30,12 +32,7 @@ public class QueryAssignActivityRequest extends QueryGridRequestBase {
         this.endDate = endDate;
     }
 
-    @Override
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 }

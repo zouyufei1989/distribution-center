@@ -2,6 +2,7 @@ package com.money.framework.base.entity;
 
 import com.money.custom.entity.User;
 import com.money.h5.entity.H5RequestBase;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +56,9 @@ public class OperationalEntity implements Serializable {
     }
 
     public void setOperationInfo(String name, String ip, Integer groupId) {
-        this.creator = name;
+        if(StringUtils.isEmpty(this.creator)){
+            this.creator = name;
+        }
         this.updater = name;
 
         this.createIp = ip;

@@ -20,8 +20,8 @@ import javax.validation.Valid;
 
 @VisitLogFlag(module = "套餐/活动管理", resource = "活动赠送记录")
 @Controller
-@RequestMapping("/activityAssign/*")
-public class ActivityAssignController extends BaseController {
+@RequestMapping("/assignActivity/*")
+public class AssignActivityController extends BaseController {
 
     @Autowired
     private AssignActivityService service;
@@ -40,6 +40,13 @@ public class ActivityAssignController extends BaseController {
     public ResponseBase add(@Valid @RequestBody AssignActivityRequest request, BindingResult bindingResult) {
         this.service.add(request);
         return ResponseBase.success();
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.READ)
+    @ResponseBody
+    @RequestMapping(value = "querySummary", method = RequestMethod.POST)
+    public ResponseBase querySummary() {
+        return ResponseBase.success(this.service.querySummary());
     }
 
 }
