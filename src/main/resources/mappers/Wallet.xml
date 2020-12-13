@@ -54,4 +54,37 @@
 		WHERE id = #{id}
 	</update>
 
+	<insert id="addDetail" parameterType="WalletDetail" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO d_wallet_detail
+		(
+			wallet_id,
+			money_change,
+			change_type,
+			bef_sum_money,
+			bef_used_money,
+			bef_available_money,
+			aft_sum_money,
+			aft_used_money,
+			aft_available_money,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES
+		(
+			#{walletId},
+			#{moneyChange},
+			#{changeType},
+			#{befSumMoney},
+			#{befUsedMoney},
+			#{befAvailableMoney},
+			#{aftSumMoney},
+			#{aftUsedMoney},
+			#{aftAvailableMoney},
+			NOW(),
+			#{creator},
+			#{createIp}
+		)
+	</insert>
+
 </mapper>

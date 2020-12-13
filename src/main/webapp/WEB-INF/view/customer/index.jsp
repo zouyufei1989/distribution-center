@@ -57,12 +57,14 @@
 
 <%@ include file="update.jsp" %>
 <%@ include file="assignBonusPlan.jsp" %>
+<%@ include file="recharge.jsp" %>
 
 </body>
 <script type="text/javascript">
     loadJS("../script/js/view/customer/index.js", 1)
     loadJS("../script/js/view/customer/update.js", 1)
     loadJS("../script/js/view/customer/assignBonusPlan.js", 1)
+    loadJS("../script/js/view/customer/recharge.js", 1)
 </script>
 
 </html>

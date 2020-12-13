@@ -6,6 +6,7 @@ import com.money.custom.entity.request.*;
 import com.money.custom.service.BannerService;
 import com.money.custom.service.CustomerGroupService;
 import com.money.custom.service.CustomerService;
+import com.money.custom.service.WalletService;
 import com.money.framework.base.annotation.VisitLogFlag;
 import com.money.framework.base.entity.GridResponseBase;
 import com.money.framework.base.entity.ResponseBase;
@@ -34,6 +35,8 @@ public class CustomerController extends BaseController {
     private CustomerService customerService;
     @Autowired
     CustomerGroupService customerGroupService;
+    @Autowired
+    WalletService walletService;
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
@@ -82,6 +85,14 @@ public class CustomerController extends BaseController {
 //        this.bannerService.changeStatus(request);
 //        return new ResponseEntity<>(result, HttpStatus.OK);
 //    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "recharge", method = RequestMethod.POST)
+    public ResponseBase recharge(@Valid @RequestBody RechargeRequest request, BindingResult bindingResult) {
+        this.walletService.recharge(request);
+        return ResponseBase.success();
+    }
 
 
 }

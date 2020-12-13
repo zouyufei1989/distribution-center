@@ -4,8 +4,11 @@ import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.request.MoACustomerRequest;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.h5.entity.request.AddCustomer4WechatRequest;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.util.StringUtil;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Customer extends BaseEntity {
 
@@ -56,6 +59,14 @@ public class Customer extends BaseEntity {
 
     public CustomerGroup getCustomerGroup() {
         return customerGroup;
+    }
+
+
+    public String getSumMoney4Show() {
+        if (Objects.nonNull(wallet) && Objects.nonNull(wallet.getSumMoney())) {
+            return String.format("%.2f", this.wallet.getSumMoney() / 100.0);
+        }
+        return StringUtils.EMPTY;
     }
 
     public void setCustomerGroup(CustomerGroup customerGroup) {

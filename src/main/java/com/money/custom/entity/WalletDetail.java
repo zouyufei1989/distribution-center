@@ -1,6 +1,8 @@
 package com.money.custom.entity;
 
 
+import com.money.custom.entity.enums.WalletChangeTypeEnum;
+import com.money.custom.entity.request.RechargeRequest;
 import com.money.framework.base.entity.OperationalEntity;
 
 public class WalletDetail extends OperationalEntity {
@@ -16,6 +18,23 @@ public class WalletDetail extends OperationalEntity {
     private Integer aftSumMoney;
     private Integer aftUsedMoney;
     private Integer aftAvailableMoney;
+
+    public WalletDetail() {}
+
+    public WalletDetail(RechargeRequest rechargeRequest, Wallet wallet) {
+        this.changeType = WalletChangeTypeEnum.RECHARGE.getValue();
+        this.moneyChange = rechargeRequest.getAmount();
+
+        this.walletId = wallet.getId();
+        this.befSumMoney = wallet.getSumMoney();
+        this.befUsedMoney = wallet.getUsedMoney();
+        this.befAvailableMoney = wallet.getAvailableMoney();
+        this.aftSumMoney = wallet.getSumMoney() + this.moneyChange;
+        this.aftUsedMoney = wallet.getUsedMoney();
+        this.aftAvailableMoney = wallet.getAvailableMoney() + this.moneyChange;
+
+        copyOperationInfo(rechargeRequest);
+    }
 
     public Integer getId() {
         return id;

@@ -2,6 +2,7 @@ package com.money.custom.service;
 
 import com.money.custom.entity.Wallet;
 import com.money.custom.entity.request.MoACustomerRequest;
+import com.money.custom.entity.request.RechargeRequest;
 import com.money.framework.base.service.BaseService;
 
 public interface WalletService extends BaseService {
@@ -15,6 +16,8 @@ public interface WalletService extends BaseService {
     String add(Wallet item);
 
     String edit(Wallet item);
+
+    String recharge(RechargeRequest rechargeRequest);
 //
 //    List<String> changeStatus(ChangeStatusRequest request);
 

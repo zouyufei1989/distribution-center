@@ -126,8 +126,12 @@
         margin-top: 50px;
     }
 
-    .modal-body >.wrapper{
-        margin-top:25px !important;
+    .sweet-alert {
+        height: 230px;
+    }
+
+    .modal-body > .wrapper {
+        margin-top: 25px !important;
     }
 
 </style>

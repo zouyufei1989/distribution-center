@@ -10,12 +10,16 @@ $(document).ready(function () {
             {name: 'phone', header: '联系电话'},
             {name: 'customerGroup.bonusPlanName', header: '积分方案'},
             {name: 'packageCount', header: '已购项目'},
-            {name: 'wallet.sumMoney', header: '股本/余额'},
+            {name: 'sumMoney4Show', header: '股本/余额'},
             {name: 'groupName', header: '所属门店'},
-            {name: 'customerGroup.expiredDate', header: '股东到期时间'},
+            {name: 'customerGroup.expireDate', header: '股东到期时间'},
             {name: 'createDate', header: '创建时间'},
             {name: 'customerGroup.statusName', header: '状态'},
-            {name: 'index', header: '操作'},
+            {
+                name: 'id', header: '操作', formatter: function (val, opt, obj) {
+                    return hyperlinkeButtonFormatter('充值','goRecharge('+obj.customerGroup.id+')','#1ab394') + hyperlinkeButtonFormatter('消费','','#f8ac59')
+                }
+            },
             {name: 'customerGroup.groupId', header: "groupId", hidden: true},
             {name: 'customerGroup.bonusPlanId', header: "bonusPlanId", hidden: true},
             {name: 'customerGroup.type', header: "type", hidden: true},

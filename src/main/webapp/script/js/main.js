@@ -20,6 +20,7 @@ function Confirm(msg, confirmFuc) {
         title: "",
         text: msg,
         type: "warning",
+        html: true,
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
         confirmButtonText: "确定",

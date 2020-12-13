@@ -1,6 +1,7 @@
 package com.money.custom.entity;
 
 
+import com.money.custom.entity.request.RechargeRequest;
 import com.money.framework.base.entity.OperationalEntity;
 
 public class Wallet extends OperationalEntity {
@@ -9,6 +10,12 @@ public class Wallet extends OperationalEntity {
     private Integer sumMoney;
     private Integer usedMoney;
     private Integer availableMoney;
+
+    public void recharge(RechargeRequest request) {
+        this.sumMoney += request.getAmount();
+        this.availableMoney += request.getAmount();
+        copyOperationInfo(request);
+    }
 
     public static Wallet totalNew(OperationalEntity operationEntry) {
         Wallet wallet = new Wallet();
