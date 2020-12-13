@@ -17,7 +17,7 @@ $(document).ready(function () {
             {name: 'customerGroup.statusName', header: '状态'},
             {
                 name: 'id', header: '操作', formatter: function (val, opt, obj) {
-                    return hyperlinkeButtonFormatter('充值','goRecharge('+obj.customerGroup.id+')','#1ab394') + hyperlinkeButtonFormatter('消费','','#f8ac59')
+                    return hyperlinkeButtonFormatter('充值','goRecharge('+obj.customerGroup.id+')','#1ab394') + hyperlinkeButtonFormatter('消费','goConsume('+obj.customerGroup.id+')','#f8ac59')
                 }
             },
             {name: 'customerGroup.groupId', header: "groupId", hidden: true},

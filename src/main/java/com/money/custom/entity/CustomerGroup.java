@@ -11,6 +11,7 @@ import com.money.h5.entity.request.AddCustomer4WechatRequest;
 public class CustomerGroup extends BaseEntity {
 
     private Integer id;
+    private Integer parentId;
     private Integer walletId;
     private Integer bonusWalletId;
     private Integer customerId;
@@ -44,6 +45,14 @@ public class CustomerGroup extends BaseEntity {
         setSerialNumber(serialNumber);
         setStatus(CommonStatusEnum.ENABLE.getValue());
         setType(CustomerTypeEnum.NORMAL.getValue());
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getBonusPlanName() {

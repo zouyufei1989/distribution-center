@@ -3,6 +3,9 @@ package com.money.custom.entity;
 
 import com.money.custom.entity.request.RechargeRequest;
 import com.money.framework.base.entity.OperationalEntity;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 public class Wallet extends OperationalEntity {
 
@@ -24,6 +27,14 @@ public class Wallet extends OperationalEntity {
         wallet.setAvailableMoney(0);
         wallet.copyOperationInfo(operationEntry);
         return wallet;
+    }
+
+    public String getAvailableMoney4Show(){
+        if(Objects.isNull(this.availableMoney)){
+            return StringUtils.EMPTY;
+        }
+
+        return String.format("%.2f", this.availableMoney / 100.0);
     }
 
     public Integer getId() {

@@ -4,7 +4,7 @@ public enum ConsumeTypeEnum implements IEnumKeyValue {
 
     MONEY(1, "余额"),
     BOUNS(2, "积分"),
-    TIMES(3, "次数");
+    OFFLINE(3, "非余额/线下");
 
     private Integer value;
     private String name;

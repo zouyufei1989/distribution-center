@@ -5,6 +5,56 @@
     <%@ include file="../template_meta.jsp" %>
     <%@ include file="../template_css.jsp" %>
     <%@ include file="../template_js.jsp" %>
+
+    <style type="text/css">
+        .layui-tree-entry {
+            padding: 20px;
+        }
+
+        #updateModal .modal-dialog {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        #updateModal .modal-content {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #updateModal .modal-body {
+            overflow-y: scroll;
+            position: absolute;
+            top: 20px;
+            bottom: 65px;
+            width: 100%;
+        }
+
+        #updateModal .modal-header .close {
+            margin-right: 15px;
+        }
+
+        #updateModal .modal-footer {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .form-group > .col-sm-7 label{
+            padding-top: 7px;
+            margin-right: 20px;
+        }
+
+        .form-group input{
+            margin-right: 10px;
+        }
+
+    </style>
+
 </head>
 <body>
 <%@ include file="../template_menu.jsp" %>
@@ -58,6 +108,7 @@
 <%@ include file="update.jsp" %>
 <%@ include file="assignBonusPlan.jsp" %>
 <%@ include file="recharge.jsp" %>
+<%@ include file="consume/index.jsp" %>
 
 </body>
 <script type="text/javascript">
@@ -65,6 +116,8 @@
     loadJS("../script/js/view/customer/update.js", 1)
     loadJS("../script/js/view/customer/assignBonusPlan.js", 1)
     loadJS("../script/js/view/customer/recharge.js", 1)
+    loadJS("../script/js/view/customer/consume/customerInfo.js", 1)
+    loadJS("../script/js/view/customer/consume/single.js", 1)
 </script>
 
 </html>

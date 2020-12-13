@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CustomerServiceImpl extends BaseServiceImpl implements CustomerService {
@@ -50,8 +51,22 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     @Override
     public Customer findById(String id) {
         CustomerGroup customerGroup = customerGroupService.findById(id);
+        Assert.notNull(customerGroup,"未查询到门店顾客");
+
         Customer customer = dao.findById(customerGroup.getCustomerId().toString());
+        Assert.notNull(customer,"未查询到顾客");
         customer.setCustomerGroup(customerGroup);
+
+        if (Objects.nonNull(customerGroup.getParentId())) {
+            Customer parent = findById(customerGroup.getParentId().toString());
+            customer.setParent(parent);
+        }
+
+        if(Objects.nonNull(customerGroup.getWalletId())){
+            Wallet wallet = walletService.findById(customerGroup.getWalletId().toString());
+            customer.setWallet(wallet);
+        }
+
         return customer;
     }
 

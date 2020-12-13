@@ -22,6 +22,7 @@ public class Customer extends BaseEntity {
     private CustomerGroup customerGroup = new CustomerGroup();
     private Wallet wallet = new Wallet();
     private BonusWallet bonusWallet = new BonusWallet();
+    private Customer parent;
 
 
     public Customer() {}
@@ -40,6 +41,13 @@ public class Customer extends BaseEntity {
         copyOperationInfo(request);
     }
 
+    public Customer getParent() {
+        return parent;
+    }
+
+    public void setParent(Customer parent) {
+        this.parent = parent;
+    }
 
     public Wallet getWallet() {
         return wallet;
