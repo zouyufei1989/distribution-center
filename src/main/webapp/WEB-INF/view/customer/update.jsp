@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>客户类型:</label>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-7">
                                         <label>
                                             <input type="radio" name="customerType" id="normal" value="1" > 普客
                                         </label>

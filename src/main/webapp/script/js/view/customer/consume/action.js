@@ -14,6 +14,28 @@ $(document).ready(function () {
         buttondown_class: 'btn btn-white',
         buttonup_class: 'btn btn-white'
     });
+
+    $("#purchaseCnt").TouchSpin({
+        verticalbuttons: true,
+        initval: 0,
+        min: 0,
+        max: 9999999,
+        step: 1,
+        decimals: 0,
+        buttondown_class: 'btn btn-white',
+        buttonup_class: 'btn btn-white'
+    });
+
+    $("#useCnt").TouchSpin({
+        verticalbuttons: true,
+        initval: 0,
+        min: 0,
+        max: 9999999,
+        step: 1,
+        decimals: 0,
+        buttondown_class: 'btn btn-white',
+        buttonup_class: 'btn btn-white'
+    });
 });
 
 function initTree() {
@@ -63,7 +85,7 @@ function buildTips() {
     $('#paidMoney').val((sumPrice / 100).toFixed(2));
 }
 
-function fillTreeWithGoods() {
+function reloadGoodsTree() {
     $.ajax({
         url: '../goods/list/search',
         type: 'post',
@@ -157,7 +179,7 @@ function changeCnt(id, step) {
 function goConsume(rowId) {
     var customer = $("#table_list").jqGrid("getRowData", rowId);
     customerVue.id = customer['customerGroup.id'];
-    fillTreeWithGoods();
+    reloadGoodsTree();
     $('#single').trigger('click');
     $('#consumeModal').modal('show');
 }
