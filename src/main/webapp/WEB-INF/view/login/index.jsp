@@ -65,10 +65,14 @@
 
                 </div>
             </div>
+
         </div>
         <hr/>
     </div>
 </div>
+<footer class="text-center" style="position:fixed; bottom: 30px;width: 100%" >
+    <a href="http://beian.miit.gov.cn">辽ICP备19018989号-4</a>
+</footer>
 
 <script src="${pageContext.request.contextPath}/script/plugins/inspinia/js/jquery-3.3.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/script/plugins/inspinia/js/plugins/validate/jquery.validate.min.js"></script>
