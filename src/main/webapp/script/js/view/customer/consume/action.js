@@ -1,9 +1,8 @@
 var TREE;
 
 $(document).ready(function () {
-    initTree();
 
-    $("#paidMoney").TouchSpin({
+    $("#actuallyMoney").TouchSpin({
         verticalbuttons: true,
         initval: 0,
         min: 0,
@@ -36,6 +35,19 @@ $(document).ready(function () {
         buttondown_class: 'btn btn-white',
         buttonup_class: 'btn btn-white'
     });
+
+    initTree();
+
+    $('#packageToPurchase').change(function () {
+        consumeVue.goodsChoosed = [{
+            id: $('#packageToPurchase').val(),
+            price: $('#packageToPurchase option:checked').attr('data-price'),
+            cnt: $('#purchaseCnt').val()
+        }];
+    });
+    $('#purchaseCnt').change(function () {
+        consumeVue.goodsChoosed.cnt = $('#purchaseCnt').val();
+    });
 });
 
 function initTree() {
@@ -67,7 +79,7 @@ function initTree() {
 function rebuildAttrs4Vue() {
     var cnt = TREE.getChecked('id').length;
     if (cnt === 0) {
-        $('#consumeTip').html("当前已选择0项消费内容，应收0元");
+        consumeVue.goodsChoosed = [];
         return;
     }
 
@@ -117,7 +129,7 @@ function reloadGoodsTree() {
                 TREE.reload('id', {
                     data: parseTreeNode(treeData),
                 });
-                buildTips();
+                rebuildAttrs4Vue();
             } else {
                 Alter('', response.message, 'error');
             }
@@ -177,6 +189,6 @@ function goConsume(rowId) {
     var customer = $("#table_list").jqGrid("getRowData", rowId);
     customerVue.id = customer['customerGroup.id'];
     reloadGoodsTree();
-    $('#single').trigger('click');
+    consumeVue.chooseAction('buySingle')
     $('#consumeModal').modal('show');
 }

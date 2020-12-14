@@ -9,6 +9,7 @@ public class QueryGoodsRequest extends QueryGridRequestBase {
 
     private GoodsItem goodsItem = new GoodsItem();
     private Goods goods = new Goods();
+    private Integer customerGroupId;
 
     public GoodsItem getGoodsItem() {
         return goodsItem;
@@ -24,6 +25,14 @@ public class QueryGoodsRequest extends QueryGridRequestBase {
 
     public void setGoods(Goods goods) {
         this.goods = goods;
+    }
+
+    public Integer getCustomerGroupId() {
+        return customerGroupId;
+    }
+
+    public void setCustomerGroupId(Integer customerGroupId) {
+        this.customerGroupId = customerGroupId;
     }
 
     @Override

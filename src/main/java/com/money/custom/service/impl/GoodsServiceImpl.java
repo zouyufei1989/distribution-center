@@ -4,12 +4,16 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.money.custom.dao.GoodsDao;
 import com.money.custom.dao.GoodsItemDao;
+import com.money.custom.entity.Customer;
+import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.Goods;
 import com.money.custom.entity.GoodsItem;
 import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.*;
+import com.money.custom.service.CustomerGroupService;
+import com.money.custom.service.CustomerService;
 import com.money.custom.service.GoodsService;
 import com.money.custom.service.UtilsService;
 import com.money.framework.base.annotation.AddHistoryLog;
@@ -22,6 +26,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,6 +41,8 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
     GoodsItemDao goodsItemDao;
     @Autowired
     UtilsService utilsService;
+    @Autowired
+    CustomerGroupService customerGroupService;
 
     @Override
     public List<Goods> selectSearchList(QueryGoodsRequest request) {
@@ -58,6 +65,10 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
 
     @Override
     public int selectSearchListCount(QueryGoodsRequest request) {
+        if (Objects.nonNull(request.getCustomerGroupId())) {
+            Integer groupId = customerGroupService.findById(request.getCustomerGroupId().toString()).getGroupId();
+            request.setGroupId(groupId);
+        }
         return dao.selectSearchListCount(request);
     }
 
