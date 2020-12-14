@@ -55,7 +55,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-offset-2 col-md-8 text-right">
-                            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" @click="assign()">赠送</button>
+                            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" @click="assign($event)">赠送</button>
                             <button type="button" class="btn btn-w-m btn-default btn-update-footer" @click="cancel()">取消</button>
                         </div>
                     </div>

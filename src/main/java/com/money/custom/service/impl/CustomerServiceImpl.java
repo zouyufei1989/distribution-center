@@ -67,6 +67,11 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
             customer.setWallet(wallet);
         }
 
+        if(Objects.nonNull(customerGroup.getBonusWalletId())){
+            BonusWallet bonusWallet = bonusWalletService.findById(customerGroup.getBonusWalletId().toString());
+            customer.setBonusWallet(bonusWallet);
+        }
+
         return customer;
     }
 

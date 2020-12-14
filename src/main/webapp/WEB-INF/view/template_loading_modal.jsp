@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <script type="text/javascript">
-    function loadingStart(callback) {
+    var LA_BTN;
+
+    function loadingStart(ele,callback) {
         if (typeof callback === 'function') {
-            bindModalShow('loadingModal', callback, 0);
+            callback();
         }
-        $('#loadingModal').modal('show');
+        LA_BTN = ele.ladda();
+        LA_BTN.ladda( 'start' );
     }
 
     function loadingEnd(callback) {
         if (typeof callback === 'function') {
-            bindModalHide('loadingModal', callback, 0);
+            callback();
         }
-        $('#loadingModal').modal('hide');
+        LA_BTN.ladda( 'stop' );
     }
 </script>
 

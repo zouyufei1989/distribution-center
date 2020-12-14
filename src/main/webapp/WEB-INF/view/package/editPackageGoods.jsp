@@ -15,7 +15,7 @@
                     </div>
                     <div class="row" style="margin-top: 15px">
                         <div class="col-lg-12 text-center ">
-                            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" onclick="savePackage()">保存</button>
+                            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" onclick="savePackage(this)">保存</button>
                             <button type="button" class="btn btn-w-m btn-default btn-update-footer" onclick="cancelEditPackage()">取消</button>
                         </div>
                     </div>

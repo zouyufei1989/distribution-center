@@ -31,7 +31,7 @@ $(document).ready(function () {
             cancel() {
                 $('#bonusPlanModal').modal('hide');
             },
-            assignBonusPlanId() {
+            assignBonusPlanId(e) {
                 var bonusPlanId = $('#bonusPlanId').val();
                 if (!bonusPlanId) {
                     Alert('', '请选择积分方案', 'error');
@@ -39,7 +39,7 @@ $(document).ready(function () {
                 }
 
                 Confirm('确定保存积分方案?',function(){
-                    loadingStart(function(){
+                    loadingStart($(e.target),function(){
                         $.ajax({
                             url: 'assignBonusPlan',
                             type: 'post',

@@ -57,32 +57,29 @@ function initTree() {
                     } else {
                         removeNodeBtnGroup(srcObj.id);
                     }
-                    buildTips();
+                    rebuildAttrs4Vue();
                 }
             }
         });
     });
 }
 
-function buildTips() {
+function rebuildAttrs4Vue() {
     var cnt = TREE.getChecked('id').length;
     if (cnt === 0) {
         $('#consumeTip').html("当前已选择0项消费内容，应收0元");
         return;
     }
 
-    cnt = TREE.getChecked('id').map(i => i.children).reduce((i, j) => {
-        return i.concat(j)
-    }).length;
-    var sumPrice = TREE.getChecked('id').map(i => i.children).reduce((i, j) => {
+    consumeVue.goodsChoosed = TREE.getChecked('id').map(i => i.children).reduce((i, j) => {
         return i.concat(j)
     }).map(i => {
-        return i['data-src'].price * $('#txt_cnt_' + i.id).val();
-    }).reduce((i, j) => {
-        return i + j
+        return {
+            id: i.id,
+            price: i['data-src'].price,
+            cnt: $('#txt_cnt_' + i.id).val()
+        }
     });
-    $('#consumeTip').html("当前已选择" + cnt + "项消费内容，应收" + (sumPrice / 100).toFixed(2) + "元");
-    $('#paidMoney').val((sumPrice / 100).toFixed(2));
 }
 
 function reloadGoodsTree() {
@@ -155,7 +152,7 @@ function initNodeBtnGroup(id) {
     var btnGroup = $('<div class="input-group input-group-sm" style="float: right;width: 100px"></div>');
     var btnLeft = $('<span class="input-group-btn"> <button class="btn btn-default" style="margin-right: 5px" type="button" onclick="changeCnt(' + id + ',' + -1 + ')">-</button></span>');
     var btnRight = $('<span class="input-group-btn"> <button class="btn btn-default" style="margin-left: 5px" type="button" onclick="changeCnt(' + id + ',' + 1 + ')">+</button></span>');
-    var inp = $('<input type="text" onchange="buildTips()" style="width:50px" class="form-control" digits min="0" value="1">');
+    var inp = $('<input type="text" onchange="rebuildAttrs4Vue()" style="width:50px" class="form-control" digits min="0" value="1">');
     inp.attr('id', 'txt_cnt_' + id);
 
     btnGroup.append(btnLeft);

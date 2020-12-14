@@ -66,7 +66,7 @@ $(document).ready(function () {
             cancel() {
                 $('#assignModal').modal('hide');
             },
-            assign() {
+            assign(e) {
                 var _this = this;
                 var checkedItems = this.shareHolders.filter(i => i.checked);
                 if (!checkedItems || checkedItems.length == 0) {
@@ -74,14 +74,13 @@ $(document).ready(function () {
                     return;
                 }
 
-
                 Confirm('确定赠送?', function () {
-                    loadingStart(function(){
+                    loadingStart($(e.target),function(){
                         var assignItems = _this.shareHolders.filter(i => i.checked).map(i =>  {
                             return {cnt: i.cnt, customerGroupId: i.customerGroup.id}
                         })
                         $.ajax({
-                            url: "../activityAssign/add",
+                            url: "../assignActivity/add",
                             type: 'post',
                             data: JSON.stringify({
                                 activityId: _this.activity.id,

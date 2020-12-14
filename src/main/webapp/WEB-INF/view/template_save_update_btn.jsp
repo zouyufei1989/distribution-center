@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" id="btn_save">保存</button>
+<button type="button" data-style="expand-left" class="ladda-button btn btn-w-m btn-primary btn-update-footer" id="btn_save">保存</button>
 <button type="button" class="btn btn-w-m btn-default btn-update-footer" id="btn_cancle">取消</button>
 <%@ include file="template_loading_modal.jsp" %>
 
@@ -19,6 +19,7 @@
         }
 
         $("#btn_save").click(function () {
+            var _this = $(this);
             if ($("#mainForm").valid() == false) {
                 return;
             }
@@ -28,7 +29,7 @@
             }
 
             Confirm("确定保存吗?", function () {
-                loadingStart(function () {
+                loadingStart(_this,function () {
                     if (editData()) {
                         edit();
                         return;

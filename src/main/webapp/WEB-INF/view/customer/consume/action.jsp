@@ -45,7 +45,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label"> 实收金额：</label>
         <div class="col-sm-7">
-            <input id="paidMoney" class="form-control" min="0" required>
+            <input v-model="purchaseInfo.paidMoney" class="form-control" min="0" required>
         </div>
     </div>
     <div class="form-group">

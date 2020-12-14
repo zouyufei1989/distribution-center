@@ -46,7 +46,7 @@ function initWangEditor() {
 }
 
 function saveDetail(){
-    loadingStart(function(){
+    loadingStart($(this),function(){
         $.ajax({
             url: 'editGoodsDetail',
             type: 'post',

@@ -39,6 +39,11 @@ $(document).ready(function () {
                         _this.createDate = yyyyMMddFormatter(result.data.customerGroup.createDate);
                         _this.availableMoney = result.data.wallet.availableMoney4Show;
 
+                        consumeVue.customerInfo = {
+                            availableMoney: result.data.wallet.availableMoney4Show,
+                            availableBonus: result.data.bonusWallet.availableBonus,
+                            customerGroupId: result.data.customerGroup.id
+                        }
                     }
                 });
             }

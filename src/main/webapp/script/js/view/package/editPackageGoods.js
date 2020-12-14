@@ -77,14 +77,14 @@ function cancelEditPackage() {
     });
 }
 
-function savePackage() {
+function savePackage(e) {
     if ($('#packages').val().length == 0) {
         Alert('', '未选中任何商品', 'error');
         return;
     }
-
+    var ele = $(e);
     Confirm("确定分配选中商品?", function () {
-        loadingStart(function () {
+        loadingStart(ele, function () {
             $.ajax({
                 url: 'assignGoods4Package',
                 type: 'post',

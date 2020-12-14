@@ -62,7 +62,6 @@
                     </form>
                     <button onclick="login()" class="btn btn-primary block full-width m-b" style="height: 32px;">登录</button>
                     <button type="reset" class="btn block full-width m-b btn-default" onclick="$('form')[0].reset()" style="height: 32px;">重置</button>
-
                 </div>
             </div>
 

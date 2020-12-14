@@ -18,7 +18,7 @@
                     Alert("", "请选择文件!");
                     return;
                 }
-                loadingStart(function () {
+                loadingStart($(this),function () {
                     var option = {
                         url: "${ctx}/utils/uploadFileToUpyun",
                         type: "POST",

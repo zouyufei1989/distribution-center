@@ -27,6 +27,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/inspinia/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css">
 <!--双向选择框-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/duallistbox/bootstrap-duallistbox.css">
+<!--ladda-->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/inspinia/css/plugins/ladda/ladda.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/inspinia/css/plugins/ladda/ladda-themeless.min.css">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/layui/css/layui.css">
 

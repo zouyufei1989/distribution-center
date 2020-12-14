@@ -13,6 +13,7 @@
         },
         mounted: function () {
             var _this = this;
+
             $("#" + _this.btnId).click(function () {
                 var file = $('#' + _this.inputId).val();
                 if (file == '') {
@@ -20,7 +21,7 @@
                     return;
                 }
 
-                loadingStart(function () {
+                loadingStart($(this),function () {
                     uploadFile(_this.upload_url, _this.formId, function (result) {
                         $('#' + _this.inputId).val('');
                         $("#" + _this.id).modal("hide");

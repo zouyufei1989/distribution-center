@@ -68,6 +68,12 @@
 
     loadJS("${pageContext.request.contextPath}/script/plugins/layui/layui.js");
 
+
+    loadJS("${pageContext.request.contextPath}/script/plugins/inspinia/js/plugins/ladda/spin.min.js");
+    loadJS("${pageContext.request.contextPath}/script/plugins/inspinia/js/plugins/ladda/ladda.min.js");
+    loadJS("${pageContext.request.contextPath}/script/plugins/inspinia/js/plugins/ladda/ladda.jquery.min.js");
+
+
     loadJS("${pageContext.request.contextPath}/script/js/common_cookies.js");
     loadJS("${pageContext.request.contextPath}/script/js/main.js", 1);
 </script>
