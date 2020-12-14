@@ -14,6 +14,18 @@ $(document).ready(function () {
         buttonup_class: 'btn btn-white'
     });
 
+    // $("#moneyOffline").TouchSpin({
+    //     verticalbuttons: true,
+    //     initval: 0,
+    //     min: 0,
+    //     max: 9999999,
+    //     step: 0.01,
+    //     decimals: 2,
+    //     postfix: '¥',
+    //     buttondown_class: 'btn btn-white',
+    //     buttonup_class: 'btn btn-white'
+    // });
+
     $("#purchaseCnt").TouchSpin({
         verticalbuttons: true,
         initval: 0,
@@ -46,7 +58,10 @@ $(document).ready(function () {
         }];
     });
     $('#purchaseCnt').change(function () {
-        consumeVue.goodsChoosed.cnt = $('#purchaseCnt').val();
+        if(consumeVue.goodsChoosed.length ==0){
+            return;
+        }
+        consumeVue.goodsChoosed[0].cnt = $('#purchaseCnt').val();
     });
 });
 

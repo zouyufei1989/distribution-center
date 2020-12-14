@@ -15,9 +15,9 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"> 消费类型：</label>
                                     <div class="col-sm-7">
-                                        <label> <input type="radio" name="consumeType" :checked="action=='buySingle'" @click="chooseAction('buySingle')">单品 </label>
-                                        <label> <input type="radio" name="consumeType" :checked="action=='consumePackage'" @click="chooseAction('consumePackage')">项目消费 </label>
-                                        <label> <input type="radio" name="consumeType" :checked="action=='bugPackage'" @click="chooseAction('buyPackage')">购买项目 </label>
+                                        <label label4Radio> <input type="radio" name="consumeType" :checked="action=='buySingle'" @click="chooseAction('buySingle')">单品 </label>
+                                        <label label4Radio> <input type="radio" name="consumeType" :checked="action=='consumePackage'" @click="chooseAction('consumePackage')">项目消费 </label>
+                                        <label label4Radio> <input type="radio" name="consumeType" :checked="action=='bugPackage'" @click="chooseAction('buyPackage')">购买项目 </label>
                                     </div>
                                 </div>
                             </form>

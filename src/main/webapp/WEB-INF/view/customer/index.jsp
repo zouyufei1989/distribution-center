@@ -11,9 +11,9 @@
             padding: 20px;
         }
 
-        .form-group > .col-sm-7 label{
+        label[label4Radio]{
             padding-top: 7px;
-            margin-right: 20px;
+            margin-right: 25px;
         }
 
         .form-group input{
