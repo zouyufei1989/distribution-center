@@ -4,10 +4,7 @@
     Vue.component('status-combo', {
         props: ['id', 'must_choose_one'],
         data: function () {
-            var data = this.must_choose_one == "false" ? [{
-                value: '',
-                name: '请选择'
-            }] : [];
+            var data = [];
             $.ajax({
                 url: '${ctx}/utils/selectStatus',
                 data: {},
@@ -15,10 +12,7 @@
                 async: false,
                 cached: false,
                 success: function (result) {
-                    var sortedItems = sort(result.rows, (i, j) => {
-                        return i.value == j.value ? 0 : i.value - j.value;
-                    });
-                    for (var key in sortedItems) {
+                    for (var key in result.rows) {
                         data.push({
                             value: key,
                             name: result.rows[key]
@@ -26,6 +20,13 @@
                     }
                 }
             });
+            data = sort(data, (i, j) => {
+                return i.value == j.value ? 0 : i.value - j.value;
+            });
+            console.log(this.must_choose_one)
+            if (this.must_choose_one == 'false' || this.must_choose_one == false) {
+                data = [{value: null, name: '请选择'}].concat(data);
+            }
             return {
                 items: data
             }
