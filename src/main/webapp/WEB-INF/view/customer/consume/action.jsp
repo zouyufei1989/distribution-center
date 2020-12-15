@@ -87,9 +87,9 @@
     <div class="form-group">
         <div class="col-sm-12 text-right" style="margin-top: 20px">
             <button type="button" class="btn btn-w-m btn-default btn-update-footer" @click="cancel()">取消</button>
-            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" v-show="action=='buyPackage'" @click="purchase()">提交</button>
-            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" v-show="action=='buySingle'" @click="purchaseAndConsume()">提交</button>
-            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" v-show="action=='consumePackage'" @click="consume()">提交</button>
+            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" v-show="action=='buyPackage'" @click="purchase($event)">提交</button>
+            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" v-show="action=='buySingle'" @click="purchaseAndConsume($event)">提交</button>
+            <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" v-show="action=='consumePackage'" @click="consume($event)">提交</button>
         </div>
     </div>
 </form>

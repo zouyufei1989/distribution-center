@@ -3,6 +3,7 @@ package com.money.custom.service;
 import com.money.custom.entity.Customer;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.MoACustomerRequest;
+import com.money.custom.entity.request.PurchaseRequest;
 import com.money.custom.entity.request.QueryCustomerRequest;
 import com.money.framework.base.service.BaseService;
 import com.money.h5.entity.request.AddCustomer4WechatRequest;
@@ -23,4 +24,5 @@ public interface CustomerService extends BaseService {
 
     String edit(MoACustomerRequest request);
 
+    void purchase(PurchaseRequest request);
 }

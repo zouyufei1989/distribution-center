@@ -43,7 +43,8 @@ $(document).ready(function () {
                             availableMoney: result.data.wallet.availableMoney4Show,
                             availableBonus: result.data.bonusWallet.availableBonus,
                             customerGroupId: result.data.customerGroup.id,
-                            customerType:result.data.customerGroup.type
+                            customerType:result.data.customerGroup.type,
+                            name:result.data.name,
                         }
                     }
                 });

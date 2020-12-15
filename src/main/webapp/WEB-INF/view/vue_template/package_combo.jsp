@@ -42,6 +42,6 @@
 <template id="package-combo-template">
     <select :id="id" class="select2_demo_3 form-control m-b">
         <option v-show="!must_choose_one">请选择</option>
-        <option v-for="(item,index) in items" :key="item.id" :data-price="item.sumPrice" :value="item.id">{{item.name}} (内含{{item.cnt}}次)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ¥{{item.sumPrice4Show}}</option>
+        <option v-for="(item,index) in items" :key="item.id" :data-name="item.name" :data-price="item.sumPrice" :value="item.id">{{item.name}} (内含{{item.cnt}}次)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ¥{{item.sumPrice4Show}}</option>
     </select>
 </template>

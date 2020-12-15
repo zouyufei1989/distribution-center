@@ -6,9 +6,12 @@ import com.money.custom.entity.Customer;
 import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.Wallet;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.enums.SerialNumberEnum;
+import com.money.custom.entity.request.AddOrderRequest;
 import com.money.custom.entity.request.MoACustomerRequest;
+import com.money.custom.entity.request.PurchaseRequest;
 import com.money.custom.entity.request.QueryCustomerRequest;
 import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
@@ -23,6 +26,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class CustomerServiceImpl extends BaseServiceImpl implements CustomerService {
@@ -36,7 +40,10 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     @Autowired
     CustomerGroupService customerGroupService;
     @Autowired
+    OrderService orderService;
+    @Autowired
     UtilsService utilsService;
+
 
     @Override
     public List<Customer> selectSearchList(QueryCustomerRequest request) {
@@ -51,10 +58,10 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     @Override
     public Customer findById(String id) {
         CustomerGroup customerGroup = customerGroupService.findById(id);
-        Assert.notNull(customerGroup,"未查询到门店顾客");
+        Assert.notNull(customerGroup, "未查询到门店顾客");
 
         Customer customer = dao.findById(customerGroup.getCustomerId().toString());
-        Assert.notNull(customer,"未查询到顾客");
+        Assert.notNull(customer, "未查询到顾客");
         customer.setCustomerGroup(customerGroup);
 
         if (Objects.nonNull(customerGroup.getParentId())) {
@@ -62,12 +69,12 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
             customer.setParent(parent);
         }
 
-        if(Objects.nonNull(customerGroup.getWalletId())){
+        if (Objects.nonNull(customerGroup.getWalletId())) {
             Wallet wallet = walletService.findById(customerGroup.getWalletId().toString());
             customer.setWallet(wallet);
         }
 
-        if(Objects.nonNull(customerGroup.getBonusWalletId())){
+        if (Objects.nonNull(customerGroup.getBonusWalletId())) {
             BonusWallet bonusWallet = bonusWalletService.findById(customerGroup.getBonusWalletId().toString());
             customer.setBonusWallet(bonusWallet);
         }
@@ -168,6 +175,24 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         updateCustomer.setName(request.getName());
         dao.edit(updateCustomer);
         return updateCustomer.getId().toString();
+    }
+
+    @Transactional
+    @Override
+    public void purchase(PurchaseRequest request) {
+        String batchId = UUID.randomUUID().toString();
+
+        AddOrderRequest addOrderRequest = new AddOrderRequest();
+        addOrderRequest.setBatchId(batchId);
+        addOrderRequest.setCustomerGroupId(request.getCustomerGroupId());
+        addOrderRequest.copyOperationInfo(request);
+
+        request.getGoodsChoosed().forEach(g -> {
+            addOrderRequest.setGoodsId(g.getId());
+            addOrderRequest.setCnt(g.getCnt());
+            orderService.add(addOrderRequest);
+        });
+
     }
 
 }

@@ -16,7 +16,8 @@ $(document).ready(function () {
                 availableMoney: 0,
                 availableBonus: 0,
                 customerGroupId: null,
-                customerType: null
+                customerType: null,
+                name: ''
             },
 
         },
@@ -72,11 +73,58 @@ $(document).ready(function () {
             cancel() {
                 $('#consumeModal').modal('hide');
             },
-            purchase() {
+            purchase(e) {
+                //购买套餐
+                var _this = this;
+                var tip = '客户"' + this.customerInfo.name + '"购买"' + this.goodsChoosed[0].name + '"' + this.goodsChoosed[0].cnt + '个，共计' + this.sumPrice + '元，实付款<span class="text-danger">' + this.purchaseInfo.actuallyMoney + '元</span>，请确认。';
+                Confirm(tip, function () {
+                    loadingStart($(e.target), function () {
+                        $.ajax({
+                            url: "purchase",
+                            type: 'post',
+                            data: JSON.stringify({
+                                goodsChoosed: _this.goodsChoosed,
+                                sumMoney: Number.parseFloat(_this.sumPrice) * 100,
+                                actuallyMoney: _this.purchaseInfo.actuallyMoney * 100,
+                                extraMoneyOffline: _this.purchaseInfo.extraMoneyOffline * 100,
+                                payMoney: _this.purchaseInfo.payMoney,
+                                payBonus: _this.purchaseInfo.payBonus,
+                                payOffline: _this.purchaseInfo.payOffline,
+                                customerGroupId: _this.customerInfo.customerGroupId,
+                            }),
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json;charset=UTF-8'
+                            },
+                            async: true,
+                            cache: false,
+                            success: function (result) {
+                                if (result.success == false) {
+                                    loadingEnd(function () {
+                                        Alert("", result.message || "失败！", "error");
+                                    });
+                                    return;
+                                }
+
+                                loadingEnd(function () {
+                                    Alert("", "成功！", "success", function () {
+                                        $('#assignModal').modal('hide');
+                                        reloadList();
+                                    });
+                                });
+                            }
+                        });
+                    })
+                });
             },
             consume() {
             },
             purchaseAndConsume() {
+                //购买单品并使用
+                var cnt = this.goodsChoosed.map(i => i.cnt).reduce((i, j) => Number.parseInt(i) + Number.parseInt(j));
+                var tip = '客户"' + this.customerInfo.name + '"购买' + this.goodsChoosed.length + '种产品' + cnt + '个，共计' + this.sumPrice + '元，实付款<span class="text-danger">' + this.purchaseInfo.actuallyMoney + '元</span>，请确认。';
+                Confirm(tip, function () {
+                });
             }
         },
     });

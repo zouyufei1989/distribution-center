@@ -54,11 +54,12 @@ $(document).ready(function () {
         consumeVue.goodsChoosed = [{
             id: $('#packageToPurchase').val(),
             price: $('#packageToPurchase option:checked').attr('data-price'),
+            name: $('#packageToPurchase option:checked').attr('data-name'),
             cnt: $('#purchaseCnt').val()
         }];
     });
     $('#purchaseCnt').change(function () {
-        if(consumeVue.goodsChoosed.length ==0){
+        if (consumeVue.goodsChoosed.length == 0) {
             return;
         }
         consumeVue.goodsChoosed[0].cnt = $('#purchaseCnt').val();
@@ -98,15 +99,19 @@ function rebuildAttrs4Vue() {
         return;
     }
 
-    consumeVue.goodsChoosed = TREE.getChecked('id').map(i => i.children).reduce((i, j) => {
-        return i.concat(j)
-    }).map(i => {
-        return {
-            id: i.id,
-            price: i['data-src'].price,
-            cnt: $('#txt_cnt_' + i.id).val()
-        }
-    });
+    consumeVue.goodsChoosed = TREE.getChecked('id')
+        .map(i => i.children)
+        .reduce((i, j) => {
+            return i.concat(j)
+        })
+        .filter(i => Number.parseInt($('#txt_cnt_' + i.id).val()) > 0)
+        .map(i => {
+            return {
+                id: i.id,
+                price: i['data-src'].price,
+                cnt: $('#txt_cnt_' + i.id).val()
+            }
+        });
 }
 
 function reloadGoodsTree() {

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Order">
+
+	<sql id="tableName">d_order</sql>
+
+	<select id="findById" parameterType="String" resultType="Order">
+		SELECT
+			batch_id,
+			customer_group_id,
+			goods_id,
+			goods_name,
+			goods_combine,
+			goods_type_id,
+			goods_type_name,
+			expire_date,
+			goods_desc,
+			goods_cnt,
+			goods_item_type_cnt,
+			goods_sum_price,
+			order_price,
+			order_cnt,
+			status
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			batch_id,
+			customer_group_id,
+			goods_id,
+			goods_name,
+			goods_combine,
+			goods_type_id,
+			goods_type_name,
+			expire_date,
+			goods_desc,
+			goods_cnt,
+			goods_item_type_cnt,
+			goods_sum_price,
+			order_price,
+			order_cnt,
+			status,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{batchId},
+			#{customerGroupId},
+			#{goodsId},
+			#{goodsName},
+			#{goodsCombine},
+			#{goodsTypeId},
+			#{goodsTypeName},
+			#{expireDate},
+			#{goodsDesc},
+			#{goodsCnt},
+			#{goodsItemTypeCnt},
+			#{goodsSumPrice},
+			#{orderPrice},
+			#{orderCnt},
+			#{status},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<insert id="addBatch" parameterType="OrderItem" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			order_id,
+			goods_id,
+			goods_item_id,
+			goods_name,
+			goods_profit_rate,
+			goods_tag_id,
+			goods_tag_name,
+			goods_price,
+			goods_show_price,
+			goods_unit,
+			goods_thumbnail,
+			goods_desc,
+			goods_detail,
+			cnt,
+			status,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+				#{item.orderId},
+				#{item.goodsId},
+				#{item.goodsItemId},
+				#{item.goodsName},
+				#{item.goodsProfitRate},
+				#{item.goodsTagId},
+				#{item.goodsTagName},
+				#{item.goodsPrice},
+				#{item.goodsShowPrice},
+				#{item.goodsUnit},
+				#{item.goodsThumbnail},
+				#{item.goodsDesc},
+				#{item.goodsDetail},
+				#{item.cnt},
+				#{item.status},
+				NOW(),
+				#{creator},
+				#{createIp}
+			)
+		</foreach>
+	</insert>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>

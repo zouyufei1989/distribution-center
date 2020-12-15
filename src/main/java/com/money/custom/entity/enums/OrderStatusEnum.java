@@ -1,15 +1,17 @@
 package com.money.custom.entity.enums;
 
-public enum ConsumeTypeEnum implements IEnumKeyValue {
+public enum OrderStatusEnum implements IEnumKeyValue {
 
-    MONEY(1, "余额"),
-    BOUNS(2, "积分"),
-    OFFLINE(4, "非余额/线下");
+    PENDING_PAY(1, "待支付"),
+    NOT_USED(2, "已支付，未使用"),
+    USING(2, "已支付，使用中"),
+    USED(2, "已支付，已用光"),
+    CANCEL(2, "已取消");
 
     private Integer value;
     private String name;
 
-    ConsumeTypeEnum(Integer value, String name) {
+    OrderStatusEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }
