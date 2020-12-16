@@ -125,6 +125,9 @@ $(document).ready(function () {
                 var tip = '客户"' + this.customerInfo.name + '"购买' + this.goodsChoosed.length + '种产品' + cnt + '个，共计' + this.sumPrice + '元，实付款<span class="text-danger">' + this.purchaseInfo.actuallyMoney + '元</span>，请确认。';
                 Confirm(tip, function () {
                 });
+            },
+            goRecharge(){
+                goRecharge(this.customerInfo.customerGroupId);
             }
         },
     });
