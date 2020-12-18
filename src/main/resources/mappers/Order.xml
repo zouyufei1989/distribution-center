@@ -5,6 +5,25 @@
 
 	<sql id="tableName">d_order</sql>
 
+	<select id="selectSearchList" parameterType="Map" resultType="Order">
+		SELECT
+			id,
+			batch_id AS batchId,
+			customer_group_id AS customerGroupId,
+			goods_id AS goodsId,
+			order_price AS orderPrice,
+			status
+		FROM <include refid="tableName"/>
+		WHERE
+			status != -2
+			<if test="order.batchId!=null and order.batchId!=''">
+				AND batch_id = #{order.batchId}
+			</if>
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
 	<select id="findById" parameterType="String" resultType="Order">
 		SELECT
 			batch_id,
@@ -69,53 +88,6 @@
 		  	#{creator},
 		  	#{createIp}
 		)
-	</insert>
-
-	<insert id="addBatch" parameterType="OrderItem" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO <include refid="tableName"/>
-		(
-			order_id,
-			goods_id,
-			goods_item_id,
-			goods_name,
-			goods_profit_rate,
-			goods_tag_id,
-			goods_tag_name,
-			goods_price,
-			goods_show_price,
-			goods_unit,
-			goods_thumbnail,
-			goods_desc,
-			goods_detail,
-			cnt,
-			status,
-			create_date,
-			creator,
-			create_ip
-		)
-		VALUES
-		<foreach collection="list" item="item" separator=",">
-			(
-				#{item.orderId},
-				#{item.goodsId},
-				#{item.goodsItemId},
-				#{item.goodsName},
-				#{item.goodsProfitRate},
-				#{item.goodsTagId},
-				#{item.goodsTagName},
-				#{item.goodsPrice},
-				#{item.goodsShowPrice},
-				#{item.goodsUnit},
-				#{item.goodsThumbnail},
-				#{item.goodsDesc},
-				#{item.goodsDetail},
-				#{item.cnt},
-				#{item.status},
-				NOW(),
-				#{creator},
-				#{createIp}
-			)
-		</foreach>
 	</insert>
 
 	<update id="changeStatus" parameterType="Map">

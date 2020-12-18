@@ -1,7 +1,8 @@
 package com.money.custom.entity.enums;
 
-public enum ConsumeTypeEnum implements IEnumKeyValue {
+public enum PayTypeEnum implements IEnumKeyValue {
 
+    NONE(0, ""),
     MONEY(1, "余额"),
     BOUNS(2, "积分"),
     OFFLINE(4, "非余额/线下");
@@ -9,7 +10,7 @@ public enum ConsumeTypeEnum implements IEnumKeyValue {
     private Integer value;
     private String name;
 
-    ConsumeTypeEnum(Integer value, String name) {
+    PayTypeEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

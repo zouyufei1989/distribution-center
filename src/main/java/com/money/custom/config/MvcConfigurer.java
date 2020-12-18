@@ -60,7 +60,12 @@ public class MvcConfigurer implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowedMethods("*")
                 .maxAge(30 * 1200);
-        //option 探测请求的有效期，有效期内不会重复发送探测请求
+        registry.addMapping("/utils/sleep")
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .maxAge(30 * 1200);
+
     }
 
     @Override

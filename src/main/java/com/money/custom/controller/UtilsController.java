@@ -39,6 +39,13 @@ public class UtilsController extends BaseController {
     String uploadFolder;
 
     @ResponseBody
+    @RequestMapping(value = "sleep")
+    public String sleep(int sec) throws InterruptedException {
+        Thread.sleep(sec * 1000);
+        return "sleep " + sec;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "selectOpenCities")
     public GridResponseBase selectOpenCities() {
         return new GridResponseBase(this.utilsService.selectOpenCities());

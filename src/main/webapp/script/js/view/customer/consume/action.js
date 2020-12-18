@@ -130,7 +130,7 @@ function reloadGoodsTree() {
                     return {
                         name: i.name + "(" + i.price4SingleShow + "元/" + i.unit4SingleShow + ")",
                         price: i.items[0].price,
-                        id: i.items[0].id,
+                        id: i.items[0].goodsId,
                         type: 'goods',
                         typeName: i.goodsTagName4SingleShow
                     };

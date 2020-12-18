@@ -7,6 +7,7 @@ import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Order extends BaseEntity {
@@ -28,11 +29,12 @@ public class Order extends BaseEntity {
 
     private Integer orderPrice;
     private Integer orderCnt;
-    private Integer status;
+
+    private List<OrderItem> items;
 
     public Order() {}
 
-    public Order(Goods goods, CustomerGroup customerInfo,AddOrderRequest request) {
+    public Order(Goods goods, CustomerGroup customerInfo, AddOrderRequest request) {
         batchId = request.getBatchId();
         if (StringUtils.isEmpty(batchId)) {
             batchId = UUID.randomUUID().toString();
@@ -42,7 +44,7 @@ public class Order extends BaseEntity {
         goodsName = goods.getName();
         goodsCombine = goods.getCombine();
         goodsTypeId = goods.getType();
-        goodsTypeName = EnumUtils.getNameByValue(GoodsTypeEnum.class,goods.getType());
+        goodsTypeName = EnumUtils.getNameByValue(GoodsTypeEnum.class, goods.getType());
         expireDate = goods.getExpireDate();
         goodsDesc = goods.getDesc();
         goodsCnt = goods.getCnt();
@@ -51,19 +53,14 @@ public class Order extends BaseEntity {
 
         orderPrice = goods.getSumPrice() * request.getCnt();
         orderCnt = request.getCnt();
-        status = OrderStatusEnum.PENDING_PAY.getValue();
+        setStatus(OrderStatusEnum.PENDING_PAY.getValue());
 
         copyOperationInfo(request);
     }
 
     @Override
-    public Integer getStatus() {
-        return status;
-    }
-
-    @Override
-    public void setStatus(Integer status) {
-        this.status = status;
+    public String getStatusName() {
+        return EnumUtils.getNameByValue(OrderStatusEnum.class, getStatus());
     }
 
     public Integer getId() {
@@ -72,6 +69,14 @@ public class Order extends BaseEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 
     public String getBatchId() {

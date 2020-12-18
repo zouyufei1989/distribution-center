@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<div class="modal inmodal fade" id="rechargeModal" role="dialog" aria-hidden="true" data-backdrop="static">
+<div class="modal inmodal fade" id="rechargeModal" role="dialog" aria-hidden="true" data-backdrop="static" style="z-index: 3050 !important;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">

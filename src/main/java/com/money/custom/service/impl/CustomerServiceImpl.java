@@ -9,10 +9,7 @@ import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.enums.SerialNumberEnum;
-import com.money.custom.entity.request.AddOrderRequest;
-import com.money.custom.entity.request.MoACustomerRequest;
-import com.money.custom.entity.request.PurchaseRequest;
-import com.money.custom.entity.request.QueryCustomerRequest;
+import com.money.custom.entity.request.*;
 import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.exception.PandabusSpecException;
@@ -41,6 +38,8 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     CustomerGroupService customerGroupService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    OrderPayService orderPayService;
     @Autowired
     UtilsService utilsService;
 
@@ -193,6 +192,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
             orderService.add(addOrderRequest);
         });
 
+        orderPayService.pay(new PayOrderRequest(request, batchId));
     }
 
 }

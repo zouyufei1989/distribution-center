@@ -1,14 +1,11 @@
 package com.money.custom.service.impl;
 
-import com.money.custom.dao.OrderDao;
 import com.money.custom.dao.OrderItemDao;
-import com.money.custom.entity.Order;
 import com.money.custom.entity.OrderItem;
 import com.money.custom.entity.enums.HistoryEntityEnum;
-import com.money.custom.entity.request.AddOrderRequest;
 import com.money.custom.entity.request.ChangeOrderStatusRequest;
+import com.money.custom.entity.request.QueryOrderItemRequest;
 import com.money.custom.service.OrderItemService;
-import com.money.custom.service.OrderService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,11 @@ public class OrderItemServiceImpl extends BaseServiceImpl implements OrderItemSe
     @Autowired
     OrderItemDao dao;
 
+
+    @Override
+    public List<OrderItem> selectSearchList(QueryOrderItemRequest request) {
+        return dao.selectSearchList(request);
+    }
 
     @Override
     public OrderItem findById(String id) {

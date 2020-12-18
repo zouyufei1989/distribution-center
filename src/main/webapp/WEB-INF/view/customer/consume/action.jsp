@@ -57,7 +57,7 @@
         <div class="col-sm-6" v-show="purchaseInfo.payMoney==1">
             <label label4Radio style="color:#d2d2d2"> 当前可用余额: {{customerInfo.availableMoney}}</label>
             <label label4Radio style="color:#d2d2d2" v-show="moneyEnough"> 当前余额不足
-                <button type="button" style="padding:1px 10px" class="btn btn-primary btn-xs">去充值</button>
+                <button type="button" style="padding:1px 10px" class="btn btn-primary btn-xs" @click="goRecharge()">去充值</button>
             </label>
         </div>
     </div>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OrderPay">
+
+	<sql id="tableName">d_order_pay</sql>
+
+	<insert id="add" parameterType="OrderPay" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			order_batch_id,
+			order_id,
+			sum_money,
+			actually_money,
+			pay_type,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{orderBatchId},
+			#{orderId},
+			#{sumMoney},
+			#{actuallyMoney},
+			#{payType},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+</mapper>

@@ -5,6 +5,34 @@
 
 	<sql id="tableName">d_order_item</sql>
 
+	<select id="selectSearchList" parameterType="Map" resultType="OrderItem">
+		SELECT
+			order_id AS orderId,
+			goods_id AS goodsId,
+			goods_item_id AS goodsItemId,
+			goods_name AS goodsName,
+			goods_profit_rate AS goodsProfitRate,
+			goods_tag_id AS goodsTagId,
+			goods_tag_name AS goodsTagName,
+			goods_price AS goodsPrice,
+			goods_show_price AS goodsShowPrice,
+			goods_unit AS goodsUnit,
+			goods_thumbnail AS goodsThumbnail,
+			goods_desc AS goodsDesc,
+			goods_detail AS goodsDetail,
+			cnt,
+			status
+		FROM <include refid="tableName"/>
+		WHERE
+			status != -2
+			<if test="orderItem.orderId!=null">
+				AND order_id = #{orderItem.orderId}
+			</if>
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
 	<select id="findById" parameterType="String" resultType="OrderItem">
 		SELECT
 			order_id AS orderId,
