@@ -133,9 +133,9 @@ $(document).ready(function () {
                             sumMoney: Number.parseFloat(_this.sumPrice) * 100,
                             actuallyMoney: _this.purchaseInfo.actuallyMoney * 100,
                             extraMoneyOffline: _this.purchaseInfo.extraMoneyOffline * 100,
-                            payMoney: _this.purchaseInfo.payMoney,
-                            payBonus: _this.purchaseInfo.payBonus,
-                            payOffline: _this.purchaseInfo.payOffline,
+                            payMoney: _this.purchaseInfo.payMoney==1,
+                            payBonus: _this.purchaseInfo.payBonus==1,
+                            payOffline: _this.purchaseInfo.payOffline==1,
                             customerGroupId: _this.customerInfo.customerGroupId,
                         }),
                         headers: {

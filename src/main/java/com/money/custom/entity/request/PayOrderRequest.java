@@ -1,9 +1,7 @@
 package com.money.custom.entity.request;
 
-import com.money.custom.entity.enums.PayTypeEnum;
 import com.money.framework.base.entity.OperationalEntity;
 
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class PayOrderRequest extends OperationalEntity {
@@ -16,28 +14,24 @@ public class PayOrderRequest extends OperationalEntity {
     private Integer bonusAmount;
     private Integer offLineAmount;
 
+    private Integer payType;
+
     public PayOrderRequest() {}
 
     public PayOrderRequest(PurchaseRequest request, String orderBatchId) {
         this.orderBatchId = orderBatchId;
         this.sumMoney = request.getSumMoney();
         this.actuallyMoney = request.getActuallyMoney();
+        this.payType = request.getPayType();
+        this.offLineAmount = request.getExtraMoneyOffline();
+        if (Objects.isNull(this.offLineAmount)) {
+            this.offLineAmount = 0;
+        }
 
         copyOperationInfo(request);
     }
 
     public Integer getPayType() {
-        Integer payType = PayTypeEnum.NONE.getValue();
-        if (Objects.nonNull(moneyAmount) && moneyAmount > 0) {
-            payType += PayTypeEnum.MONEY.getValue();
-        }
-        if (Objects.nonNull(bonusAmount) && bonusAmount > 0) {
-            payType += PayTypeEnum.BOUNS.getValue();
-        }
-        if (Objects.nonNull(offLineAmount) && offLineAmount > 0) {
-            payType += PayTypeEnum.OFFLINE.getValue();
-        }
-
         return payType;
     }
 

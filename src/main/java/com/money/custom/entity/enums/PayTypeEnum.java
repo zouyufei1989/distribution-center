@@ -4,7 +4,7 @@ public enum PayTypeEnum implements IEnumKeyValue {
 
     NONE(0, ""),
     MONEY(1, "余额"),
-    BOUNS(2, "积分"),
+    BONUS(2, "积分"),
     OFFLINE(4, "非余额/线下");
 
     private Integer value;

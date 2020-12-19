@@ -2,14 +2,13 @@ package com.money.custom.service.impl;
 
 import com.money.custom.dao.OrderPayDao;
 import com.money.custom.dao.OrderPayItemDao;
-import com.money.custom.entity.Order;
-import com.money.custom.entity.OrderPay;
+import com.money.custom.entity.*;
+import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.OrderStatusEnum;
+import com.money.custom.entity.enums.PayTypeEnum;
 import com.money.custom.entity.request.PayOrderRequest;
 import com.money.custom.entity.request.QueryOrderRequest;
-import com.money.custom.service.OrderItemService;
-import com.money.custom.service.OrderPayService;
-import com.money.custom.service.OrderService;
+import com.money.custom.service.*;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,8 @@ public class OrderPayServiceImpl extends BaseServiceImpl implements OrderPayServ
     OrderItemService orderItemService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    CustomerService customerService;
 
     @Transactional
     @Override
@@ -45,9 +46,42 @@ public class OrderPayServiceImpl extends BaseServiceImpl implements OrderPayServ
         List<Order> orders = orderService.selectSearchList(queryOrderRequest);
         Assert.notEmpty(orders, "未查询到订单");
         Assert.isTrue(orders.stream().allMatch(i -> i.getStatus().equals(OrderStatusEnum.PENDING_PAY.getValue())), "订单状态异常，不可支付");
+        Assert.isTrue(orders.stream().mapToInt(Order::getCustomerGroupId).distinct().count() == 1, "订单属于多位顾客");
+
+        Customer customer = customerService.findById(String.valueOf(orders.stream().mapToInt(Order::getCustomerGroupId).findAny().getAsInt()));
+        Assert.notNull(customer, "未查询到顾客信息");
+        if (!customer.getCustomerGroup().getType().equals(CustomerTypeEnum.SHARE_HOLDER.getValue())) {
+            Assert.isTrue((request.getPayType() & PayTypeEnum.BONUS.getValue()) != PayTypeEnum.BONUS.getValue(), "非股东，不可使用积分支付");
+        }
 
         int batchSumPrice = orders.stream().mapToInt(Order::getOrderPrice).sum();
-        Assert.isTrue(batchSumPrice == request.getSumMoney(), "总金额不符");
+        Assert.isTrue(batchSumPrice == request.getSumMoney(), "商品价格已更新");
+
+
+        Integer payAmount = request.getActuallyMoney();
+        Integer money = 0;
+        Integer bonus = 0;
+        Integer offLineAmount = 0;
+        if ((request.getPayType() & PayTypeEnum.MONEY.getValue()) == PayTypeEnum.MONEY.getValue()) {
+            money = customer.getWallet().getAvailableMoney();
+            if (money > payAmount) {
+                money = payAmount;
+            }
+        }
+        if ((request.getPayType() & PayTypeEnum.BONUS.getValue()) == PayTypeEnum.BONUS.getValue()) {
+            Assert.isTrue(money < payAmount, "余额充足，无需积分支付");
+            bonus = customer.getBonusWallet().getAvailableBonus();
+            if (money + bonus > payAmount) {
+                bonus = payAmount - money;
+            }
+        }
+        if ((request.getPayType() & PayTypeEnum.OFFLINE.getValue()) == PayTypeEnum.OFFLINE.getValue()) {
+            Assert.isTrue(money + bonus < payAmount, "余额、积分充足，无需线下支付");
+            money = request.getOffLineAmount();
+        }
+        Assert.isTrue(money + bonus + offLineAmount == payAmount, "实际支付金额错误");
+
+
         List<OrderPay> orderPays = orders.stream().map(o -> new OrderPay(o, request)).collect(Collectors.toList());
         Integer calibration = request.getActuallyMoney() - orderPays.stream().limit(orderPays.size() - 1).mapToInt(OrderPay::getActuallyMoney).sum();
         orderPays.get(orderPays.size() - 1).setActuallyMoney(calibration);

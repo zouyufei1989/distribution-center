@@ -1,13 +1,14 @@
 package com.money.custom.entity.request;
 
+import com.money.custom.entity.enums.PayTypeEnum;
 import com.money.framework.base.entity.OperationalEntity;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 public class PurchaseRequest extends OperationalEntity {
 
@@ -21,9 +22,23 @@ public class PurchaseRequest extends OperationalEntity {
     private Integer actuallyMoney;
     private Integer extraMoneyOffline;
 
-    private Integer payMoney;
-    private Integer payBonus;
-    private Integer payOffline;
+    private Boolean payMoney;
+    private Boolean payBonus;
+    private Boolean payOffline;
+
+    public Integer getPayType() {
+        Integer type = PayTypeEnum.NONE.getValue();
+        if (Objects.nonNull(payMoney) && payMoney) {
+            type += PayTypeEnum.MONEY.getValue();
+        }
+        if (Objects.nonNull(payBonus) && payBonus) {
+            type += PayTypeEnum.BONUS.getValue();
+        }
+        if (Objects.nonNull(payOffline) && payOffline) {
+            type += PayTypeEnum.OFFLINE.getValue();
+        }
+        return type;
+    }
 
     public List<Goods> getGoodsChoosed() {
         return goodsChoosed;
@@ -65,27 +80,15 @@ public class PurchaseRequest extends OperationalEntity {
         this.extraMoneyOffline = extraMoneyOffline;
     }
 
-    public Integer getPayMoney() {
-        return payMoney;
-    }
-
-    public void setPayMoney(Integer payMoney) {
+    public void setPayMoney(Boolean payMoney) {
         this.payMoney = payMoney;
     }
 
-    public Integer getPayBonus() {
-        return payBonus;
-    }
-
-    public void setPayBonus(Integer payBonus) {
+    public void setPayBonus(Boolean payBonus) {
         this.payBonus = payBonus;
     }
 
-    public Integer getPayOffline() {
-        return payOffline;
-    }
-
-    public void setPayOffline(Integer payOffline) {
+    public void setPayOffline(Boolean payOffline) {
         this.payOffline = payOffline;
     }
 
