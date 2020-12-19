@@ -3,7 +3,7 @@
 
 <mapper namespace="OrderPayItem">
 
-	<sql id="tableName">d_order_pay</sql>
+	<sql id="tableName">d_order_pay_item</sql>
 
 	<insert id="add" parameterType="OrderPayItem" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO <include refid="tableName"/>
@@ -18,10 +18,10 @@
 		)
 		VALUES 
 		(
-			#{orderBatchId},
-			#{sumMoney},
-			#{actuallyMoney},
-			#{payType},
+			#{orderPayId},
+			#{orderId},
+			#{type},
+			#{amount},
 			NOW(),
 		  	#{creator},
 		  	#{createIp}

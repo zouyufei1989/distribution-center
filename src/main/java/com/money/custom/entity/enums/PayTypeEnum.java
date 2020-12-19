@@ -25,4 +25,12 @@ public enum PayTypeEnum implements IEnumKeyValue {
         return name;
     }
 
+    public boolean pay(Integer type) {
+        return (type & this.getValue()) == this.getValue();
+    }
+
+    public boolean payOnly(Integer type) {
+        return type.equals(this.getValue());
+    }
+
 }

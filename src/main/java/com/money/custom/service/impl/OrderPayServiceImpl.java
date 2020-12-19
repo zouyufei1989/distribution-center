@@ -1,5 +1,6 @@
 package com.money.custom.service.impl;
 
+import com.google.common.collect.Lists;
 import com.money.custom.dao.OrderPayDao;
 import com.money.custom.dao.OrderPayItemDao;
 import com.money.custom.entity.*;
@@ -10,11 +11,13 @@ import com.money.custom.entity.request.PayOrderRequest;
 import com.money.custom.entity.request.QueryOrderRequest;
 import com.money.custom.service.*;
 import com.money.framework.base.service.impl.BaseServiceImpl;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +27,7 @@ public class OrderPayServiceImpl extends BaseServiceImpl implements OrderPayServ
     @Autowired
     OrderPayDao dao;
     @Autowired
-    OrderPayItemDao payItemDao;
+    OrderPayItemService orderPayItemService;
     @Autowired
     OrderItemService orderItemService;
     @Autowired
@@ -62,36 +65,49 @@ public class OrderPayServiceImpl extends BaseServiceImpl implements OrderPayServ
         Integer money = 0;
         Integer bonus = 0;
         Integer offLineAmount = 0;
-        if ((request.getPayType() & PayTypeEnum.MONEY.getValue()) == PayTypeEnum.MONEY.getValue()) {
+        if (PayTypeEnum.MONEY.pay(request.getPayType())) {
             money = customer.getWallet().getAvailableMoney();
             if (money > payAmount) {
                 money = payAmount;
             }
+            request.setMoneyAmount(money);
         }
-        if ((request.getPayType() & PayTypeEnum.BONUS.getValue()) == PayTypeEnum.BONUS.getValue()) {
+        if (PayTypeEnum.BONUS.pay(request.getPayType())) {
             Assert.isTrue(money < payAmount, "余额充足，无需积分支付");
             bonus = customer.getBonusWallet().getAvailableBonus();
             if (money + bonus > payAmount) {
                 bonus = payAmount - money;
             }
+            request.setBonusAmount(bonus);
         }
-        if ((request.getPayType() & PayTypeEnum.OFFLINE.getValue()) == PayTypeEnum.OFFLINE.getValue()) {
+        if (PayTypeEnum.OFFLINE.pay(request.getPayType())) {
             Assert.isTrue(money + bonus < payAmount, "余额、积分充足，无需线下支付");
-            money = request.getOffLineAmount();
+            offLineAmount = request.getOffLineAmount();
+            request.setOffLineAmount(offLineAmount);
         }
         Assert.isTrue(money + bonus + offLineAmount == payAmount, "实际支付金额错误");
 
-
-        List<OrderPay> orderPays = orders.stream().map(o -> new OrderPay(o, request)).collect(Collectors.toList());
-        Integer calibration = request.getActuallyMoney() - orderPays.stream().limit(orderPays.size() - 1).mapToInt(OrderPay::getActuallyMoney).sum();
-        orderPays.get(orderPays.size() - 1).setActuallyMoney(calibration);
+        List<OrderPay> orderPays = orders.stream().limit(orders.size() - 1).map(o -> new OrderPay(o, request, false)).collect(Collectors.toList());
+        orderPays.add(new OrderPay(orders.get(orders.size() - 1), request, true));
 
         orderPays.forEach(currSer::add);
     }
 
+    @Transactional
     @Override
     public String add(OrderPay item) {
         dao.add(item);
+
+        if (PayTypeEnum.MONEY.pay(item.getPayType())) {
+            orderPayItemService.add(new OrderPayItem(item, PayTypeEnum.MONEY, item.getMoneyAmount()));
+        }
+        if (PayTypeEnum.BONUS.pay(item.getPayType())) {
+            orderPayItemService.add(new OrderPayItem(item, PayTypeEnum.BONUS, item.getBonusAmount()));
+        }
+        if (PayTypeEnum.OFFLINE.pay(item.getPayType())) {
+            orderPayItemService.add(new OrderPayItem(item, PayTypeEnum.OFFLINE, item.getOfflineAmount()));
+        }
+
         return item.getId().toString();
     }
 }

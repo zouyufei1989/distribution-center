@@ -73,7 +73,7 @@ public class PurchaseRequest extends OperationalEntity {
     }
 
     public Integer getExtraMoneyOffline() {
-        return extraMoneyOffline;
+        return Objects.nonNull(extraMoneyOffline) ? extraMoneyOffline : 0;
     }
 
     public void setExtraMoneyOffline(Integer extraMoneyOffline) {

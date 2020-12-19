@@ -2,8 +2,6 @@ package com.money.custom.entity.request;
 
 import com.money.framework.base.entity.OperationalEntity;
 
-import java.util.Objects;
-
 public class PayOrderRequest extends OperationalEntity {
 
     private String orderBatchId;
@@ -14,6 +12,11 @@ public class PayOrderRequest extends OperationalEntity {
     private Integer bonusAmount;
     private Integer offLineAmount;
 
+    private Integer actuallyMoneyUsed;
+    private Integer moneyAmountUsed;
+    private Integer bonusAmountUsed;
+    private Integer offLineAmountUsed;
+
     private Integer payType;
 
     public PayOrderRequest() {}
@@ -23,12 +26,53 @@ public class PayOrderRequest extends OperationalEntity {
         this.sumMoney = request.getSumMoney();
         this.actuallyMoney = request.getActuallyMoney();
         this.payType = request.getPayType();
-        this.offLineAmount = request.getExtraMoneyOffline();
-        if (Objects.isNull(this.offLineAmount)) {
-            this.offLineAmount = 0;
-        }
 
+        this.offLineAmount = request.getExtraMoneyOffline();
+        moneyAmountUsed = 0;
+        bonusAmountUsed = 0;
+        offLineAmountUsed = 0;
+        actuallyMoneyUsed = 0;
         copyOperationInfo(request);
+    }
+
+    public boolean fullPay() {
+        return actuallyMoney.equals(sumMoney);
+    }
+
+    public Integer getActuallyMoneyUsed() {
+        return actuallyMoneyUsed;
+    }
+
+    public void addActuallyMoneyUsed(Integer actuallyMoneyUsed) {
+        this.actuallyMoneyUsed += actuallyMoneyUsed;
+    }
+
+    public Integer getMoneyAmountUsed() {
+        return moneyAmountUsed;
+    }
+
+    public void addMoneyAmountUsed(Integer moneyAmountUsed) {
+        this.moneyAmountUsed += moneyAmountUsed;
+    }
+
+    public Integer getBonusAmountUsed() {
+        return bonusAmountUsed;
+    }
+
+    public void addBonusAmountUsed(Integer bonusAmountUsed) {
+        this.bonusAmountUsed += bonusAmountUsed;
+    }
+
+    public Integer getOffLineAmountUsed() {
+        return offLineAmountUsed;
+    }
+
+    public void addOffLineAmountUsed(Integer offLineAmountUsed) {
+        this.offLineAmountUsed += offLineAmountUsed;
+    }
+
+    public void setPayType(Integer payType) {
+        this.payType = payType;
     }
 
     public Integer getPayType() {

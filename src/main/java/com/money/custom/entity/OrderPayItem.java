@@ -1,6 +1,7 @@
 package com.money.custom.entity;
 
 
+import com.money.custom.entity.enums.PayTypeEnum;
 import com.money.framework.base.entity.OperationalEntity;
 
 public class OrderPayItem extends OperationalEntity {
@@ -10,6 +11,17 @@ public class OrderPayItem extends OperationalEntity {
     private Integer orderId;
     private Integer type;
     private Integer amount;
+
+    public OrderPayItem() {}
+
+    public OrderPayItem(OrderPay pay, PayTypeEnum type, Integer amount) {
+        this.orderPayId = pay.getId();
+        this.orderId = pay.getOrderId();
+        this.type = type.getValue();
+        this.amount = amount;
+
+        copyOperationInfo(pay);
+    }
 
     public Integer getId() {
         return id;
