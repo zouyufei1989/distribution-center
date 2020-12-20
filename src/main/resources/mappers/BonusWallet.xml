@@ -60,4 +60,43 @@
 		WHERE id = #{id}
 	</update>
 
+	<insert id="addDetail" parameterType="BonusWalletDetail">
+		INSERT INTO d_bonus_wallet_detail
+		(
+			bonus_wallet_id,
+			bonus_change,
+			change_type,
+			bef_sum_bonus,
+			bef_pending_bonus,
+			bef_available_bonus,
+			bef_used_bonus,
+			aft_sum_bonus,
+			aft_pending_bonus,
+			aft_available_bonus,
+			aft_used_bonus,
+			order_pay_item_id,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES
+		(
+			#{bonusWalletId},
+			#{bonusChange},
+			#{changeType},
+			#{befSumBonus},
+			#{befPendingBonus},
+			#{befAvailableBonus},
+			#{befUsedBonus},
+			#{aftSumBonus},
+			#{aftPendingBonus},
+			#{aftAvailableBonus},
+			#{aftUsedBonus},
+			#{orderPayItemId},
+			NOW(),
+			#{creator},
+			#{createIp}
+		)
+	</insert>
+
 </mapper>

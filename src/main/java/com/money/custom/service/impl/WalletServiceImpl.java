@@ -6,6 +6,7 @@ import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.Wallet;
 import com.money.custom.entity.WalletDetail;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.request.DeductionRequest;
 import com.money.custom.entity.request.RechargeRequest;
 import com.money.custom.service.CustomerGroupService;
 import com.money.custom.service.CustomerService;
@@ -57,6 +58,23 @@ public class WalletServiceImpl extends BaseServiceImpl implements WalletService 
         dao.addDetail(detail);
 
         wallet.recharge(rechargeRequest);
+        edit(wallet);
+
+        return wallet.getId().toString();
+    }
+
+    @Transactional
+    @Override
+    public String deduction(DeductionRequest deductionRequest) {
+        CustomerGroup customer = customerGroupService.findById(deductionRequest.getCustomerGroupId().toString());
+        Assert.notNull(customer, "未查询到充值客户");
+        Assert.notNull(customer.getWalletId(), "客户钱包尚未初始化");
+
+        Wallet wallet = findById(customer.getWalletId().toString());
+        WalletDetail detail = new WalletDetail(deductionRequest, wallet);
+        dao.addDetail(detail);
+
+        wallet.deduction(deductionRequest);
         edit(wallet);
 
         return wallet.getId().toString();

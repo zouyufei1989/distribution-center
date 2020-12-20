@@ -1,10 +1,7 @@
 package com.money.custom.service.impl;
 
 import com.money.custom.dao.CustomerDao;
-import com.money.custom.entity.BonusWallet;
-import com.money.custom.entity.Customer;
-import com.money.custom.entity.CustomerGroup;
-import com.money.custom.entity.Wallet;
+import com.money.custom.entity.*;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.enums.ResponseCodeEnum;
@@ -42,6 +39,8 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     OrderPayService orderPayService;
     @Autowired
     UtilsService utilsService;
+    @Autowired
+    BonusPlanService bonusPlanService;
 
 
     @Override
@@ -76,6 +75,11 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         if (Objects.nonNull(customerGroup.getBonusWalletId())) {
             BonusWallet bonusWallet = bonusWalletService.findById(customerGroup.getBonusWalletId().toString());
             customer.setBonusWallet(bonusWallet);
+        }
+
+        if (Objects.nonNull(customerGroup.getBonusPlanId())) {
+            BonusPlan bonusPlan = bonusPlanService.findById(customerGroup.getBonusPlanId().toString());
+            customer.setBonusPlan(bonusPlan);
         }
 
         return customer;

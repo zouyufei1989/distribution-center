@@ -12,6 +12,8 @@ public class OrderPayItem extends OperationalEntity {
     private Integer type;
     private Integer amount;
 
+    private Customer customer;
+
     public OrderPayItem() {}
 
     public OrderPayItem(OrderPay pay, PayTypeEnum type, Integer amount) {
@@ -20,7 +22,13 @@ public class OrderPayItem extends OperationalEntity {
         this.type = type.getValue();
         this.amount = amount;
 
+        this.customer = pay.getCustomer();
+
         copyOperationInfo(pay);
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public Integer getId() {

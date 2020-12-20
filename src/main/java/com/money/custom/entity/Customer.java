@@ -22,6 +22,7 @@ public class Customer extends BaseEntity {
     private CustomerGroup customerGroup = new CustomerGroup();
     private Wallet wallet = new Wallet();
     private BonusWallet bonusWallet = new BonusWallet();
+    private BonusPlan bonusPlan = new BonusPlan();
     private Customer parent;
 
 
@@ -39,6 +40,14 @@ public class Customer extends BaseEntity {
         headCover = request.getHeadCover();
 
         copyOperationInfo(request);
+    }
+
+    public BonusPlan getBonusPlan() {
+        return bonusPlan;
+    }
+
+    public void setBonusPlan(BonusPlan bonusPlan) {
+        this.bonusPlan = bonusPlan;
     }
 
     public Customer getParent() {

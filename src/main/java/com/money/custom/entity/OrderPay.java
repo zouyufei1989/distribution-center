@@ -13,10 +13,13 @@ public class OrderPay extends OperationalEntity {
     private Integer sumMoney;
     private Integer actuallyMoney;
     private Integer payType;
+    private Integer bonusRate;
 
     private Integer moneyAmount;
     private Integer bonusAmount;
     private Integer offlineAmount;
+
+    private Customer customer;
 
     public OrderPay() {}
 
@@ -73,6 +76,22 @@ public class OrderPay extends OperationalEntity {
         }
 
         copyOperationInfo(request);
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Integer getBonusRate() {
+        return bonusRate;
+    }
+
+    public void setBonusRate(Integer bonusRate) {
+        this.bonusRate = bonusRate;
     }
 
     public void setMoneyAmount(Integer moneyAmount) {

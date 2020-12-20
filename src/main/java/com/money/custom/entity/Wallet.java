@@ -1,6 +1,7 @@
 package com.money.custom.entity;
 
 
+import com.money.custom.entity.request.DeductionRequest;
 import com.money.custom.entity.request.RechargeRequest;
 import com.money.framework.base.entity.OperationalEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,12 @@ public class Wallet extends OperationalEntity {
         copyOperationInfo(request);
     }
 
+    public void deduction(DeductionRequest request) {
+        this.usedMoney += request.getAmount();
+        this.availableMoney -= request.getAmount();
+        copyOperationInfo(request);
+    }
+
     public static Wallet totalNew(OperationalEntity operationEntry) {
         Wallet wallet = new Wallet();
         wallet.setSumMoney(0);
@@ -29,8 +36,8 @@ public class Wallet extends OperationalEntity {
         return wallet;
     }
 
-    public String getAvailableMoney4Show(){
-        if(Objects.isNull(this.availableMoney)){
+    public String getAvailableMoney4Show() {
+        if (Objects.isNull(this.availableMoney)) {
             return StringUtils.EMPTY;
         }
 

@@ -24,7 +24,7 @@ public class RechargeRequest extends OperationalEntity {
     }
 
     public Integer getAmount() {
-        return amount * 100;
+        return amount;
     }
 
     public void setAmount(Integer amount) {

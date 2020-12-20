@@ -1,6 +1,9 @@
 package com.money.custom.entity;
 
 
+import com.money.custom.entity.enums.BonusChangeTypeEnum;
+import com.money.custom.entity.request.BonusRechargeRequest;
+import com.money.custom.entity.request.DeductionRequest;
 import com.money.framework.base.entity.OperationalEntity;
 
 public class BonusWalletDetail extends OperationalEntity {
@@ -17,6 +20,49 @@ public class BonusWalletDetail extends OperationalEntity {
     private Integer aftPendingBonus;
     private Integer aftAvailableBonus;
     private Integer aftUsedBonus;
+    private Integer orderPayItemId;
+
+    public BonusWalletDetail() {}
+
+    public BonusWalletDetail(BonusRechargeRequest request, BonusWallet wallet) {
+        bonusWalletId = wallet.getId();
+        orderPayItemId = request.getOrderPayItemId();
+        bonusChange = request.getAmount();
+        changeType = BonusChangeTypeEnum.GAIN.getValue();
+        befSumBonus = wallet.getSumBonus();
+        befPendingBonus = wallet.getPendingBonus();
+        befAvailableBonus = wallet.getAvailableBonus();
+        befUsedBonus = wallet.getUsedBonus();
+
+        aftSumBonus = wallet.getSumBonus() + bonusChange;
+        aftPendingBonus = wallet.getPendingBonus() + bonusChange;
+        aftAvailableBonus = wallet.getAvailableBonus();
+        aftUsedBonus = wallet.getUsedBonus();
+
+        copyOperationInfo(request);
+    }
+
+    public BonusWalletDetail(DeductionRequest request, BonusWallet wallet) {
+        bonusWalletId = wallet.getId();
+        orderPayItemId = request.getOrderPayItemId();
+        bonusChange = request.getAmount();
+        changeType = BonusChangeTypeEnum.DEDUCTION.getValue();
+        befSumBonus = wallet.getSumBonus();
+        befPendingBonus = wallet.getPendingBonus();
+        befAvailableBonus = wallet.getAvailableBonus();
+        befUsedBonus = wallet.getUsedBonus();
+
+        aftSumBonus = wallet.getSumBonus();
+        aftPendingBonus = wallet.getPendingBonus();
+        aftAvailableBonus = wallet.getAvailableBonus() - request.getAmount();
+        aftUsedBonus = wallet.getUsedBonus() + request.getAmount();
+
+        copyOperationInfo(request);
+    }
+
+    public Integer getOrderPayItemId() {
+        return orderPayItemId;
+    }
 
     public Integer getId() {
         return id;

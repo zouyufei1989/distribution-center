@@ -88,7 +88,7 @@ $(document).ready(function () {
                                 actuallyMoney: _this.purchaseInfo.actuallyMoney * 100,
                                 extraMoneyOffline: _this.extraMoneyOffline * 100,
                                 payMoney: _this.purchaseInfo.payMoney,
-                                payBonus: _this.purchaseInfo.payBonus,
+                                payBonus: _this.customerInfo.customerType == 1 ? 0 : _this.purchaseInfo.payBonus,
                                 payOffline: _this.purchaseInfo.payOffline,
                                 customerGroupId: _this.customerInfo.customerGroupId,
                             }),
@@ -134,7 +134,7 @@ $(document).ready(function () {
                             actuallyMoney: _this.purchaseInfo.actuallyMoney * 100,
                             extraMoneyOffline: _this.extraMoneyOffline * 100,
                             payMoney: _this.purchaseInfo.payMoney,
-                            payBonus: _this.purchaseInfo.payBonus,
+                            payBonus: _this.customerInfo.customerType == 1 ? 0 : _this.purchaseInfo.payBonus,
                             payOffline: _this.purchaseInfo.payOffline,
                             customerGroupId: _this.customerInfo.customerGroupId,
                         }),
@@ -162,7 +162,7 @@ $(document).ready(function () {
                     });
                 });
             },
-            goRecharge(){
+            goRecharge() {
                 goRecharge(this.customerInfo.customerGroupId);
             }
         },

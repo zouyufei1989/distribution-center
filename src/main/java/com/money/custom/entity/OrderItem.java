@@ -40,11 +40,17 @@ public class OrderItem extends BaseEntity {
         goodsUnit = goodsItem.getUnit();
         goodsThumbnail = goodsItem.getThumbnail();
         goodsDesc = goodsItem.getDesc();
-        goodsDesc = goodsItem.getDesc();
         cnt = goodsItem.getCnt() * request.getCnt();
         status = OrderStatusEnum.PENDING_PAY.getValue();
 
         copyOperationInfo(request);
+    }
+
+    public Integer getProfit() {
+        long price = this.goodsPrice;
+        long rate = this.goodsProfitRate;
+        long profit = price * rate * cnt / 10000;
+        return (int) profit;
     }
 
     public Integer getId() {

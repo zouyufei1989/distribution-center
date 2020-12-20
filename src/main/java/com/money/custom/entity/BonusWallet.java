@@ -1,6 +1,8 @@
 package com.money.custom.entity;
 
 
+import com.money.custom.entity.request.BonusRechargeRequest;
+import com.money.custom.entity.request.DeductionRequest;
 import com.money.framework.base.entity.OperationalEntity;
 
 public class BonusWallet extends OperationalEntity {
@@ -10,6 +12,17 @@ public class BonusWallet extends OperationalEntity {
     private Integer pendingBonus;
     private Integer usedBonus;
     private Integer availableBonus;
+
+    public void recharge(BonusRechargeRequest rechargeRequest) {
+        this.sumBonus += rechargeRequest.getAmount();
+        this.pendingBonus += rechargeRequest.getAmount();
+    }
+
+    public void deduction(DeductionRequest request) {
+        this.usedBonus += request.getAmount();
+        this.availableBonus -= request.getAmount();
+        copyOperationInfo(request);
+    }
 
 
     public static BonusWallet totalNew(OperationalEntity operationEntry) {

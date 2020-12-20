@@ -3,7 +3,7 @@ package com.money.custom.entity.enums;
 public enum WalletChangeTypeEnum implements IEnumKeyValue {
 
     RECHARGE(1, "充值"),
-    CONSUME(-1, "消费");
+    DEDUCTION(-1, "扣款");
 
     private Integer value;
     private String name;

@@ -61,11 +61,12 @@
             </label>
         </div>
     </div>
-    <div class="form-group" v-show="customerInfo.customerType == 2">
+<%--    <div class="form-group" v-show="customerInfo.customerType == 2">--%>
+    <div class="form-group" >
         <label class="col-sm-3 control-label"> 使用积分：</label>
         <div class="col-sm-3">
-            <label label4Radio> <input type="radio" :checked="purchaseInfo.payBonus==0" @click="changePayType('payBonus',0)" name="pay_bonus">否 </label>
-            <label label4Radio> <input type="radio" :checked="purchaseInfo.payBonus==1" @click="changePayType('payBonus',1)" name="pay_bonus">是 </label>
+            <label label4Radio> <input type="radio" :checked="purchaseInfo.payBonus==0 " @click="changePayType('payBonus',0)" name="pay_bonus">否 </label>
+            <label label4Radio> <input type="radio" :checked="purchaseInfo.payBonus==1 " @click="changePayType('payBonus',1)" name="pay_bonus">是 </label>
         </div>
         <div class="col-sm-6" v-show="purchaseInfo.payBonus==1">
             <label label4Radio style="color:#d2d2d2"> 当前可用积分: {{customerInfo.availableBonus}}</label>

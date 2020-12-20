@@ -2,6 +2,7 @@ package com.money.custom.entity;
 
 
 import com.money.custom.entity.enums.WalletChangeTypeEnum;
+import com.money.custom.entity.request.DeductionRequest;
 import com.money.custom.entity.request.RechargeRequest;
 import com.money.framework.base.entity.OperationalEntity;
 
@@ -34,6 +35,25 @@ public class WalletDetail extends OperationalEntity {
         this.aftAvailableMoney = wallet.getAvailableMoney() + this.moneyChange;
 
         copyOperationInfo(rechargeRequest);
+    }
+
+    public WalletDetail(DeductionRequest rechargeRequest, Wallet wallet) {
+        this.changeType = WalletChangeTypeEnum.DEDUCTION.getValue();
+        this.moneyChange = rechargeRequest.getAmount();
+
+        this.walletId = wallet.getId();
+        this.befSumMoney = wallet.getSumMoney();
+        this.befUsedMoney = wallet.getUsedMoney();
+        this.befAvailableMoney = wallet.getAvailableMoney();
+        this.aftSumMoney = wallet.getSumMoney();
+        this.aftUsedMoney = wallet.getUsedMoney() + this.moneyChange;
+        this.aftAvailableMoney = wallet.getAvailableMoney() - this.moneyChange;
+
+        copyOperationInfo(rechargeRequest);
+    }
+
+    public Integer getChangeType() {
+        return changeType;
     }
 
     public Integer getId() {

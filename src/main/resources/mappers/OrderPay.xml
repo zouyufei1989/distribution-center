@@ -13,6 +13,7 @@
 			sum_money,
 			actually_money,
 			pay_type,
+			bonus_rate,
 			create_date,
 			creator,
 			create_ip
@@ -24,10 +25,23 @@
 			#{sumMoney},
 			#{actuallyMoney},
 			#{payType},
+			#{bonusRate},
 			NOW(),
 		  	#{creator},
 		  	#{createIp}
 		)
 	</insert>
+
+	<select id="findById" resultType="OrderPay" parameterType="String">
+		SELECT
+			id,
+			order_batch_id,
+			order_id AS orderId,
+			sum_money AS sumMoney,
+			cast(actually_money AS actuallyMoney,
+			pay_type AS payType
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
 
 </mapper>

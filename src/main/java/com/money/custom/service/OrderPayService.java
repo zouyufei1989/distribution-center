@@ -9,4 +9,6 @@ public interface OrderPayService extends BaseService {
     void pay(PayOrderRequest request);
 
     String add(OrderPay item);
+
+    OrderPay findById(String id);
 }

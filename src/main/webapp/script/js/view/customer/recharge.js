@@ -21,7 +21,7 @@ $(document).ready(function () {
                         },
                         data: JSON.stringify({
                             customerGroupId: _this.customer.id,
-                            amount: $('#recharge').val()
+                            amount: $('#recharge').val() * 100
                         }),
                         async: true,
                         cache: false,
