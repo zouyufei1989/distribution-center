@@ -19,7 +19,7 @@ $(document).ready(function () {
                 customerType: null,
                 name: ''
             },
-
+            cusPackages:[]
         },
         computed: {
             cnt() {

@@ -5,7 +5,7 @@
         props: ['id', 'must_choose_one', 'customer_group_id'],
         data: function () {
             return {
-                items: this.reload()
+                items: []
             }
         },
         methods: {

@@ -1,6 +1,5 @@
 package com.money.custom.entity;
 
-import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.request.AddOrderRequest;
 import com.money.framework.base.entity.BaseEntity;
 
@@ -22,6 +21,7 @@ public class OrderItem extends BaseEntity {
     private String goodsDesc;
     private String goodsDetail;
     private Integer cnt;
+    private Integer cntUsed;
 
     private Integer status;
 
@@ -41,16 +41,24 @@ public class OrderItem extends BaseEntity {
         goodsThumbnail = goodsItem.getThumbnail();
         goodsDesc = goodsItem.getDesc();
         cnt = goodsItem.getCnt() * request.getCnt();
-        status = OrderStatusEnum.PENDING_PAY.getValue();
+        cntUsed = 0;
 
         copyOperationInfo(request);
     }
 
-    public Integer getProfit() {
+    public Integer calProfit() {
         long price = this.goodsPrice;
         long rate = this.goodsProfitRate;
         long profit = price * rate * cnt / 10000;
         return (int) profit;
+    }
+
+    public Integer getCntUsed() {
+        return cntUsed;
+    }
+
+    public void setCntUsed(Integer cntUsed) {
+        this.cntUsed = cntUsed;
     }
 
     public Integer getId() {

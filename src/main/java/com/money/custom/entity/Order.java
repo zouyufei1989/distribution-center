@@ -4,6 +4,7 @@ import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.request.AddOrderRequest;
 import com.money.framework.base.entity.BaseEntity;
+import com.money.framework.util.DateUtils;
 import com.money.framework.util.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -189,5 +190,9 @@ public class Order extends BaseEntity {
 
     public void setOrderCnt(Integer orderCnt) {
         this.orderCnt = orderCnt;
+    }
+
+    public boolean getExpired() {
+        return this.expireDate.compareTo(DateUtils.nowDate()) < 0;
     }
 }

@@ -43,6 +43,11 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
     }
 
     @Override
+    public int selectSearchListCount(QueryOrderRequest request) {
+        return dao.selectSearchListCount(request);
+    }
+
+    @Override
     public Order findById(String id) {
         Order order = dao.findById(id);
 

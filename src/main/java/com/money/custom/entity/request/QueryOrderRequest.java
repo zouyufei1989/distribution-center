@@ -15,6 +15,14 @@ public class QueryOrderRequest extends QueryGridRequestBase {
         return params;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     public void setOrderBatchId(String batchId) {
         this.order.setBatchId(batchId);
     }

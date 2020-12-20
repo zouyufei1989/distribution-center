@@ -5,23 +5,78 @@
 
 	<sql id="tableName">d_order</sql>
 
-	<select id="selectSearchList" parameterType="Map" resultType="Order">
+	<resultMap id="OrderMap" type="Order">
+            <id column="id" property="id"/>
+            <result column="batchId" property="batchId"/>
+            <result column="customerGroupId" property="customerGroupId"/>
+            <result column="goodsId" property="goodsId"/>
+            <result column="orderPrice" property="orderPrice"/>
+            <result column="status" property="status"/>
+            <result column="goodsName" property="goodsName"/>
+            <result column="expireDate" property="expireDate"/>
+            <result column="goodsCombine" property="goodsCombine"/>
+            <collection property="items" ofType="OrderItem">
+                <id column="iid" property="id"/>
+                <result column="igoodsName" property="goodsName"/>
+                <result column="igoodsCnt" property="cnt"/>
+                <result column="igoodsCntUsed" property="cntUsed"/>
+            </collection>
+        </resultMap>
+
+	<select id="selectSearchList" parameterType="Map" resultMap="OrderMap">
 		SELECT
-			id,
-			batch_id AS batchId,
-			customer_group_id AS customerGroupId,
-			goods_id AS goodsId,
-			order_price AS orderPrice,
-			status
-		FROM <include refid="tableName"/>
+			do.id,
+			do.batch_id AS batchId,
+			do.customer_group_id AS customerGroupId,
+			do.goods_id AS goodsId,
+			do.order_price AS orderPrice,
+			do.status,
+			do.goods_name AS goodsName,
+			do.goods_combine AS goodsCombine,
+			do.expire_date AS expireDate,
+			doi.id AS iid,
+			doi.goods_name AS igoodsName,
+			doi.cnt AS igoodsCnt,
+			doi.cnt_used AS igoodsCntUsed
+		FROM <include refid="tableName"/> do
+		LEFT JOIN d_order_item doi ON doi.order_id = do.id
 		WHERE
-			status != -2
+			do.status != -2
 			<if test="order.batchId!=null and order.batchId!=''">
-				AND batch_id = #{order.batchId}
+				AND do.batch_id = #{order.batchId}
+			</if>
+			<if test="order.status!=null">
+				AND do.status = #{order.status}
+			</if>
+			<if test="order.goodsTypeId!=null">
+				AND do.goods_type_id = #{order.goodsTypeId}
+			</if>
+			<if test="order.customerGroupId!=null and order.customerGroupId!=''">
+				AND do.customer_group_id = #{order.customerGroupId}
 			</if>
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
 		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/> do
+		WHERE
+			do.status != -2
+			<if test="order.batchId!=null and order.batchId!=''">
+				AND do.batch_id = #{order.batchId}
+			</if>
+			<if test="order.status!=null">
+				AND do.status = #{order.status}
+			</if>
+			<if test="order.goodsTypeId!=null">
+				AND do.goods_type_id = #{order.goodsTypeId}
+			</if>
+			<if test="order.customerGroupId!=null and order.customerGroupId!=''">
+				AND do.customer_group_id = #{order.customerGroupId}
+			</if>
 	</select>
 
 	<select id="findById" parameterType="String" resultType="Order">

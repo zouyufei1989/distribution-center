@@ -208,7 +208,6 @@ function changeCnt(id, step) {
 function goConsume(rowId) {
     var customer = $("#table_list").jqGrid("getRowData", rowId);
     customerVue.id = customer['customerGroup.id'];
-    reloadGoodsTree();
     consumeVue.chooseAction('buySingle')
     $('#consumeModal').modal('show');
 }

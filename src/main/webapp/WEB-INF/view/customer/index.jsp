@@ -41,6 +41,7 @@
                             <%@ include file="../vue_template/group_combo.jsp" %>
                             <%@ include file="../vue_template/customer_type_combo.jsp" %>
                             <%@ include file="../vue_template/package_combo.jsp" %>
+                            <%@ include file="../vue_template/order_combo.jsp" %>
                             <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
                             <%@ include file="../template_search_export_btn.jsp" %>
                             <div class="param_row">
