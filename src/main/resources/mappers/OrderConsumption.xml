@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OrderConsumption">
+
+	<sql id="tableName">d_order_consumption</sql>
+
+	<insert id="add" parameterType="OrderConsumption" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			order_id,
+			goods_id,
+			combine,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{orderId},
+			#{goodsId},
+			#{combine},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<insert id="addBatch" parameterType="OrderItemConsumption" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO d_order_item_consumption
+		(
+			order_id,
+			order_item_id,
+			order_consumption_id,
+			bef_sum_cnt,
+			bef_used_cnt,
+			bef_available_cnt,
+			cnt,
+			aft_sum_cnt,
+			aft_used_cnt,
+			aft_available_cnt,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.orderId},
+			#{item.orderItemId},
+			#{item.orderConsumptionId},
+			#{item.befSumCnt},
+			#{item.befUsedCnt},
+			#{item.befAvailableCnt},
+			#{item.cnt},
+			#{item.aftSumCnt},
+			#{item.aftUsedCnt},
+			#{item.aftAvailableCnt},
+			NOW(),
+		  	#{item.creator},
+		  	#{item.createIp}
+		)
+		</foreach>
+	</insert>
+
+
+</mapper>

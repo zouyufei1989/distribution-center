@@ -17,7 +17,12 @@
     <div class="form-group">
         <label class="col-sm-3 control-label"> 购买项目：</label>
         <div class="col-sm-7">
-            <package-combo id="packageToPurchase" must_choose_one="false" :customer_group_id="customerInfo.customerGroupId"></package-combo>
+            <package-combo id="packageToPurchase" :timestamp="timestamp" must_choose_one="false" :customer_group_id="customerInfo.customerGroupId"></package-combo>
+        </div>
+        <div class="col-sm-1">
+            <button class="btn btn-link" style="padding-top: 7px" type="button" @click="refreshPackageCombo">
+                <i class="fa fa-refresh"></i>
+            </button>
         </div>
     </div>
     <div class="form-group">
@@ -31,13 +36,18 @@
     <div class="form-group">
         <label class="col-sm-3 control-label"> 消费项目：</label>
         <div class="col-sm-7">
-            <order-combo id="orderToUse" must_choose_one="false" type="2" :customer_group_id="customerInfo.customerGroupId"></order-combo>
+            <order-combo id="orderToUse" must_choose_one="false" type="2" :customer_group_id="customerInfo.customerGroupId" :timestamp="timestamp"></order-combo>
+        </div>
+        <div class="col-sm-1">
+            <button class="btn btn-link" style="padding-top: 7px" type="button" @click="refreshOrderCombo">
+                <i class="fa fa-refresh"></i>
+            </button>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"> 消费次数：</label>
         <div class="col-sm-7">
-            <input id="useCnt" class="form-control" min="0" required>
+            <input v-model="consumeInfo.cnt" class="form-control" min="0" required>
         </div>
     </div>
 </form>

@@ -10,39 +10,44 @@ import java.util.List;
 
 public class ConsumeRequest extends OperationalEntity {
 
-    @NotEmpty(message = "请选择要消费的订单")
-    private List<Order> orderChoosed;
+    @NotNull(message = "请输入订单ID")
+    private Integer orderId;
+    private Integer orderItemId;
+    @NotNull(message = "请输入使用数量")
+    @Min(value = 1, message = "使用次数不可小于1")
+    private Integer cnt;
+    @NotNull(message = "客户id不可为空")
+    private Integer customerGroupId;
 
-    public List<Order> getOrderChoosed() {
-        return orderChoosed;
+    public Integer getCustomerGroupId() {
+        return customerGroupId;
     }
 
-    public void setOrderChoosed(List<Order> orderChoosed) {
-        this.orderChoosed = orderChoosed;
+    public void setCustomerGroupId(Integer customerGroupId) {
+        this.customerGroupId = customerGroupId;
     }
 
-    @Valid
-    public static class Order {
-        @NotNull(message = "订单id不可为空")
-        private Integer id;
-        @Min(value = 1, message = "消费数量最小为1")
-        @NotNull(message = "请输入要消费的数量")
-        private Integer cnt;
+    public Integer getOrderItemId() {
+        return orderItemId;
+    }
 
-        public Integer getId() {
-            return id;
-        }
+    public void setOrderItemId(Integer orderItemId) {
+        this.orderItemId = orderItemId;
+    }
 
-        public void setId(Integer id) {
-            this.id = id;
-        }
+    public Integer getOrderId() {
+        return orderId;
+    }
 
-        public Integer getCnt() {
-            return cnt;
-        }
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
 
-        public void setCnt(Integer cnt) {
-            this.cnt = cnt;
-        }
+    public Integer getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(Integer cnt) {
+        this.cnt = cnt;
     }
 }

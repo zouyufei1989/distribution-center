@@ -19,7 +19,10 @@ $(document).ready(function () {
                 customerType: null,
                 name: ''
             },
-            cusPackages:[]
+            consumeInfo: {
+                cnt: 0
+            },
+            timestamp:new Date().getTime()
         },
         computed: {
             cnt() {
@@ -56,6 +59,7 @@ $(document).ready(function () {
             chooseAction(action) {
                 this.action = action;
                 this.goodsChoosed = [];
+                this.consumeInfo = {cnt: 0};
                 this.purchaseInfo = {
                     actuallyMoney: 0,
                     payMoney: 1,
@@ -72,6 +76,12 @@ $(document).ready(function () {
             },
             cancel() {
                 $('#consumeModal').modal('hide');
+            },
+            refreshOrderCombo(){
+                this.timestamp = new Date().getTime();
+            },
+            refreshPackageCombo(){
+                this.timestamp = new Date().getTime();
             },
             purchase(e) {
                 //购买套餐
@@ -117,7 +127,38 @@ $(document).ready(function () {
                     })
                 });
             },
-            consume() {
+            consume(e) {
+                var _this = this;
+                var tip = '客户"' + this.customerInfo.name + '"本次消费项目"' + this.consumeInfo.goodsName + '"' + this.consumeInfo.cnt + '次，请确认。';
+                _this.consumeInfo.customerGroupId = _this.customerInfo.customerGroupId;
+                Confirm(tip, function () {
+                    loadingStart($(e.target), function () {
+                        $.ajax({
+                            url: "consume",
+                            type: 'post',
+                            data: JSON.stringify(_this.consumeInfo),
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json;charset=UTF-8'
+                            },
+                            async: true,
+                            cache: false,
+                            success: function (result) {
+                                if (result.success == false) {
+                                    loadingEnd(function () {
+                                        Alert("", result.message || "失败！", "error");
+                                    });
+                                    return;
+                                }
+
+                                loadingEnd(function () {
+                                    Alert("", "成功！", "success", function () {
+                                    });
+                                });
+                            }
+                        });
+                    })
+                });
             },
             purchaseAndConsume() {
                 var _this = this;

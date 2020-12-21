@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     Vue.component('package-combo', {
-        props: ['id', 'must_choose_one', 'customer_group_id'],
+        props: ['id', 'must_choose_one', 'customer_group_id','timestamp'],
         data: function () {
             return {
                 items: []
@@ -32,6 +32,17 @@
         watch: {
             customer_group_id: function (newValue, oldValue) {
                 this.items = this.reload();
+                var _this = this;
+                _this.$nextTick(function () {
+                    $('#' + _this.id).select2();
+                })
+            },
+            timestamp: function (newValue, oldValue) {
+                this.items = this.reload();
+                var _this = this;
+                _this.$nextTick(function () {
+                    $('#' + _this.id).select2();
+                })
             }
         },
         template: '#package-combo-template'

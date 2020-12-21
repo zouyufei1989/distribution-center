@@ -34,6 +34,8 @@ public class CustomerController extends BaseController {
     CustomerGroupService customerGroupService;
     @Autowired
     WalletService walletService;
+    @Autowired
+    OrderConsumptionService consumptionService;
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
@@ -96,6 +98,14 @@ public class CustomerController extends BaseController {
     @RequestMapping(value = "purchase", method = RequestMethod.POST)
     public ResponseBase purchase(@Valid @RequestBody PurchaseRequest request, BindingResult bindingResult) {
         this.customerService.purchase(request);
+        return ResponseBase.success();
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "consume", method = RequestMethod.POST)
+    public ResponseBase consume(@Valid @RequestBody ConsumeRequest request, BindingResult bindingResult) {
+        this.consumptionService.consume(request);
         return ResponseBase.success();
     }
 

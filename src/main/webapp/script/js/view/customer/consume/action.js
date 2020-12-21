@@ -64,6 +64,12 @@ $(document).ready(function () {
         }
         consumeVue.goodsChoosed[0].cnt = $('#purchaseCnt').val();
     });
+
+    $('#orderToUse').change(function () {
+        consumeVue.consumeInfo.orderId = $('#orderToUse').val();
+        consumeVue.consumeInfo.goodsName = $('#orderToUse option:checked').attr('data-name');
+    });
+
 });
 
 function initTree() {

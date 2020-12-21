@@ -7,6 +7,7 @@
 
 	<select id="selectSearchList" parameterType="Map" resultType="OrderItem">
 		SELECT
+			id,
 			order_id AS orderId,
 			goods_id AS goodsId,
 			goods_item_id AS goodsItemId,
@@ -100,5 +101,14 @@
 			)
 		</foreach>
 	</insert>
+
+	<update id="consumeCnt" parameterType="Map">
+		UPDATE d_order_item
+		SET cnt_used = cnt_used + #{cnt}
+		WHERE id IN
+		<foreach collection="orderItemIds" open="(" separator="," close=")" item="id">
+			#{id}
+		</foreach>
+	</update>
 
 </mapper>

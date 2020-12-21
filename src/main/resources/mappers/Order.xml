@@ -81,20 +81,21 @@
 
 	<select id="findById" parameterType="String" resultType="Order">
 		SELECT
-			batch_id,
-			customer_group_id,
-			goods_id,
-			goods_name,
-			goods_combine,
-			goods_type_id,
-			goods_type_name,
-			expire_date,
-			goods_desc,
-			goods_cnt,
-			goods_item_type_cnt,
-			goods_sum_price,
-			order_price,
-			order_cnt,
+			id,
+			batch_id AS batchId,
+			customer_group_id AS customerGroupId,
+			goods_id AS goodsId,
+			goods_name AS goodsName,
+			goods_combine AS goodsCombine,
+			goods_type_id AS goodsTypeId,
+			goods_type_name AS goodsTypeName,
+			expire_date AS expiredDate,
+			goods_desc AS goodsDesc,
+			goods_cnt AS goodsCnt,
+			goods_item_type_cnt AS goodsItemType,
+			goods_sum_price AS goodsSumPrice,
+			order_price AS orderPrice,
+			order_cnt AS orderCnt,
 			status
 		FROM <include refid="tableName"/>
 		WHERE id = #{id}
