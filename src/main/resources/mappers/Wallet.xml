@@ -5,6 +5,86 @@
 
 	<sql id="tableName">d_wallet</sql>
 
+	<select id="selectSearchList4Detail" parameterType="Map" resultType="WalletDetail">
+		SELECT
+			dc.name AS 'customer.name',
+			dc.phone AS 'customer.phone',
+			dcg.serial_number AS 'customer.customerGroup.serialNumber',
+			dcg.type AS 'customer.customerGroup.type',
+			dwd.money_change AS moneyChange,
+			dwd.bef_available_money AS befAvailableMoney,
+			dwd.create_date AS createDate,
+			dg.name AS groupName,
+			nu.username AS creator
+		FROM d_wallet_detail dwd
+		LEFT JOIN d_wallet dw ON dwd.wallet_id = dw.id
+		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dw.id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		LEFT JOIN ns_users nu ON nu.id = dwd.creator
+		WHERE
+			1=1
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="changeType!=null">
+				AND dwd.change_type = #{changeType}
+			</if>
+			<if test="name!=null and name!=''">
+				AND dc.name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="serialNumber!=null and serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{serialNumber},'%')
+			</if>
+			<if test="phone!=null and phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{phone},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dwd.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+		ORDER BY dwd.id DESC
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount4Detail" parameterType="Map" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM d_wallet_detail dwd
+		LEFT JOIN d_wallet dw ON dwd.wallet_id = dw.id
+		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dw.id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		LEFT JOIN ns_users nu ON nu.id = dwd.creator
+		WHERE
+			1=1
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="changeType!=null">
+				AND dwd.change_type = #{changeType}
+			</if>
+			<if test="name!=null and name!=''">
+				AND dc.name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="serialNumber!=null and serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{serialNumber},'%')
+			</if>
+			<if test="phone!=null and phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{phone},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dwd.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+	</select>
+
 	<select id="findById" parameterType="String" resultType="Wallet">
 		SELECT 
 			id,

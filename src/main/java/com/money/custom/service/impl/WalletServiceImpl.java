@@ -7,6 +7,7 @@ import com.money.custom.entity.Wallet;
 import com.money.custom.entity.WalletDetail;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.request.DeductionRequest;
+import com.money.custom.entity.request.QueryWalletDetailRequest;
 import com.money.custom.entity.request.RechargeRequest;
 import com.money.custom.service.CustomerGroupService;
 import com.money.custom.service.CustomerService;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 @Service
 public class WalletServiceImpl extends BaseServiceImpl implements WalletService {
 
@@ -25,6 +28,16 @@ public class WalletServiceImpl extends BaseServiceImpl implements WalletService 
     WalletDao dao;
     @Autowired
     CustomerGroupService customerGroupService;
+
+    @Override
+    public List<WalletDetail> selectSearchList(QueryWalletDetailRequest request) {
+        return dao.selectSearchList4Detail(request);
+    }
+
+    @Override
+    public int selectSearchListCount(QueryWalletDetailRequest request) {
+        return dao.selectSearchListCount4Detail(request);
+    }
 
     @Override
     public Wallet findById(String id) {

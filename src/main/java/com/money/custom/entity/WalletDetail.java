@@ -20,6 +20,8 @@ public class WalletDetail extends OperationalEntity {
     private Integer aftUsedMoney;
     private Integer aftAvailableMoney;
 
+    private Customer customer;
+
     public WalletDetail() {}
 
     public WalletDetail(RechargeRequest rechargeRequest, Wallet wallet) {
@@ -50,6 +52,14 @@ public class WalletDetail extends OperationalEntity {
         this.aftAvailableMoney = wallet.getAvailableMoney() - this.moneyChange;
 
         copyOperationInfo(rechargeRequest);
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Integer getChangeType() {

@@ -47,7 +47,6 @@
 		LEFT JOIN d_bonus_wallet dbw ON dbwd.bonus_wallet_id = dbw.id
 		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dbw.id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
-		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
 		WHERE
 			1=1
 			<if test="groupId!=null">
@@ -73,7 +72,6 @@
 			dcg.type AS 'customer.customerGroup.type',
 			dbwd.bonus_change AS bonusChange,
 			dbwd.bonus_rate AS bonusRate,
-			dopi.amount AS payAmount,
 			dbwd.bef_available_bonus AS befAvailableBonus,
 			dbwd.bef_pending_bonus AS befPendingBonus,
 			dbwd.bef_sum_bonus AS befSumBonus,
@@ -88,7 +86,6 @@
 		LEFT JOIN d_customer_group dcg ON dcg.bonus_wallet_id = dbw.id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
 		LEFT JOIN d_group dg ON dg.id = dcg.group_id
-		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
 		LEFT JOIN ns_users nu ON nu.id = dbwd.creator
 		WHERE
 			1=1
@@ -127,7 +124,6 @@
 		LEFT JOIN d_customer_group dcg ON dcg.bonus_wallet_id = dbw.id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
 		LEFT JOIN d_group dg ON dg.id = dcg.group_id
-		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
 		WHERE
 			1=1
 			<if test="changeType!=null">
