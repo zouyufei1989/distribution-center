@@ -94,6 +94,18 @@ public class UtilsController extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "selectPayType")
+    public GridResponseBase selectPayType() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(PayTypeEnum.class));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "selectGoodsType")
+    public GridResponseBase selectGoodsType() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(GoodsTypeEnum.class));
+    }
+
+    @ResponseBody
     @RequestMapping(value = "selectActivityScope")
     public GridResponseBase selectActivityScope() {
         return new GridResponseBase(EnumUtils.getEnumEntriesVN(ActivityScopeEnum.class));

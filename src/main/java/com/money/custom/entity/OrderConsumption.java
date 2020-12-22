@@ -3,12 +3,16 @@ package com.money.custom.entity;
 import com.money.custom.entity.request.ConsumeRequest;
 import com.money.framework.base.entity.BaseEntity;
 
+import java.util.List;
+
 public class OrderConsumption extends BaseEntity {
 
     private Integer id;
     private Integer orderId;
     private Integer goodsId;
     private Integer combine;
+
+    private List<OrderItemConsumption> items;
 
     public OrderConsumption() {}
 
@@ -17,6 +21,14 @@ public class OrderConsumption extends BaseEntity {
         goodsId = order.getGoodsId();
         combine = order.getGoodsCombine();
         copyOperationInfo(request);
+    }
+
+    public List<OrderItemConsumption> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItemConsumption> items) {
+        this.items = items;
     }
 
     public Integer getId() {

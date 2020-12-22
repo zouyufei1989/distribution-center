@@ -131,6 +131,7 @@ public class OrderPayServiceImpl extends BaseServiceImpl implements OrderPayServ
         }
 
         ChangeOrderStatusRequest changeOrderStatusRequest = new ChangeOrderStatusRequest(item.getOrderId().toString(), OrderStatusEnum.USING.getValue());
+        changeOrderStatusRequest.copyOperationInfo(item);
         orderService.changeStatus(changeOrderStatusRequest);
 
         return item.getId().toString();

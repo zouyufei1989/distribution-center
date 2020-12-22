@@ -1,13 +1,16 @@
 package com.money.custom.entity;
 
+import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.OrderStatusEnum;
+import com.money.custom.entity.enums.PayTypeEnum;
 import com.money.custom.entity.request.AddOrderRequest;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.DateUtils;
 import com.money.framework.util.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +33,15 @@ public class Order extends BaseEntity {
 
     private Integer orderPrice;
     private Integer orderCnt;
+    private String customerName;
+    private String serialNumber;
+    private String phone;
+    private Integer customerType;
+    private Integer payType;
+    private Integer sumMoney;
+    private Integer actuallyMoney;
+    private String groupName;
+    private String parentName;
 
     private List<OrderItem> items;
 
@@ -62,6 +74,98 @@ public class Order extends BaseEntity {
     @Override
     public String getStatusName() {
         return EnumUtils.getNameByValue(OrderStatusEnum.class, getStatus());
+    }
+
+    public Integer getActuallyMoney() {
+        return actuallyMoney;
+    }
+
+    public void setActuallyMoney(Integer actuallyMoney) {
+        this.actuallyMoney = actuallyMoney;
+    }
+
+    public String getCustomerTypeName() {
+        return EnumUtils.getNameByValue(CustomerTypeEnum.class, customerType);
+    }
+
+    public String getPayTypeName() {
+        List<String> payTypes = new ArrayList<>();
+        if (PayTypeEnum.MONEY.pay(this.payType)) {
+            payTypes.add(PayTypeEnum.MONEY.getName());
+        }
+        if (PayTypeEnum.BONUS.pay(this.payType)) {
+            payTypes.add(PayTypeEnum.BONUS.getName());
+        }
+        if (PayTypeEnum.OFFLINE.pay(this.payType)) {
+            payTypes.add(PayTypeEnum.OFFLINE.getName());
+        }
+        return StringUtils.join(payTypes, ",");
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public Integer getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(Integer customerType) {
+        this.customerType = customerType;
+    }
+
+    public Integer getPayType() {
+        return payType;
+    }
+
+    public void setPayType(Integer payType) {
+        this.payType = payType;
+    }
+
+    public Integer getSumMoney() {
+        return sumMoney;
+    }
+
+    public void setSumMoney(Integer sumMoney) {
+        this.sumMoney = sumMoney;
+    }
+
+    @Override
+    public String getGroupName() {
+        return groupName;
+    }
+
+    @Override
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public Integer getId() {
@@ -129,11 +233,7 @@ public class Order extends BaseEntity {
     }
 
     public String getGoodsTypeName() {
-        return goodsTypeName;
-    }
-
-    public void setGoodsTypeName(String goodsTypeName) {
-        this.goodsTypeName = goodsTypeName;
+        return EnumUtils.getNameByValue(GoodsTypeEnum.class, this.goodsTypeId);
     }
 
     public String getExpireDate() {
@@ -193,6 +293,9 @@ public class Order extends BaseEntity {
     }
 
     public boolean getExpired() {
+        if (StringUtils.isEmpty(this.expireDate)) {
+            return false;
+        }
         return this.expireDate.compareTo(DateUtils.nowDate()) < 0;
     }
 }

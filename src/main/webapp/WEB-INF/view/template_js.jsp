@@ -407,6 +407,10 @@
         return timeFormatter(val, 'hh:mm:ss');
     }
 
+    function moneyFormatter(val) {
+        return (Number.parseFloat(val)/100).toFixed(2);
+    }
+
     function uploadFile(uploadUrl, formId, successFunc, failFunc) {
         if (!$('#' + formId).find('input:file').val()) {
             Alert("", "请选择要上传的文件", "error", function () {

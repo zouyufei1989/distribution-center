@@ -33,9 +33,9 @@ public abstract class ReceiverBase implements ApplicationContextAware {
         }
         try {
             doProcess(map);
-            getLogger().info("消息处理完成 - {}",this.getClass().getSimpleName());
+            getLogger().info("消息处理完成 - {}", this.getClass().getSimpleName());
         } catch (Exception ex) {
-            getLogger().error("消息处理失败:" + ex.getMessage(), ex);
+            getLogger().error("消息处理失败 - " + this.getClass().getSimpleName() + ":" + ex.getMessage(), ex);
         }
     }
 

@@ -41,6 +41,8 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     UtilsService utilsService;
     @Autowired
     BonusPlanService bonusPlanService;
+    @Autowired
+    OrderConsumptionService orderConsumptionService;
 
 
     @Override
@@ -182,7 +184,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 
     @Transactional
     @Override
-    public void purchase(PurchaseRequest request) {
+    public String purchase(PurchaseRequest request) {
         String batchId = UUID.randomUUID().toString();
 
         AddOrderRequest addOrderRequest = new AddOrderRequest();
@@ -197,6 +199,31 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         });
 
         orderPayService.pay(new PayOrderRequest(request, batchId));
+        return batchId;
+    }
+
+    @Transactional
+    @Override
+    public void purchaseThenConsumeAll(PurchaseConsumeRequest request) {
+        CustomerService curService = applicationContext.getBean(CustomerService.class);
+        String batchId = curService.purchase(request);
+
+        QueryOrderRequest queryOrderRequest = new QueryOrderRequest();
+        queryOrderRequest.setOrderBatchId(batchId);
+        List<Order> orders = orderService.selectSearchList(queryOrderRequest);
+        Assert.isTrue(CollectionUtils.isNotEmpty(orders), "未查询到订单");
+
+        ConsumeRequest consumeRequest = new ConsumeRequest();
+        consumeRequest.copyOperationInfo(request);
+        orders.forEach(o -> {
+            consumeRequest.setOrderId(o.getId());
+            o.getItems().forEach(i->{
+                consumeRequest.setOrderItemId(i.getId());
+                consumeRequest.setCnt(i.getCnt());
+                consumeRequest.setCustomerGroupId(request.getCustomerGroupId());
+                orderConsumptionService.consume(consumeRequest);
+            });
+        });
     }
 
 }

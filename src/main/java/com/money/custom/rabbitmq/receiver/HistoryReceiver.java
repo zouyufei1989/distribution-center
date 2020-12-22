@@ -34,6 +34,7 @@ public class HistoryReceiver extends ReceiverBase {
     void doProcess(Map message) {
         List<String> ids = (List<String>) message.get("ids");
         String type = message.get("type").toString();
+        getLogger().info(type);
         Class clz = (Class) message.get("classType");
         String updater = message.get("updater").toString();
         String createDate = message.get("createDate").toString();

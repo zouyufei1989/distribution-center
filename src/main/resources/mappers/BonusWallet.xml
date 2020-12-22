@@ -5,6 +5,79 @@
 
 	<sql id="tableName">d_bonus_wallet</sql>
 
+	<select id="selectSearchList" parameterType="Map" resultType="BonusWalletDetail">
+		SELECT
+			dc.name AS 'customer.name',
+			dc.phone AS 'customer.phone',
+			dcg.serial_number AS 'customer.customerGroup.serialNumber',
+			dcg.type AS 'customer.customerGroup.type',
+			dbwd.bonus_change AS bonusChange,
+			dbwd.bonus_rate AS bonusRate,
+			dopi.amount AS payAmount,
+			dbwd.aft_available_bonus AS aftAvailableBonus,
+			dbwd.aft_sum_bonus AS aftSumBonus,
+			dbwd.create_date AS createDate
+		FROM d_bonus_wallet_detail dbwd
+		LEFT JOIN d_bonus_wallet dbw ON dbwd.bonus_wallet_id = dbw.id
+		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dbw.id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
+		WHERE
+			do.status != -2
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="name!=null and name!=''">
+				AND dc.name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="serialNumber!=null and serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{serialNumber},'%')
+			</if>
+			<if test="phone!=null and phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{phone},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dbwd.create_date &lt;= CONCAT(#{startDate},' 23:59:59')
+			</if>
+		ORDER BY dbwd.id DESC
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM d_bonus_wallet_detail dbwd
+		LEFT JOIN d_bonus_wallet dbw ON dbwd.bonus_wallet_id = dbw.id
+		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dbw.id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
+		WHERE
+			do.status != -2
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="name!=null and name!=''">
+				AND dc.name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="serialNumber!=null and serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{serialNumber},'%')
+			</if>
+			<if test="phone!=null and phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{phone},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dbwd.create_date &lt;= CONCAT(#{startDate},' 23:59:59')
+			</if>
+	</select>
+
 	<select id="findById" parameterType="String" resultType="BonusWallet">
 		SELECT 
 			id,
@@ -75,6 +148,7 @@
 			aft_available_bonus,
 			aft_used_bonus,
 			order_pay_item_id,
+			bonus_rate,
 			create_date,
 			creator,
 			create_ip
@@ -93,6 +167,7 @@
 			#{aftAvailableBonus},
 			#{aftUsedBonus},
 			#{orderPayItemId},
+			#{bonusRate},
 			NOW(),
 			#{creator},
 			#{createIp}

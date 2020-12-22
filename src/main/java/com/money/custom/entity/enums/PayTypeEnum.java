@@ -33,4 +33,5 @@ public enum PayTypeEnum implements IEnumKeyValue {
         return type.equals(this.getValue());
     }
 
+
 }

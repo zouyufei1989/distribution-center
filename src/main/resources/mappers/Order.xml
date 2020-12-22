@@ -11,15 +11,34 @@
             <result column="customerGroupId" property="customerGroupId"/>
             <result column="goodsId" property="goodsId"/>
             <result column="orderPrice" property="orderPrice"/>
+            <result column="goodsCnt" property="goodsCnt"/>
+            <result column="orderCnt" property="orderCnt"/>
             <result column="status" property="status"/>
             <result column="goodsName" property="goodsName"/>
             <result column="expireDate" property="expireDate"/>
             <result column="goodsCombine" property="goodsCombine"/>
+
+            <result column="customerName" property="customerName"/>
+            <result column="phone" property="phone"/>
+            <result column="serialNumber" property="serialNumber"/>
+            <result column="customerType" property="customerType"/>
+            <result column="payType" property="payType"/>
+            <result column="goodsTypeId" property="goodsTypeId"/>
+            <result column="sumMoney" property="sumMoney"/>
+            <result column="actuallyMoney" property="actuallyMoney"/>
+            <result column="groupName" property="groupName"/>
+            <result column="creator" property="creator"/>
+            <result column="createDate" property="createDate"/>
+            <result column="parentName" property="parentName"/>
+
             <collection property="items" ofType="OrderItem">
                 <id column="iid" property="id"/>
                 <result column="igoodsName" property="goodsName"/>
                 <result column="igoodsCnt" property="cnt"/>
                 <result column="igoodsCntUsed" property="cntUsed"/>
+                <result column="igoodsTagName" property="goodsTagName"/>
+                <result column="igoodsPrice" property="goodsPrice"/>
+                <result column="igoodsUnit" property="goodsUnit"/>
             </collection>
         </resultMap>
 
@@ -29,19 +48,46 @@
 			do.batch_id AS batchId,
 			do.customer_group_id AS customerGroupId,
 			do.goods_id AS goodsId,
+			do.goods_cnt AS goodsCnt,
+			do.order_cnt AS orderCnt,
 			do.order_price AS orderPrice,
 			do.status,
 			do.goods_name AS goodsName,
 			do.goods_combine AS goodsCombine,
 			do.expire_date AS expireDate,
+			do.create_date AS createDate,
+			dc.name AS customerName,
+			dc.phone,
+			dcg.serial_number AS serialNumber,
+			dcg.type AS customerType,
+			dop.pay_type AS payType,
+			do.goods_type_id AS goodsTypeId,
+			dop.sum_money AS sumMoney,
+			dop.actually_money AS actuallyMoney,
+			dg.name AS groupName,
+			nu.username AS creator,
 			doi.id AS iid,
 			doi.goods_name AS igoodsName,
 			doi.cnt AS igoodsCnt,
-			doi.cnt_used AS igoodsCntUsed
+			doi.cnt_used AS igoodsCntUsed,
+			doi.goods_tag_name AS igoodsTagName,
+			doi.goods_price AS igoodsPrice,
+			doi.goods_unit AS igoodsUnit,
+			dcp.name AS parentName
 		FROM <include refid="tableName"/> do
 		LEFT JOIN d_order_item doi ON doi.order_id = do.id
+		LEFT JOIN d_customer_group dcg ON do.customer_group_id = dcg.id
+		LEFT JOIN d_customer_group dcgp ON dcg.parent_id = dcgp.id
+		LEFT JOIN d_customer dcp ON dcp.id = dcgp.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_order_pay dop ON dop.order_id = do.id
+		LEFT JOIN ns_users nu ON nu.id = do.creator
 		WHERE
 			do.status != -2
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
 			<if test="order.batchId!=null and order.batchId!=''">
 				AND do.batch_id = #{order.batchId}
 			</if>
@@ -51,9 +97,25 @@
 			<if test="order.goodsTypeId!=null">
 				AND do.goods_type_id = #{order.goodsTypeId}
 			</if>
+			<if test="orderPay.payType!=null">
+				AND (dop.pay_type &amp; #{orderPay.payType}) = #{orderPay.payType}
+			</if>
 			<if test="order.customerGroupId!=null and order.customerGroupId!=''">
 				AND do.customer_group_id = #{order.customerGroupId}
 			</if>
+			<if test="customer.name!=null and customer.name!=''">
+				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
+			</if>
+			<if test="customer.customerGroup.serialNumber!=null and customer.customerGroup.serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{customer.customerGroup.serialNumber},'%')
+			</if>
+			<if test="customer.customerGroup.type!=null">
+				AND dcg.type = #{customer.customerGroup.type}
+			</if>
+			<if test="customer.customerGroup.groupId!=null">
+				AND dg.id = #{customer.customerGroup.groupId}
+			</if>
+		ORDER BY do.id DESC
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
 		</if>
@@ -63,8 +125,15 @@
 		SELECT
 			COUNT(*)
 		FROM <include refid="tableName"/> do
+		LEFT JOIN d_order_item doi ON doi.order_id = do.id
+		LEFT JOIN d_customer_group dcg ON do.customer_group_id = dcg.id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_order_pay dop ON dop.order_id = do.id
 		WHERE
 			do.status != -2
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
 			<if test="order.batchId!=null and order.batchId!=''">
 				AND do.batch_id = #{order.batchId}
 			</if>
@@ -74,8 +143,23 @@
 			<if test="order.goodsTypeId!=null">
 				AND do.goods_type_id = #{order.goodsTypeId}
 			</if>
+			<if test="orderPay.payType!=null">
+				AND (dop.pay_type &amp; #{orderPay.payType}) = #{orderPay.payType}
+			</if>
 			<if test="order.customerGroupId!=null and order.customerGroupId!=''">
 				AND do.customer_group_id = #{order.customerGroupId}
+			</if>
+			<if test="customer.name!=null and customer.name!=''">
+				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
+			</if>
+			<if test="customer.customerGroup.serialNumber!=null and customer.customerGroup.serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{customer.customerGroup.serialNumber},'%')
+			</if>
+			<if test="customer.customerGroup.type!=null">
+				AND dcg.type = #{customer.customerGroup.type}
+			</if>
+			<if test="customer.customerGroup.groupId!=null">
+				AND dg.id = #{customer.customerGroup.groupId}
 			</if>
 	</select>
 

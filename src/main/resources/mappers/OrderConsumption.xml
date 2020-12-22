@@ -5,6 +5,68 @@
 
 	<sql id="tableName">d_order_consumption</sql>
 
+	<resultMap id="OrderConsumptionMap" type="OrderConsumption">
+            <id column="id" property="id"/>
+            <result column="orderId" property="orderId"/>
+            <result column="goodsId" property="goodsId"/>
+            <result column="combine" property="combine"/>
+            <result column="createDate" property="createDate"/>
+            <collection property="items" ofType="OrderItemConsumption">
+                <id column="iid" property="id"/>
+                <result column="orderItemId" property="orderItemId"/>
+                <result column="befSumCnt" property="befSumCnt"/>
+                <result column="befUsedCnt" property="befUsedCnt"/>
+                <result column="befAvailableCnt" property="befAvailableCnt"/>
+                <result column="cnt" property="cnt"/>
+                <result column="aftSumCnt" property="aftSumCnt"/>
+                <result column="aftUsedCnt" property="aftUsedCnt"/>
+                <result column="aftAvailableCnt" property="aftAvailableCnt"/>
+                <result column="icreateDate" property="createDate"/>
+            </collection>
+        </resultMap>
+
+	<select id="selectSearchList" parameterType="Map" resultMap="OrderConsumptionMap">
+		SELECT
+			doc.id,
+			doc.order_id AS orderId,
+			doc.goods_id AS goodsId,
+			doc.combine AS combine,
+			doc.create_date AS createDate
+			doic.id AS iid,
+			doic.order_item_id AS orderItemId,
+			doic.bef_sum_cnt AS befSumCnt,
+			doic.bef_used_cnt AS befUsedCnt,
+			doic.bef_available_cnt AS befAvailableCnt,
+			doic.cnt,
+			doic.aft_sum_cnt AS aftSumCnt,
+			doic.aft_used_cnt AS aftUsedCnt,
+			doic.aft_available_cnt AS aftAvailableCnt,
+			doic.create_date AS icreateDate
+		FROM <include refid="tableName"/> doc
+		LEFT JOIN d_order_item_consumption doic ON doic.order_consumption_id = doc.id
+		WHERE
+			1=1
+			<if test="orderConsumption.orderId!=null">
+				AND doc.order_id = #{orderConsumption.orderId}
+			</if>
+		ORDER BY doc.id DESC
+		<if test="rows != null and rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/> doc
+		LEFT JOIN d_order_item_consumption doic ON doic.order_consumption_id = doc.id
+		WHERE
+			1=1
+			<if test="orderConsumption.orderId!=null">
+				AND doc.order_id = #{orderConsumption.orderId}
+			</if>
+	</select>
+
 	<insert id="add" parameterType="OrderConsumption" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO <include refid="tableName"/>
 		(

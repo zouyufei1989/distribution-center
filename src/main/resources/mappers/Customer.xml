@@ -29,6 +29,9 @@
 		LEFT JOIN d_wallet dw ON dw.id = dcg.wallet_id
 		WHERE
 			dcg.status != -2
+			<if test="groupId!=null">
+				AND dg.id = #{groupId}
+			</if>
 			<if test="exactPhone!=null and exactPhone!=''">
 				AND dc.phone = #{exactPhone}
 			</if>
@@ -72,6 +75,9 @@
 		LEFT JOIN d_customer_group dcg ON dcg.customer_id = dc.id
 		WHERE
 			dcg.status != -2
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
 			<if test="exactPhone!=null and exactPhone!=''">
 				AND dc.phone = #{exactPhone}
 			</if>

@@ -3,6 +3,7 @@ package com.money.custom.service;
 import com.money.custom.entity.BonusWallet;
 import com.money.custom.entity.request.BonusRechargeRequest;
 import com.money.custom.entity.request.DeductionRequest;
+import com.money.custom.entity.request.DistributeBonusRequest;
 import com.money.custom.entity.request.RechargeRequest;
 import com.money.framework.base.service.BaseService;
 
@@ -17,4 +18,6 @@ public interface BonusWalletService extends BaseService {
     String recharge(BonusRechargeRequest request);
 
     String deduction(DeductionRequest request);
+
+    void distribution(DistributeBonusRequest request);
 }

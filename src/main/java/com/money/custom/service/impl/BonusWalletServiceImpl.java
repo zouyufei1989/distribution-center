@@ -6,9 +6,11 @@ import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.request.BonusRechargeRequest;
 import com.money.custom.entity.request.DeductionRequest;
+import com.money.custom.entity.request.DistributeBonusRequest;
 import com.money.custom.entity.request.RechargeRequest;
 import com.money.custom.service.BonusWalletService;
 import com.money.custom.service.CustomerGroupService;
+import com.money.custom.service.CustomerService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
     BonusWalletDao dao;
     @Autowired
     CustomerGroupService customerGroupService;
+    @Autowired
+    CustomerService customerService;
 
     @Override
     public BonusWallet findById(String id) {
@@ -81,6 +85,24 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
         edit(wallet);
 
         return wallet.getId().toString();
+    }
+
+    @Transactional
+    @Override
+    public void distribution(DistributeBonusRequest request) {
+        request.getCustomerGroupIds().stream().forEach(customerGroupId -> {
+            Customer customer = customerService.findById(customerGroupId.toString());
+            Assert.notNull(customer, "未查询到客户信息");
+            Assert.isTrue(customer.getCustomerGroup().getType().equals(CustomerTypeEnum.SHARE_HOLDER.getValue()), "非股东，不可下发积分");
+            Assert.isTrue(customer.getBonusWallet().getAvailableBonus() >= request.getAmount(), "积分不足，无法下发");
+            BonusWallet bonusWallet = customer.getBonusWallet();
+
+            BonusWalletDetail detail = new BonusWalletDetail(request, bonusWallet);
+            dao.addDetail(detail);
+
+            bonusWallet.distribution(request);
+            dao.edit(bonusWallet);
+        });
     }
 
 }

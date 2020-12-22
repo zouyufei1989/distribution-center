@@ -118,8 +118,8 @@ $(document).ready(function () {
 
                                 loadingEnd(function () {
                                     Alert("", "成功！", "success", function () {
-                                        $('#assignModal').modal('hide');
                                         reloadList();
+                                        _this.timestamp = new Date().getTime();
                                     });
                                 });
                             }
@@ -153,6 +153,8 @@ $(document).ready(function () {
 
                                 loadingEnd(function () {
                                     Alert("", "成功！", "success", function () {
+                                        $('#consumeModal').modal('hide');
+                                        reloadList();
                                     });
                                 });
                             }
@@ -167,7 +169,7 @@ $(document).ready(function () {
                 var tip = '客户"' + this.customerInfo.name + '"购买' + this.goodsChoosed.length + '种产品' + cnt + '个，共计' + this.sumPrice + '元，实付款<span class="text-danger">' + this.purchaseInfo.actuallyMoney + '元</span>，请确认。';
                 Confirm(tip, function () {
                     $.ajax({
-                        url: "purchase",
+                        url: "purchaseThenConsumeAll",
                         type: 'post',
                         data: JSON.stringify({
                             goodsChoosed: _this.goodsChoosed,
@@ -195,7 +197,7 @@ $(document).ready(function () {
 
                             loadingEnd(function () {
                                 Alert("", "成功！", "success", function () {
-                                    $('#assignModal').modal('hide');
+                                    $('#consumeModal').modal('hide');
                                     reloadList();
                                 });
                             });

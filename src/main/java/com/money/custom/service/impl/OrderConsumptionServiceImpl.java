@@ -66,6 +66,7 @@ public class OrderConsumptionServiceImpl extends BaseServiceImpl implements Orde
 
         if (orderItems.stream().allMatch(o -> o.getCnt().equals(o.getCntUsed()))) {
             ChangeOrderStatusRequest changeOrderStatusRequest = new ChangeOrderStatusRequest(order.getId().toString(), OrderStatusEnum.USED.getValue());
+            changeOrderStatusRequest.copyOperationInfo(request);
             orderService.changeStatus(changeOrderStatusRequest);
         }
     }

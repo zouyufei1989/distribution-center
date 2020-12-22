@@ -3,6 +3,7 @@ package com.money.custom.entity.enums;
 public enum BonusChangeTypeEnum implements IEnumKeyValue {
 
     GAIN(1, "获得积分"),
+    DISTRIBUTION(2, "下发积分"),
     DEDUCTION(-1, "扣除积分");
 
     private Integer value;

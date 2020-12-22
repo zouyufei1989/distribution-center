@@ -49,7 +49,7 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
             getLogger().warn("未设置分红方案");
         } else {
             Integer bonus = calProfit(item) * parent.getBonusPlan().getBonusRate() / 100 / 100;
-            BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item);
+            BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item, parent.getBonusPlan());
             bonusWalletService.recharge(bonusRechargeRequest);
         }
 

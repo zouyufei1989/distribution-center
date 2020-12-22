@@ -1,16 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <script type="text/javascript">
-    Vue.component('customer-type-combo', {
+    Vue.component('goods-type-combo', {
         props: ['id', 'must_choose_one'],
         data: function () {
-            var data = this.must_choose_one == "false" ? [{
-                name: '请选择',
-                id: ''
-            }] : [];
+            var data = [];
             $.ajax({
-                url: '${ctx}/utils/selectCustomerType',
-                data: {rows: 0, page: 1},
+                url: '${ctx}/utils/selectGoodsType',
+                data: {},
                 type: 'post',
                 async: false,
                 cached: false,
@@ -23,19 +20,25 @@
                     }
                 }
             });
+            data = sort(data, (i, j) => {
+                return i.value == j.value ? 0 : i.value - j.value;
+            });
+            console.log(this.must_choose_one)
+            if (this.must_choose_one == 'false' || this.must_choose_one == false) {
+                data = [{value: null, name: '请选择'}].concat(data);
+            }
             return {
                 items: data
             }
-        },
-        mounted: function () {
-            $('#' + this.id).select2();
-        }
-        , template: '#customer-type-combo-template'
+        }, mounted: function () {
+            $('.select2_demo_3').select2();
+
+        }, template: '#goods-type-combo-template'
     })
 </script>
 
 
-<template id="customer-type-combo-template">
+<template id="goods-type-combo-template">
     <select :id="id" class="select2_demo_3 form-control m-b">
         <option v-for="(item,index) in items" :value="item.value">{{item.name}}</option>
     </select>

@@ -109,5 +109,13 @@ public class CustomerController extends BaseController {
         return ResponseBase.success();
     }
 
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "purchaseThenConsumeAll", method = RequestMethod.POST)
+    public ResponseBase purchaseThenConsumeAll(@Valid @RequestBody PurchaseConsumeRequest request, BindingResult bindingResult) {
+        this.customerService.purchaseThenConsumeAll(request);
+        return ResponseBase.success();
+    }
+
 
 }

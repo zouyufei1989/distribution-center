@@ -4,6 +4,7 @@ package com.money.custom.entity;
 import com.money.custom.entity.enums.BonusChangeTypeEnum;
 import com.money.custom.entity.request.BonusRechargeRequest;
 import com.money.custom.entity.request.DeductionRequest;
+import com.money.custom.entity.request.DistributeBonusRequest;
 import com.money.framework.base.entity.OperationalEntity;
 
 public class BonusWalletDetail extends OperationalEntity {
@@ -21,10 +22,15 @@ public class BonusWalletDetail extends OperationalEntity {
     private Integer aftAvailableBonus;
     private Integer aftUsedBonus;
     private Integer orderPayItemId;
+    private Integer bonusRate;
+
+    private Customer customer;
+    private Integer payAmount;
 
     public BonusWalletDetail() {}
 
     public BonusWalletDetail(BonusRechargeRequest request, BonusWallet wallet) {
+        bonusRate = request.getBonusRate();
         bonusWalletId = wallet.getId();
         orderPayItemId = request.getOrderPayItemId();
         bonusChange = request.getAmount();
@@ -58,6 +64,47 @@ public class BonusWalletDetail extends OperationalEntity {
         aftUsedBonus = wallet.getUsedBonus() + request.getAmount();
 
         copyOperationInfo(request);
+    }
+
+    public BonusWalletDetail(DistributeBonusRequest request, BonusWallet wallet) {
+        bonusWalletId = wallet.getId();
+        bonusChange = request.getAmount();
+        changeType = BonusChangeTypeEnum.DISTRIBUTION.getValue();
+        befSumBonus = wallet.getSumBonus();
+        befPendingBonus = wallet.getPendingBonus();
+        befAvailableBonus = wallet.getAvailableBonus();
+        befUsedBonus = wallet.getUsedBonus();
+
+        aftSumBonus = wallet.getSumBonus();
+        aftPendingBonus = wallet.getPendingBonus() - request.getAmount();
+        aftAvailableBonus = wallet.getAvailableBonus() + request.getAmount();
+        aftUsedBonus = wallet.getUsedBonus();
+
+        copyOperationInfo(request);
+    }
+
+    public Integer getPayAmount() {
+        return payAmount;
+    }
+
+    public void setPayAmount(Integer payAmount) {
+        this.payAmount = payAmount;
+    }
+
+    public Integer getBonusRate() {
+        return bonusRate;
+    }
+
+    public void setBonusRate(Integer bonusRate) {
+        this.bonusRate = bonusRate;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Integer getOrderPayItemId() {

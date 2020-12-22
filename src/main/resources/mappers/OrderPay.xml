@@ -13,7 +13,6 @@
 			sum_money,
 			actually_money,
 			pay_type,
-			bonus_rate,
 			create_date,
 			creator,
 			create_ip
@@ -25,7 +24,6 @@
 			#{sumMoney},
 			#{actuallyMoney},
 			#{payType},
-			#{bonusRate},
 			NOW(),
 		  	#{creator},
 		  	#{createIp}
