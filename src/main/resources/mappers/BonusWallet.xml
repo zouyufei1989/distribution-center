@@ -34,12 +34,6 @@
 			<if test="phone!=null and phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
 			</if>
-			<if test="startDate!=null and startDate!=''">
-				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
-			</if>
-			<if test="endDate!=null and endDate!=''">
-				AND dbwd.create_date &lt;= CONCAT(#{startDate},' 23:59:59')
-			</if>
 		ORDER BY dcg.serial_number
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
@@ -68,12 +62,6 @@
 			<if test="phone!=null and phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
 			</if>
-			<if test="startDate!=null and startDate!=''">
-				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
-			</if>
-			<if test="endDate!=null and endDate!=''">
-				AND dbwd.create_date &lt;= CONCAT(#{startDate},' 23:59:59')
-			</if>
 	</select>
 
 
@@ -93,17 +81,22 @@
 			dbwd.aft_pending_bonus AS aftPendingBonus,
 			dbwd.aft_sum_bonus AS aftSumBonus,
 			dbwd.create_date AS createDate,
-			dg.name AS groupName
+			dg.name AS groupName,
+			nu.username AS creator
 		FROM d_bonus_wallet_detail dbwd
 		LEFT JOIN d_bonus_wallet dbw ON dbwd.bonus_wallet_id = dbw.id
-		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dbw.id
+		LEFT JOIN d_customer_group dcg ON dcg.bonus_wallet_id = dbw.id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
 		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
+		LEFT JOIN ns_users nu ON nu.id = dbwd.creator
 		WHERE
 			1=1
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="changeType!=null">
+				AND dbwd.change_type = #{changeType}
 			</if>
 			<if test="name!=null and name!=''">
 				AND dc.name LIKE CONCAT('%',#{name},'%')
@@ -118,7 +111,7 @@
 				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
 			</if>
 			<if test="endDate!=null and endDate!=''">
-				AND dbwd.create_date &lt;= CONCAT(#{startDate},' 23:59:59')
+				AND dbwd.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
 			</if>
 		ORDER BY dbwd.id DESC
 		<if test="rows != null and  rows > 0">
@@ -131,11 +124,15 @@
 			COUNT(*)
 		FROM d_bonus_wallet_detail dbwd
 		LEFT JOIN d_bonus_wallet dbw ON dbwd.bonus_wallet_id = dbw.id
-		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dbw.id
+		LEFT JOIN d_customer_group dcg ON dcg.bonus_wallet_id = dbw.id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
 		WHERE
 			1=1
+			<if test="changeType!=null">
+				AND dbwd.change_type = #{changeType}
+			</if>
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
 			</if>
@@ -152,7 +149,7 @@
 				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
 			</if>
 			<if test="endDate!=null and endDate!=''">
-				AND dbwd.create_date &lt;= CONCAT(#{startDate},' 23:59:59')
+				AND dbwd.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
 			</if>
 	</select>
 

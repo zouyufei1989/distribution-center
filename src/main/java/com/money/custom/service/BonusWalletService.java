@@ -1,6 +1,7 @@
 package com.money.custom.service;
 
 import com.money.custom.entity.BonusWallet;
+import com.money.custom.entity.BonusWalletDetail;
 import com.money.custom.entity.request.*;
 import com.money.framework.base.service.BaseService;
 
@@ -11,6 +12,10 @@ public interface BonusWalletService extends BaseService {
     List<BonusWallet> selectSearchList(QueryBonusWalletRequest request);
 
     Integer selectSearchListCount(QueryBonusWalletRequest request);
+
+    List<BonusWalletDetail> selectSearchList(QueryBonusWalletDetailRequest request);
+
+    Integer selectSearchListCount(QueryBonusWalletDetailRequest request);
 
     BonusWallet findById(String id);
 

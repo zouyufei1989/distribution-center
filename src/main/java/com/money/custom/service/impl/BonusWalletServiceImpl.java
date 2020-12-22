@@ -38,6 +38,16 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
     }
 
     @Override
+    public List<BonusWalletDetail> selectSearchList(QueryBonusWalletDetailRequest request) {
+        return dao.selectSearchList4Detail(request);
+    }
+
+    @Override
+    public Integer selectSearchListCount(QueryBonusWalletDetailRequest request) {
+        return dao.selectSearchListCount4Detail(request);
+    }
+
+    @Override
     public BonusWallet findById(String id) {
         return dao.findById(id);
     }

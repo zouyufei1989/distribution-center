@@ -1,6 +1,7 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.request.DistributeBonusRequest;
+import com.money.custom.entity.request.QueryBonusWalletDetailRequest;
 import com.money.custom.entity.request.QueryBonusWalletRequest;
 import com.money.custom.service.BonusWalletService;
 import com.money.framework.base.annotation.VisitLogFlag;
@@ -37,5 +38,13 @@ public class BonusWalletController extends BaseController {
     public ResponseBase distribution(@RequestBody DistributeBonusRequest request, BindingResult bindingResult) {
         this.bonusWalletService.distribution(request);
         return ResponseBase.success();
+    }
+
+    @VisitLogFlag(resource = "积分发放记录", type = VisitLogTypeEnum.READ)
+    @ResponseBody
+    @RequestMapping(value = "queryBonusDistributions")
+    public GridResponseBase queryBonusDistributions(QueryBonusWalletDetailRequest request) {
+        int recordCount = this.bonusWalletService.selectSearchListCount(request);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.bonusWalletService.selectSearchList(request));
     }
 }

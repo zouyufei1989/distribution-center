@@ -84,6 +84,7 @@ public class MvcConfigurer implements WebMvcConfigurer {
         urlPattMap.put("/assignActivity/", Sets.newHashSet("index"));
         urlPattMap.put("/order/", Sets.newHashSet("index"));
         urlPattMap.put("/bonusWallet/", Sets.newHashSet("index"));
+        urlPattMap.put("/bonusDistributionRecord/", Sets.newHashSet("index"));
         urlPattMap.put("/keyValue/", Sets.newHashSet("index", "update"));
         urlPattMap.put("/scheduleConfig/", Sets.newHashSet("index", "update"));
         urlPattMap.put("/history/", Sets.newHashSet("index"));
@@ -101,6 +102,8 @@ public class MvcConfigurer implements WebMvcConfigurer {
 
             });
         }
+
+//        registry.addViewController("/error").setViewName("/error/500");
     }
 
 }
