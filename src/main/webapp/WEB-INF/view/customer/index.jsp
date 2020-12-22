@@ -11,13 +11,46 @@
             padding: 20px;
         }
 
-        label[label4Radio]{
+        label[label4Radio] {
             padding-top: 7px;
             margin-right: 25px;
         }
 
-        .form-group input{
+        .form-group input {
             margin-right: 10px;
+        }
+
+        #consumeModal .modal-dialog {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        #consumeModal .modal-content {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #consumeModal .modal-body {
+            overflow-y: scroll;
+            position: absolute;
+            top: 20px;
+            bottom: 65px;
+            width: 100%;
+        }
+
+        #consumeModal .modal-header .close {
+            margin-right: 15px;
+        }
+
+        #consumeModal .modal-footer {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
         }
 
     </style>
