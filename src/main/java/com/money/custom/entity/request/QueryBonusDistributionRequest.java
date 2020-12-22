@@ -1,8 +1,10 @@
 package com.money.custom.entity.request;
 
+import com.money.custom.entity.enums.BonusChangeTypeEnum;
+
 import java.util.Map;
 
-public class QueryBonusWalletDetailRequest extends QueryGridRequestBase {
+public class QueryBonusDistributionRequest extends QueryGridRequestBase {
 
     private String name;
     private String serialNumber;
@@ -13,11 +15,12 @@ public class QueryBonusWalletDetailRequest extends QueryGridRequestBase {
     @Override
     public Map<String, Object> buildParams() {
         Map<String, Object> params = super.buildParams();
-        params.put("name", name);
-        params.put("serialNumber", serialNumber);
-        params.put("phone", phone);
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
+        params.put("changeType", BonusChangeTypeEnum.DISTRIBUTION.getValue());
+        params.put("name", "name");
+        params.put("serialNumber", "serialNumber");
+        params.put("phone", "phone");
+        params.put("startDate", "startDate");
+        params.put("endDate", "endDate");
         return params;
     }
 

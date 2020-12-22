@@ -5,6 +5,9 @@ import com.money.custom.entity.request.BonusRechargeRequest;
 import com.money.custom.entity.request.DeductionRequest;
 import com.money.custom.entity.request.DistributeBonusRequest;
 import com.money.framework.base.entity.OperationalEntity;
+import com.money.framework.util.DateUtils;
+
+import java.util.Date;
 
 public class BonusWallet extends OperationalEntity {
 
@@ -13,6 +16,9 @@ public class BonusWallet extends OperationalEntity {
     private Integer pendingBonus;
     private Integer usedBonus;
     private Integer availableBonus;
+    private String lastDistributionDate;
+
+    private Customer customer;
 
     public void recharge(BonusRechargeRequest rechargeRequest) {
         this.sumBonus += rechargeRequest.getAmount();
@@ -28,9 +34,17 @@ public class BonusWallet extends OperationalEntity {
     public void distribution(DistributeBonusRequest request) {
         this.pendingBonus -= request.getAmount();
         this.availableBonus += request.getAmount();
+        this.lastDistributionDate = DateUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
         copyOperationInfo(request);
     }
 
+    public String getLastDistributionDate() {
+        return lastDistributionDate;
+    }
+
+    public void setLastDistributionDate(String lastDistributionDate) {
+        this.lastDistributionDate = lastDistributionDate;
+    }
 
     public static BonusWallet totalNew(OperationalEntity operationEntry) {
         BonusWallet wallet = new BonusWallet();
@@ -80,5 +94,13 @@ public class BonusWallet extends OperationalEntity {
 
     public void setAvailableBonus(Integer availableBonus) {
         this.availableBonus = availableBonus;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

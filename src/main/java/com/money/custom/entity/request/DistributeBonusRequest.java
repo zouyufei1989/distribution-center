@@ -9,8 +9,6 @@ import java.util.List;
 
 public class DistributeBonusRequest extends OperationalEntity {
 
-    @NotNull(message = "积分数量不可为空")
-    @Min(value = 1, message = "积分数最小为1")
     private Integer amount;
     @NotEmpty(message = "请选择下发积分客户")
     private List<Integer> customerGroupIds = new ArrayList<>();

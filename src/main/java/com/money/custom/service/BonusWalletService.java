@@ -1,13 +1,16 @@
 package com.money.custom.service;
 
 import com.money.custom.entity.BonusWallet;
-import com.money.custom.entity.request.BonusRechargeRequest;
-import com.money.custom.entity.request.DeductionRequest;
-import com.money.custom.entity.request.DistributeBonusRequest;
-import com.money.custom.entity.request.RechargeRequest;
+import com.money.custom.entity.request.*;
 import com.money.framework.base.service.BaseService;
 
+import java.util.List;
+
 public interface BonusWalletService extends BaseService {
+
+    List<BonusWallet> selectSearchList(QueryBonusWalletRequest request);
+
+    Integer selectSearchListCount(QueryBonusWalletRequest request);
 
     BonusWallet findById(String id);
 

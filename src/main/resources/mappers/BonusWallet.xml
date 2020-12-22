@@ -5,7 +5,79 @@
 
 	<sql id="tableName">d_bonus_wallet</sql>
 
-	<select id="selectSearchList" parameterType="Map" resultType="BonusWalletDetail">
+	<select id="selectSearchList" parameterType="Map" resultType="BonusWallet">
+		SELECT
+			dbw.id,
+			dc.name AS 'customer.name',
+			dc.phone AS 'customer.phone',
+			dcg.serial_number AS 'customer.customerGroup.serialNumber',
+			dcg.id AS 'customer.customerGroup.id',
+			dcg.type AS 'customer.customerGroup.type',
+			dbw.pending_bonus AS pendingBonus,
+			dg.name AS groupName,
+			dbw.last_distribution_date AS lastDistributionDate
+		FROM d_bonus_wallet dbw
+		LEFT JOIN d_customer_group dcg ON dcg.bonus_wallet_id = dbw.id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		WHERE
+			1=1
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="name!=null and name!=''">
+				AND dc.name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="serialNumber!=null and serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{serialNumber},'%')
+			</if>
+			<if test="phone!=null and phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{phone},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dbwd.create_date &lt;= CONCAT(#{startDate},' 23:59:59')
+			</if>
+		ORDER BY dcg.serial_number
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM d_bonus_wallet_detail dbwd
+		LEFT JOIN d_bonus_wallet dbw ON dbwd.bonus_wallet_id = dbw.id
+		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dbw.id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
+		WHERE
+			1=1
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="name!=null and name!=''">
+				AND dc.name LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test="serialNumber!=null and serialNumber!=''">
+				AND dcg.serial_number LIKE CONCAT('%',#{serialNumber},'%')
+			</if>
+			<if test="phone!=null and phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{phone},'%')
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dbwd.create_date &lt;= CONCAT(#{startDate},' 23:59:59')
+			</if>
+	</select>
+
+
+	<select id="selectSearchList4Detail" parameterType="Map" resultType="BonusWalletDetail">
 		SELECT
 			dc.name AS 'customer.name',
 			dc.phone AS 'customer.phone',
@@ -14,16 +86,22 @@
 			dbwd.bonus_change AS bonusChange,
 			dbwd.bonus_rate AS bonusRate,
 			dopi.amount AS payAmount,
+			dbwd.bef_available_bonus AS befAvailableBonus,
+			dbwd.bef_pending_bonus AS befPendingBonus,
+			dbwd.bef_sum_bonus AS befSumBonus,
 			dbwd.aft_available_bonus AS aftAvailableBonus,
+			dbwd.aft_pending_bonus AS aftPendingBonus,
 			dbwd.aft_sum_bonus AS aftSumBonus,
-			dbwd.create_date AS createDate
+			dbwd.create_date AS createDate,
+			dg.name AS groupName
 		FROM d_bonus_wallet_detail dbwd
 		LEFT JOIN d_bonus_wallet dbw ON dbwd.bonus_wallet_id = dbw.id
 		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dbw.id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
 		WHERE
-			do.status != -2
+			1=1
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
 			</if>
@@ -48,7 +126,7 @@
 		</if>
 	</select>
 
-	<select id="selectSearchListCount" parameterType="Map" resultType="Integer">
+	<select id="selectSearchListCount4Detail" parameterType="Map" resultType="Integer">
 		SELECT
 			COUNT(*)
 		FROM d_bonus_wallet_detail dbwd
@@ -57,7 +135,7 @@
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
 		LEFT JOIN d_order_pay_item dopi ON dopi.id = dbwd.order_pay_item_id
 		WHERE
-			do.status != -2
+			1=1
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
 			</if>
@@ -129,6 +207,9 @@
 			</if>
 			<if test="availableBonus != null">
 				,available_bonus = #{availableBonus}
+			</if>
+			<if test="lastDistributionDate != null and lastDistributionDate!=''">
+				,last_distribution_date = #{lastDistributionDate}
 			</if>
 		WHERE id = #{id}
 	</update>

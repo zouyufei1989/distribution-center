@@ -4,10 +4,7 @@ import com.money.custom.dao.BonusWalletDao;
 import com.money.custom.entity.*;
 import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
-import com.money.custom.entity.request.BonusRechargeRequest;
-import com.money.custom.entity.request.DeductionRequest;
-import com.money.custom.entity.request.DistributeBonusRequest;
-import com.money.custom.entity.request.RechargeRequest;
+import com.money.custom.entity.request.*;
 import com.money.custom.service.BonusWalletService;
 import com.money.custom.service.CustomerGroupService;
 import com.money.custom.service.CustomerService;
@@ -18,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 @Service
 public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWalletService {
 
@@ -27,6 +26,16 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
     CustomerGroupService customerGroupService;
     @Autowired
     CustomerService customerService;
+
+    @Override
+    public List<BonusWallet> selectSearchList(QueryBonusWalletRequest request) {
+        return dao.selectSearchList(request);
+    }
+
+    @Override
+    public Integer selectSearchListCount(QueryBonusWalletRequest request) {
+        return dao.selectSearchListCount(request);
+    }
 
     @Override
     public BonusWallet findById(String id) {
@@ -90,12 +99,19 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
     @Transactional
     @Override
     public void distribution(DistributeBonusRequest request) {
-        request.getCustomerGroupIds().stream().forEach(customerGroupId -> {
+        Boolean distributeAll = request.getCustomerGroupIds().size() > 1;
+        request.getCustomerGroupIds().forEach(customerGroupId -> {
             Customer customer = customerService.findById(customerGroupId.toString());
+
             Assert.notNull(customer, "未查询到客户信息");
             Assert.isTrue(customer.getCustomerGroup().getType().equals(CustomerTypeEnum.SHARE_HOLDER.getValue()), "非股东，不可下发积分");
-            Assert.isTrue(customer.getBonusWallet().getAvailableBonus() >= request.getAmount(), "积分不足，无法下发");
+
             BonusWallet bonusWallet = customer.getBonusWallet();
+            if (distributeAll) {
+                request.setAmount(bonusWallet.getPendingBonus());
+            }
+            Assert.isTrue(request.getAmount() > 0, "下发积分为0");
+            Assert.isTrue(bonusWallet.getPendingBonus() >= request.getAmount(), "积分不足，无法下发");
 
             BonusWalletDetail detail = new BonusWalletDetail(request, bonusWallet);
             dao.addDetail(detail);

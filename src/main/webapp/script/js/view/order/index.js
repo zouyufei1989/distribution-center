@@ -19,12 +19,12 @@ $(document).ready(function () {
                 }
             },
             {name: 'id', header: "id", hidden: true},
-            {name: 'actuallyMoney', header: "actuallyMoney", hidden: false,formatter:moneyFormatter},
-            {name: 'parentName', header: "parentName", hidden: false},
-            {name: 'phone', header: "phone", hidden: false},
+            {name: 'actuallyMoney', header: "actuallyMoney", hidden: true,formatter:moneyFormatter},
+            {name: 'parentName', header: "parentName", hidden: true},
+            {name: 'phone', header: "phone", hidden: true},
             {name: 'items', header: "items",formatter:function(val){
                 return JSON.stringify(val)
-            }, hidden: false},
+            }, hidden: true},
         ]);
 });
 
