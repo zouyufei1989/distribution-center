@@ -15,7 +15,7 @@
 			dbp.name AS `customerGroup.bonusPlanName`,
 			dbp.id AS `customerGroup.bonusPlanId`,
 			0 AS packageCount,
-			dw.sum_money AS `wallet.sumMoney`,
+			dw.available_money AS `wallet.sumMoney`,
 			dg.name AS groupName,
 			dcg.expire_date AS `customerGroup.expireDate`,
 			dcg.create_date AS createDate,

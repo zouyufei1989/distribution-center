@@ -18,6 +18,10 @@ public class OrderItemConsumption extends BaseEntity {
     private Integer aftUsedCnt;
     private Integer aftAvailableCnt;
 
+    private String goodsName;
+    private Integer goodsPrice;
+    private String goodsUnit;
+
     public OrderItemConsumption() {}
 
     public OrderItemConsumption(OrderConsumption consumption, OrderItem orderItem, ConsumeRequest request) {
@@ -34,6 +38,30 @@ public class OrderItemConsumption extends BaseEntity {
         Assert.isTrue(aftAvailableCnt >= 0, "次数不足");
 
         copyOperationInfo(request);
+    }
+
+    public Integer getGoodsPrice() {
+        return goodsPrice;
+    }
+
+    public void setGoodsPrice(Integer goodsPrice) {
+        this.goodsPrice = goodsPrice;
+    }
+
+    public String getGoodsUnit() {
+        return goodsUnit;
+    }
+
+    public void setGoodsUnit(String goodsUnit) {
+        this.goodsUnit = goodsUnit;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 
     public Integer getId() {

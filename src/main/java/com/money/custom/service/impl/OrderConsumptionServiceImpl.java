@@ -8,6 +8,7 @@ import com.money.custom.entity.enums.GoodsCombineEnum;
 import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.request.ChangeOrderStatusRequest;
 import com.money.custom.entity.request.ConsumeRequest;
+import com.money.custom.entity.request.QueryOrderConsumptionRequest;
 import com.money.custom.entity.request.QueryOrderRequest;
 import com.money.custom.service.CustomerService;
 import com.money.custom.service.OrderConsumptionService;
@@ -15,11 +16,13 @@ import com.money.custom.service.OrderService;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.http.util.Asserts;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -35,6 +38,22 @@ public class OrderConsumptionServiceImpl extends BaseServiceImpl implements Orde
     OrderItemDao orderItemDao;
     @Autowired
     CustomerService customerService;
+
+    @Override
+    public List<OrderItemConsumption> queryOrderConsumptions(QueryOrderConsumptionRequest request) {
+        List<OrderConsumption> consumptions = dao.selectSearchList(request);
+        if (CollectionUtils.isEmpty(consumptions)) {
+            return Lists.newArrayList();
+        }
+
+        List<OrderItemConsumption> orderItemConsumptions = consumptions.stream().map(c -> c.getItems()).reduce((i, j) -> {
+            i.addAll(j);
+            return i;
+        }).get();
+
+        return orderItemConsumptions.stream().sorted(Comparator.comparingInt(OrderItemConsumption::getId).reversed()).collect(Collectors.toList());
+    }
+
 
     @Transactional
     @Override

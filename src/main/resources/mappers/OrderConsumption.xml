@@ -22,6 +22,9 @@
                 <result column="aftUsedCnt" property="aftUsedCnt"/>
                 <result column="aftAvailableCnt" property="aftAvailableCnt"/>
                 <result column="icreateDate" property="createDate"/>
+                <result column="goodsName" property="goodsName"/>
+                <result column="goodsPrice" property="goodsPrice"/>
+                <result column="goodsUnit" property="goodsUnit"/>
             </collection>
         </resultMap>
 
@@ -31,7 +34,7 @@
 			doc.order_id AS orderId,
 			doc.goods_id AS goodsId,
 			doc.combine AS combine,
-			doc.create_date AS createDate
+			doc.create_date AS createDate,
 			doic.id AS iid,
 			doic.order_item_id AS orderItemId,
 			doic.bef_sum_cnt AS befSumCnt,
@@ -41,9 +44,13 @@
 			doic.aft_sum_cnt AS aftSumCnt,
 			doic.aft_used_cnt AS aftUsedCnt,
 			doic.aft_available_cnt AS aftAvailableCnt,
-			doic.create_date AS icreateDate
+			doic.create_date AS icreateDate,
+			doi.goods_name AS goodsName,
+			doi.goods_price AS goodsPrice,
+			doi.goods_unit AS goodsUnit
 		FROM <include refid="tableName"/> doc
 		LEFT JOIN d_order_item_consumption doic ON doic.order_consumption_id = doc.id
+		LEFT JOIN d_order_item doi ON doi.id = doic.order_item_id
 		WHERE
 			1=1
 			<if test="orderConsumption.orderId!=null">

@@ -22,4 +22,5 @@ public class QueryOrderConsumptionRequest extends QueryGridRequestBase {
     public void setOrderConsumption(OrderConsumption orderConsumption) {
         this.orderConsumption = orderConsumption;
     }
+
 }
