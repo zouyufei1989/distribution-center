@@ -31,6 +31,7 @@ public class Order extends BaseEntity {
     private Integer goodsItemTypeCnt;
     private Integer goodsSumPrice;
 
+    private String goodsSerialNumber;
     private Integer orderPrice;
     private Integer orderCnt;
     private String customerName;
@@ -100,6 +101,14 @@ public class Order extends BaseEntity {
             payTypes.add(PayTypeEnum.OFFLINE.getName());
         }
         return StringUtils.join(payTypes, ",");
+    }
+
+    public String getGoodsSerialNumber() {
+        return goodsSerialNumber;
+    }
+
+    public void setGoodsSerialNumber(String goodsSerialNumber) {
+        this.goodsSerialNumber = goodsSerialNumber;
     }
 
     public String getPhone() {

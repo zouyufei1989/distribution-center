@@ -21,6 +21,7 @@ public class CustomerGroup extends BaseEntity {
     private String expireDate;
 
     private String bonusPlanName;
+    private Integer packageCount;
 
     public CustomerGroup() {}
 
@@ -45,6 +46,14 @@ public class CustomerGroup extends BaseEntity {
         setSerialNumber(serialNumber);
         setStatus(CommonStatusEnum.ENABLE.getValue());
         setType(CustomerTypeEnum.NORMAL.getValue());
+    }
+
+    public Integer getPackageCount() {
+        return packageCount;
+    }
+
+    public void setPackageCount(Integer packageCount) {
+        this.packageCount = packageCount;
     }
 
     public Integer getParentId() {

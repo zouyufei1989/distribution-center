@@ -17,6 +17,7 @@
             <result column="goodsName" property="goodsName"/>
             <result column="expireDate" property="expireDate"/>
             <result column="goodsCombine" property="goodsCombine"/>
+            <result column="goodsSerialNumber" property="goodsSerialNumber"/>
 
             <result column="customerName" property="customerName"/>
             <result column="phone" property="phone"/>
@@ -73,7 +74,8 @@
 			doi.goods_tag_name AS igoodsTagName,
 			doi.goods_price AS igoodsPrice,
 			doi.goods_unit AS igoodsUnit,
-			dcp.name AS parentName
+			dcp.name AS parentName,
+			dgs.serial_number AS goodsSerialNumber
 		FROM <include refid="tableName"/> do
 		LEFT JOIN d_order_item doi ON doi.order_id = do.id
 		LEFT JOIN d_customer_group dcg ON do.customer_group_id = dcg.id
@@ -82,6 +84,7 @@
 		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
 		LEFT JOIN d_order_pay dop ON dop.order_id = do.id
+		LEFT JOIN d_goods dgs ON dgs.id = do.goods_id
 		LEFT JOIN ns_users nu ON nu.id = do.creator
 		WHERE
 			do.status != -2

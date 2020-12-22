@@ -110,7 +110,9 @@
 <%@ include file="update.jsp" %>
 <%@ include file="assignBonusPlan.jsp" %>
 <%@ include file="recharge.jsp" %>
+<%@ include file="packageList.jsp" %>
 <%@ include file="consume/index.jsp" %>
+
 
 </body>
 <script type="text/javascript">
