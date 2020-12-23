@@ -25,6 +25,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,7 @@ public class SysLogAspectJ {
     }
 
     @Around(value = "anyMethod()")
-    public Object process(ProceedingJoinPoint point) {
+    public Object process(ProceedingJoinPoint point) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         long start = System.currentTimeMillis();
         String fullName = point.getTarget().getClass().getName();
         String methodName = point.getSignature().getName();
@@ -71,7 +73,9 @@ public class SysLogAspectJ {
             returnValue = point.proceed(args);
         } catch (Throwable ex) {
             logger.error(String.format("%s.%s(%s)", fullName, methodName, params), ex);
-            returnValue = new ResponseBase().error(ex);
+            returnValue = signature.getReturnType().newInstance();
+            Method errMethod = signature.getReturnType().getMethod("error", Throwable.class);
+            errMethod.invoke(returnValue, ex);
         }
 
         long execMM = System.currentTimeMillis() - start;

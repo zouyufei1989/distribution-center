@@ -6,6 +6,8 @@ public class GridResponseBase extends ResponseBase {
     private Integer total;
     private Object rows;
 
+    public GridResponseBase(){}
+
     public GridResponseBase(Integer total, Integer records, Object rows) {
         this.total = total;
         this.records = records;

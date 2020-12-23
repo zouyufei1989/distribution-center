@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body">
-                <h3>{{name}}已够项目列表</h3>
+                <h3>{{name}}已购项目列表</h3>
                 <div class="wrapper animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-12">
