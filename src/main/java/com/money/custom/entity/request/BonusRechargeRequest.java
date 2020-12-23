@@ -9,6 +9,8 @@ public class BonusRechargeRequest extends RechargeRequest {
     private Integer orderPayItemId;
     private Integer bonusRate;
     private BonusChangeTypeEnum changeTypeEnum;
+    private Integer srcCustomerMoneyPay;
+    private Integer srcCustomerMoneyAvailable;
 
     public BonusRechargeRequest(Integer amount, OrderPayItem item, BonusPlan bonusPlan,BonusChangeTypeEnum changeTypeEnum) {
         setAmount(amount);
@@ -17,7 +19,26 @@ public class BonusRechargeRequest extends RechargeRequest {
         this.bonusRate = bonusPlan.getBonusRate();
         this.changeTypeEnum = changeTypeEnum;
 
+        srcCustomerMoneyPay = item.getAmount();
+        srcCustomerMoneyAvailable = item.getCustomer().getWallet().getAvailableMoney();
+
         copyOperationInfo(item);
+    }
+
+    public Integer getSrcCustomerMoneyPay() {
+        return srcCustomerMoneyPay;
+    }
+
+    public void setSrcCustomerMoneyPay(Integer srcCustomerMoneyPay) {
+        this.srcCustomerMoneyPay = srcCustomerMoneyPay;
+    }
+
+    public Integer getSrcCustomerMoneyAvailable() {
+        return srcCustomerMoneyAvailable;
+    }
+
+    public void setSrcCustomerMoneyAvailable(Integer srcCustomerMoneyAvailable) {
+        this.srcCustomerMoneyAvailable = srcCustomerMoneyAvailable;
     }
 
     public BonusChangeTypeEnum getChangeTypeEnum() {

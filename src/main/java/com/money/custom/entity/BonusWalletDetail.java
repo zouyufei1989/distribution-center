@@ -27,6 +27,11 @@ public class BonusWalletDetail extends OperationalEntity {
     private Customer customer;
     private Integer payAmount;
 
+    private Integer srcCustomerMoneyPay;
+    private Integer srcCustomerMoneyAvailable;
+    private String srcCustomerName;
+
+
     public BonusWalletDetail() {}
 
     public BonusWalletDetail(BonusRechargeRequest request, BonusWallet wallet) {
@@ -44,6 +49,9 @@ public class BonusWalletDetail extends OperationalEntity {
         aftPendingBonus = wallet.getPendingBonus() + bonusChange;
         aftAvailableBonus = wallet.getAvailableBonus();
         aftUsedBonus = wallet.getUsedBonus();
+
+        srcCustomerMoneyPay = request.getSrcCustomerMoneyPay();
+        srcCustomerMoneyAvailable = request.getSrcCustomerMoneyAvailable() - request.getSrcCustomerMoneyPay();
 
         copyOperationInfo(request);
     }
@@ -81,6 +89,30 @@ public class BonusWalletDetail extends OperationalEntity {
         aftUsedBonus = wallet.getUsedBonus();
 
         copyOperationInfo(request);
+    }
+
+    public String getSrcCustomerName() {
+        return srcCustomerName;
+    }
+
+    public void setSrcCustomerName(String srcCustomerName) {
+        this.srcCustomerName = srcCustomerName;
+    }
+
+    public Integer getSrcCustomerMoneyPay() {
+        return srcCustomerMoneyPay;
+    }
+
+    public void setSrcCustomerMoneyPay(Integer srcCustomerMoneyPay) {
+        this.srcCustomerMoneyPay = srcCustomerMoneyPay;
+    }
+
+    public Integer getSrcCustomerMoneyAvailable() {
+        return srcCustomerMoneyAvailable;
+    }
+
+    public void setSrcCustomerMoneyAvailable(Integer srcCustomerMoneyAvailable) {
+        this.srcCustomerMoneyAvailable = srcCustomerMoneyAvailable;
     }
 
     public Integer getPayAmount() {

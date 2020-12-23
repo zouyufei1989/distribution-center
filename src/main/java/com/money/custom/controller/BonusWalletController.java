@@ -47,4 +47,12 @@ public class BonusWalletController extends BaseController {
         int recordCount = this.bonusWalletService.selectSearchListCount(request);
         return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.bonusWalletService.selectSearchList(request));
     }
+
+    @VisitLogFlag(resource = "积分记录", type = VisitLogTypeEnum.READ)
+    @ResponseBody
+    @RequestMapping(value = "queryBonusWalletDetail")
+    public GridResponseBase queryBonusWalletDetail(QueryBonusWalletDetailRequest request) {
+        int recordCount = this.bonusWalletService.selectSearchListCount(request);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.bonusWalletService.selectSearchList(request));
+    }
 }

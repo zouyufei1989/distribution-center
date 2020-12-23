@@ -408,7 +408,17 @@
     }
 
     function moneyFormatter(val) {
-        return (Number.parseFloat(val)/100).toFixed(2);
+        if (!val) {
+            return ''
+        }
+        return (Number.parseFloat(val) / 100).toFixed(2);
+    }
+
+    function rateFormatter(val) {
+        if (!val) {
+            return ''
+        }
+        return (Number.parseFloat(val) / 100).toFixed(2) + "%";
     }
 
     function uploadFile(uploadUrl, formId, successFunc, failFunc) {
@@ -445,12 +455,12 @@
         $("#" + formId).ajaxSubmit(option);
     }
 
-    function editOnModal(){
-        return $("#updateModal").length>0;
+    function editOnModal() {
+        return $("#updateModal").length > 0;
     }
 
-    function getEleId4JQ(docId){
-        return '#'+docId.replace(new RegExp('\\.','g'),'\\.');
+    function getEleId4JQ(docId) {
+        return '#' + docId.replace(new RegExp('\\.', 'g'), '\\.');
     }
 
     $(document).ready(function () {

@@ -84,7 +84,7 @@
             <label label4Radio> <input type="radio" :checked="purchaseInfo.payOffline==0" @click="changePayType('payOffline',0)" name="pay_offline">否 </label> <label label4Radio> <input type="radio" :checked="purchaseInfo.payOffline==1" @click="changePayType('payOffline',1)" name="pay_offline">是 </label>
         </div>
         <div class="col-sm-2" v-show="purchaseInfo.payOffline==1">
-            <%--            <input v-model="purchaseInfo.moneyOffline" id="moneyOffline" class="form-control" min="0" :value="extraMoneyOffline" required :disabled="extraMoneyOffline<=0">--%> <input class="form-control" min="0" :value="extraMoneyOffline" disabled>
+            <input class="form-control" min="0" :value="extraMoneyOffline" disabled>
         </div>
     </div>
 </form>
