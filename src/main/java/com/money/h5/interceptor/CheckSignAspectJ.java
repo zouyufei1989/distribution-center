@@ -13,8 +13,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class CheckSignAspectJ {
 
     final static Logger logger = LoggerFactory.getLogger(CheckSignAspectJ.class);
@@ -47,7 +47,7 @@ public class CheckSignAspectJ {
         Assert.isTrue(Math.abs(arg.getTimestamp() - System.currentTimeMillis()) < TIMESTAMP_TIMEOUT_MMS, "时间戳已过期");
         Assert.hasText(arg.getSign(), "参数缺少签名");
 
-        String md5 = MD5Utils.getMD5(arg.getTimestamp().toString());
+        String md5 = MD5Utils.getMD5("zlz"+arg.getTimestamp().toString());
         Assert.isTrue(StringUtils.equals(md5, arg.getSign()), "签名错误");
     }
 

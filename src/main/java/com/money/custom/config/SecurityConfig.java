@@ -57,6 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         SKIP_URL.add("/utils/getFile");
         SKIP_URL.add("/utils/sleep");
         SKIP_URL.add("/utils/uploadFile4Balance");
+
+        SKIP_URL.add("/home/**");
     }
 
     @Bean

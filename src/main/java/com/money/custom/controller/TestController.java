@@ -2,7 +2,6 @@ package com.money.custom.controller;
 
 import com.money.custom.dao.UtilsDao;
 import com.money.custom.entity.enums.ResponseCodeEnum;
-import com.money.framework.base.annotation.SkipUserLoginCheck;
 import com.money.framework.base.entity.TempFile;
 import com.money.framework.base.exception.PandabusSpecException;
 import com.money.framework.base.web.controller.BaseController;
@@ -26,7 +25,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-@SkipUserLoginCheck
 @Controller
 @RequestMapping("/test/*")
 public class TestController extends BaseController {

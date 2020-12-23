@@ -55,7 +55,7 @@ public class MvcConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/h5/**")
+        registry.addMapping("/home/**")
                 .allowedOrigins("*")
                 .allowedHeaders("*")
                 .allowedMethods("*")

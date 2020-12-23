@@ -1,6 +1,5 @@
 package com.money.h5.controller;
 
-import com.money.framework.base.annotation.SkipUserLoginCheck;
 import com.money.h5.entity.H5RequestBase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +19,6 @@ import java.util.Map;
  * 添加方法签名校验
  */
 @Api(value = "H5Controller")
-@SkipUserLoginCheck
 @RequestMapping(value = "h5")
 @Controller
 public class H5Controller {

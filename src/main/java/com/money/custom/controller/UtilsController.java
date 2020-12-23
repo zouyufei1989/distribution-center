@@ -4,7 +4,6 @@ import com.money.custom.entity.dto.FileUploaded;
 import com.money.custom.entity.enums.*;
 import com.money.custom.entity.response.UploadResponse;
 import com.money.custom.service.UtilsService;
-import com.money.framework.base.annotation.SkipUserLoginCheck;
 import com.money.framework.base.entity.GridResponseBase;
 import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.web.controller.BaseController;
@@ -118,7 +117,6 @@ public class UtilsController extends BaseController {
         return UploadResponse.success(fileUploaded);
     }
 
-    @SkipUserLoginCheck
     @RequestMapping(value = "/getFile")
     public void getFile(String fileName, HttpServletResponse response) throws IOException {
         File file = new File(fileName);
