@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(description = "首页接口")
+@Api(description = "首页")
 @RequestMapping(value = "home")
 @Controller
 @CrossOrigin(allowCredentials = "true", maxAge = 3600)

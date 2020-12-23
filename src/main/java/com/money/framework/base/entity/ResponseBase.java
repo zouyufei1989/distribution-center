@@ -2,9 +2,13 @@ package com.money.framework.base.entity;
 
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.framework.base.exception.PandabusSpecException;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel
 public class ResponseBase {
 
+    @ApiModelProperty(value = "状态码 0-成功")
     private Integer code = ResponseCodeEnum.SUCCESS.getValue();
     private String message = ResponseCodeEnum.SUCCESS.getName();
     private Boolean success = true;
