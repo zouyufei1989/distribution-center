@@ -52,6 +52,7 @@ public class BonusWallet extends OperationalEntity {
         wallet.setPendingBonus(0);
         wallet.setSumBonus(0);
         wallet.setAvailableBonus(0);
+        wallet.setUsedBonus(0);
         wallet.copyOperationInfo(operationEntry);
         return wallet;
     }

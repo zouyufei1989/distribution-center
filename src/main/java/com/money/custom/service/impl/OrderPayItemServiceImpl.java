@@ -2,15 +2,15 @@ package com.money.custom.service.impl;
 
 import com.money.custom.dao.OrderPayItemDao;
 import com.money.custom.entity.Customer;
+import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.OrderItem;
 import com.money.custom.entity.OrderPayItem;
+import com.money.custom.entity.enums.CashBackTypeEnum;
+import com.money.custom.entity.enums.CustomerTotalNewEnum;
 import com.money.custom.entity.enums.PayTypeEnum;
 import com.money.custom.entity.request.BonusRechargeRequest;
 import com.money.custom.entity.request.QueryOrderItemRequest;
-import com.money.custom.service.BonusWalletService;
-import com.money.custom.service.CustomerService;
-import com.money.custom.service.OrderItemService;
-import com.money.custom.service.OrderPayItemService;
+import com.money.custom.service.*;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,8 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
     BonusWalletService bonusWalletService;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    CustomerGroupService customerGroupService;
 
     @Transactional
     @Override
@@ -47,16 +49,20 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
 
         if (Objects.isNull(parent.getBonusPlan()) || Objects.isNull(parent.getBonusPlan().getBonusRate())) {
             getLogger().warn("未设置分红方案");
-        } else {
-            Integer bonus = calProfit(item) * parent.getBonusPlan().getBonusRate() / 100 / 100;
-            BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item, parent.getBonusPlan());
-            bonusWalletService.recharge(bonusRechargeRequest);
-
-            if (parent.getBonusPlan().getCashbackFirst() == 1) {
-                bonusRechargeRequest = new BonusRechargeRequest(parent.getBonusPlan().getCashbackAmount(), item, parent.getBonusPlan());
-                bonusWalletService.recharge(bonusRechargeRequest);
-            }
+            return item.getId().toString();
         }
+
+        Integer bonus = calProfit(item) * parent.getBonusPlan().getBonusRate() / 100 / 100;
+        BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item, parent.getBonusPlan());
+        bonusWalletService.recharge(bonusRechargeRequest);
+
+        if (parent.getBonusPlan().getCashbackFirst().equals(CashBackTypeEnum.CASHBACK.getValue()) && item.getCustomer().getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.NEW.getValue())) {
+            bonusRechargeRequest = new BonusRechargeRequest(parent.getBonusPlan().getCashbackAmount(), item, parent.getBonusPlan());
+            bonusWalletService.recharge(bonusRechargeRequest);
+        }
+
+        item.getCustomer().getCustomerGroup().setTotalNew(CustomerTotalNewEnum.OLD.getValue());
+        customerGroupService.edit(item.getCustomer().getCustomerGroup());
 
         return item.getId().toString();
     }

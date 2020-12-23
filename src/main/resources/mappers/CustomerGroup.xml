@@ -20,6 +20,7 @@
 			bank_card_number AS bankCardNumber,
 			bank_name AS bankName,
 			parent_id AS parentId,
+			total_new AS totalNew,
 			create_date AS createDate
 		FROM <include refid="tableName"/>
 		WHERE id = #{id}
@@ -37,6 +38,7 @@
 			status,
 			serial_number,
 			`type`,
+			total_new,
 			expire_date,
 			bank_card_number,
 			bank_name,
@@ -55,6 +57,7 @@
 			#{status},
 			#{serialNumber},
 			#{type},
+			#{totalNew},
 			#{expireDate},
 			#{bankCardNumber},
 			#{bankName},
@@ -99,6 +102,9 @@
 			</if>
 			<if test="bankName != null">
 				,bank_name = #{bankName}
+			</if>
+			<if test="totalNew != null">
+				,total_new = #{totalNew}
 			</if>
 		WHERE id = #{id}
 	</update>

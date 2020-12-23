@@ -1,6 +1,8 @@
 package com.money.custom.entity;
 
+import com.money.custom.entity.enums.CashBackTypeEnum;
 import com.money.custom.entity.enums.CommonStatusEnum;
+import com.money.custom.entity.enums.CustomerTotalNewEnum;
 import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.request.MoACustomerRequest;
 import com.money.framework.base.entity.BaseEntity;
@@ -19,6 +21,7 @@ public class CustomerGroup extends BaseEntity {
     private String serialNumber;
     private Integer type;
     private String expireDate;
+    private Integer totalNew;
 
     private String bonusPlanName;
     private Integer packageCount;
@@ -36,6 +39,7 @@ public class CustomerGroup extends BaseEntity {
         setSerialNumber(request.getSerialNumber());
         setStatus(request.getStatus());
         setType(request.getType());
+        totalNew = CustomerTotalNewEnum.NEW.getValue();
     }
 
     public CustomerGroup(AddCustomer4WechatRequest request, String serialNumber, Integer customerId, String walletId, String bonusWalletId) {
@@ -46,6 +50,15 @@ public class CustomerGroup extends BaseEntity {
         setSerialNumber(serialNumber);
         setStatus(CommonStatusEnum.ENABLE.getValue());
         setType(CustomerTypeEnum.NORMAL.getValue());
+        totalNew = CustomerTotalNewEnum.NEW.getValue();
+    }
+
+    public Integer getTotalNew() {
+        return totalNew;
+    }
+
+    public void setTotalNew(Integer totalNew) {
+        this.totalNew = totalNew;
     }
 
     public Integer getPackageCount() {
