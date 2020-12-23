@@ -112,6 +112,9 @@
 			<if test="customer.customerGroup.serialNumber!=null and customer.customerGroup.serialNumber!=''">
 				AND dcg.serial_number LIKE CONCAT('%',#{customer.customerGroup.serialNumber},'%')
 			</if>
+			<if test="customer.customerGroup.id!=null ">
+				AND dcg.id = #{customer.customerGroup.id}
+			</if>
 			<if test="customer.customerGroup.type!=null">
 				AND dcg.type = #{customer.customerGroup.type}
 			</if>
@@ -157,6 +160,9 @@
 			</if>
 			<if test="customer.customerGroup.serialNumber!=null and customer.customerGroup.serialNumber!=''">
 				AND dcg.serial_number LIKE CONCAT('%',#{customer.customerGroup.serialNumber},'%')
+			</if>
+			<if test="customer.customerGroup.id!=null ">
+				AND dcg.id = #{customer.customerGroup.id}
 			</if>
 			<if test="customer.customerGroup.type!=null">
 				AND dcg.type = #{customer.customerGroup.type}

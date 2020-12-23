@@ -5,8 +5,8 @@ $(document).ready(function () {
     packagesVue = new Vue({
         el: '#packagesModal',
         data: {name: '', packages: []},
-        methods:{
-            formatCreateDate(val){
+        methods: {
+            formatCreateDate(val) {
                 return yyyyMMddhhmmFormatter(val);
             }
         }
@@ -64,7 +64,8 @@ function showPackageList(id, name) {
     $.ajax({
         url: '../order/list/search',
         data: {
-            customerGroupId: id,
+            'customer.customerGroup.id': id,
+            'order.goodsTypeId': 2
         },
         type: 'post',
         async: false,

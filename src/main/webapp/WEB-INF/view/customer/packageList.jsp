@@ -21,7 +21,7 @@
                                 </thead>
                                 <tbody>
                                 <tr v-for="p in packages">
-                                    <td>{{p.goodsName}}</td>
+                                    <td class="text-info">{{p.goodsName}}</td>
                                     <td>{{p.goodsSerialNumber}}</td>
                                     <td>{{p.items[0].cnt}}</td>
                                     <td>{{p.items[0].cntUsed}}</td>

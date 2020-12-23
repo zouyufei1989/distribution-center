@@ -49,4 +49,5 @@ public class QueryOrderRequest extends QueryGridRequestBase {
     public void setOrderPay(OrderPay orderPay) {
         this.orderPay = orderPay;
     }
+
 }
