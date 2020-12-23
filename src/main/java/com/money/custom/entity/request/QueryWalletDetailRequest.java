@@ -10,6 +10,7 @@ public class QueryWalletDetailRequest extends QueryGridRequestBase {
     private String startDate;
     private String endDate;
     private Integer changeType;
+    private Integer customerGroupId;
 
     @Override
     public Map<String, Object> buildParams() {
@@ -20,6 +21,7 @@ public class QueryWalletDetailRequest extends QueryGridRequestBase {
         params.put("startDate", startDate);
         params.put("endDate", endDate);
         params.put("changeType", changeType);
+        params.put("customerGroupId", customerGroupId);
         return params;
     }
 
@@ -69,5 +71,9 @@ public class QueryWalletDetailRequest extends QueryGridRequestBase {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void setCustomerGroupId(Integer customerGroupId) {
+        this.customerGroupId = customerGroupId;
     }
 }
