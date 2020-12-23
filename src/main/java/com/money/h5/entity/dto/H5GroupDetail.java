@@ -4,8 +4,8 @@ import com.money.custom.entity.Group;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel
-public class GroupDetail extends H5Group {
+@ApiModel(description = "门店详情")
+public class H5GroupDetail extends H5Group {
     @ApiModelProperty(value = "地址")
     private String address;
     @ApiModelProperty(value = "联系电话")
@@ -25,7 +25,7 @@ public class GroupDetail extends H5Group {
     @ApiModelProperty(value = "地理位置 纬度")
     private Double lat;
 
-    public GroupDetail(Group group) {
+    public H5GroupDetail(Group group) {
         super(group);
         address = group.getAddress();
         phone = group.getOwnerPhone();

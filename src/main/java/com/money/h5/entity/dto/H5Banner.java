@@ -4,7 +4,7 @@ import com.money.custom.entity.Banner;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel
+@ApiModel(description = "banner")
 public class H5Banner {
     @ApiModelProperty(value = "排序位置")
     private Integer index;

@@ -4,7 +4,7 @@ import com.money.custom.entity.Group;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel
+@ApiModel(description = "门店列表信息")
 public class H5Group {
     @ApiModelProperty(value = "门店id")
     private Integer id;

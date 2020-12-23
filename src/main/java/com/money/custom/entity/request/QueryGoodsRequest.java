@@ -2,6 +2,7 @@ package com.money.custom.entity.request;
 
 import com.money.custom.entity.Goods;
 import com.money.custom.entity.GoodsItem;
+import com.money.custom.entity.enums.GoodsTypeEnum;
 
 import java.util.Map;
 
@@ -41,5 +42,13 @@ public class QueryGoodsRequest extends QueryGridRequestBase {
         params.put("goodsItem", goodsItem);
         params.put("goods", goods);
         return params;
+    }
+
+    public void setGoodsTagId(Integer tagId) {
+        this.goodsItem.setGoodsTagId(tagId);
+    }
+
+    public void setGoodsTypeId(GoodsTypeEnum typeId){
+        goods.setType(typeId.getValue());
     }
 }
