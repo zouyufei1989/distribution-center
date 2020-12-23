@@ -26,7 +26,7 @@
                         <form role="form" class="form-inline" style="padding: 0px">
                             <div class="param_row">
                                 <div class="form-group">
-                                    <label>客户姓名:</label> <input type="text" id="customer.customerGroup.name" search-param class="form-control">
+                                    <label>客户姓名:</label> <input type="text" id="customer.name" search-param class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>客户编号:</label>
