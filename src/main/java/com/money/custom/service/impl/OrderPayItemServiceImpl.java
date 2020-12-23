@@ -51,6 +51,11 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
             Integer bonus = calProfit(item) * parent.getBonusPlan().getBonusRate() / 100 / 100;
             BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item, parent.getBonusPlan());
             bonusWalletService.recharge(bonusRechargeRequest);
+
+            if (parent.getBonusPlan().getCashbackFirst() == 1) {
+                bonusRechargeRequest = new BonusRechargeRequest(parent.getBonusPlan().getCashbackAmount(), item, parent.getBonusPlan());
+                bonusWalletService.recharge(bonusRechargeRequest);
+            }
         }
 
         return item.getId().toString();
