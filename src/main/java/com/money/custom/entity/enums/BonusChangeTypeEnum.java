@@ -4,6 +4,7 @@ public enum BonusChangeTypeEnum implements IEnumKeyValue {
 
     GAIN(1, "获得积分"),
     DISTRIBUTION(2, "下发积分"),
+    BONUSBACK(3, "首次消费返积分"),
     DEDUCTION(-1, "扣除积分");
 
     private Integer value;

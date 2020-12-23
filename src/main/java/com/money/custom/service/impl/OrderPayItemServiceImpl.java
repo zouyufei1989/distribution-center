@@ -5,6 +5,7 @@ import com.money.custom.entity.Customer;
 import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.OrderItem;
 import com.money.custom.entity.OrderPayItem;
+import com.money.custom.entity.enums.BonusChangeTypeEnum;
 import com.money.custom.entity.enums.CashBackTypeEnum;
 import com.money.custom.entity.enums.CustomerTotalNewEnum;
 import com.money.custom.entity.enums.PayTypeEnum;
@@ -53,11 +54,11 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
         }
 
         Integer bonus = calProfit(item) * parent.getBonusPlan().getBonusRate() / 100 / 100;
-        BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item, parent.getBonusPlan());
+        BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item, parent.getBonusPlan(), BonusChangeTypeEnum.GAIN);
         bonusWalletService.recharge(bonusRechargeRequest);
 
         if (parent.getBonusPlan().getCashbackFirst().equals(CashBackTypeEnum.CASHBACK.getValue()) && item.getCustomer().getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.NEW.getValue())) {
-            bonusRechargeRequest = new BonusRechargeRequest(parent.getBonusPlan().getCashbackAmount(), item, parent.getBonusPlan());
+            bonusRechargeRequest = new BonusRechargeRequest(parent.getBonusPlan().getCashbackAmount(), item, parent.getBonusPlan(),BonusChangeTypeEnum.BONUSBACK);
             bonusWalletService.recharge(bonusRechargeRequest);
         }
 

@@ -34,7 +34,7 @@ public class BonusWalletDetail extends OperationalEntity {
         bonusWalletId = wallet.getId();
         orderPayItemId = request.getOrderPayItemId();
         bonusChange = request.getAmount();
-        changeType = BonusChangeTypeEnum.GAIN.getValue();
+        changeType = request.getChangeTypeEnum().getValue();
         befSumBonus = wallet.getSumBonus();
         befPendingBonus = wallet.getPendingBonus();
         befAvailableBonus = wallet.getAvailableBonus();
