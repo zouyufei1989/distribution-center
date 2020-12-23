@@ -20,6 +20,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,8 @@ public class SysLogAspectJ {
         try {
             if (args[0] instanceof ExcelMultipartFile) {
                 params = ((ExcelMultipartFile) args[0]).getOriginalFilename();
+            } else if (args[args.length - 1] instanceof BindingResult) {
+                params = JSON.toJSONString(Arrays.copyOf(args, args.length - 1));
             } else {
                 params = JSON.toJSONString(args);
             }
