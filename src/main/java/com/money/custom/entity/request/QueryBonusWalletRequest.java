@@ -7,6 +7,7 @@ public class QueryBonusWalletRequest extends QueryGridRequestBase {
     private String name;
     private String serialNumber;
     private String phone;
+    private Integer search4Distribution;
 
     @Override
     public Map<String, Object> buildParams() {
@@ -14,7 +15,12 @@ public class QueryBonusWalletRequest extends QueryGridRequestBase {
         params.put("name", name);
         params.put("serialNumber", serialNumber);
         params.put("phone", phone);
+        params.put("search4Distribution", search4Distribution);
         return params;
+    }
+
+    public void setSearch4Distribution(Integer search4Distribution) {
+        this.search4Distribution = search4Distribution;
     }
 
     public String getName() {

@@ -23,6 +23,7 @@
                             <%@ include file="../vue_template/group_combo.jsp" %>
                             <%@ include file="../template_loading_modal.jsp" %>
                             <div class="param_row">
+                                <input type="hidden" id="search4Distribution" search-param class="form-control" value="1">
                                 <div class="form-group">
                                     <label>客户姓名:</label> <input type="text" id="name" search-param class="form-control">
                                 </div>

@@ -34,6 +34,9 @@
 			<if test="phone!=null and phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
 			</if>
+			<if test="search4Distribution!=null and search4Distribution==1">
+				AND dbw.pending_bonus &gt;0 AND dcg.type = 2
+			</if>
 		ORDER BY dcg.serial_number
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
@@ -60,6 +63,9 @@
 			</if>
 			<if test="phone!=null and phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
+			</if>
+			<if test="search4Distribution!=null and search4Distribution==1">
+				AND dbw.pending_bonus &gt;0 AND dcg.type = 2
 			</if>
 	</select>
 
