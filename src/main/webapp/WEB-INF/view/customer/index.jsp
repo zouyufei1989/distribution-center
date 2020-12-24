@@ -77,6 +77,7 @@
                             <%@ include file="../vue_template/order_combo.jsp" %>
                             <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
                             <%@ include file="../template_search_export_btn.jsp" %>
+                            <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>客户姓名:</label> <input type="text" id="customer.name" search-param class="form-control">

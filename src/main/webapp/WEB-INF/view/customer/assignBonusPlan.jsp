@@ -2,13 +2,20 @@
 
 <div class="modal inmodal fade" id="bonusPlanModal" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" id="bonusPlanDiv">
             <div class="modal-body">
                 <h3>选择股东积分方案</h3>
                 <div class="wrapper animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-12">
-                            <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
+                            <div class="alert alert-info" style="padding-top: 10px; padding-bottom: 10px; margin-top: 10px;">
+                                <i class="fa fa-info-circle"></i>
+                                <span id="">您正在为股东 {{name}} 选择积分方案</span
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
                             <form id="bonusPlanForm" class="form-horizontal ">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">股东姓名:</label>
@@ -31,7 +38,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>积分方案</span>:</label>
                                     <div class="col-sm-7">
-                                        <bonus-plan-combo id="bonusPlanId" :group_id = "groupId" must_choose_one="false" :bonus_plan_id="bonusPlanId"></bonus-plan-combo>
+                                        <bonus-plan-combo id="bonusPlanId" :group_id="groupId" must_choose_one="false" :bonus_plan_id="bonusPlanId"></bonus-plan-combo>
                                     </div>
                                 </div>
                                 <div class="form-group">
