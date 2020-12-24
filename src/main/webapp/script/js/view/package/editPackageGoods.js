@@ -1,40 +1,10 @@
-var goodsPackage;
-var goodsListVue;
+var TREE;
 
 $(document).ready(function () {
-
-    goodsListVue = new Vue({
-        el: '#packages',
-        data: {
-            goods: []
-        },
-        mounted: function () {
-            goodsPackage = $('#packages').bootstrapDualListbox({
-                nonSelectedListLabel: '可用商品',
-                selectedListLabel: '已选商品',
-                moveOnSelect: false,
-                infoText: false,
-                infoTextEmpty: '',
-                filterPlaceHolder: '请输入商品名称'
-            });
-        },
-        watch: {
-            goods: {
-                handler(newValue, oldValue) {
-                    this.$nextTick(function () {
-                        if (goodsPackage) {
-                            goodsPackage.bootstrapDualListbox('refresh', true);
-                        }
-                    })
-                },
-                immediate: true,
-                deep: true
-            }
-        }
-    });
+    initTree();
 
     bindModalShow('packageGoodsModal', function () {
-        fillGoodsList4Package();
+        reloadGoodsTree();
     }, 1);
 
     $('#btn_package_goods').click(function () {
@@ -50,25 +20,84 @@ $(document).ready(function () {
     });
 });
 
-function fillGoodsList4Package() {
+function initTree() {
+    layui.use('tree', function () {
+        TREE = layui.tree;
+        //渲染
+        TREE.render({
+            elem: '#goodsTree',
+            id: 'id',
+            accordion: true,
+            showCheckbox: true,
+            onlyIconControl: true,
+            data: [],
+        });
+    });
+}
+
+function reloadGoodsTree() {
     $.ajax({
         url: '../goods/list/search',
         type: 'post',
         data: {
             rows: 0,
-            page: 1,
             'goods.type': 1
         },
         async: true,
         cache: false,
-        success: function (result) {
-            if (result.success === false) {
-                Alert('', result.message, 'error');
-                return;
+        success: function (response) {
+            if (response.success == true) {
+                var goods = response.rows.map(i => {
+                    return {
+                        name: i.name + "(" + i.price4SingleShow + "元/" + i.unit4SingleShow + ")",
+                        price: i.items[0].price,
+                        id: i.items[0].id,
+                        type: 'goods',
+                        typeName: i.goodsTagName4SingleShow
+                    };
+                });
+                var goodsMap = groupBy(goods, 'typeName');
+                var treeData = [];
+
+                $.each(goodsMap, function (key, val) {
+                    treeData.push({
+                        id: new GUID().newGUID(),
+                        name: key,
+                        type: 'type',
+                        children: val
+                    });
+                });
+                TREE.reload('id', {
+                    data: parseTreeNode(treeData),
+                });
+            } else {
+                Alter('', response.message, 'error');
             }
-            goodsListVue.goods = result.rows;
         }
     });
+}
+
+function parseTreeNode(data) {
+    return data.map(i => {
+        var node = {
+            id: i.id,
+            title: initNodeTitle(i),
+            spread: true,
+            disabled: i.type === 'type',
+            'data-src': i
+        };
+        if (i.children) {
+            node.children = parseTreeNode(i.children);
+        }
+        return node;
+    });
+
+    function initNodeTitle(goodsItem) {
+        var labelTitle = $('<label class="pull-left" style="float: left;"></label>');
+        labelTitle.attr('id', 'lbl_node_' + goodsItem.id);
+        labelTitle.html(goodsItem.name);
+        return labelTitle.prop("outerHTML");
+    }
 }
 
 function cancelEditPackage() {
@@ -78,7 +107,7 @@ function cancelEditPackage() {
 }
 
 function savePackage(e) {
-    if ($('#packages').val().length == 0) {
+    if (TREE.getChecked('id').length == 0) {
         Alert('', '未选中任何商品', 'error');
         return;
     }
@@ -90,7 +119,11 @@ function savePackage(e) {
                 type: 'post',
                 data: JSON.stringify({
                     goodsId: _ROWS_CHOOSED[0].id,
-                    goodsItemIdList: $('#packages').val()
+                    goodsItemIdList: TREE.getChecked('id')
+                        .map(i => i.children)
+                        .reduce((i, j) => {
+                            return i.concat(j)
+                        }).map(i => i.id)
                 }),
                 headers: {
                     'Accept': 'application/json',
@@ -117,3 +150,4 @@ function savePackage(e) {
         });
     })
 }
+

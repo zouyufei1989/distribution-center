@@ -40,11 +40,11 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
         dao.add(item);
 
         if (!(PayTypeEnum.MONEY.pay(item.getType()) || PayTypeEnum.OFFLINE.pay(item.getType()))) {
-            return item.toString();
+            return item.getId().toString();
         }
 
         if (Objects.isNull(item.getCustomer().getCustomerGroup().getParentId())) {
-            return item.toString();
+            return item.getId().toString();
         }
         Customer parent = customerService.findById(item.getCustomer().getCustomerGroup().getParentId().toString());
 

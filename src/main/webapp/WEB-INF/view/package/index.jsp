@@ -6,6 +6,10 @@
     <%@ include file="../template_css.jsp" %>
     <%@ include file="../template_js.jsp" %>
     <style type="text/css">
+        .layui-tree-entry {
+            padding: 20px;
+        }
+
         #packageGoodsModal option {
             margin-top: 5px;
         }
