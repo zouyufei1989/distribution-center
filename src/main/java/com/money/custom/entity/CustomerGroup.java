@@ -1,12 +1,10 @@
 package com.money.custom.entity;
 
-import com.money.custom.entity.enums.CashBackTypeEnum;
 import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.enums.CustomerTotalNewEnum;
 import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.request.MoACustomerRequest;
 import com.money.framework.base.entity.BaseEntity;
-import com.money.framework.util.DateUtils;
 import com.money.framework.util.EnumUtils;
 import com.money.h5.entity.request.AddCustomer4WechatRequest;
 

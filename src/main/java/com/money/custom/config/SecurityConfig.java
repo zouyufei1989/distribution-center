@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         SKIP_URL.add("/goodsDetail/**");
         SKIP_URL.add("/groupDetail/**");
         SKIP_URL.add("/walletRecharge/**");
+        SKIP_URL.add("/personalCenter/**");
     }
 
     @Bean

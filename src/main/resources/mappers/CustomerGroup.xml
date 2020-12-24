@@ -7,23 +7,25 @@
 
 	<select id="findById" parameterType="String" resultType="CustomerGroup">
 		SELECT
-			id,
-			wallet_id AS walletId,
-			bonus_wallet_id AS bonusWalletId,
-			customer_id AS customerId,
-			group_id AS groupId,
-			bonus_plan_id AS bonusPlanId,
-			status,
-			serial_number AS serialNumber,
-			`type`,
-			expire_date AS expireDate,
-			bank_card_number AS bankCardNumber,
-			bank_name AS bankName,
-			parent_id AS parentId,
-			total_new AS totalNew,
-			create_date AS createDate
-		FROM <include refid="tableName"/>
-		WHERE id = #{id}
+			dcg.id,
+			dcg.wallet_id AS walletId,
+			dcg.bonus_wallet_id AS bonusWalletId,
+			dcg.customer_id AS customerId,
+			dcg.group_id AS groupId,
+			dcg.bonus_plan_id AS bonusPlanId,
+			dcg.status,
+			dcg.serial_number AS serialNumber,
+			dcg.`type`,
+			dcg.expire_date AS expireDate,
+			dcg.bank_card_number AS bankCardNumber,
+			dcg.bank_name AS bankName,
+			dcg.parent_id AS parentId,
+			dcg.total_new AS totalNew,
+			dcg.create_date AS createDate,
+			dg.name AS groupName
+		FROM <include refid="tableName"/> dcg
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		WHERE dcg.id = #{id}
 	</select>
 
 	<insert id="add" parameterType="CustomerGroup" useGeneratedKeys="true" keyProperty="id">
