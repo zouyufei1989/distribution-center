@@ -50,4 +50,8 @@ public class QueryOrderRequest extends QueryGridRequestBase {
         this.orderPay = orderPay;
     }
 
+    public void setCustomerGroupId(Integer customerGroupId){
+        this.customer.getCustomerGroup().setId(customerGroupId);
+    }
+
 }
