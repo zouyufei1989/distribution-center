@@ -1,8 +1,10 @@
 package com.money.h5.controller;
 
 import com.money.custom.entity.Customer;
+import com.money.custom.entity.request.QueryCustomerRequest;
 import com.money.custom.service.CustomerService;
 import com.money.h5.entity.request.QueryByIdRequest;
+import com.money.h5.entity.response.QueryMyCustomerResponse;
 import com.money.h5.entity.response.QueryPersonalInfoResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,22 +14,25 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
-@Api(description = "个人中心")
-@RequestMapping(value = "personalCenter")
+@Api(description = "我的客源")
+@RequestMapping(value = "myCustomers")
 @Controller
 @CrossOrigin(allowCredentials = "true", maxAge = 3600)
-public class PersonalCenterController {
+public class MyCustomerController {
 
     @Autowired
     CustomerService customerService;
 
-    @ApiOperation(value = "查询个人信息")
+    @ApiOperation(value = "查询我的客源列表")
     @ResponseBody
     @RequestMapping(value = "query", method = RequestMethod.POST)
-    public QueryPersonalInfoResponse queryGoodsDetail(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
-        Customer customer = customerService.findById(request.getId());
-        return new QueryPersonalInfoResponse(customer);
+    public QueryMyCustomerResponse queryMyCustomer(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+        QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
+        queryCustomerRequest.setParentId(Integer.parseInt(request.getId()));
+        List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);
+        return new QueryMyCustomerResponse(customers);
     }
 
 }

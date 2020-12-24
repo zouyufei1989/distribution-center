@@ -43,4 +43,8 @@ public class QueryCustomerRequest extends QueryGridRequestBase {
     public void setCustomerGroupIds(List<Integer> customerGroupIds) {
         this.customerGroupIds = customerGroupIds;
     }
+
+    public void setParentId(Integer parentId) {
+        this.customer.getCustomerGroup().setParentId(parentId);
+    }
 }

@@ -9,19 +9,20 @@
 		SELECT
 			dc.id,
 			dc.name,
-			dcg.serial_number AS `customerGroup.serialNumber`,
-			dcg.status AS `customerGroup.status`,
 			dc.phone,
 			dbp.name AS `customerGroup.bonusPlanName`,
 			dbp.id AS `customerGroup.bonusPlanId`,
-			0 AS packageCount,
 			dw.available_money AS `wallet.sumMoney`,
 			dg.name AS groupName,
+			dcg.serial_number AS `customerGroup.serialNumber`,
+			dcg.status AS `customerGroup.status`,
 			dcg.expire_date AS `customerGroup.expireDate`,
 			dcg.create_date AS createDate,
 			dcg.group_id AS `customerGroup.groupId`,
 			dcg.type AS `customerGroup.type`,
 			dcg.id AS `customerGroup.id`,
+			dcg.create_date AS `customerGroup.createDate`,
+			dcg.total_new AS `customerGroup.totalNew`,
 			packages.cnt AS `customerGroup.packageCount`
 		FROM <include refid="tableName"/>  dc
 		LEFT JOIN d_customer_group dcg ON dcg.customer_id = dc.id
@@ -59,6 +60,9 @@
 			</if>
 			<if test="customer.customerGroup.bonusPlanId!=null">
 				AND dcg.bonus_plan_id = #{customer.customerGroup.bonusPlanId}
+			</if>
+			<if test="customer.customerGroup.parentId!=null">
+				AND dcg.parent_id = #{customer.customerGroup.parentId}
 			</if>
 			<if test="customerGroupIds!=null and customerGroupIds.size()>0">
 				AND dcg.id IN
@@ -105,6 +109,9 @@
 			</if>
 			<if test="customer.customerGroup.bonusPlanId!=null">
 				AND dcg.bonus_plan_id = #{customer.customerGroup.bonusPlanId}
+			</if>
+			<if test="customer.customerGroup.parentId!=null">
+				AND dcg.parent_id = #{customer.customerGroup.parentId}
 			</if>
 			<if test="customerGroupIds!=null and customerGroupIds.size()>0">
 				AND dcg.id IN
