@@ -71,7 +71,7 @@
 			</if>
 	</select>
 
-	<select id="selectCustomerActivityList" parameterType="int" resultType="CustomerActivity">
+	<select id="selectCustomerActivityList" parameterType="Map" resultType="CustomerActivity">
 		SELECT
 			dsai.goods_id AS activityId,
 			dgs.name AS activityName,
@@ -81,9 +81,12 @@
 		LEFT JOIN d_goods dgs ON dgs.id = dsai.goods_id
 		WHERE
 			dsai.customer_group_id = #{id}
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
 	</select>
 
-	<select id="selectCustomerActivityCount" parameterType="int" resultType="int">
+	<select id="selectCustomerActivityCount" parameterType="Map" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM d_assign_activity_item dsai

@@ -1,6 +1,5 @@
 package com.money.h5.controller;
 
-import com.money.custom.entity.CustomerActivity;
 import com.money.custom.service.AssignActivityService;
 import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.response.QueryActivityResponse;
@@ -12,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Api(description = "活动列表")
 @RequestMapping(value = "activityRecord")
@@ -23,13 +21,12 @@ public class CustomerActivityController {
     @Autowired
     AssignActivityService assignActivityService;
 
-    @ApiOperation(value = "查询活动列表")
+    @ApiOperation(value = "查询活动列表（可分页）", notes = "id = 10")
     @ResponseBody
     @RequestMapping(value = "queryActivityList", method = RequestMethod.POST)
     public QueryActivityResponse queryActivityList(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
-        List<CustomerActivity> customerActivities = assignActivityService.selectCustomerActivityList(Integer.parseInt(request.getId()));
-        assignActivityService.selectCustomerActivityCount(Integer.parseInt(request.getId()));
-        return new QueryActivityResponse(customerActivities);
+        int recordCount = this.assignActivityService.selectCustomerActivityCount(request);
+        return new QueryActivityResponse(recordCount, request.calTotalPage(recordCount), this.assignActivityService.selectCustomerActivityList(request));
     }
 
 }

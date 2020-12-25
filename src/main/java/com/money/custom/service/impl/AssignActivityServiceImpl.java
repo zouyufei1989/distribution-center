@@ -13,6 +13,7 @@ import com.money.custom.service.GoodsService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.DateUtils;
+import com.money.h5.entity.request.QueryByIdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,13 +45,13 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
     }
 
     @Override
-    public List<CustomerActivity> selectCustomerActivityList(Integer customerGroupId) {
-        return dao.selectCustomerActivityList(customerGroupId);
+    public List<CustomerActivity> selectCustomerActivityList(QueryByIdRequest request) {
+        return dao.selectCustomerActivityList(request);
     }
 
     @Override
-    public Integer selectCustomerActivityCount(Integer customerGroupId) {
-        return dao.selectCustomerActivityCount(customerGroupId);
+    public Integer selectCustomerActivityCount(QueryByIdRequest request) {
+        return dao.selectCustomerActivityCount(request);
     }
 
     @Transactional

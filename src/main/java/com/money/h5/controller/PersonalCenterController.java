@@ -29,7 +29,7 @@ public class PersonalCenterController {
     @Autowired
     OrderService orderService;
 
-    @ApiOperation(value = "查询个人信息")
+    @ApiOperation(value = "查询个人信息", notes = "id=9")
     @ResponseBody
     @RequestMapping(value = "queryPersonalInfo", method = RequestMethod.POST)
     public QueryPersonalInfoResponse queryGoodsDetail(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
@@ -37,14 +37,16 @@ public class PersonalCenterController {
         return new QueryPersonalInfoResponse(customer);
     }
 
-    @ApiOperation(value = "查询套餐、活动信息")
+    @ApiOperation(value = "查询套餐、活动信息（可分页）", notes = "id=9")
     @ResponseBody
     @RequestMapping(value = "queryOrderInfo", method = RequestMethod.POST)
     public QueryOrderResponse queryOrderInfo(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
         QueryOrderRequest queryOrderRequest = new QueryOrderRequest();
         queryOrderRequest.setCustomerGroupId(Integer.parseInt(request.getId()));
+        queryOrderRequest.copyPagerFromH5Request(request);
         List<Order> orders = orderService.selectSearchList(queryOrderRequest);
-        return new QueryOrderResponse().build4PackageAndActivity(orders);
+        Integer recordCount = orderService.selectSearchListCount(queryOrderRequest);
+        return new QueryOrderResponse(recordCount, request.calTotalPage(recordCount), orders);
     }
 
 }

@@ -25,14 +25,17 @@ public class MyCustomerController {
     @Autowired
     CustomerService customerService;
 
-    @ApiOperation(value = "查询我的客源列表")
+    @ApiOperation(value = "查询我的客源列表（可分页）", notes = "id=7")
     @ResponseBody
     @RequestMapping(value = "query", method = RequestMethod.POST)
     public QueryMyCustomerResponse queryMyCustomer(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
         QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
         queryCustomerRequest.setParentId(Integer.parseInt(request.getId()));
+        queryCustomerRequest.copyPagerFromH5Request(request);
+        queryCustomerRequest.copyPagerFromH5Request(request);
         List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);
-        return new QueryMyCustomerResponse(customers);
+        Integer recordCount = customerService.selectSearchListCount(queryCustomerRequest);
+        return new QueryMyCustomerResponse(recordCount, request.calTotalPage(recordCount), customers);
     }
 
 }

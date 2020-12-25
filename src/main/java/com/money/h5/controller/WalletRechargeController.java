@@ -32,7 +32,7 @@ public class WalletRechargeController {
     @Autowired
     CustomerService customerService;
 
-    @ApiOperation(value = "充值列表")
+    @ApiOperation(value = "充值列表（可分页）")
     @ResponseBody
     @RequestMapping(value = "list", method = RequestMethod.POST)
     public QueryWalletRechargeResponse list(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
@@ -41,9 +41,11 @@ public class WalletRechargeController {
         QueryWalletDetailRequest queryWalletDetailRequest = new QueryWalletDetailRequest();
         queryWalletDetailRequest.setCustomerGroupId(Integer.parseInt(request.getId()));
         queryWalletDetailRequest.setChangeType(WalletChangeTypeEnum.RECHARGE.getValue());
+        queryWalletDetailRequest.copyPagerFromH5Request(request);
         List<WalletDetail> walletDetails = walletService.selectSearchList(queryWalletDetailRequest);
+        Integer recordCount = walletService.selectSearchListCount(queryWalletDetailRequest);
 
-        return new QueryWalletRechargeResponse(walletDetails, customer);
+        return new QueryWalletRechargeResponse(recordCount, request.calTotalPage(recordCount), walletDetails, customer);
     }
 
 }

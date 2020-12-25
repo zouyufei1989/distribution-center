@@ -1,6 +1,5 @@
 package com.money.h5.entity.request;
 
-import com.money.h5.entity.H5RequestBase;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

@@ -1,21 +1,20 @@
 package com.money.h5.entity;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel
 public class H5RequestBase {
 
     private String sign;
     private Long timestamp;
     private String phone;
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getSign() {
         return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 
     public Long getTimestamp() {
@@ -26,7 +25,11 @@ public class H5RequestBase {
         this.timestamp = timestamp;
     }
 
-    public void setSign(String sign) {
-        this.sign = sign;
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
