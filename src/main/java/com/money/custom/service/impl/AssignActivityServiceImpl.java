@@ -43,6 +43,16 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
         return dao.selectSearchListCount(request);
     }
 
+    @Override
+    public List<CustomerActivity> selectCustomerActivityList(Integer customerGroupId) {
+        return dao.selectCustomerActivityList(customerGroupId);
+    }
+
+    @Override
+    public Integer selectCustomerActivityCount(Integer customerGroupId) {
+        return dao.selectCustomerActivityCount(customerGroupId);
+    }
+
     @Transactional
     @Override
     public String add(AssignActivityRequest request) {

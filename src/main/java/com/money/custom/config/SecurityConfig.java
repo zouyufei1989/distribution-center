@@ -64,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         SKIP_URL.add("/walletRecharge/**");
         SKIP_URL.add("/personalCenter/**");
         SKIP_URL.add("/myCustomers/**");
+        SKIP_URL.add("/activityRecord/**");
     }
 
     @Bean

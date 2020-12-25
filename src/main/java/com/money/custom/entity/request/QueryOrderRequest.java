@@ -4,6 +4,7 @@ import com.money.custom.entity.Customer;
 import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.Order;
 import com.money.custom.entity.OrderPay;
+import com.money.custom.entity.enums.GoodsTypeEnum;
 
 import java.util.Map;
 
@@ -50,8 +51,11 @@ public class QueryOrderRequest extends QueryGridRequestBase {
         this.orderPay = orderPay;
     }
 
-    public void setCustomerGroupId(Integer customerGroupId){
+    public void setCustomerGroupId(Integer customerGroupId) {
         this.customer.getCustomerGroup().setId(customerGroupId);
     }
 
+    public void setType(GoodsTypeEnum type) {
+        this.order.setGoodsTypeId(type.getValue());
+    }
 }

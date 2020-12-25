@@ -70,6 +70,27 @@
 				AND daa.group_id = #{groupId}
 			</if>
 	</select>
+
+	<select id="selectCustomerActivityList" parameterType="int" resultType="CustomerActivity">
+		SELECT
+			dsai.goods_id AS activityId,
+			dgs.name AS activityName,
+			dgs.serial_number AS activitySerialNumber,
+			dsai.available_cnt AS availableCnt
+		FROM d_assign_activity_item dsai
+		LEFT JOIN d_goods dgs ON dgs.id = dsai.goods_id
+		WHERE
+			dsai.customer_group_id = #{id}
+	</select>
+
+	<select id="selectCustomerActivityCount" parameterType="int" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM d_assign_activity_item dsai
+		LEFT JOIN d_goods dgs ON dgs.id = dsai.goods_id
+		WHERE
+			dsai.customer_group_id = #{id}
+	</select>
 	
 	<insert id="add" parameterType="AssignActivity" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO <include refid="tableName"/>

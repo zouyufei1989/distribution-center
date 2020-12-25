@@ -1,6 +1,7 @@
 package com.money.custom.service;
 
 import com.money.custom.entity.AssignActivity;
+import com.money.custom.entity.CustomerActivity;
 import com.money.custom.entity.request.AssignActivityRequest;
 import com.money.custom.entity.request.QueryAssignActivityRequest;
 import com.money.framework.base.service.BaseService;
@@ -13,6 +14,10 @@ public interface AssignActivityService extends BaseService {
     List<AssignActivity> selectSearchList(QueryAssignActivityRequest request);
 
     int selectSearchListCount(QueryAssignActivityRequest request);
+
+    List<CustomerActivity> selectCustomerActivityList(Integer customerGroupId);
+
+    Integer selectCustomerActivityCount(Integer customerGroupId);
 
     String add(AssignActivityRequest item);
 
