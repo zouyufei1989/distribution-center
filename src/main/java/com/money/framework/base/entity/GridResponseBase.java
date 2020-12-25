@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel
 public class GridResponseBase extends ResponseBase {
 
-    @ApiModelProperty(value = "当前页面条数")
+    @ApiModelProperty(value = "总条数")
     private Integer records;
     @ApiModelProperty(value = "总页数")
     private Integer total;
