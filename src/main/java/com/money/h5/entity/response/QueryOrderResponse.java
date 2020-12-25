@@ -15,7 +15,7 @@ public class QueryOrderResponse extends GridResponseBase {
 
     public QueryOrderResponse() {}
 
-    public QueryOrderResponse(Integer total, Integer records, List<Order> items) {
+    public QueryOrderResponse(Integer records, Integer total, List<Order> items) {
         super(total, records, items.stream().filter(i -> i.getGoodsTypeId().equals(GoodsTypeEnum.PACKAGE.getValue()) || i.getGoodsTypeId().equals(GoodsTypeEnum.ACTIVITY.getValue()))
                 .map(H5Order::new).collect(Collectors.toList()));
     }

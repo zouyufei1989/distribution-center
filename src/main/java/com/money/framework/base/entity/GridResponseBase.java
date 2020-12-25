@@ -1,12 +1,19 @@
 package com.money.framework.base.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel
 public class GridResponseBase extends ResponseBase {
 
+    @ApiModelProperty(value = "当前页面条数")
     private Integer records;
+    @ApiModelProperty(value = "总页数")
     private Integer total;
+    @ApiModelProperty(value = "当前页面数据")
     private Object rows;
 
-    public GridResponseBase(){}
+    public GridResponseBase() {}
 
     public GridResponseBase(Integer total, Integer records, Object rows) {
         this.total = total;
