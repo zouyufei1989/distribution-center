@@ -20,7 +20,7 @@ public class QueryActivityDetailResponse extends ResponseBase {
     public QueryActivityDetailResponse() {}
 
     public QueryActivityDetailResponse(Goods goods) {
-        totalPrice = goods.getItems().stream().mapToInt(i -> i.getPrice() * i.getCnt()).sum();
+        totalPrice = goods.getSumPrice();
         details = goods.getItems().stream().map(H5ActivityDetail::new).collect(Collectors.toList());;
     }
 

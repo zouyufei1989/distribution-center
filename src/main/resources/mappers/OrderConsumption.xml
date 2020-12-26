@@ -11,6 +11,8 @@
             <result column="goodsId" property="goodsId"/>
             <result column="combine" property="combine"/>
             <result column="createDate" property="createDate"/>
+            <result column="order_goodsTypeId" property="order.goodsTypeId"/>
+            <result column="order_goodsCombine" property="order.goodsCombine"/>
             <collection property="items" ofType="OrderItemConsumption">
                 <id column="iid" property="id"/>
                 <result column="orderItemId" property="orderItemId"/>
@@ -35,6 +37,8 @@
 			doc.goods_id AS goodsId,
 			doc.combine AS combine,
 			doc.create_date AS createDate,
+			do.goods_type_id AS order_goodsTypeId,
+			do.goods_combine AS order_goodsCombine,
 			doic.id AS iid,
 			doic.order_item_id AS orderItemId,
 			doic.bef_sum_cnt AS befSumCnt,
@@ -51,6 +55,7 @@
 		FROM <include refid="tableName"/> doc
 		LEFT JOIN d_order_item_consumption doic ON doic.order_consumption_id = doc.id
 		LEFT JOIN d_order_item doi ON doi.id = doic.order_item_id
+		LEFT JOIN d_order do ON do.id = doc.order_id
 		WHERE
 			1=1
 			<if test="orderConsumption.orderId!=null">

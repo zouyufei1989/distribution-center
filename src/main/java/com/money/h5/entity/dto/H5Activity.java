@@ -15,6 +15,8 @@ public class H5Activity {
     private String serialNumber;
     @ApiModelProperty(value = "剩余次数")
     private Integer leftCnt;
+    @ApiModelProperty(value = "活动封面图片地址")
+    private String coverImg;
 
     public H5Activity() {}
 
@@ -23,6 +25,11 @@ public class H5Activity {
         activityName = item.getActivityName();
         serialNumber = item.getActivitySerialNumber();
         leftCnt = item.getAvailableCnt();
+        coverImg = item.getCoverImg();
+    }
+
+    public String getCoverImg() {
+        return coverImg;
     }
 
     public Integer getId() {

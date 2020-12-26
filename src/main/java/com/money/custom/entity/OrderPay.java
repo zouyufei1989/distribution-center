@@ -5,6 +5,8 @@ import com.money.custom.entity.enums.PayTypeEnum;
 import com.money.custom.entity.request.PayOrderRequest;
 import com.money.framework.base.entity.OperationalEntity;
 
+import java.util.List;
+
 public class OrderPay extends OperationalEntity {
 
     private Integer id;
@@ -20,6 +22,8 @@ public class OrderPay extends OperationalEntity {
     private Integer offlineAmount;
 
     private Customer customer;
+    private List<OrderPayItem> items;
+    private Order order;
 
     public OrderPay() {}
 
@@ -76,6 +80,22 @@ public class OrderPay extends OperationalEntity {
         }
 
         copyOperationInfo(request);
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public List<OrderPayItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderPayItem> items) {
+        this.items = items;
     }
 
     public Customer getCustomer() {

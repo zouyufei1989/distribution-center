@@ -8,10 +8,7 @@ import com.money.custom.entity.OrderPayItem;
 import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.enums.PayTypeEnum;
-import com.money.custom.entity.request.ChangeOrderStatusRequest;
-import com.money.custom.entity.request.DeductionRequest;
-import com.money.custom.entity.request.PayOrderRequest;
-import com.money.custom.entity.request.QueryOrderRequest;
+import com.money.custom.entity.request.*;
 import com.money.custom.service.*;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +34,16 @@ public class OrderPayServiceImpl extends BaseServiceImpl implements OrderPayServ
     WalletService walletService;
     @Autowired
     BonusWalletService bonusWalletService;
+
+    @Override
+    public List<OrderPay> selectSearchList(QueryOrderPayRequest request) {
+        return dao.selectSearchList(request);
+    }
+
+    @Override
+    public int selectSearchListCount(QueryOrderPayRequest request) {
+        return dao.selectSearchListCount(request);
+    }
 
     @Transactional
     @Override

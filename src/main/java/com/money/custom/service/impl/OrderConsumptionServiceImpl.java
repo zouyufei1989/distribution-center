@@ -40,6 +40,16 @@ public class OrderConsumptionServiceImpl extends BaseServiceImpl implements Orde
     CustomerService customerService;
 
     @Override
+    public List<OrderConsumption> selectSearchList(QueryOrderConsumptionRequest request) {
+        return dao.selectSearchList(request);
+    }
+
+    @Override
+    public int selectSearchListCount(QueryOrderConsumptionRequest request) {
+        return dao.selectSearchListCount(request);
+    }
+
+    @Override
     public List<OrderItemConsumption> queryOrderConsumptions(QueryOrderConsumptionRequest request) {
         List<OrderConsumption> consumptions = dao.selectSearchList(request);
         if (CollectionUtils.isEmpty(consumptions)) {

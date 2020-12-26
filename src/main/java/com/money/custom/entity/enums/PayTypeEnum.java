@@ -1,5 +1,7 @@
 package com.money.custom.entity.enums;
 
+import java.util.Objects;
+
 public enum PayTypeEnum implements IEnumKeyValue {
 
     NONE(0, ""),
@@ -26,6 +28,9 @@ public enum PayTypeEnum implements IEnumKeyValue {
     }
 
     public boolean pay(Integer type) {
+        if (Objects.isNull(type)) {
+            return false;
+        }
         return (type & this.getValue()) == this.getValue();
     }
 

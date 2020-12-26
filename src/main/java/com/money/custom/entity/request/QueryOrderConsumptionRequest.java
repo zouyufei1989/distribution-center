@@ -23,4 +23,8 @@ public class QueryOrderConsumptionRequest extends QueryGridRequestBase {
         this.orderConsumption = orderConsumption;
     }
 
+    public void setOrderId(Integer orderId) {
+        this.orderConsumption.setOrderId(orderId);
+    }
+
 }

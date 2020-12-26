@@ -14,6 +14,8 @@ public class OrderConsumption extends BaseEntity {
 
     private List<OrderItemConsumption> items;
 
+    private Order order;
+
     public OrderConsumption() {}
 
     public OrderConsumption(Order order, ConsumeRequest request) {
@@ -21,6 +23,14 @@ public class OrderConsumption extends BaseEntity {
         goodsId = order.getGoodsId();
         combine = order.getGoodsCombine();
         copyOperationInfo(request);
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public List<OrderItemConsumption> getItems() {

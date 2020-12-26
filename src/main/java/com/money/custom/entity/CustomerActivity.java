@@ -8,7 +8,16 @@ public class CustomerActivity extends BaseEntity {
     private Integer activityId;
     private String activitySerialNumber;
     private String activityName;
+    private String coverImg;
     private Integer availableCnt;
+
+    public String getCoverImg() {
+        return coverImg;
+    }
+
+    public void setCoverImg(String coverImg) {
+        this.coverImg = coverImg;
+    }
 
     public Integer getActivityId() {
         return activityId;

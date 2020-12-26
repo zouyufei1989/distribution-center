@@ -76,7 +76,8 @@
 			dsai.goods_id AS activityId,
 			dgs.name AS activityName,
 			dgs.serial_number AS activitySerialNumber,
-			dsai.available_cnt AS availableCnt
+			dsai.available_cnt AS availableCnt,
+			dgs.cover_img AS coverImg
 		FROM d_assign_activity_item dsai
 		LEFT JOIN d_goods dgs ON dgs.id = dsai.goods_id
 		WHERE

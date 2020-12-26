@@ -5,6 +5,64 @@
 
 	<sql id="tableName">d_order_pay</sql>
 
+	<resultMap id="OrderPayMap" type="OrderPay">
+            <id column="id" property="id"/>
+            <result column="orderBatchId" property="orderBatchId"/>
+            <result column="orderId" property="orderId"/>
+            <result column="sumMoney" property="sumMoney"/>
+            <result column="actuallyMoney" property="actuallyMoney"/>
+            <result column="payType" property="payType"/>
+            <result column="createDate" property="createDate"/>
+            <result column="order_goodsTypeId" property="order.goodsTypeId"/>
+            <result column="order_goodsCombine" property="order.goodsCombine"/>
+            <collection property="items" ofType="OrderPayItem">
+                <id column="iid" property="id"/>
+                <result column="iorderId" property="orderId"/>
+                <result column="type" property="type"/>
+                <result column="amount" property="amount"/>
+            </collection>
+        </resultMap>
+
+	<select id="selectSearchList" parameterType="Map" resultMap="OrderPayMap">
+		SELECT
+			dop.id,
+			dop.order_batch_id AS orderBatchId,
+			dop.order_id AS orderId,
+			dop.sum_money AS sumMoney,
+			dop.actually_money AS actuallyMoney,
+			dop.pay_type AS payType,
+			dop.create_date AS createDate,
+			do.goods_type_id AS order_goodsTypeId,
+			do.goods_combine AS order_goodsCombine,
+			dopi.id AS iid,
+			dopi.order_id AS iorderId,
+			dopi.type,
+			dopi.amount
+		FROM <include refid="tableName"/> dop
+		LEFT JOIN d_order_pay_item dopi ON dopi.order_pay_id = dop.id
+		LEFT JOIN d_order do ON do.id = dop.order_id
+		WHERE
+			1=1
+			<if test="orderPay.orderId!=null">
+				AND dop.order_id = #{orderPay.orderId}
+			</if>
+		ORDER BY dop.id DESC
+		<if test="rows != null and rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/> dop
+		WHERE
+			1=1
+			<if test="orderPay.orderId!=null">
+				AND dop.order_id = #{orderPay.orderId}
+			</if>
+	</select>
+
 	<insert id="add" parameterType="OrderPay" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO <include refid="tableName"/>
 		(
