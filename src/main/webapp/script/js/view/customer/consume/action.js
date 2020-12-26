@@ -216,4 +216,5 @@ function goConsume(rowId) {
     customerVue.id = customer['customerGroup.id'];
     consumeVue.chooseAction('buySingle')
     $('#consumeModal').modal('show');
+    consumeVue.timestamp = new Date().getTime();
 }
