@@ -13,6 +13,8 @@ import com.money.custom.service.GoodsService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.DateUtils;
+import com.money.h5.entity.H5GridRequestBase;
+import com.money.h5.entity.H5RequestBase;
 import com.money.h5.entity.request.QueryByIdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,12 +47,12 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
     }
 
     @Override
-    public List<CustomerActivity> selectCustomerActivityList(QueryByIdRequest request) {
+    public List<CustomerActivity> selectCustomerActivityList(H5GridRequestBase request) {
         return dao.selectCustomerActivityList(request);
     }
 
     @Override
-    public Integer selectCustomerActivityCount(QueryByIdRequest request) {
+    public Integer selectCustomerActivityCount(H5GridRequestBase request) {
         return dao.selectCustomerActivityCount(request);
     }
 

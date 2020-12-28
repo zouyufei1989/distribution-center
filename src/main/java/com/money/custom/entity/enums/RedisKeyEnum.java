@@ -10,6 +10,9 @@ public enum RedisKeyEnum {
     GOODS_TAGS(Consts.GROUP_NAME + "_GOODS_TAGS", 60 * 60),
     DEPARTMENTS(Consts.GROUP_NAME + "_DEPARTMENTS", 60 * 60),
     VERIFY_CODE(Consts.GROUP_NAME + "_VERIFY_CODE", 3 * 60),
+
+    WECHAT_SESSION_KEY("SESSION_ID_", 0),
+
     SCHEDULE_CONFIG(Consts.GROUP_NAME + "_SCHEDULE_CONFIG", 60 * 10);
 
     private Integer timeout;

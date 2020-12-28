@@ -75,6 +75,7 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
     @Override
     public Goods findById(String id) {
         Goods goods = dao.findById(id);
+        Assert.notNull(goods, "商品不存在");
         List<GoodsItem> goodsItems = itemDao.selectSearchList(new QueryGoodsItemRequest(id));
         goods.setItems(goodsItems);
         return goods;

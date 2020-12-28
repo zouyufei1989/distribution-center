@@ -5,6 +5,8 @@ import com.money.custom.entity.CustomerActivity;
 import com.money.custom.entity.request.AssignActivityRequest;
 import com.money.custom.entity.request.QueryAssignActivityRequest;
 import com.money.framework.base.service.BaseService;
+import com.money.h5.entity.H5GridRequestBase;
+import com.money.h5.entity.H5RequestBase;
 import com.money.h5.entity.request.QueryByIdRequest;
 
 import java.util.List;
@@ -16,9 +18,9 @@ public interface AssignActivityService extends BaseService {
 
     int selectSearchListCount(QueryAssignActivityRequest request);
 
-    List<CustomerActivity> selectCustomerActivityList(QueryByIdRequest request);
+    List<CustomerActivity> selectCustomerActivityList(H5GridRequestBase request);
 
-    Integer selectCustomerActivityCount(QueryByIdRequest request);
+    Integer selectCustomerActivityCount(H5GridRequestBase request);
 
     String add(AssignActivityRequest item);
 

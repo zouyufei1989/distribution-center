@@ -85,9 +85,32 @@ public class OperationalEntity implements Serializable {
         setGroupId(src.getGroupId());
     }
 
+    public void ofH5(H5RequestBase requestBase) {
+        this.creator = requestBase.getOpenId();
+        this.updater = requestBase.getOpenId();
+
+        this.createIp = "phone";
+        this.updateIp = "phone";
+
+        this.createDate = new Date();
+        this.updateDate = new Date();
+
+    }
+    public void ofH5(String openId) {
+        this.creator = openId;
+        this.updater = openId;
+
+        this.createIp = "phone";
+        this.updateIp = "phone";
+
+        this.createDate = new Date();
+        this.updateDate = new Date();
+
+    }
+
     public void copyOperationInfo(H5RequestBase h5RequestBase) {
-        this.creator = h5RequestBase.getPhone();
-        this.updater = h5RequestBase.getPhone();
+        this.creator = h5RequestBase.getOpenId();
+        this.updater = h5RequestBase.getOpenId();
 
         this.createIp = "0.0.0.0";
         this.updateIp = "0.0.0.0";

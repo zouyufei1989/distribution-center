@@ -31,8 +31,8 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<!-- 2、忽略内嵌tomcat，打包部署到tomcat。注*本地运行的时候要把这一段忽略引入个注释掉，要不然项目启动不了 -->
-			<exclusions>
+            <!-- 2、忽略内嵌tomcat，打包部署到tomcat。注*本地运行的时候要把这一段忽略引入个注释掉，要不然项目启动不了 -->
+            <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -84,8 +84,8 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-		<!-- 数据解析所需包 -->
-		<dependency>
+        <!-- 数据解析所需包 -->
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
@@ -95,7 +95,7 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
-		<!-- /数据解析所需包 -->
+        <!-- /数据解析所需包 -->
 
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -115,8 +115,8 @@
             <version>1.2.75</version>
         </dependency>
 
-		<!-- http所需包 -->
-		<dependency>
+        <!-- http所需包 -->
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
@@ -128,8 +128,8 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
         </dependency>
-		<!-- /http所需包 -->
-		<dependency>
+        <!-- /http所需包 -->
+        <dependency>
             <groupId>com.belerweb</groupId>
             <artifactId>pinyin4j</artifactId>
             <version>2.5.0</version>
@@ -142,33 +142,33 @@
 		</dependency>
 
         <!--redis连接池-->
-		 <dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
-		<!--跳转JSP - servlet依赖. -->
-		<dependency>
+        <!--跳转JSP - servlet依赖. -->
+        <dependency>
 			 <groupId>javax.servlet</groupId>
 			 <artifactId>jstl</artifactId>
 		</dependency>
 
-		<!--跳转JSP - tomcat的支持.-->
-		<dependency>
+        <!--跳转JSP - tomcat的支持.-->
+        <dependency>
                <groupId>org.apache.tomcat.embed</groupId>
                <artifactId>tomcat-embed-jasper</artifactId>
         </dependency>
 
         <!--AES加密-->
-		<dependency>
+        <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.48</version>
             <scope>compile</scope>
         </dependency>
 
-		<!--个推-->
-		<dependency>
+        <!--个推-->
+        <dependency>
 			<groupId>com.gexin.platform</groupId>
 			<artifactId>gexin-rp-sdk-http</artifactId>
 			<version>4.1.1.4</version>
@@ -180,8 +180,8 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!--spring security-->
-		<dependency>
+        <!--spring security-->
+        <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
@@ -195,8 +195,8 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 
-		<!--swagger2-->
-		<dependency>
+        <!--swagger2-->
+        <dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>2.9.2</version>
@@ -206,7 +206,13 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-		<!--swagger2-->
+        <!--swagger2-->
+		<!--小程序解密-->
+        <dependency>
+		  <groupId>org.bouncycastle</groupId>
+		  <artifactId>bcprov-jdk15on</artifactId>
+		  <version>1.57</version>
+		</dependency>
 
 	</dependencies>
 

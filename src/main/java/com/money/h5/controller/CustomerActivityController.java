@@ -1,6 +1,8 @@
 package com.money.h5.controller;
 
 import com.money.custom.service.AssignActivityService;
+import com.money.h5.entity.H5GridRequestBase;
+import com.money.h5.entity.H5RequestBase;
 import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.response.QueryActivityResponse;
 import io.swagger.annotations.Api;
@@ -21,10 +23,10 @@ public class CustomerActivityController {
     @Autowired
     AssignActivityService assignActivityService;
 
-    @ApiOperation(value = "查询活动列表（可分页）", notes = "id = 10")
+    @ApiOperation(value = "查询活动列表（可分页）", notes = "openId = abc")
     @ResponseBody
     @RequestMapping(value = "queryActivityList", method = RequestMethod.POST)
-    public QueryActivityResponse queryActivityList(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+    public QueryActivityResponse queryActivityList(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {
         int recordCount = this.assignActivityService.selectCustomerActivityCount(request);
         return new QueryActivityResponse(recordCount, request.calTotalPage(recordCount), this.assignActivityService.selectCustomerActivityList(request));
     }

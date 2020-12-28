@@ -128,32 +128,32 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     @Override
     @Transactional
     public String addFromWechat(AddCustomer4WechatRequest request) {
-        List<Customer> customers = queryCustomerUsingPhone(request.getPhone());
-        if (customers.stream().anyMatch(c -> c.getCustomerGroup().getGroupId().equals(request.getGroupId()))) {
-            throw PandabusSpecException.businessError(ResponseCodeEnum.CUSTOMER_GROUP_EXISTS);
-        }
+        Customer byId = findById(request.getOpenId());
 
         Customer customer = new Customer(request);
-        if (CollectionUtils.isEmpty(customers)) {
-            getLogger().info("创建customer: {}", request.getPhone());
+        customer.ofH5(request.getOpenId());
+        if (Objects.isNull(byId)) {
+            getLogger().info("创建customer: {}", request.getOpenId());
             customer.setName(request.getNickName());
             dao.add(customer);
         } else {
             getLogger().info("更新customer");
-            customer.setId(customers.get(0).getId());
+            customer.setOpenId(byId.getOpenId());
             dao.edit(customer);
         }
 
-        getLogger().info("创建wallet: {} - {}", request.getGroupId(), request.getPhone());
-        String walletId = walletService.add(Wallet.totalNew(customer));
+        if (Objects.nonNull(request.getGroupId())) {
+            getLogger().info("创建wallet: {} - {}", request.getGroupId(), request.getOpenId());
+            String walletId = walletService.add(Wallet.totalNew(customer));
 
-        getLogger().info("创建bonus wallet: {} - {}", request.getGroupId(), request.getPhone());
-        String bonusWalletId = bonusWalletService.add(BonusWallet.totalNew(customer));
+            getLogger().info("创建bonus wallet: {} - {}", request.getGroupId(), request.getOpenId());
+            String bonusWalletId = bonusWalletService.add(BonusWallet.totalNew(customer));
 
-        getLogger().info("创建customerGroup: {} - {}", request.getGroupId(), request.getPhone());
+            getLogger().info("创建customerGroup: {} - {}", request.getGroupId(), request.getOpenId());
 
-        CustomerGroup customerGroup = new CustomerGroup(request, utilsService.generateSerialNumber(SerialNumberEnum.CS), customer.getId(), walletId, bonusWalletId);
-        customerGroupService.add(customerGroup);
+            CustomerGroup customerGroup = new CustomerGroup(request, utilsService.generateSerialNumber(SerialNumberEnum.CS), customer.getId(), walletId, bonusWalletId);
+            customerGroupService.add(customerGroup);
+        }
 
         return customer.getId().toString();
 
@@ -180,6 +180,12 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         updateCustomer.setName(request.getName());
         dao.edit(updateCustomer);
         return updateCustomer.getId().toString();
+    }
+
+    @Override
+    public String edit(Customer customer) {
+        dao.edit(customer);
+        return customer.getOpenId();
     }
 
     @Transactional
@@ -217,7 +223,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         consumeRequest.copyOperationInfo(request);
         orders.forEach(o -> {
             consumeRequest.setOrderId(o.getId());
-            o.getItems().forEach(i->{
+            o.getItems().forEach(i -> {
                 consumeRequest.setOrderItemId(i.getId());
                 consumeRequest.setCnt(i.getCnt());
                 consumeRequest.setCustomerGroupId(request.getCustomerGroupId());

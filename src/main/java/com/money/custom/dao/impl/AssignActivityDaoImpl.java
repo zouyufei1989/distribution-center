@@ -5,6 +5,8 @@ import com.money.custom.entity.AssignActivityItem;
 import com.money.custom.entity.CustomerActivity;
 import com.money.framework.base.annotation.SQLContext;
 import com.money.framework.base.dao.impl.BaseDaoImpl;
+import com.money.h5.entity.H5GridRequestBase;
+import com.money.h5.entity.H5RequestBase;
 import com.money.h5.entity.request.QueryByIdRequest;
 import org.springframework.stereotype.Repository;
 
@@ -21,12 +23,12 @@ public class AssignActivityDaoImpl extends BaseDaoImpl implements AssignActivity
     }
 
     @Override
-    public List<CustomerActivity> selectCustomerActivityList(QueryByIdRequest request) {
+    public List<CustomerActivity> selectCustomerActivityList(H5GridRequestBase request) {
         return selectList("selectCustomerActivityList", request.buildParams());
     }
 
     @Override
-    public Integer selectCustomerActivityCount(QueryByIdRequest request) {
+    public Integer selectCustomerActivityCount(H5GridRequestBase request) {
         return selectOne("selectCustomerActivityCount", request.buildParams());
     }
 

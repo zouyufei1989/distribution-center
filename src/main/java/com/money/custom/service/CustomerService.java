@@ -21,6 +21,8 @@ public interface CustomerService extends BaseService {
 
     String edit(MoACustomerRequest request);
 
+    String edit(Customer customer);
+
     String purchase(PurchaseRequest request);
 
     void purchaseThenConsumeAll(PurchaseConsumeRequest request);

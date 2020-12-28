@@ -12,15 +12,16 @@ import java.util.Map;
 public class H5GridRequestBase extends H5RequestBase {
 
     @ApiModelProperty(value = "每页条数", notes = "默认0,查询全部", example = "10")
-    @Min(value = 0)
-    @Max(value = 50)
+    @Min(value = 0, message = "每页条数不可小于0")
+    @Max(value = 50, message = "每页条数不可大于50")
     private Integer rows = 0;
     @ApiModelProperty(value = "页码", notes = "默认1，从1开始", example = "1")
-    @Min(value = 1)
+    @Min(value = 1, message = "页码不可小于1")
     private Integer page = 1;
 
+    @Override
     public Map<String, Object> buildParams() {
-        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> params = super.buildParams();
         params.put("rows", rows);
         params.put("start", (page - 1) * rows);
 

@@ -80,8 +80,10 @@
 			dgs.cover_img AS coverImg
 		FROM d_assign_activity_item dsai
 		LEFT JOIN d_goods dgs ON dgs.id = dsai.goods_id
+		LEFT JOIN d_customer_group dcg ON dcg.id = dsai.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
 		WHERE
-			dsai.customer_group_id = #{id}
+			dc.open_id = #{openId}
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
 		</if>
@@ -92,8 +94,10 @@
 			COUNT(*)
 		FROM d_assign_activity_item dsai
 		LEFT JOIN d_goods dgs ON dgs.id = dsai.goods_id
+		LEFT JOIN d_customer_group dcg ON dcg.id = dsai.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
 		WHERE
-			dsai.customer_group_id = #{id}
+			dc.open_id = #{openId}
 	</select>
 	
 	<insert id="add" parameterType="AssignActivity" useGeneratedKeys="true" keyProperty="id">

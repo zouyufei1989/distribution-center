@@ -130,7 +130,7 @@
 			nick_name AS nickName,
 			head_cover AS headCover
 		FROM <include refid="tableName"/>
-		WHERE id = #{id}
+		WHERE id = #{id} OR open_id = #{id}
 	</select>
 
 	<insert id="add" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
@@ -169,6 +169,9 @@
 			<if test="name != null">
 				,name = #{name}
 			</if>
+			<if test="nickName != null">
+				,nick_name = #{nickName}
+			</if>
 			<if test="phone != null">
 				,phone = #{phone}
 			</if>
@@ -178,7 +181,13 @@
 			<if test="headCover != null">
 				,`head_cover` = #{headCover}
 			</if>
-		WHERE id = #{id}
+		WHERE
+			<if test="id!=null">
+				id = #{id}
+			</if>
+			<if test="openId!=null and openId!=''">
+				open_id = #{openId}
+			</if>
 	</update>
 
 	<update id="changeStatus" parameterType="Map">

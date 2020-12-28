@@ -14,6 +14,8 @@ public enum ResponseCodeEnum {
     UPLOAD_FAIL(6, "上传失败"),
     LOGIN_FAIL(7, "用户名、密码错误"),
     WRONG_VERIFY_CODE(8, "验证码错误"),
+    ASK_4_PHONE(9, "需要获取微信手机号"),
+    ASK_4_USER_INFO(10, "需要获取微信用户信息"),
 
     SUCCESS(0, "成功");
 
