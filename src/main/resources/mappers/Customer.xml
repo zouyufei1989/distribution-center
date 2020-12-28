@@ -64,6 +64,9 @@
 			<if test="customer.customerGroup.parentId!=null">
 				AND dcg.parent_id = #{customer.customerGroup.parentId}
 			</if>
+			<if test="parentOpenId!=null and parentOpenId!=''">
+				AND dcg.parent_id IN (SELECT dcg.id FROM d_customer_group dcg LEFT JOIN d_customer dc ON dc.id = dcg.customer_id WHERE dc.open_id = #{parentOpenId})
+			</if>
 			<if test="customerGroupIds!=null and customerGroupIds.size()>0">
 				AND dcg.id IN
 				<foreach collection="customerGroupIds" open="(" separator="," close=")" item="id">
@@ -112,6 +115,9 @@
 			</if>
 			<if test="customer.customerGroup.parentId!=null">
 				AND dcg.parent_id = #{customer.customerGroup.parentId}
+			</if>
+			<if test="parentOpenId!=null and parentOpenId!=''">
+				AND dcg.parent_id IN (SELECT dcg.id FROM d_customer_group dcg LEFT JOIN d_customer dc ON dc.id = dcg.customer_id WHERE dc.open_id = #{parentOpenId})
 			</if>
 			<if test="customerGroupIds!=null and customerGroupIds.size()>0">
 				AND dcg.id IN

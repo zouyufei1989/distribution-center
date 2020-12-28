@@ -11,6 +11,7 @@ public class QueryCustomerRequest extends QueryGridRequestBase {
     private Customer customer = new Customer();
     private String exactPhone;
     private String nameOrPhone;
+    private String parentOpenId;
 
     private List<Integer> customerGroupIds;
 
@@ -33,6 +34,7 @@ public class QueryCustomerRequest extends QueryGridRequestBase {
         params.put("exactPhone", exactPhone);
         params.put("nameOrPhone", nameOrPhone);
         params.put("customerGroupIds", customerGroupIds);
+        params.put("parentOpenId", parentOpenId);
         return params;
     }
 
@@ -46,5 +48,9 @@ public class QueryCustomerRequest extends QueryGridRequestBase {
 
     public void setParentId(Integer parentId) {
         this.customer.getCustomerGroup().setParentId(parentId);
+    }
+
+    public void setParentOpenId(String parentOpenId) {
+        this.parentOpenId = parentOpenId;
     }
 }

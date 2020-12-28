@@ -58,4 +58,8 @@ public class QueryOrderRequest extends QueryGridRequestBase {
     public void setType(GoodsTypeEnum type) {
         this.order.setGoodsTypeId(type.getValue());
     }
+
+    public void setOpenId(String openId){
+        this.customer.setOpenId(openId);
+    }
 }

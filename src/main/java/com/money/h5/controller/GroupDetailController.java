@@ -9,11 +9,7 @@ import com.money.custom.entity.request.QueryGoodsTagRequest;
 import com.money.custom.service.GoodsService;
 import com.money.custom.service.GoodsTagService;
 import com.money.custom.service.GroupService;
-import com.money.h5.entity.dto.H5Goods;
-import com.money.h5.entity.request.QueryByGroupIdRequest;
 import com.money.h5.entity.request.QueryByIdRequest;
-import com.money.h5.entity.request.QueryGoodsByTagIdRequest;
-import com.money.h5.entity.response.QueryActivityResponse;
 import com.money.h5.entity.response.QueryGoodsResponse;
 import com.money.h5.entity.response.QueryGoodsTagResponse;
 import com.money.h5.entity.response.QueryGroupDetailResponse;
@@ -26,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Api(description = "商铺详情")
 @RequestMapping(value = "groupDetail")
@@ -52,9 +47,9 @@ public class GroupDetailController {
     @ApiOperation(value = "门店商品类别列表", notes = "id=2")
     @ResponseBody
     @RequestMapping(value = "queryGoodsTag", method = RequestMethod.POST)
-    public QueryGoodsTagResponse queryGoodsTag(@Valid @RequestBody QueryByGroupIdRequest request, BindingResult bindingResult) {
+    public QueryGoodsTagResponse queryGoodsTag(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
         QueryGoodsTagRequest queryGoodsTagRequest = new QueryGoodsTagRequest();
-        queryGoodsTagRequest.setGroupId(request.getGroupId());
+        queryGoodsTagRequest.setGroupId(Integer.parseInt(request.getId()));
         List<GoodsTag> goodsTags = goodsTagService.selectSearchList(queryGoodsTagRequest);
         return new QueryGoodsTagResponse(goodsTags);
     }

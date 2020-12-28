@@ -1,6 +1,7 @@
 package com.money.h5.entity;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ public class H5RequestBase {
 
     private String sign;
     private Long timestamp;
+    @ApiModelProperty(value = "用户openId", example = "abc")
     @NotBlank(message = "openId不可为空")
     private String openId;
     private String phone;

@@ -8,6 +8,7 @@ import com.money.custom.entity.request.QueryWalletDetailRequest;
 import com.money.custom.service.CustomerService;
 import com.money.custom.service.GoodsService;
 import com.money.custom.service.WalletService;
+import com.money.h5.entity.H5GridRequestBase;
 import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.response.QueryGoodsDetailResponse;
 import com.money.h5.entity.response.QueryWalletRechargeResponse;
@@ -32,20 +33,19 @@ public class WalletRechargeController {
     @Autowired
     CustomerService customerService;
 
-    @ApiOperation(value = "充值列表（可分页）")
+    @ApiOperation(value = "充值列表（可分页）", notes = "openId=hij")
     @ResponseBody
     @RequestMapping(value = "list", method = RequestMethod.POST)
-    public QueryWalletRechargeResponse list(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
-        Customer customer = customerService.findById(request.getId());
-
+    public QueryWalletRechargeResponse list(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {
+        //TODO 多个门店如何展示
         QueryWalletDetailRequest queryWalletDetailRequest = new QueryWalletDetailRequest();
-        queryWalletDetailRequest.setCustomerGroupId(Integer.parseInt(request.getId()));
+        queryWalletDetailRequest.setOpenId(request.getOpenId());
         queryWalletDetailRequest.setChangeType(WalletChangeTypeEnum.RECHARGE.getValue());
         queryWalletDetailRequest.copyPagerFromH5Request(request);
         List<WalletDetail> walletDetails = walletService.selectSearchList(queryWalletDetailRequest);
         Integer recordCount = walletService.selectSearchListCount(queryWalletDetailRequest);
 
-        return new QueryWalletRechargeResponse(recordCount, request.calTotalPage(recordCount), walletDetails, customer);
+        return new QueryWalletRechargeResponse(recordCount, request.calTotalPage(recordCount), walletDetails, new Customer());
     }
 
 }

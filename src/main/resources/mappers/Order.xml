@@ -109,6 +109,9 @@
 			<if test="customer.name!=null and customer.name!=''">
 				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
 			</if>
+			<if test="customer.openId!=null and customer.openId!=''">
+				AND dc.open_id =#{customer.openId}
+			</if>
 			<if test="customer.customerGroup.serialNumber!=null and customer.customerGroup.serialNumber!=''">
 				AND dcg.serial_number LIKE CONCAT('%',#{customer.customerGroup.serialNumber},'%')
 			</if>
@@ -157,6 +160,9 @@
 			</if>
 			<if test="customer.name!=null and customer.name!=''">
 				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
+			</if>
+			<if test="customer.openId!=null and customer.openId!=''">
+				AND dc.open_id =#{customer.openId}
 			</if>
 			<if test="customer.customerGroup.serialNumber!=null and customer.customerGroup.serialNumber!=''">
 				AND dcg.serial_number LIKE CONCAT('%',#{customer.customerGroup.serialNumber},'%')

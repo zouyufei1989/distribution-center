@@ -3,6 +3,8 @@ package com.money.h5.controller;
 import com.money.custom.entity.Customer;
 import com.money.custom.entity.request.QueryCustomerRequest;
 import com.money.custom.service.CustomerService;
+import com.money.h5.entity.H5GridRequestBase;
+import com.money.h5.entity.H5RequestBase;
 import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.response.QueryMyCustomerResponse;
 import com.money.h5.entity.response.QueryPersonalInfoResponse;
@@ -25,12 +27,12 @@ public class MyCustomerController {
     @Autowired
     CustomerService customerService;
 
-    @ApiOperation(value = "查询我的客源列表（可分页）", notes = "id=7")
+    @ApiOperation(value = "查询我的客源列表（可分页）", notes = "openId=efg")
     @ResponseBody
     @RequestMapping(value = "query", method = RequestMethod.POST)
-    public QueryMyCustomerResponse queryMyCustomer(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+    public QueryMyCustomerResponse queryMyCustomer(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {
         QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
-        queryCustomerRequest.setParentId(Integer.parseInt(request.getId()));
+        queryCustomerRequest.setParentOpenId(request.getOpenId());
         queryCustomerRequest.copyPagerFromH5Request(request);
         queryCustomerRequest.copyPagerFromH5Request(request);
         List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);

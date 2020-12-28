@@ -5,6 +5,8 @@ import com.money.custom.entity.Order;
 import com.money.custom.entity.request.QueryOrderRequest;
 import com.money.custom.service.CustomerService;
 import com.money.custom.service.OrderService;
+import com.money.h5.entity.H5GridRequestBase;
+import com.money.h5.entity.H5RequestBase;
 import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.response.QueryOrderResponse;
 import com.money.h5.entity.response.QueryPersonalInfoResponse;
@@ -29,20 +31,21 @@ public class PersonalCenterController {
     @Autowired
     OrderService orderService;
 
-    @ApiOperation(value = "查询个人信息", notes = "id=9")
+    @ApiOperation(value = "查询个人信息")
     @ResponseBody
     @RequestMapping(value = "queryPersonalInfo", method = RequestMethod.POST)
-    public QueryPersonalInfoResponse queryGoodsDetail(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
-        Customer customer = customerService.findById(request.getId());
+    public QueryPersonalInfoResponse queryGoodsDetail(@Valid @RequestBody H5RequestBase request, BindingResult bindingResult) {
+        Customer customer = customerService.findById(request.getOpenId());
+        //TODO 属于多个门店，怎么操作
         return new QueryPersonalInfoResponse(customer);
     }
 
-    @ApiOperation(value = "查询套餐、活动信息（可分页）", notes = "id=9")
+    @ApiOperation(value = "查询套餐、活动信息（可分页）",notes = "openId=hij")
     @ResponseBody
     @RequestMapping(value = "queryOrderInfo", method = RequestMethod.POST)
-    public QueryOrderResponse queryOrderInfo(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+    public QueryOrderResponse queryOrderInfo(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {
         QueryOrderRequest queryOrderRequest = new QueryOrderRequest();
-        queryOrderRequest.setCustomerGroupId(Integer.parseInt(request.getId()));
+        queryOrderRequest.setOpenId(request.getOpenId());
         queryOrderRequest.copyPagerFromH5Request(request);
         List<Order> orders = orderService.selectSearchList(queryOrderRequest);
         Integer recordCount = orderService.selectSearchListCount(queryOrderRequest);
