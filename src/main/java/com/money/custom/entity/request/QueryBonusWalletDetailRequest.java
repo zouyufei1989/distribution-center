@@ -11,6 +11,7 @@ public class QueryBonusWalletDetailRequest extends QueryGridRequestBase {
     private String endDate;
     private Integer changeType;
     private Integer addBonus;
+    private String openId;
 
     @Override
     public Map<String, Object> buildParams() {
@@ -22,7 +23,12 @@ public class QueryBonusWalletDetailRequest extends QueryGridRequestBase {
         params.put("endDate", endDate);
         params.put("changeType", changeType);
         params.put("addBonus", addBonus);
+        params.put("openId", openId);
         return params;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public void setAddBonus(Integer addBonus) {

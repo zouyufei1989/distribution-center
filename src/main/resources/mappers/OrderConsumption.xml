@@ -13,6 +13,7 @@
             <result column="createDate" property="createDate"/>
             <result column="order_goodsTypeId" property="order.goodsTypeId"/>
             <result column="order_goodsCombine" property="order.goodsCombine"/>
+            <result column="order_goodsName" property="order.goodsName"/>
             <collection property="items" ofType="OrderItemConsumption">
                 <id column="iid" property="id"/>
                 <result column="orderItemId" property="orderItemId"/>
@@ -27,6 +28,8 @@
                 <result column="goodsName" property="goodsName"/>
                 <result column="goodsPrice" property="goodsPrice"/>
                 <result column="goodsUnit" property="goodsUnit"/>
+                <result column="groupName" property="groupName"/>
+                <result column="icreateDate" property="createDate"/>
             </collection>
         </resultMap>
 
@@ -39,6 +42,7 @@
 			doc.create_date AS createDate,
 			do.goods_type_id AS order_goodsTypeId,
 			do.goods_combine AS order_goodsCombine,
+			do.goods_name AS order_goodsName,
 			doic.id AS iid,
 			doic.order_item_id AS orderItemId,
 			doic.bef_sum_cnt AS befSumCnt,
@@ -51,13 +55,21 @@
 			doic.create_date AS icreateDate,
 			doi.goods_name AS goodsName,
 			doi.goods_price AS goodsPrice,
-			doi.goods_unit AS goodsUnit
+			doi.goods_unit AS goodsUnit,
+			dg.name AS groupName,
+			doic.create_date AS icreateDate
 		FROM <include refid="tableName"/> doc
 		LEFT JOIN d_order_item_consumption doic ON doic.order_consumption_id = doc.id
 		LEFT JOIN d_order_item doi ON doi.id = doic.order_item_id
 		LEFT JOIN d_order do ON do.id = doc.order_id
+		LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		WHERE
 			1=1
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{openId}
+			</if>
 			<if test="orderConsumption.orderId!=null">
 				AND doc.order_id = #{orderConsumption.orderId}
 			</if>
@@ -72,8 +84,16 @@
 			COUNT(*)
 		FROM <include refid="tableName"/> doc
 		LEFT JOIN d_order_item_consumption doic ON doic.order_consumption_id = doc.id
+		LEFT JOIN d_order_item doi ON doi.id = doic.order_item_id
+		LEFT JOIN d_order do ON do.id = doc.order_id
+		LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		WHERE
 			1=1
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{openId}
+			</if>
 			<if test="orderConsumption.orderId!=null">
 				AND doc.order_id = #{orderConsumption.orderId}
 			</if>

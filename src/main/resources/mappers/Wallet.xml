@@ -15,11 +15,14 @@
 			dwd.bef_available_money AS befAvailableMoney,
 			dwd.create_date AS createDate,
 			dg.name AS groupName,
-			nu.username AS creator
+			nu.username AS creator,
+			dbp.bonus_rate AS 'customer.bonusPlan.bonusRate',
+			dcg.expire_date AS 'customer.customerGroup.expireDate'
 		FROM d_wallet_detail dwd
 		LEFT JOIN d_wallet dw ON dwd.wallet_id = dw.id
 		LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dw.id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_bonus_plan dbp ON dbp.id = dcg.bonus_plan_id
 		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		LEFT JOIN ns_users nu ON nu.id = dwd.creator
 		WHERE

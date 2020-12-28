@@ -18,6 +18,8 @@ public class H5MyCustomer {
     private String createDate;
     @ApiModelProperty(value = "是否消费过")
     private Boolean consumed;
+    @ApiModelProperty(value = "手机号")
+    private String phone;
 
     public H5MyCustomer() {}
 
@@ -27,6 +29,11 @@ public class H5MyCustomer {
         this.name = item.getName();
         this.createDate = DateUtils.format(item.getCustomerGroup().getCreateDate(), "yyyy-MM-dd");
         this.consumed = item.getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.OLD.getValue());
+        this.phone = item.getPhone();
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public Integer getId() {

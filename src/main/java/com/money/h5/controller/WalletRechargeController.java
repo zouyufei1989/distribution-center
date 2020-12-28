@@ -33,11 +33,10 @@ public class WalletRechargeController {
     @Autowired
     CustomerService customerService;
 
-    @ApiOperation(value = "充值列表（可分页）", notes = "openId=hij")
+    @ApiOperation(value = "充值列表（可分页）", notes = "openId=efg")
     @ResponseBody
     @RequestMapping(value = "list", method = RequestMethod.POST)
     public QueryWalletRechargeResponse list(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {
-        //TODO 多个门店如何展示
         QueryWalletDetailRequest queryWalletDetailRequest = new QueryWalletDetailRequest();
         queryWalletDetailRequest.setOpenId(request.getOpenId());
         queryWalletDetailRequest.setChangeType(WalletChangeTypeEnum.RECHARGE.getValue());
@@ -45,7 +44,7 @@ public class WalletRechargeController {
         List<WalletDetail> walletDetails = walletService.selectSearchList(queryWalletDetailRequest);
         Integer recordCount = walletService.selectSearchListCount(queryWalletDetailRequest);
 
-        return new QueryWalletRechargeResponse(recordCount, request.calTotalPage(recordCount), walletDetails, new Customer());
+        return new QueryWalletRechargeResponse(recordCount, request.calTotalPage(recordCount), walletDetails);
     }
 
 }

@@ -1,11 +1,8 @@
 package com.money.h5.controller;
 
-import com.money.custom.service.AssignActivityService;
 import com.money.custom.service.GoodsService;
-import com.money.framework.base.entity.ResponseBase;
 import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.response.QueryActivityDetailResponse;
-import com.money.h5.entity.response.QueryActivityResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

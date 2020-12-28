@@ -85,11 +85,14 @@
 			dbwd.aft_pending_bonus AS aftPendingBonus,
 			dbwd.aft_sum_bonus AS aftSumBonus,
 			dbwd.create_date AS createDate,
+			dbwd.change_type AS changeType,
 			dg.name AS groupName,
 			src_customer_money_pay AS srcCustomerMoneyPay,
 			src_customer_money_available AS srcCustomerMoneyAvailable,
 			nu.username AS creator,
-			srcDc.name AS srcCustomerName
+			srcDc.name AS srcCustomerName,
+			dbp.bonus_rate AS 'customer.bonusPlan.bonusRate',
+			dcg.expire_date AS 'customer.customerGroup.expireDate'
 		FROM d_bonus_wallet_detail dbwd
 		LEFT JOIN d_bonus_wallet dbw ON dbwd.bonus_wallet_id = dbw.id
 		LEFT JOIN d_customer_group dcg ON dcg.bonus_wallet_id = dbw.id
@@ -100,6 +103,7 @@
 		LEFT JOIN d_order do ON do.id = dopi.order_id
 		LEFT JOIN d_customer_group srcDcg ON srcDcg.id = do.customer_group_id
 		LEFT JOIN d_customer srcDc ON srcDc.id = srcDcg.customer_id
+		LEFT JOIN d_bonus_plan dbp ON dbp.id = dcg.bonus_plan_id
 		WHERE
 			1=1
 			<if test="groupId!=null">
@@ -125,6 +129,9 @@
 			</if>
 			<if test="endDate!=null and endDate!=''">
 				AND dbwd.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{openId}
 			</if>
 		ORDER BY dbwd.id DESC
 		<if test="rows != null and  rows > 0">
@@ -165,6 +172,9 @@
 			</if>
 			<if test="endDate!=null and endDate!=''">
 				AND dbwd.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{openId}
 			</if>
 	</select>
 

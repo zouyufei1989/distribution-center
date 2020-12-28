@@ -19,6 +19,7 @@ public class QueryActivityResponse extends GridResponseBase {
     public QueryActivityResponse() {}
 
     public QueryActivityResponse(Integer total, Integer records, List<CustomerActivity> items) {
+
         super(total, records, items.stream().map(H5Activity::new).collect(Collectors.toList()));
     }
 }
