@@ -25,7 +25,7 @@ public class BonusRecordController {
     @Autowired
     BonusWalletService bonusWalletService;
 
-    @ApiOperation(value = "查询积分记录（可分页）", notes = "openId = abc")
+    @ApiOperation(value = "查询积分记录（可分页）", notes = "openId = tabc")
     @ResponseBody
     @RequestMapping(value = "queryBonusRecord", method = RequestMethod.POST)
     public QueryBonusDetailResponse queryBonusRecord(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {

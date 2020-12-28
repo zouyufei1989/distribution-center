@@ -21,7 +21,7 @@ public class ActivityDetailController {
     @Autowired
     GoodsService goodsService;
 
-    @ApiOperation(value = "活动内容", notes = "id = 23")
+    @ApiOperation(value = "活动内容", notes = "id = 5")
     @ResponseBody
     @RequestMapping(value = "queryActivityDetail", method = RequestMethod.POST)
     public QueryActivityDetailResponse queryActivityList(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {

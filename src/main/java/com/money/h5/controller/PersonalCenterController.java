@@ -31,16 +31,15 @@ public class PersonalCenterController {
     @Autowired
     OrderService orderService;
 
-    @ApiOperation(value = "查询个人信息")
+    @ApiOperation(value = "查询个人信息", notes = "id=1")
     @ResponseBody
     @RequestMapping(value = "queryPersonalInfo", method = RequestMethod.POST)
-    public QueryPersonalInfoResponse queryGoodsDetail(@Valid @RequestBody H5RequestBase request, BindingResult bindingResult) {
-        Customer customer = customerService.findById(request.getOpenId());
-        //TODO 属于多个门店，怎么操作
+    public QueryPersonalInfoResponse queryGoodsDetail(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+        Customer customer = customerService.findById(request.getId());
         return new QueryPersonalInfoResponse(customer);
     }
 
-    @ApiOperation(value = "查询套餐、活动信息（可分页）",notes = "openId=hij")
+    @ApiOperation(value = "查询套餐、活动信息（可分页）", notes = "openId=abc")
     @ResponseBody
     @RequestMapping(value = "queryOrderInfo", method = RequestMethod.POST)
     public QueryOrderResponse queryOrderInfo(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {

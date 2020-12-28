@@ -33,7 +33,7 @@ public class OrderProcessController {
     @Autowired
     OrderConsumptionService orderConsumptionService;
 
-    @ApiOperation(value = "项目记录", notes = "id = 27")
+    @ApiOperation(value = "项目记录", notes = "id = 1")
     @ResponseBody
     @RequestMapping(value = "queryOrderProcessList", method = RequestMethod.POST)
     public QueryOrderProcessResponse queryOrderProcessList(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {

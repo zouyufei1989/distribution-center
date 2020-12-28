@@ -411,6 +411,9 @@
         if (!val) {
             return ''
         }
+        if (val < 0) {
+            return 0;
+        }
         return (Number.parseFloat(val) / 100).toFixed(2);
     }
 

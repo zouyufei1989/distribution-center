@@ -23,7 +23,7 @@ public class CustomerActivityController {
     @Autowired
     AssignActivityService assignActivityService;
 
-    @ApiOperation(value = "查询活动列表（可分页）", notes = "openId = abc")
+    @ApiOperation(value = "查询活动列表（可分页）", notes = "openId = tabc")
     @ResponseBody
     @RequestMapping(value = "queryActivityList", method = RequestMethod.POST)
     public QueryActivityResponse queryActivityList(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {

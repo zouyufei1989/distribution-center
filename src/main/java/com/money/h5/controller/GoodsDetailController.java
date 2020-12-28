@@ -22,7 +22,7 @@ public class GoodsDetailController {
     @Autowired
     GoodsService goodsService;
 
-    @ApiOperation(value = "商品详情", notes = "id=17")
+    @ApiOperation(value = "商品详情", notes = "id=1")
     @ResponseBody
     @RequestMapping(value = "queryGoodsDetail", method = RequestMethod.POST)
     public QueryGoodsDetailResponse queryGoodsDetail(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {

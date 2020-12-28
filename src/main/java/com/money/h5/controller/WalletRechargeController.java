@@ -33,7 +33,7 @@ public class WalletRechargeController {
     @Autowired
     CustomerService customerService;
 
-    @ApiOperation(value = "充值列表（可分页）", notes = "openId=efg")
+    @ApiOperation(value = "充值列表（可分页）")
     @ResponseBody
     @RequestMapping(value = "list", method = RequestMethod.POST)
     public QueryWalletRechargeResponse list(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {

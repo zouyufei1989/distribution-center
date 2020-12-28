@@ -27,7 +27,7 @@ public class MyCustomerController {
     @Autowired
     CustomerService customerService;
 
-    @ApiOperation(value = "查询我的客源列表（可分页）", notes = "openId=efg")
+    @ApiOperation(value = "查询我的客源列表（可分页）", notes = "openId=tabc")
     @ResponseBody
     @RequestMapping(value = "query", method = RequestMethod.POST)
     public QueryMyCustomerResponse queryMyCustomer(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {
