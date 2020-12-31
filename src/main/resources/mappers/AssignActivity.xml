@@ -131,6 +131,30 @@
 		)
 	</insert>
 
+	<select id="findAssignActivityItemById" parameterType="String" resultType="AssignActivityItem">
+		SELECT
+			daai.id,
+			daai.assign_activity_id AS assignActivityId,
+			daai.goods_id AS goodsId,
+			daai.customer_group_id AS customerGroupId,
+			daai.sum_cnt AS sumCnt,
+			daai.used_cnt AS usedCnt,
+			daai.available_cnt AS availableCnt,
+			dg.scope AS 'goods.scope',
+			dg.max_cnt_per_cus AS 'goods.maxCntPerCus',
+			dg.group_id AS groupId
+		FROM d_assign_activity_item daai
+		LEFT JOIN d_goods dg ON dg.id = daai.goods_id
+	</select>
+
+	<update id="claimActivity" parameterType="int" >
+		UPDATE d_assign_activity_item
+		SET
+			used_cnt = used_cnt +1,
+			available_cnt = available_cnt -1
+		WHERE id = #{id}
+	</update>
+
 	<insert id="addBatch" parameterType="AssignActivityItem" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO d_assign_activity_item
 		(

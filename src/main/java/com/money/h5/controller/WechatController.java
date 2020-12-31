@@ -1,10 +1,10 @@
 package com.money.h5.controller;
 
+import com.money.custom.service.AssignActivityService;
 import com.money.framework.base.entity.ResponseBase;
-import com.money.h5.entity.request.GainPhoneRequest;
 import com.money.h5.entity.request.LoginRequest;
+import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.request.TransWechatInfo2CustomerRequest;
-import com.money.h5.entity.response.QueryActivityDetailResponse;
 import com.money.h5.service.H5Service;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,19 +23,14 @@ public class WechatController {
 
     @Autowired
     H5Service h5Service;
+    @Autowired
+    AssignActivityService assignActivityService;
 
     @ApiOperation(value = "登录，返回openId", notes = "code: 9-需要补齐手机号，10-需要补齐微信用户信息")
     @ResponseBody
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseBase login(@Valid @RequestBody LoginRequest request, BindingResult bindingResult) {
         return h5Service.login(request);
-    }
-
-    @ApiOperation(value = "同步微信用户手机号")
-    @ResponseBody
-    @RequestMapping(value = "completePhone", method = RequestMethod.POST)
-    public ResponseBase completePhone(@Valid @RequestBody GainPhoneRequest request, BindingResult bindingResult) {
-        return h5Service.completePhone(request);
     }
 
     @ApiOperation(value = "同步微信用户基础信息")
@@ -45,4 +40,11 @@ public class WechatController {
         return h5Service.completeCustomerInfo(request);
     }
 
+    @ApiOperation(value = "领取活动", notes = "openId=abc")
+    @ResponseBody
+    @RequestMapping(value = "claimActivity", method = RequestMethod.POST)
+    public ResponseBase claimActivity(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+        assignActivityService.claimActivity(Integer.parseInt(request.getId()), request.getOpenId());
+        return ResponseBase.success();
+    }
 }

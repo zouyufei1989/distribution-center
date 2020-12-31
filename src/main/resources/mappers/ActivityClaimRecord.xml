@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ActivityClaimRecord">
+
+	<sql id="tableName">d_activity_claim_record</sql>
+
+	<insert id="add" parameterType="ActivityClaimRecord" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			activity_assign_id,
+			src_customer_group_id,
+			claim_customer_group_id,
+			src_open_id,
+			claim_open_id,
+			goods_id,
+			goods_name,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{activityAssignId},
+			#{srcCustomerGroupId},
+			#{claimCustomerGroupId},
+			#{srcOpenId},
+			#{claimOpenId},
+			#{goodsId},
+			#{goodsName},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+</mapper>

@@ -9,7 +9,7 @@ import com.money.framework.util.HttpUtils;
 import com.money.framework.util.RedisUtils;
 import com.money.framework.util.WechatDecryptDataUtil;
 import com.money.h5.entity.dto.WechatPhoneResponse;
-import com.money.h5.entity.request.GainPhoneRequest;
+import com.money.h5.entity.request.TransWechatInfo2CustomerRequest;
 import com.money.h5.entity.response.WechatLoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class WechatService extends BaseServiceImpl {
 
-    @Value("wechat.login.url")
+    @Value("${wechat.login.url}")
     String LOGIN_URL;
 
     @Autowired
@@ -33,7 +33,7 @@ public class WechatService extends BaseServiceImpl {
         return JSON.parseObject(result, WechatLoginResponse.class);
     }
 
-    public WechatPhoneResponse gainPhone(GainPhoneRequest request) {
+    public WechatPhoneResponse gainPhone(TransWechatInfo2CustomerRequest request) {
         String sessionKey = redisUtils.getObject(RedisKeyEnum.WECHAT_SESSION_KEY + request.getOpenId(), String.class);
         String srcData = WechatDecryptDataUtil.decryptData(request.getRawData(), sessionKey, request.getIv());
         getLogger().info("src phone data:" + srcData);

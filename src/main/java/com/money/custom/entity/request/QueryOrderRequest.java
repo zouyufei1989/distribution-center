@@ -62,4 +62,8 @@ public class QueryOrderRequest extends QueryGridRequestBase {
     public void setOpenId(String openId){
         this.customer.setOpenId(openId);
     }
+
+    public void setGoodsId(Integer goodsId){
+        this.order.setGoodsId(goodsId);
+    }
 }

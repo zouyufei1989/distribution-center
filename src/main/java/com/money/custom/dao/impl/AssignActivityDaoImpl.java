@@ -1,6 +1,7 @@
 package com.money.custom.dao.impl;
 
 import com.money.custom.dao.AssignActivityDao;
+import com.money.custom.entity.AssignActivity;
 import com.money.custom.entity.AssignActivityItem;
 import com.money.custom.entity.CustomerActivity;
 import com.money.framework.base.annotation.SQLContext;
@@ -30,6 +31,16 @@ public class AssignActivityDaoImpl extends BaseDaoImpl implements AssignActivity
     @Override
     public Integer selectCustomerActivityCount(H5GridRequestBase request) {
         return selectOne("selectCustomerActivityCount", request.buildParams());
+    }
+
+    @Override
+    public AssignActivityItem findAssignActivityItemById(String id) {
+        return selectOne("findAssignActivityItemById", id);
+    }
+
+    @Override
+    public void claimActivity(Integer id) {
+        update("claimActivity", id);
     }
 
 }

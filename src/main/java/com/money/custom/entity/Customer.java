@@ -36,8 +36,6 @@ public class Customer extends BaseEntity {
 
     public Customer(AddCustomer4WechatRequest request) {
         openId = request.getOpenId();
-        nickName = request.getNickName();
-        headCover = request.getHeadCover();
 
         copyOperationInfo(request);
     }

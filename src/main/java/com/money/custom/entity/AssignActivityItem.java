@@ -14,6 +14,8 @@ public class AssignActivityItem extends BaseEntity {
     private Integer usedCnt;
     private Integer availableCnt;
 
+    private Goods goods = new Goods();
+
     public AssignActivityItem() {}
 
     public AssignActivityItem(AssignActivityRequest request, AssignActivityRequest.AssignItem item) {
@@ -24,6 +26,14 @@ public class AssignActivityItem extends BaseEntity {
         this.availableCnt = item.getCnt();
 
         copyOperationInfo(request);
+    }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
     }
 
     public Integer getId() {

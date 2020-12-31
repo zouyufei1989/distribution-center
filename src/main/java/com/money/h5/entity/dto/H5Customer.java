@@ -2,6 +2,7 @@ package com.money.h5.entity.dto;
 
 import com.money.custom.entity.Customer;
 import com.money.custom.entity.Goods;
+import com.money.framework.util.DateUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -26,7 +27,7 @@ public class H5Customer {
         this.id = item.getCustomerGroup().getId();
         this.serialNumber = item.getCustomerGroup().getSerialNumber();
         this.name = item.getName();
-        this.expireDate = item.getCustomerGroup().getExpireDate();
+        this.expireDate = DateUtils.getMonthEnd(item.getCustomerGroup().getExpireDate());
         this.groupName = item.getCustomerGroup().getGroupName();
         this.availableMoney = item.getWallet().getAvailableMoney();
     }

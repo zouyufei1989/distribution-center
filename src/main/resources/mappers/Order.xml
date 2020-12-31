@@ -97,6 +97,9 @@
 			<if test="order.status!=null">
 				AND do.status = #{order.status}
 			</if>
+			<if test="order.goodsId!=null">
+				AND do.goods_id = #{order.goodsId}
+			</if>
 			<if test="order.goodsTypeId!=null">
 				AND do.goods_type_id = #{order.goodsTypeId}
 			</if>
@@ -142,6 +145,9 @@
 			do.status != -2
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="order.goodsId!=null">
+				AND do.goods_id = #{order.goodsId}
 			</if>
 			<if test="order.batchId!=null and order.batchId!=''">
 				AND do.batch_id = #{order.batchId}

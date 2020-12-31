@@ -87,6 +87,11 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         return customer;
     }
 
+    @Override
+    public Customer findByOpenId(String openId) {
+        return dao.findById(openId);
+    }
+
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER)
     @Override
     @Transactional
@@ -128,35 +133,22 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     @Override
     @Transactional
     public String addFromWechat(AddCustomer4WechatRequest request) {
-        Customer byId = findById(request.getOpenId());
+        Customer srcCus = findByOpenId(request.getOpenId());
 
-        Customer customer = new Customer(request);
-        customer.ofH5(request.getOpenId());
-        if (Objects.isNull(byId)) {
+        if (Objects.isNull(srcCus)) {
+            Customer customer = new Customer(request);
+            customer.ofH5(request.getOpenId());
             getLogger().info("创建customer: {}", request.getOpenId());
-            customer.setName(request.getNickName());
+            customer.setOpenId(request.getOpenId());
             dao.add(customer);
         } else {
             getLogger().info("更新customer");
-            customer.setOpenId(byId.getOpenId());
-            dao.edit(customer);
+            srcCus.setOpenId(request.getOpenId());
+            srcCus.ofH5(request.getOpenId());
+            dao.edit(srcCus);
         }
 
-        if (Objects.nonNull(request.getGroupId())) {
-            getLogger().info("创建wallet: {} - {}", request.getGroupId(), request.getOpenId());
-            String walletId = walletService.add(Wallet.totalNew(customer));
-
-            getLogger().info("创建bonus wallet: {} - {}", request.getGroupId(), request.getOpenId());
-            String bonusWalletId = bonusWalletService.add(BonusWallet.totalNew(customer));
-
-            getLogger().info("创建customerGroup: {} - {}", request.getGroupId(), request.getOpenId());
-
-            CustomerGroup customerGroup = new CustomerGroup(request, utilsService.generateSerialNumber(SerialNumberEnum.CS), customer.getId(), walletId, bonusWalletId);
-            customerGroupService.add(customerGroup);
-        }
-
-        return customer.getId().toString();
-
+        return request.getOpenId();
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER)

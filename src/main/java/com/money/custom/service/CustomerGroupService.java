@@ -3,6 +3,7 @@ package com.money.custom.service;
 import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.request.AssignBonusPlanRequest;
 import com.money.custom.entity.request.ChangeStatusRequest;
+import com.money.framework.base.entity.OperationalEntity;
 import com.money.framework.base.service.BaseService;
 
 import java.util.List;
@@ -11,7 +12,11 @@ public interface CustomerGroupService extends BaseService {
 
     CustomerGroup findById(String id);
 
+    List<CustomerGroup> findByOpenId(String openId);
+
     String add(CustomerGroup item);
+
+    String add(String openId, Integer groupId,OperationalEntity operationalEntity);
 
     String edit(CustomerGroup item);
 

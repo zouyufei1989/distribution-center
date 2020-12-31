@@ -15,6 +15,8 @@ public interface CustomerService extends BaseService {
 
     Customer findById(String id);
 
+    Customer findByOpenId(String openId);
+
     String add(MoACustomerRequest request);
 
     String addFromWechat(AddCustomer4WechatRequest request);

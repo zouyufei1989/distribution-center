@@ -28,10 +28,35 @@
 		WHERE dcg.id = #{id}
 	</select>
 
+	<select id="findByOpenId" parameterType="String" resultType="CustomerGroup">
+		SELECT
+			dcg.id,
+			dcg.wallet_id AS walletId,
+			dcg.bonus_wallet_id AS bonusWalletId,
+			dcg.customer_id AS customerId,
+			dcg.group_id AS groupId,
+			dcg.bonus_plan_id AS bonusPlanId,
+			dcg.status,
+			dcg.serial_number AS serialNumber,
+			dcg.`type`,
+			dcg.expire_date AS expireDate,
+			dcg.bank_card_number AS bankCardNumber,
+			dcg.bank_name AS bankName,
+			dcg.parent_id AS parentId,
+			dcg.total_new AS totalNew,
+			dcg.create_date AS createDate,
+			dg.name AS groupName
+		FROM <include refid="tableName"/> dcg
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		WHERE dc.open_id = #{id}
+	</select>
+
 	<insert id="add" parameterType="CustomerGroup" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO <include refid="tableName"/>
 		(
 			id,
+			parent_id,
 			wallet_id,
 			bonus_wallet_id,
 			customer_id,
@@ -51,6 +76,7 @@
 		VALUES 
 		(
 			#{id},
+			#{parentId},
 			#{walletId},
 			#{bonusWalletId},
 			#{customerId},

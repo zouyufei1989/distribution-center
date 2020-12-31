@@ -5,6 +5,7 @@ import com.money.custom.entity.enums.CustomerTotalNewEnum;
 import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.request.MoACustomerRequest;
 import com.money.framework.base.entity.BaseEntity;
+import com.money.framework.base.entity.OperationalEntity;
 import com.money.framework.util.EnumUtils;
 import com.money.h5.entity.request.AddCustomer4WechatRequest;
 
@@ -40,8 +41,8 @@ public class CustomerGroup extends BaseEntity {
         totalNew = CustomerTotalNewEnum.NEW.getValue();
     }
 
-    public CustomerGroup(AddCustomer4WechatRequest request, String serialNumber, Integer customerId, String walletId, String bonusWalletId) {
-        copyOperationInfo(request);
+    public CustomerGroup(String serialNumber, Integer customerId, String walletId, String bonusWalletId, OperationalEntity op) {
+        copyOperationInfo(op);
         setCustomerId(customerId);
         setWalletId(walletId);
         setBonusWalletId(bonusWalletId);

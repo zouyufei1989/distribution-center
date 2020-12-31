@@ -9,7 +9,6 @@ import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.RedisUtils;
 import com.money.h5.entity.dto.WechatPhoneResponse;
 import com.money.h5.entity.request.AddCustomer4WechatRequest;
-import com.money.h5.entity.request.GainPhoneRequest;
 import com.money.h5.entity.request.LoginRequest;
 import com.money.h5.entity.request.TransWechatInfo2CustomerRequest;
 import com.money.h5.entity.response.WechatLoginResponse;
@@ -31,6 +30,7 @@ public class H5Service extends BaseServiceImpl {
     RedisUtils redisUtils;
 
     public ResponseBase login(LoginRequest loginRequest) {
+        //TODO 根据手机号查询用户 如果存在更新openid
         WechatLoginResponse wechatLoginResponse = wechatService.jscode2session(loginRequest.getJsCode());
         Assert.isTrue(wechatLoginResponse.success(), "获取openId失败:" + wechatLoginResponse.getErrmsg());
 
@@ -38,45 +38,34 @@ public class H5Service extends BaseServiceImpl {
         String sessionKey = wechatLoginResponse.getSession_key();
         redisUtils.setObject(RedisKeyEnum.WECHAT_SESSION_KEY + openId, sessionKey);
 
-        Customer customer = customerService.findById(openId);
+        Customer customer = customerService.findByOpenId(openId);
         if (Objects.isNull(customer)) {
             AddCustomer4WechatRequest addCustomer4WechatRequest = new AddCustomer4WechatRequest();
             addCustomer4WechatRequest.setOpenId(openId);
             customerService.addFromWechat(addCustomer4WechatRequest);
-        }
-
-        if (StringUtils.isEmpty(customer.getPhone())) {
-            return ResponseBase.error(ResponseCodeEnum.ASK_4_PHONE);
-        }
-        if (StringUtils.isEmpty(customer.getHeadCover()) && StringUtils.isEmpty(customer.getNickName())) {
-            return ResponseBase.error(ResponseCodeEnum.ASK_4_USER_INFO);
+        } else {
+            if (StringUtils.isEmpty(customer.getPhone()) || StringUtils.isEmpty(customer.getHeadCover()) && StringUtils.isEmpty(customer.getNickName())) {
+                ResponseBase error = ResponseBase.error(ResponseCodeEnum.ASK_4_USER_INFO);
+                error.setData(openId);
+                return error;
+            }
         }
 
         return ResponseBase.success(openId);
     }
 
     public ResponseBase completeCustomerInfo(TransWechatInfo2CustomerRequest request) {
-        Customer byId = customerService.findById(request.getOpenId());
-        Assert.isTrue(StringUtils.isEmpty(byId.getNickName()) && StringUtils.isEmpty(byId.getHeadCover()), "用户微信信息已同步，无需更新");
+        Customer byId = customerService.findByOpenId(request.getOpenId());
+        Assert.isTrue(StringUtils.isEmpty(byId.getNickName()) && StringUtils.isEmpty(byId.getHeadCover()), "信息已同步，无需更新");
+        //TODO 更新手机号
+        //WechatPhoneResponse phoneResponse = wechatService.gainPhone(request);
 
         Customer customer = new Customer();
         customer.setOpenId(request.getOpenId());
         customer.setNickName(request.getNickName());
         customer.setHeadCover(request.getAvatarUrl());
+        //customer.setPhone(phoneResponse.getPurPhoneNumber());
         customer.ofH5(request);
-        customerService.edit(customer);
-        return ResponseBase.success();
-    }
-
-    public ResponseBase completePhone(GainPhoneRequest request) {
-        Customer byId = customerService.findById(request.getOpenId());
-        Assert.isTrue(StringUtils.isEmpty(byId.getPhone()), "手机号已录入，无需更新");
-
-        WechatPhoneResponse phoneResponse = wechatService.gainPhone(request);
-        Customer customer = new Customer();
-        customer.setOpenId(request.getOpenId());
-        customer.setPhone(phoneResponse.getPhoneNumber());
-        customer.ofH5(request.getOpenId());
         customerService.edit(customer);
 
         return ResponseBase.success();

@@ -1,5 +1,9 @@
 package com.money.h5.entity.response;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
+
 public class WechatLoginResponse {
     private String openId;
     private String session_key;
@@ -8,7 +12,7 @@ public class WechatLoginResponse {
     private String errmsg;
 
     public boolean success() {
-        return errcode.equals(0);
+        return Objects.isNull(errcode) || errcode.equals(0);
     }
 
     public String getOpenId() {
