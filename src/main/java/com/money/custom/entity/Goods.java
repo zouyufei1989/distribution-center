@@ -10,6 +10,7 @@ import com.money.custom.entity.request.MoAGoods4SingleRequest;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.DateUtils;
 import com.money.framework.util.EnumUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
@@ -139,6 +140,13 @@ public class Goods extends BaseEntity {
 
         item.copyOperationInfo(request);
         return item;
+    }
+
+    public boolean getHasDetail(){
+        if(CollectionUtils.isEmpty(this.items)){
+            return false;
+        }
+        return StringUtils.isNotBlank(this.items.get(0).getDetail());
     }
 
     public Integer getAssignCnt() {

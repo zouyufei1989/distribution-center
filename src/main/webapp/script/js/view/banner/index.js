@@ -15,5 +15,4 @@ $(document).ready(function () {
             {name: 'createDate', header: '上传时间', formatter: yyyyMMddhhmmFormatter},
             {name: 'id', header: "id", hidden: true},
         ]);
-
 });
