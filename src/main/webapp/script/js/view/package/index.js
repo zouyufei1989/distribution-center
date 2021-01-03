@@ -5,9 +5,21 @@ $(document).ready(function () {
 
     initGridData("list/search", null,
         [
-            {name: 'name', header: '套餐名称',width:100},
-            {name: 'groupName', header: '所属门店',width:100},
-            {name: 'desc', header: '套餐描述',width:200},
+            {name: 'name', header: '套餐名称', width: 100},
+            {name: 'groupName', header: '所属门店', width: 100},
+            {name: 'desc', header: '套餐描述', width: 200},
+            {
+                name: 'items', header: '价格', formatter: function (val) {
+                    if (val && val.length > 0) {
+                        var sumPrice = val.map(i => i.price * i.cnt).reduce((i, j) => {
+                            return i + j
+                        });
+                        return moneyFormatter(sumPrice);
+                    }
+
+                    return 0;
+                }
+            },
             {name: 'cnt', header: '包含次数'},
             {name: 'goodsItemTypeCnt', header: '商品种类'},
             {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
