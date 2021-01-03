@@ -73,6 +73,7 @@
 
 	<select id="selectCustomerActivityList" parameterType="Map" resultType="CustomerActivity">
 		SELECT
+			dsai.id,
 			dsai.goods_id AS activityId,
 			dgs.name AS activityName,
 			dgs.serial_number AS activitySerialNumber,

@@ -7,8 +7,10 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "活动信息")
 public class H5Activity {
 
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "活动id")
     private Integer id;
+    @ApiModelProperty(value = "领取活动id")
+    private Integer assignId;
     @ApiModelProperty(value = "名称")
     private String activityName;
     @ApiModelProperty(value = "编号")
@@ -22,10 +24,15 @@ public class H5Activity {
 
     public H5Activity(CustomerActivity item) {
         id = item.getActivityId();
+        assignId = item.getId();
         activityName = item.getActivityName();
         serialNumber = item.getActivitySerialNumber();
         leftCnt = item.getAvailableCnt();
         coverImg = item.getCoverImg();
+    }
+
+    public Integer getAssignId() {
+        return assignId;
     }
 
     public String getCoverImg() {

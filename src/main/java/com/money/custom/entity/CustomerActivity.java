@@ -4,12 +4,20 @@ import com.money.framework.base.entity.BaseEntity;
 
 public class CustomerActivity extends BaseEntity {
 
-
+    private Integer id;
     private Integer activityId;
     private String activitySerialNumber;
     private String activityName;
     private String coverImg;
     private Integer availableCnt;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getCoverImg() {
         return coverImg;
