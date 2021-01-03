@@ -137,4 +137,11 @@
         margin-top: 25px !important;
     }
 
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height:auto;
+        vertical-align:text-top;
+        padding-top:2px;
+    }
+
 </style>
