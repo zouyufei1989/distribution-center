@@ -33,8 +33,10 @@
             data: data,
             datatype: "local",
             height: "100%",
+            // shrinkToFit: true,
+            shrinkToFit:false,
             autowidth: true,
-            shrinkToFit: true,
+            autoScroll: true,
             rowNum: rowNum || 20,
             rownumbers: true,
             multiselect: true,
@@ -140,8 +142,10 @@
             datatype: "json",
             mtype: "GET",
             height: "100%",
+            //shrinkToFit: true,
+            shrinkToFit:false,
+            autoScroll: true,
             autowidth: true,
-            shrinkToFit: true,
             rowNum: rows || 20,
             rownumbers: true,
             multiselect: true,
@@ -227,12 +231,12 @@
             height: 200, reloadAfterSubmit: true
         });
 
-        $("body").resize(function () {
-            var width = $(gridId).parents(".jqGrid_wrapper").width();
-            if (width) {
-                $(gridId).setGridWidth(width);
-            }
-        });
+        // $("body").resize(function () {
+        //     var width = $(gridId).parents(".jqGrid_wrapper").width();
+        //     if (width) {
+        //         $(gridId).setGridWidth(width);
+        //     }
+        // });
     }
 
     function hyperlinkeButtonFormatter(title, funcExpression, color) {
