@@ -5,6 +5,37 @@
 
 	<sql id="tableName">d_activity_claim_record</sql>
 
+	<select id="selectSearchList" parameterType="Map" resultType="ActivityClaimRecord">
+		SELECT
+			dc.name AS customerName,
+			dacr.create_date AS createDate,
+			dcg.serial_number AS customerSerialNumber
+		FROM <include refid="tableName"/> dacr
+		LEFT JOIN d_customer_group dcg ON dcg.id = dacr.claim_customer_group_id
+		LEFT JOIN d_customer dc ON dc.open_id = dacr.claim_open_id
+		WHERE
+			dacr.src_open_id = #{openId}
+			<if test="activityAssignId!=null and activityAssignId!=''">
+				AND dacr.activity_assign_id = #{activityAssignId}
+			</if>
+		ORDER BY dacr.id DESC
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/> dacr
+		WHERE
+			dacr.src_open_id = #{openId}
+			<if test="activityAssignId!=null and activityAssignId!=''">
+				AND dacr.activity_assign_id = #{activityAssignId}
+			</if>
+	</select>
+
+
 	<insert id="add" parameterType="ActivityClaimRecord" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO <include refid="tableName"/>
 		(

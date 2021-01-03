@@ -4,6 +4,7 @@ import com.money.custom.entity.AssignActivity;
 import com.money.custom.entity.CustomerActivity;
 import com.money.custom.entity.request.AssignActivityRequest;
 import com.money.custom.entity.request.QueryAssignActivityRequest;
+import com.money.custom.entity.request.QueryClaimActivityRequest;
 import com.money.framework.base.service.BaseService;
 import com.money.h5.entity.H5GridRequestBase;
 import com.money.h5.entity.H5RequestBase;

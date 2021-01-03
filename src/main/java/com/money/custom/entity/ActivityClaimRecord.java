@@ -14,6 +14,25 @@ public class ActivityClaimRecord extends BaseEntity {
     private Integer goodsId;
     private String goodsName;
 
+    private String customerName;
+    private String customerSerialNumber;
+
+    public String getCustomerSerialNumber() {
+        return customerSerialNumber;
+    }
+
+    public void setCustomerSerialNumber(String customerSerialNumber) {
+        this.customerSerialNumber = customerSerialNumber;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
     public Integer getId() {
         return id;
     }

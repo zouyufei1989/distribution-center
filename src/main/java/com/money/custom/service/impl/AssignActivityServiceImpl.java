@@ -45,7 +45,7 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
     @Autowired
     BonusWalletService bonusWalletService;
     @Autowired
-    ActivityClaimRecordDao claimRecordDao;
+    ActivityClaimRecordService claimRecordService;
     @Autowired
     UtilsService utilsService;
 
@@ -185,7 +185,7 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
         claimRecord.setSrcCustomerGroupId(activityAssign.getCustomerGroupId());
         claimRecord.setSrcOpenId(parent.getOpenId());
         claimRecord.ofH5(receiverOpenId);
-        claimRecordDao.add(claimRecord);
+        claimRecordService.add(claimRecord);
     }
 
     private void purchaseActivity(String receiverOpenId, Goods activity, String newCustomerGroupId) {
