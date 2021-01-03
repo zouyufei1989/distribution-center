@@ -1,5 +1,6 @@
 package com.money.custom.service.impl;
 
+import com.money.custom.dao.ActivityClaimRecordDao;
 import com.money.custom.dao.AssignActivityDao;
 import com.money.custom.dao.BannerDao;
 import com.money.custom.entity.*;
@@ -43,6 +44,8 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
     WalletService walletService;
     @Autowired
     BonusWalletService bonusWalletService;
+    @Autowired
+    ActivityClaimRecordDao claimRecordDao;
     @Autowired
     UtilsService utilsService;
 
@@ -106,9 +109,6 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
     @Transactional
     @Override
     public void claimActivity(Integer assignActivityId, String receiverOpenId) {
-        OperationalEntity operationalEntity = new OperationalEntity();
-        operationalEntity.ofH5(receiverOpenId);
-
         Assert.notNull(assignActivityId, "活动id不可为空");
         Assert.notNull(receiverOpenId, "openId不可以为空");
 
@@ -120,12 +120,13 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
         Assert.notNull(activityAssign, "未查询到活动");
         Assert.isTrue(activityAssign.getAvailableCnt() > 0, "活动剩余数量不足");
 
+        Customer parent = customerService.findById(activityAssign.getCustomerGroupId().toString());
+        Assert.notNull(parent, "未查询到活动所属股东");
+
         Goods activity = goodsService.findById(activityAssign.getGoodsId().toString());
         Assert.notNull(activity, "未查询到活动");
 
         Integer groupId = activityAssign.getGroupId();
-        Assert.notNull(groupId);
-
         String newCustomerGroupId = "";
         Optional<CustomerGroup> optionalCustomerGroup = newCustomerGroups.stream().filter(cg -> groupId.equals(cg.getGroupId())).findAny();
         if (optionalCustomerGroup.isPresent()) {
@@ -138,24 +139,56 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
             int claimCnt = orderService.selectSearchListCount(queryOrderRequest);
             Assert.isTrue(claimCnt < activity.getMaxCntPerCus(), "领取次数已达到上限");
 
-            newCustomerGroupId = optionalCustomerGroup.get().getCustomerId().toString();
+            newCustomerGroupId = optionalCustomerGroup.get().getId().toString();
         } else {
-            CustomerGroup newCustomerGroup = new CustomerGroup();
-            String walletId = walletService.add(Wallet.totalNew(operationalEntity));
-            String bonusWalletId = bonusWalletService.add(BonusWallet.totalNew(operationalEntity));
-            newCustomerGroup.setCustomerId(newCustomer.getId());
-            newCustomerGroup.setWalletId(Integer.parseInt(walletId));
-            newCustomerGroup.setBonusWalletId(Integer.parseInt(bonusWalletId));
-            newCustomerGroup.setGroupId(groupId);
-            newCustomerGroup.setTotalNew(CustomerTotalNewEnum.NEW.getValue());
-            newCustomerGroup.setType(CustomerTypeEnum.NORMAL.getValue());
-            newCustomerGroup.setSerialNumber(utilsService.generateSerialNumber(SerialNumberEnum.CS));
-            newCustomerGroup.setStatus(CommonStatusEnum.ENABLE.getValue());
-            newCustomerGroup.setParentId(activityAssign.getCustomerGroupId());
-            newCustomerGroup.ofH5(receiverOpenId);
-            newCustomerGroupId = customerGroupService.add(newCustomerGroup);
+            newCustomerGroupId = addCustomerGroup(receiverOpenId, newCustomer, parent, groupId);
         }
 
+        purchaseActivity(receiverOpenId, activity, newCustomerGroupId);
+        addClaimRecord(assignActivityId, receiverOpenId, activityAssign, parent, activity, newCustomerGroupId);
+
+        dao.claimActivity(assignActivityId);
+
+        activityAssign = dao.findAssignActivityItemById(assignActivityId.toString());
+        Assert.isTrue(activityAssign.getAvailableCnt() > -1, "活动剩余数量不足");
+    }
+
+    private String addCustomerGroup(String receiverOpenId, Customer newCustomer, Customer parent, Integer groupId) {
+        OperationalEntity operationalEntity = new OperationalEntity();
+        operationalEntity.ofH5(receiverOpenId);
+
+        String newCustomerGroupId;
+        CustomerGroup newCustomerGroup = new CustomerGroup();
+        String walletId = walletService.add(Wallet.totalNew(operationalEntity));
+        String bonusWalletId = bonusWalletService.add(BonusWallet.totalNew(operationalEntity));
+        newCustomerGroup.setCustomerId(newCustomer.getId());
+        newCustomerGroup.setWalletId(Integer.parseInt(walletId));
+        newCustomerGroup.setBonusWalletId(Integer.parseInt(bonusWalletId));
+        newCustomerGroup.setGroupId(groupId);
+        newCustomerGroup.setTotalNew(CustomerTotalNewEnum.NEW.getValue());
+        newCustomerGroup.setType(CustomerTypeEnum.NORMAL.getValue());
+        newCustomerGroup.setSerialNumber(utilsService.generateSerialNumber(SerialNumberEnum.CS));
+        newCustomerGroup.setStatus(CommonStatusEnum.ENABLE.getValue());
+        newCustomerGroup.setParentId(parent.getCustomerGroup().getId());
+        newCustomerGroup.ofH5(receiverOpenId);
+        newCustomerGroupId = customerGroupService.add(newCustomerGroup);
+        return newCustomerGroupId;
+    }
+
+    private void addClaimRecord(Integer assignActivityId, String receiverOpenId, AssignActivityItem activityAssign, Customer parent, Goods activity, String newCustomerGroupId) {
+        ActivityClaimRecord claimRecord = new ActivityClaimRecord();
+        claimRecord.setActivityAssignId(assignActivityId);
+        claimRecord.setClaimCustomerGroupId(Integer.parseInt(newCustomerGroupId));
+        claimRecord.setClaimOpenId(receiverOpenId);
+        claimRecord.setGoodsId(activityAssign.getGoodsId());
+        claimRecord.setGoodsName(activity.getName());
+        claimRecord.setSrcCustomerGroupId(activityAssign.getCustomerGroupId());
+        claimRecord.setSrcOpenId(parent.getOpenId());
+        claimRecord.ofH5(receiverOpenId);
+        claimRecordDao.add(claimRecord);
+    }
+
+    private void purchaseActivity(String receiverOpenId, Goods activity, String newCustomerGroupId) {
         PurchaseRequest.Goods claimActivity = new PurchaseRequest.Goods();
         claimActivity.setId(activity.getId());
         claimActivity.setCnt(1);
@@ -169,14 +202,6 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
         purchaseRequest.setGoodsChoosed(Lists.newArrayList(claimActivity));
         purchaseRequest.ofH5(receiverOpenId);
         customerService.purchase(purchaseRequest);
-
-        //TODO 记录领取记录
-        //ActivityClaimRecord claimRecord = new ActivityClaimRecord();
-        //claimRecord.setActivityAssignId(assignActivityId);
-
-        dao.claimActivity(assignActivityId);
-        activityAssign = dao.findAssignActivityItemById(assignActivityId.toString());
-        Assert.isTrue(activityAssign.getAvailableCnt() > -1, "活动剩余数量不足");
     }
 
 

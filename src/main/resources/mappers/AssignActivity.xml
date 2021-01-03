@@ -145,6 +145,8 @@
 			dg.group_id AS groupId
 		FROM d_assign_activity_item daai
 		LEFT JOIN d_goods dg ON dg.id = daai.goods_id
+		WHERE
+			daai.id = #{id}
 	</select>
 
 	<update id="claimActivity" parameterType="int" >
