@@ -78,7 +78,7 @@ public class Goods extends BaseEntity {
         item.goodsItemTypeCnt = 0;
         item.scope = ActivityScopeEnum.ALL.getValue();
         item.maxCntPerCus = Consts.MAX_CNT_PER_CUSTOMER;
-        item.sumPrice = 0;
+        item.sumPrice = request.getSumPrice();
 
         item.setStatus(request.getStatus());
         item.name = request.getName();

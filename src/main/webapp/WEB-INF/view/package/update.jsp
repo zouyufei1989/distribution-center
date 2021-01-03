@@ -22,6 +22,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>套餐价格：</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" value="" id="sumPrice" min="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-3 control-label"> <span style="color: red;">*</span>使用次数：</label>
                                     <div class="col-sm-7">
                                         <input type="text" value="" id="cnt" min="0">

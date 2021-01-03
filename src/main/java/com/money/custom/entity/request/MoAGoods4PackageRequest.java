@@ -17,6 +17,16 @@ public class MoAGoods4PackageRequest extends OperationalEntity {
     private Integer status;
     @NotNull(message = "请输入次数")
     private Integer cnt;
+    @NotNull(message = "请输入套餐价格")
+    private Integer sumPrice;
+
+    public Integer getSumPrice() {
+        return sumPrice;
+    }
+
+    public void setSumPrice(Integer sumPrice) {
+        this.sumPrice = sumPrice;
+    }
 
     public Integer getCnt() {
         return cnt;
