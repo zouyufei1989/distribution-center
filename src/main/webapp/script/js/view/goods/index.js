@@ -11,9 +11,9 @@ $(document).ready(function () {
         [
             {name: 'name', header: '商品名称'},
             {name: 'groupName', header: '所属门店'},
-            {name: 'desc4SingleShow', header: '商品描述'},
-            {name: 'profitRate4SingleShow', header: '毛利率'},
-            {name: 'price4SingleShow', header: '单价(元)'},
+            {name: 'desc4SingleShow', header: '商品描述',width:200},
+            {name: 'profitRate4SingleShow', header: '毛利率',width:100},
+            {name: 'price4SingleShow', header: '单价(元)',width:100},
             {name: 'unit4SingleShow', header: '单位'},
             {name: 'goodsTagName4SingleShow', header: '标签'},
             {
@@ -21,7 +21,7 @@ $(document).ready(function () {
                     return hyperlinkeButtonFormatter("查看", "showDetail(" + obj.id + ")");
                 }
             },
-            {name: 'createDate', header: '创建时间', formatter: dateFormatter},
+            {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
             {name: 'statusName', header: '状态'},
             {
                 name: 'detail', header: "detail", formatter: function (val, opt, obj) {

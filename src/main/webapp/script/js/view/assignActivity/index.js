@@ -26,10 +26,10 @@ $(document).ready(function () {
         [
             {name: 'createDate', header: '赠送时间',formatter:yyyyMMddhhmmssFormatter},
             {name: 'creator', header: '操作者'},
-            {name: 'goodsName', header: '活动名称'},
-            {name: 'containGoodsCnt', header: '内涵商品数'},
-            {name: 'sumPrice4Show', header: '价值'},
-            {name: 'assignCustomerCnt', header: '赠送股东数'},
+            {name: 'goodsName', header: '活动名称',width:120},
+            {name: 'containGoodsCnt', header: '内涵商品数',width:120},
+            {name: 'sumPrice4Show', header: '价值',width:120},
+            {name: 'assignCustomerCnt', header: '赠送股东数',width:120},
             {name: 'id', header: "id", hidden: true},
         ]);
 });

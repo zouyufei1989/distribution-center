@@ -9,7 +9,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <div class="wrapper animated fadeInRight"  style="height:300px">
+                <div class="wrapper animated fadeInRight" style="height:300px">
                     <div id="preview" style="height: 300px; background-size: 100%; background-repeat: no-repeat;"></div>
                 </div>
             </div>
@@ -24,6 +24,35 @@
 
     var gridLoadComplete = null;
 
+    function defaultColWidth(item) {
+        if (item.width) {
+            return item.width;
+        }
+
+        if (item.header === "客户姓名") {
+            return 70;
+        } else if (item.header === "客户编号" || item.header==="积分方案编号") {
+            return 130;
+        } else if (item.header === "客户类型") {
+            return 70;
+        } else if (item.header === "手机号码" || item.header === "联系电话") {
+            return 110;
+        } else if (item.header === "所属门店") {
+            return 100;
+        } else if (item.header === "状态") {
+            return 50;
+        } else if (item.formatter != undefined && item.formatter && item.formatter.name === 'yyyyMMddhhmmFormatter') {
+            return 140;
+        } else if (item.formatter != undefined && item.formatter && item.formatter.name === 'yyyyMMddhhmmssFormatter') {
+            return 170;
+        } else if (item.header.length > 4) {
+            return 16 * item.header.length;
+        }
+
+        return 70;
+    }
+
+
     function initGridLocalData(data, columns, gridId, pagerId, cannotExpand, rowNum) {
         gridId = "#" + (gridId || "table_list");
         pagerId = "#" + (pagerId || "pager_list");
@@ -33,8 +62,7 @@
             data: data,
             datatype: "local",
             height: "100%",
-            // shrinkToFit: true,
-            shrinkToFit:false,
+            shrinkToFit: true,
             autowidth: true,
             autoScroll: true,
             rowNum: rowNum || 20,
@@ -51,7 +79,7 @@
                     formatter: item.formatter || function (val) {
                         return val || '';
                     },
-                    width: item.width || 100,
+                    width: defaultColWidth(item),
                     hidden: item.hidden || false
                 }
             }),
@@ -114,19 +142,18 @@
                 $(gridId).setGridWidth(width);
             }
         });
-
     }
 
     function appendHistoryColumn(columns) {
-        if (LOGIN_USER === 'root') {
-            columns = columns.concat(
-                {
-                    name: 'historyType', header: '历史', formatter: function (val, opt, obj) {
-                        return historyFormatter(obj.id, val);
-                    }
-                }
-            );
-        }
+        // if (LOGIN_USER === 'root') {
+        //     columns = columns.concat(
+        //         {
+        //             name: 'historyType', header: '历史', formatter: function (val, opt, obj) {
+        //                 return historyFormatter(obj.id, val);
+        //             }
+        //         }
+        //     );
+        // }
         return columns;
     }
 
@@ -142,8 +169,7 @@
             datatype: "json",
             mtype: "GET",
             height: "100%",
-            //shrinkToFit: true,
-            shrinkToFit:false,
+            shrinkToFit: columns.length < 6,
             autoScroll: true,
             autowidth: true,
             rowNum: rows || 20,
@@ -160,7 +186,7 @@
             },
             onSelectRow: function (row_id, status) {
                 var rowSelect = $("#" + this.id).jqGrid("getRowData", row_id);
-                console.log(row_id+":"+status);
+                console.log(row_id + ":" + status);
                 if (status) {
                     //选中
                     _ROWS_CHOOSED.push(rowSelect);
@@ -192,7 +218,7 @@
                         }
                         return val;
                     },
-                    width: item.width || 100,
+                    width: defaultColWidth(item),
                     hidden: item.hidden || false,
                     key: item.key || false
                 }
@@ -216,7 +242,7 @@
                     gridLoadComplete(XMLHttpRequest);
                 }
                 $('img').click(function (e) {
-                    $('#preview').css('background-image',"url("+$(e.target).attr('src')+")");
+                    $('#preview').css('background-image', "url(" + $(e.target).attr('src') + ")");
                     $('#gridImgPreview').modal('show');
                 });
             },
@@ -231,12 +257,12 @@
             height: 200, reloadAfterSubmit: true
         });
 
-        // $("body").resize(function () {
-        //     var width = $(gridId).parents(".jqGrid_wrapper").width();
-        //     if (width) {
-        //         $(gridId).setGridWidth(width);
-        //     }
-        // });
+        $("body").resize(function () {
+            var width = $(gridId).parents(".jqGrid_wrapper").width();
+            if (width) {
+                $(gridId).setGridWidth(width);
+            }
+        });
     }
 
     function hyperlinkeButtonFormatter(title, funcExpression, color) {

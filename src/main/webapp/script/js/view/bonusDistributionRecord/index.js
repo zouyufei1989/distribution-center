@@ -12,7 +12,7 @@ $(document).ready(function () {
             {name: 'bonusChange', header: '本次发放积分',formatter:moneyFormatter},
             {name: 'aftPendingBonus', header: '剩余积分',formatter:moneyFormatter},
             {name: 'groupName', header: '所属门店'},
-            {name: 'createDate', header: '发放时间', formatter: dateFormatter},
+            {name: 'createDate', header: '发放时间', formatter: yyyyMMddhhmmFormatter},
             {name: 'creator', header: '操作人'},
             {name: 'id', header: "id", hidden: true},
         ]);

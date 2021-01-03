@@ -148,13 +148,6 @@
         return fmt;
     }
 
-    function dateFormatter(val) {
-        if (!val) {
-            return '';
-        }
-        return new Date(val).Format("yyyy-MM-dd hh:mm");
-    }
-
     function priceFormatter(val) {
         return (val || 0) / 100;
     }

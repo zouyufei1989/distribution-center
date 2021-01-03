@@ -8,11 +8,11 @@ $(document).ready(function () {
     initGridData("list/search", null,
         [
             {name: 'name', header: '门店名称'},
-            {name: 'cityName', header: '所在城市',width: 70},
+            {name: 'cityName', header: '所在城市'},
             {
                 name: 'address', header: '详细地址', formatter: function (val, opt, obj) {
                     return hyperlinkeButtonFormatter(val, "showGroupOnMap(" + obj.lng + "," + obj.lat + ")");
-                }
+                }, width: 120
             },
             {name: 'ownerName', header: '负责人'},
             {name: 'ownerPhone', header: '店铺电话'},
@@ -21,9 +21,9 @@ $(document).ready(function () {
             {name: 'detailCoverImg', header: '详情封面图', formatter: imgPreViewFormatter},
             {name: 'detailImg', header: '详情图片', formatter: imgPreViewFormatter},
             {name: 'openRules4Show', header: '营业时间', width: 120},
-            {name: 'index', header: '门店排序',width: 70},
-            {name: 'statusName', header: '状态',width: 50},
-            {name: 'createDate', header: '创建日期', formatter: dateFormatter, width: 140},
+            {name: 'index', header: '门店排序'},
+            {name: 'statusName', header: '状态'},
+            {name: 'createDate', header: '创建日期', formatter: yyyyMMddhhmmFormatter},
             {name: 'id', header: "id", hidden: true},
         ]);
 

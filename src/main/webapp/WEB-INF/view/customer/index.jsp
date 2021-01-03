@@ -61,23 +61,22 @@
 
 <div id="page-wrapper" class="gray-bg">
     <%@ include file="../template_header.jsp" %>
-
+    <%@ include file="../vue_template/status_combo.jsp" %>
+    <%@ include file="../vue_template/month_picker_template.jsp" %>
+    <%@ include file="../vue_template/group_combo.jsp" %>
+    <%@ include file="../vue_template/customer_type_combo.jsp" %>
+    <%@ include file="../vue_template/package_combo.jsp" %>
+    <%@ include file="../vue_template/order_combo.jsp" %>
+    <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
+    <%@ include file="../template_search_export_btn.jsp" %>
+    <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <form role="form" class="form-inline" style="padding: 0px">
-                            <%@ include file="../template_btnGroup.jsp" %>
-                            <%@ include file="../vue_template/status_combo.jsp" %>
-                            <%@ include file="../vue_template/month_picker_template.jsp" %>
-                            <%@ include file="../vue_template/group_combo.jsp" %>
-                            <%@ include file="../vue_template/customer_type_combo.jsp" %>
-                            <%@ include file="../vue_template/package_combo.jsp" %>
-                            <%@ include file="../vue_template/order_combo.jsp" %>
-                            <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
-                            <%@ include file="../template_search_export_btn.jsp" %>
-                            <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
+                        <%@ include file="../template_btnGroup.jsp" %>
+                        <form role="form" id="paramForm" class="form-inline" style="padding: 0px">
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>客户姓名:</label> <input type="text" id="customer.name" search-param class="form-control">
@@ -85,6 +84,8 @@
                                 <div class="form-group">
                                     <label>客户编号:</label> <input type="text" id="customer.customerGroup.serialNumber" search-param class="form-control">
                                 </div>
+                            </div>
+                            <div class="param_row">
                                 <div class="form-group">
                                     <label>客户类型:</label>
                                     <customer-type-combo id="customer.customerGroup.type" search-param must_choose_one="false"></customer-type-combo>

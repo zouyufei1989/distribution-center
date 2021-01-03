@@ -5,12 +5,12 @@ $(document).ready(function () {
 
     initGridData("list/search", null,
         [
-            {name: 'name', header: '套餐名称'},
-            {name: 'groupName', header: '所属门店'},
-            {name: 'desc', header: '套餐描述'},
+            {name: 'name', header: '套餐名称',width:100},
+            {name: 'groupName', header: '所属门店',width:100},
+            {name: 'desc', header: '套餐描述',width:200},
             {name: 'cnt', header: '包含次数'},
             {name: 'goodsItemTypeCnt', header: '商品种类'},
-            {name: 'createDate', header: '创建时间', formatter: dateFormatter},
+            {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
             {name: 'statusName', header: '状态'},
             {name: 'id', header: "id", hidden: true},
         ]);
@@ -43,7 +43,7 @@ function subGridRowExpanded(subgrid_id, row_id, rowExpanded) {
                     {name: 'price4Show', header: '单价(元)'},
                     {name: 'unit', header: '单位'},
                     {name: 'goodsTagName', header: '标签'},
-                    {name: 'createDate', header: '创建时间', formatter: dateFormatter},
+                    {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
                     {name: 'id', header: "id", hidden: true},
                 ], subgrid_table_id, subgrid_pager_id);
             console.log(result.data.items.length)
