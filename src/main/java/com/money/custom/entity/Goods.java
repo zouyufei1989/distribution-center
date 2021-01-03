@@ -36,6 +36,7 @@ public class Goods extends BaseEntity {
     private Integer expireMonthCnt;
 
     private Integer assignCnt;
+    private Integer broughtCnt;
 
     public Goods() {}
 
@@ -147,6 +148,14 @@ public class Goods extends BaseEntity {
             return false;
         }
         return StringUtils.isNotBlank(this.items.get(0).getDetail());
+    }
+
+    public Integer getBroughtCnt() {
+        return broughtCnt;
+    }
+
+    public void setBroughtCnt(Integer broughtCnt) {
+        this.broughtCnt = broughtCnt;
     }
 
     public Integer getAssignCnt() {

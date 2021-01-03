@@ -23,12 +23,16 @@
 			dgs.serial_number AS serialNumber,
 			dgs.cover_img AS coverImg,
 			dgs.create_date AS createDate,
-			assignInfo.assignCnt
+			assignInfo.assignCnt,
+			broughtOrder.broughtCnt
 		FROM <include refid="tableName"/> dgs
 		LEFT JOIN d_group dg ON dg.id = dgs.group_id
 		LEFT JOIN (
 			SELECT goods_id,SUM(sum_cnt) AS assignCnt FROM d_assign_activity_item GROUP BY goods_id
 		) assignInfo ON assignInfo.goods_id = dgs.id
+		LEFT JOIN (
+			SELECT goods_id, SUM(order_cnt) AS broughtCnt FROM d_order WHERE status IN (2,3) GROUP BY goods_id
+		) broughtOrder ON broughtOrder.goods_id = dgs.id
 		WHERE
 			dgs.status != -2
 			<if test="goods.type!=null">

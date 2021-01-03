@@ -5,12 +5,13 @@ $(document).ready(function () {
 
     initGridData("list/search", null,
         [
-            {name: 'name', header: '套餐名称', width: 100},
-            {name: 'groupName', header: '所属门店', width: 100},
-            {name: 'desc', header: '套餐描述', width: 200},
+            {name: 'name', header: '项目名称', width: 100},
+            {name: 'serialNumber', header: '项目编号', width: 100},
+            {name: 'desc', header: '项目简介', width: 200},
+            {name: 'cnt', header: '内含次数'},
+            {name: 'goodsItemTypeCnt', header: '包含商品'},
             {name: 'sumPrice', header: '价格(元)', formatter:moneyFormatter},
-            {name: 'cnt', header: '包含次数'},
-            {name: 'goodsItemTypeCnt', header: '商品种类'},
+            {name: 'broughtCnt', header: '已够数量'},
             {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
             {name: 'statusName', header: '状态'},
             {name: 'id', header: "id", hidden: true},

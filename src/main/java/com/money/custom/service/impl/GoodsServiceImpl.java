@@ -171,6 +171,11 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
         });
         goodsItemDao.addBatch(goodsItems);
 
+        Goods goods = new Goods();
+        goods.setId(packageGoods.getId());
+        goods.copyOperationInfo(request);
+        dao.edit(goods);
+
         return request.getGoodsId().toString();
     }
 
