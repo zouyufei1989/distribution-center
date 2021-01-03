@@ -8,7 +8,7 @@ $(document).ready(function () {
     initGridData("list/search", null,
         [
             {name: 'name', header: '门店名称'},
-            {name: 'cityName', header: '所在城市'},
+            {name: 'cityName', header: '所在城市',width: 70},
             {
                 name: 'address', header: '详细地址', formatter: function (val, opt, obj) {
                     return hyperlinkeButtonFormatter(val, "showGroupOnMap(" + obj.lng + "," + obj.lat + ")");
@@ -20,10 +20,10 @@ $(document).ready(function () {
             {name: 'thumbnail', header: '缩略图', formatter: imgPreViewFormatter},
             {name: 'detailCoverImg', header: '详情封面图', formatter: imgPreViewFormatter},
             {name: 'detailImg', header: '详情图片', formatter: imgPreViewFormatter},
-            {name: 'openRules4Show', header: '营业时间'},
-            {name: 'index', header: '门店排序'},
-            {name: 'statusName', header: '状态'},
-            {name: 'createDate', header: '创建日期', formatter: dateFormatter},
+            {name: 'openRules4Show', header: '营业时间', width: 120},
+            {name: 'index', header: '门店排序',width: 70},
+            {name: 'statusName', header: '状态',width: 50},
+            {name: 'createDate', header: '创建日期', formatter: dateFormatter, width: 140},
             {name: 'id', header: "id", hidden: true},
         ]);
 
@@ -38,8 +38,8 @@ $(document).ready(function () {
 });
 
 function showGroupOnMap(lng, lat) {
-    if(!lng || !lat){
-        Alert('','暂无门店经纬度信息','');
+    if (!lng || !lat) {
+        Alert('', '暂无门店经纬度信息', '');
         return;
     }
     group4Show = {lng: lng, lat: lat};
