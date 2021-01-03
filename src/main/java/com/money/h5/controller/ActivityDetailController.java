@@ -1,13 +1,11 @@
 package com.money.h5.controller;
 
-import com.money.custom.entity.request.QueryBonusWalletDetailRequest;
 import com.money.custom.entity.request.QueryClaimActivityRequest;
 import com.money.custom.service.ActivityClaimRecordService;
 import com.money.custom.service.GoodsService;
 import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.response.QueryActivityClaimRecordResponse;
 import com.money.h5.entity.response.QueryActivityDetailResponse;
-import com.money.h5.entity.response.QueryBonusDetailResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

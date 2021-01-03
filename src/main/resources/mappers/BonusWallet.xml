@@ -28,6 +28,9 @@
 			<if test="name!=null and name!=''">
 				AND dc.name LIKE CONCAT('%',#{name},'%')
 			</if>
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{openId}
+			</if>
 			<if test="serialNumber!=null and serialNumber!=''">
 				AND dcg.serial_number LIKE CONCAT('%',#{serialNumber},'%')
 			</if>
@@ -54,6 +57,9 @@
 			1=1
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{openId}
 			</if>
 			<if test="name!=null and name!=''">
 				AND dc.name LIKE CONCAT('%',#{name},'%')

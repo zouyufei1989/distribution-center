@@ -12,17 +12,18 @@ import java.util.stream.Collectors;
 @ApiModel
 public class QueryBonusDetailResponse extends GridResponseBase {
 
-    @ApiModelProperty(value = "列表")
-    private List<H5BonusDetail> details;
+    @ApiModelProperty(value = "可提现金额")
+    private Integer pending;
 
     public QueryBonusDetailResponse() {}
 
-    public QueryBonusDetailResponse(Integer total, Integer records, List<BonusWalletDetail> items) {
+    public QueryBonusDetailResponse(Integer total, Integer records, List<BonusWalletDetail> items, Integer pending) {
         super(total, records, items.stream().map(H5BonusDetail::new).collect(Collectors.toList()));
-
+        this.pending = pending;
     }
 
-    public List<H5BonusDetail> getDetails() {
-        return details;
+    public Integer getPending() {
+        return pending;
     }
+
 }

@@ -34,7 +34,7 @@ public class BonusRecordController {
         queryOrderConsumptionRequest.setAddBonus(1);
         queryOrderConsumptionRequest.copyPagerFromH5Request(request);
         int recordCount = this.bonusWalletService.selectSearchListCount(queryOrderConsumptionRequest);
-        return new QueryBonusDetailResponse(recordCount, request.calTotalPage(recordCount), this.bonusWalletService.selectSearchList(queryOrderConsumptionRequest));
+        return new QueryBonusDetailResponse(recordCount, request.calTotalPage(recordCount), this.bonusWalletService.selectSearchList(queryOrderConsumptionRequest), 0);
     }
 
 }

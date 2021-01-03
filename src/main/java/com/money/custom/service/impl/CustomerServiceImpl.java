@@ -89,7 +89,17 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 
     @Override
     public Customer findByOpenId(String openId) {
-        return dao.findById(openId);
+        Customer customer = dao.findById(openId);
+
+        QueryBonusWalletRequest request = new QueryBonusWalletRequest();
+        request.setOpenId(customer.getOpenId());
+        List<BonusWallet> bonusWallets = bonusWalletService.selectSearchList(request);
+        if (CollectionUtils.isNotEmpty(bonusWallets)) {
+            customer.setBonusWallet(bonusWallets.get(0));
+            Assert.isTrue(bonusWallets.size() <= 1, "暂不支持注册多个门店");
+        }
+
+        return customer;
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER)

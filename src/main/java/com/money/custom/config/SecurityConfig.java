@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         SKIP_URL.add("/activityDetail/**");
         SKIP_URL.add("/orderProcess/**");
         SKIP_URL.add("/bonusRecord/**");
+        SKIP_URL.add("/withdraw/**");
         SKIP_URL.add("/wechat/**");
     }
 
