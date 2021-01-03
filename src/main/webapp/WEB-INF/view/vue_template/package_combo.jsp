@@ -15,7 +15,8 @@
                 $.ajax({
                     url: '${ctx}/package/list/search',
                     data: {
-                        customerGroupId: _this.customer_group_id
+                        customerGroupId: _this.customer_group_id,
+                        'goods.status' : 1
                     },
                     type: 'post',
                     async: false,
