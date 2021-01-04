@@ -44,7 +44,8 @@ public class H5Service extends BaseServiceImpl {
             addCustomer4WechatRequest.setOpenId(openId);
             customerService.addFromWechat(addCustomer4WechatRequest);
         } else {
-            if (StringUtils.isEmpty(customer.getPhone()) || StringUtils.isEmpty(customer.getHeadCover()) && StringUtils.isEmpty(customer.getNickName())) {
+            //if (StringUtils.isEmpty(customer.getPhone()) || StringUtils.isEmpty(customer.getHeadCover()) && StringUtils.isEmpty(customer.getNickName())) {
+            if (StringUtils.isEmpty(customer.getHeadCover()) && StringUtils.isEmpty(customer.getNickName())) {
                 ResponseBase error = ResponseBase.error(ResponseCodeEnum.ASK_4_USER_INFO);
                 error.setData(openId);
                 return error;

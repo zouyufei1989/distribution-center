@@ -2,6 +2,7 @@ package com.money.custom.entity;
 
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.request.MoACustomerRequest;
+import com.money.custom.utils.StringFormatUtils;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.h5.entity.request.AddCustomer4WechatRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -79,7 +80,7 @@ public class Customer extends BaseEntity {
 
     public String getSumMoney4Show() {
         if (Objects.nonNull(wallet) && Objects.nonNull(wallet.getSumMoney())) {
-            return String.format("%.2f", this.wallet.getSumMoney() / 100.0);
+            return StringFormatUtils.moneyFen2Yuan(this.wallet.getSumMoney());
         }
         return StringUtils.EMPTY;
     }

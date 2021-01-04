@@ -28,7 +28,7 @@ $(document).ready(function () {
                 });
                 var sumPrice = (this.shareHolders.filter(i => i.checked).map(i => i.cnt).reduce((i, j) => {
                     return Number.parseInt(i) + Number.parseInt(j)
-                }) * Number.parseInt(this.activity.sumPrice) / 100).toFixed(2);
+                }) * moneyFormatter(this.activity.sumPrice));
                 return "您正在对活动“" + this.activity.name + "”发起赠送，当前已选择赠送目标 " + checkedItems.length + " 人，数量总计 " + sumCnt + "。"
             }
         },

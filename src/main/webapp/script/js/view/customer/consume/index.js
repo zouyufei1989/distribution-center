@@ -31,7 +31,7 @@ $(document).ready(function () {
             sumPrice() {
                 var sum = 0;
                 if (this.goodsChoosed.length > 0) {
-                    sum = this.goodsChoosed.map(i => (i.price * i.cnt / 100).toFixed(2)).reduce((i, j) => Number.parseFloat(i) + Number.parseFloat(j));
+                    sum = this.goodsChoosed.map(i => moneyFormatter(i.price * i.cnt )).reduce((i, j) => Number.parseFloat(i) + Number.parseFloat(j));
                 }
                 this.purchaseInfo.actuallyMoney = sum;
                 return sum;
@@ -67,6 +67,7 @@ $(document).ready(function () {
                     payOffline: 0,
                 };
                 reloadGoodsTree();
+                customerVue.refreshCustomerInfo();
                 this.$nextTick(function () {
                     $('.select2_demo_3').select2().trigger('change');
                 })

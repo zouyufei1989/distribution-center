@@ -2,3 +2,7 @@
     maishenmani@sina.cn qq450134117
     AppID(小程序ID)	wx3604a287decbedbc
     AppSecret(小程序密钥) 2c3e5a51b5b5f365646a563945e9715a
+
+
+阿里云
+    华惟美健康管理 密码：hwmjk2021

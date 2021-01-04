@@ -7,6 +7,7 @@ import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.request.MoAGoods4ActivityRequest;
 import com.money.custom.entity.request.MoAGoods4PackageRequest;
 import com.money.custom.entity.request.MoAGoods4SingleRequest;
+import com.money.custom.utils.StringFormatUtils;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.DateUtils;
 import com.money.framework.util.EnumUtils;
@@ -264,10 +265,7 @@ public class Goods extends BaseEntity {
     }
 
     public String getSumPrice4Show() {
-        if (Objects.isNull(sumPrice)) {
-            return org.apache.commons.lang3.StringUtils.EMPTY;
-        }
-        return String.format("%.2f", this.sumPrice / 100.0);
+        return StringFormatUtils.moneyFen2Yuan(sumPrice);
     }
 
     public String getGoodsTagName4SingleShow() {

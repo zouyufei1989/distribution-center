@@ -2,6 +2,7 @@ package com.money.h5.entity.dto;
 
 import com.money.custom.entity.BonusWalletDetail;
 import com.money.custom.entity.enums.BonusChangeTypeEnum;
+import com.money.custom.utils.StringFormatUtils;
 import com.money.framework.util.DateUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,7 +30,7 @@ public class H5BonusDetail {
         if (detail.getChangeType().equals(BonusChangeTypeEnum.BONUSBACK.getValue())) {
             bonusRate = "首次消费返积分";
         } else if(Objects.nonNull(detail.getBonusRate())){
-            bonusRate = String.format("%.2f", detail.getBonusRate() / 100.0) + "%";
+            bonusRate = StringFormatUtils.percent(detail.getBonusRate());
         }
 
     }

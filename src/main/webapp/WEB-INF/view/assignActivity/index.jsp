@@ -32,7 +32,7 @@
                                 赠送股东总数<br> <span v-cloak> {{data.assignCustomerSum}} 人</span>
                             </div>
                             <div class="col-sm-4 text-center border-left">
-                                赠送总价值<br> <span v-cloak>{{ (data.totalPrice/100).toFixed(2)}} 元</span>
+                                赠送总价值<br> <span v-cloak>{{ moneyFormatter(data.totalPrice)}} 元</span>
                             </div>
                         </div>
                     </div>

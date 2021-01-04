@@ -75,8 +75,8 @@
                             <form id="" class="form-horizontal ">
                                 <div class="form-group" v-for="item in orderItems">
                                     <label class="col-sm-3 control-label">{{item.goodsTagName}}</label>
-                                    <label class="col-sm-3 control-label">{{item.goodsName}}({{(item.goodsPrice/100).toFixed(2)}}/{{item.goodsUnit}}) * {{item.cnt}}</label>
-                                    <label class="col-sm-3 control-label">¥ {{(item.goodsPrice*item.cnt/100).toFixed(2)}}</label>
+                                    <label class="col-sm-3 control-label">{{item.goodsName}}({{moneyFormatter(item.goodsPrice)}}/{{item.goodsUnit}}) * {{item.cnt}}</label>
+                                    <label class="col-sm-3 control-label">¥ {{moneyFormatter(item.goodsPrice*item.cnt)}}</label>
                                 </div>
                             </form>
                         </div>

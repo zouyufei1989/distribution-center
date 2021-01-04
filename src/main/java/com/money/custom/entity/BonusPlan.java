@@ -2,6 +2,7 @@ package com.money.custom.entity;
 
 
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.utils.StringFormatUtils;
 import com.money.framework.base.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,7 +38,7 @@ public class BonusPlan extends BaseEntity {
         if (Objects.isNull(this.bonusRate)) {
             return StringUtils.EMPTY;
         }
-        return String.format("%.2f", this.bonusRate / 100.0) + "%";
+        return StringFormatUtils.percent(this.bonusRate);
     }
 
     public Integer getUsedCount() {

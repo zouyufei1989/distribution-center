@@ -3,6 +3,7 @@ package com.money.custom.entity;
 
 import com.money.custom.entity.request.DeductionRequest;
 import com.money.custom.entity.request.RechargeRequest;
+import com.money.custom.utils.StringFormatUtils;
 import com.money.framework.base.entity.OperationalEntity;
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,11 +38,7 @@ public class Wallet extends OperationalEntity {
     }
 
     public String getAvailableMoney4Show() {
-        if (Objects.isNull(this.availableMoney)) {
-            return StringUtils.EMPTY;
-        }
-
-        return String.format("%.2f", this.availableMoney / 100.0);
+        return StringFormatUtils.moneyFen2Yuan(availableMoney);
     }
 
     public Integer getId() {

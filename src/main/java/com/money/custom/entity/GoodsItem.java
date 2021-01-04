@@ -3,6 +3,7 @@ package com.money.custom.entity;
 import com.money.custom.entity.enums.GoodsShowPriceEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.request.MoAGoods4SingleRequest;
+import com.money.custom.utils.StringFormatUtils;
 import com.money.framework.base.annotation.IgnoreXss;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.EnumUtils;
@@ -71,17 +72,11 @@ public class GoodsItem extends BaseEntity {
     private String goodsTagName;
 
     public String getProfitRate4Show() {
-        if (Objects.isNull(this.profitRate)) {
-            return StringUtils.EMPTY;
-        }
-        return String.format("%.2f", this.profitRate / 100.0) + "%";
+        return StringFormatUtils.percent(this.profitRate);
     }
 
     public String getPrice4Show() {
-        if (Objects.isNull(price)) {
-            return StringUtils.EMPTY;
-        }
-        return String.format("%.2f", this.price / 100.0);
+        return StringFormatUtils.moneyFen2Yuan(price);
     }
 
     public String getShowPriceName() {

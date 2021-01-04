@@ -2,6 +2,7 @@ package com.money.custom.entity;
 
 import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.request.AssignActivityRequest;
+import com.money.custom.utils.StringFormatUtils;
 import com.money.framework.base.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,10 +30,7 @@ public class AssignActivity extends BaseEntity {
     }
 
     public String getSumPrice4Show() {
-        if (Objects.isNull(this.sumPrice)) {
-            return StringUtils.EMPTY;
-        }
-        return String.format("%.2f", this.sumPrice / 100.0);
+        return StringFormatUtils.moneyFen2Yuan(this.sumPrice);
     }
 
     public Integer getId() {

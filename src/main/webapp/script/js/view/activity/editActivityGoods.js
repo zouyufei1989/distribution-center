@@ -48,7 +48,7 @@ function buildTips() {
     }).reduce((i, j) => {
         return i + j
     });
-    $('#priceTip').html("当前已选择" + cnt + "项内容，共价值" + (sumPrice / 100).toFixed(2) + "元");
+    $('#priceTip').html("当前已选择" + cnt + "项内容，共价值" + moneyFormatter(sumPrice) + "元");
 }
 
 function fillTreeWithGoods() {
