@@ -181,19 +181,14 @@
 			<if test="phone != null">
 				,phone = #{phone}
 			</if>
-			<if test="openId != null">
+			<if test="openId != null and openId!=''">
 				,open_id = #{openId}
 			</if>
 			<if test="headCover != null">
 				,`head_cover` = #{headCover}
 			</if>
 		WHERE
-			<if test="id!=null">
-				id = #{id}
-			</if>
-			<if test="openId!=null and openId!=''">
-				open_id = #{openId}
-			</if>
+			id = #{id}
 	</update>
 
 	<update id="changeStatus" parameterType="Map">
@@ -208,5 +203,11 @@
 				#{id}
 			</foreach>
  	</update>
+
+ 	<delete id="deleteByOpenId" parameterType="String">
+		DELETE FROM <include refid="tableName"/>
+		WHERE
+			open_id = #{id}
+	</delete>
 
 </mapper>

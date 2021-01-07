@@ -2,7 +2,7 @@ package com.money.h5.entity.dto;
 
 public class WechatPhoneResponse {
     private String phoneNumber;
-    private String purPhoneNumber;
+    private String purePhoneNumber;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -12,11 +12,12 @@ public class WechatPhoneResponse {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPurPhoneNumber() {
-        return purPhoneNumber;
+
+    public String getPurePhoneNumber() {
+        return purePhoneNumber;
     }
 
-    public void setPurPhoneNumber(String purPhoneNumber) {
-        this.purPhoneNumber = purPhoneNumber;
+    public void setPurePhoneNumber(String purePhoneNumber) {
+        this.purePhoneNumber = purePhoneNumber;
     }
 }

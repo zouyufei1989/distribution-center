@@ -13,8 +13,10 @@ public class TransWechatInfo2CustomerRequest extends H5RequestBase {
     @ApiModelProperty(value = "微信头像")
     private String avatarUrl;
 
+    @NotBlank(message = "需要获取手机号")
     @ApiModelProperty(value = "包括敏感数据在内的完整用户信息的加密数据")
     private String rawData;
+    @NotBlank(message = "需要获取手机号")
     @ApiModelProperty(value = "加密算法的初始向量")
     private String iv;
 

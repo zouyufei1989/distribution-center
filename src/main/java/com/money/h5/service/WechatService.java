@@ -34,7 +34,7 @@ public class WechatService extends BaseServiceImpl {
     }
 
     public WechatPhoneResponse gainPhone(TransWechatInfo2CustomerRequest request) {
-        String sessionKey = redisUtils.getObject(RedisKeyEnum.WECHAT_SESSION_KEY + request.getOpenId(), String.class);
+        String sessionKey = redisUtils.getObject(RedisKeyEnum.WECHAT_SESSION_KEY.getName() + request.getOpenId(), String.class);
         String srcData = WechatDecryptDataUtil.decryptData(request.getRawData(), sessionKey, request.getIv());
         getLogger().info("src phone data:" + srcData);
         return JSON.parseObject(srcData, WechatPhoneResponse.class);

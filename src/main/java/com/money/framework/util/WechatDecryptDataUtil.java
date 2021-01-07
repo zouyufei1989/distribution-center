@@ -3,6 +3,8 @@ package com.money.framework.util;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.encoders.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -11,16 +13,22 @@ import java.security.Key;
 import java.security.Security;
 
 public class WechatDecryptDataUtil {
+
+    final static Logger logger = LoggerFactory.getLogger(WechatDecryptDataUtil.class);
+
     public static void main(String[] args) {
         String result = decryptData(
-                "sDXrUftQyBSyY7M4Ro4Xvjl8amI2agPjUWkcJXTJx6qsqaeetGdE7bp7P7V95aU7TS6O6l9cSznKhw5dhvkjSE+2vH19SntKxvfNtWUJigVKgzB28ACPjROC/4tidR4mMjJO81HX9pMCjusMVdYy0YzlYvvtCgTUNIOHNByMSB5fJ+vXIMnw==",
-                "9y9P6RqKVZiWg==",
-                "Yi1SGcsMg=="
+                "4yHr8SgS/N8KQXiGMufwdI4CHxsKcJYv4FKmPX9JrbBI2giKaw489RnDMCqsH8PAQZzBF8x9rpS7Y7JuIUye4hd2cgXUtZrxz8C8sULKe+oyV//H+1LOyhEW1DkQ8Lmp9dXk3sNhmwn8duEolF+HA/Ahp8Z3ZAzKU40N6v93j6uNo6m4xP3/ANP+6CtBbCqQa1G+NrEAL8hctugwVb5HMw==",
+                "ithu4u6HFWLLgacFidO9Gg==",
+                "OsrmLBPHeBUwSN9JcSgSpg=="
         );
         System.out.println("result = " + result);
     }
 
     public static String decryptData(String encryptDataB64, String sessionKeyB64, String ivB64) {
+        logger.debug("encryptDataB64:" + encryptDataB64);
+        logger.debug("sessionKeyB64:" + sessionKeyB64);
+        logger.debug("ivB64:" + ivB64);
         return new String(
                 decryptOfDiyIV(
                         Base64.decode(encryptDataB64),

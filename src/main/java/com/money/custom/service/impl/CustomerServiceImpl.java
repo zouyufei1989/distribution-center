@@ -91,12 +91,14 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     public Customer findByOpenId(String openId) {
         Customer customer = dao.findById(openId);
 
-        QueryBonusWalletRequest request = new QueryBonusWalletRequest();
-        request.setOpenId(customer.getOpenId());
-        List<BonusWallet> bonusWallets = bonusWalletService.selectSearchList(request);
-        if (CollectionUtils.isNotEmpty(bonusWallets)) {
-            customer.setBonusWallet(bonusWallets.get(0));
-            Assert.isTrue(bonusWallets.size() <= 1, "暂不支持注册多个门店");
+        if(Objects.nonNull(customer)){
+            QueryBonusWalletRequest request = new QueryBonusWalletRequest();
+            request.setOpenId(customer.getOpenId());
+            List<BonusWallet> bonusWallets = bonusWalletService.selectSearchList(request);
+            if (CollectionUtils.isNotEmpty(bonusWallets)) {
+                customer.setBonusWallet(bonusWallets.get(0));
+                Assert.isTrue(bonusWallets.size() <= 1, "暂不支持注册多个门店");
+            }
         }
 
         return customer;
@@ -232,6 +234,12 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
                 orderConsumptionService.consume(consumeRequest);
             });
         });
+    }
+
+    @Override
+    public String deleteByOpenId(String openId) {
+        dao.deleteByOpenId(openId);
+        return openId;
     }
 
 }

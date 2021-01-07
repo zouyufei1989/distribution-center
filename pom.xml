@@ -159,14 +159,6 @@
                <artifactId>tomcat-embed-jasper</artifactId>
         </dependency>
 
-        <!--AES加密-->
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.48</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!--个推-->
         <dependency>
 			<groupId>com.gexin.platform</groupId>

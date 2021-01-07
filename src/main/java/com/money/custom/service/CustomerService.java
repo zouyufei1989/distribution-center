@@ -28,4 +28,6 @@ public interface CustomerService extends BaseService {
     String purchase(PurchaseRequest request);
 
     void purchaseThenConsumeAll(PurchaseConsumeRequest request);
+
+    String deleteByOpenId(String openId);
 }
