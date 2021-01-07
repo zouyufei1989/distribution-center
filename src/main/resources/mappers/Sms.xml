@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Sms">
+
+	<sql id="tableName">d_sms</sql>
+
+	<insert id="add" parameterType="Sms" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			phone,
+			type,
+			request,
+			response,
+			params,
+			status
+			create_date
+		)
+		VALUES
+		(
+			#{phone},
+			#{type},
+			#{request},
+			#{response},
+			#{params},
+			#{status},
+			NOW()
+		)
+	</insert>
+
+	<update id="updateSmsPushResult" parameterType="Sms">
+		UPDATE <include refid="tableName"/>
+		SET
+			status = #{status},
+			request = #{request},
+			response = #{response},
+			update_date = NOW()
+		WHERE id = #{id}
+	</update>
+
+	<select id="querySmsToSend" parameterType="Integer" resultType="Sms">
+		SELECT
+			id
+		FROM <include refid="tableName"/>
+		WHERE
+			status = 0
+		ORDER BY `level` ASC, id ASC
+		LIMIT #{countLimit}
+	</select>
+
+	<select id="querySmsDetail" resultType="Sms" parameterType="int">
+		SELECT
+			phone,
+			`type`,
+			status,
+			params
+		FROM <include refid="tableName"/>
+		WHERE
+			id = #{id}
+	</select>
+
+</mapper>

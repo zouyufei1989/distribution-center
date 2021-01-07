@@ -6,3 +6,36 @@
 
 阿里云
     华惟美健康管理 密码：hwmjk2021
+    AccessKeyId:        LTAI4GJ1kgWpTmXjUz8tYgV8
+    AccessKeySecret:    Z5soA9a7e0vC0NPseirNe5CuWWjKxf
+
+
+服务器登录：
+    business:  114.55.252.11    root / Werdf.3636t3
+    mysql: ssh root@172.28.127.57
+
+数据库账户:
+    root / Werdf.3636t3
+    disWeb / Werdf.3636t3
+
+redis:
+    路径：/usr/local/redis
+    启动:
+        cd /usr/local/redis
+        ./redis-server redis-6680.conf
+    登录:
+        redis -h localhost -p 6680
+        auth pandabus12344321
+
+rabbitmq:
+    http://114.55.252.11:15672
+    disWeb / Werdf.3636t3
+
+服务器自启动脚本： /opt/softwares/autostart.sh
+
+nginx:
+     安装路径：/usr/local/nginx/
+     日志路径：/var/log/nginx
+
+正式环境临时地址：
+    https://zlz-test.xyz/store_prod/swagger-ui.html

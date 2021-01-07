@@ -1,49 +1,27 @@
 package com.money.framework.util;
 
-import com.google.common.collect.Sets;
 import com.money.custom.entity.dto.FileUploaded;
 import com.money.framework.base.entity.TempFile;
 import com.money.framework.util.upyun.UpYunUtil;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.util.Date;
-import java.util.HashSet;
 
 @Component
 public class UploadUtils {
 
     public final static Logger logger = org.slf4j.LoggerFactory.getLogger(UploadUtils.class);
-
-    @Value("${server.upload.url}")
-    String serverIp;
-    @Value("${server.upload.port}")
-    String serverPort;
-    @Value("${server.servlet.context-path}")
-    String contextPath;
-
-    @Value("${upload.folder}")
-    String uploadFolder;
-
-    @Value("${download.file}")
-    String getFileUrl;
 
     @Autowired
     UpYunUtil upYunUtil;
@@ -75,26 +53,6 @@ public class UploadUtils {
         File picFile = new File(targetFolder.getPath() + "/" + System.currentTimeMillis() + "." + FilenameUtils.getExtension(file.getOriginalFilename()));
         file.transferTo(picFile);
         return picFile;
-    }
-
-    public TempFile getFileFromIp(String ip, String fileName) throws IllegalStateException, IOException {
-        File targetFolder = new File(System.getProperty("java.io.tmpdir"), "pathUpload");
-        if (!targetFolder.exists()) {
-            targetFolder.mkdirs();
-        }
-        File file = new File(targetFolder.getPath() + "/" + System.currentTimeMillis() + "." + FilenameUtils.getExtension(fileName));
-        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-            HttpGet httpget = new HttpGet(String.format("http://%s:%s/geely/utils/getFile.json?fileName=%s", ip, serverPort, fileName));
-            httpget.setConfig(RequestConfig.custom().setConnectTimeout(5000).build());
-            try (CloseableHttpResponse response = httpclient.execute(httpget)) {
-                org.apache.http.HttpEntity entity = response.getEntity();
-                try (InputStream is = entity.getContent(); //
-                     OutputStream os = new FileOutputStream(file)) {
-                    StreamUtils.copy(is, os);
-                }
-            }
-        }
-        return new TempFile(file);
     }
 
     private String generateFileName(MultipartFile file) {
