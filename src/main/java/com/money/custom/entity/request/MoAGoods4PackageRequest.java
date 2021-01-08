@@ -19,6 +19,16 @@ public class MoAGoods4PackageRequest extends OperationalEntity {
     private Integer cnt;
     @NotNull(message = "请输入套餐价格")
     private Integer sumPrice;
+    @NotNull(message = "请上传封面图片")
+    private String coverImg;
+
+    public String getCoverImg() {
+        return coverImg;
+    }
+
+    public void setCoverImg(String coverImg) {
+        this.coverImg = coverImg;
+    }
 
     public Integer getSumPrice() {
         return sumPrice;

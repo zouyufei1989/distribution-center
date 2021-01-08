@@ -30,6 +30,7 @@ public class Order extends BaseEntity {
     private Integer goodsCnt;
     private Integer goodsItemTypeCnt;
     private Integer goodsSumPrice;
+    private String goodsCoverImg;
 
     private String goodsSerialNumber;
     private Integer orderPrice;
@@ -101,6 +102,14 @@ public class Order extends BaseEntity {
             payTypes.add(PayTypeEnum.OFFLINE.getName());
         }
         return StringUtils.join(payTypes, ",");
+    }
+
+    public String getGoodsCoverImg() {
+        return goodsCoverImg;
+    }
+
+    public void setGoodsCoverImg(String goodsCoverImg) {
+        this.goodsCoverImg = goodsCoverImg;
     }
 
     public String getGoodsSerialNumber() {

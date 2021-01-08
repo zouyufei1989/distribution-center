@@ -46,6 +46,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>套餐封面:</label>
+                                    <div class="col-sm-2">
+                                        <div class="upload_box" id="coverImg" data-toggle="modal" data-target="#coverImgModal">+</div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <img id="coverImgUrl" src="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-7 text-center">
                                         <%@ include file="../template_save_update_btn.jsp" %>
                                     </div>
@@ -59,4 +68,4 @@
     </div>
 </div>
 
-<upload-img-modal id="thumbnailModal" title="商品展示图" img="thumbnailUrl"></upload-img-modal>
+<upload-img-modal id="coverImgModal" title="套餐封面" img="coverImgUrl"></upload-img-modal>

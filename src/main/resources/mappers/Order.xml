@@ -18,6 +18,7 @@
             <result column="expireDate" property="expireDate"/>
             <result column="goodsCombine" property="goodsCombine"/>
             <result column="goodsSerialNumber" property="goodsSerialNumber"/>
+            <result column="goodsCoverImg" property="goodsCoverImg"/>
 
             <result column="customerName" property="customerName"/>
             <result column="phone" property="phone"/>
@@ -75,7 +76,8 @@
 			doi.goods_price AS igoodsPrice,
 			doi.goods_unit AS igoodsUnit,
 			dcp.name AS parentName,
-			dgs.serial_number AS goodsSerialNumber
+			dgs.serial_number AS goodsSerialNumber,
+			dgs.cover_img AS goodsCoverImg
 		FROM <include refid="tableName"/> do
 		LEFT JOIN d_order_item doi ON doi.order_id = do.id
 		LEFT JOIN d_customer_group dcg ON do.customer_group_id = dcg.id

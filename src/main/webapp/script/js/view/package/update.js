@@ -3,6 +3,7 @@ var attrs = ['groupId', 'name','desc', 'status','cnt','sumPrice'];
 $(document).ready(function () {
     new Vue({el: '#status'});
     new Vue({el: '#groupId'});
+    new Vue({el: '#coverImgModal'});
 
     $("#cnt").TouchSpin({
         verticalbuttons: true,
@@ -32,10 +33,12 @@ $(document).ready(function () {
 
 function fillAdditionAttrs(result) {
     $('#sumPrice').val(result.data.sumPrice / 100);
+    $('#coverImgUrl').attr('src', result.data.coverImg);
 }
 
 function additionParam() {
     return {
-        sumPrice: Number.parseFloat($('#sumPrice').val()) * 100
+        sumPrice: Number.parseFloat($('#sumPrice').val()) * 100,
+        coverImg: $('#coverImgUrl').attr('src'),
     };
 }

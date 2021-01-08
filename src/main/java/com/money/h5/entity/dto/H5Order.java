@@ -19,6 +19,8 @@ public class H5Order {
     private Integer goodsType;
     @ApiModelProperty(value = "商品类型名")
     private String goodsTypeName;
+    @ApiModelProperty(value = "封面图")
+    private String coverImg;
 
     public H5Order() {}
 
@@ -28,11 +30,16 @@ public class H5Order {
         serialNumber = item.getSerialNumber();
         goodsType = item.getGoodsTypeId();
         goodsTypeName = item.getGoodsTypeName();
+        coverImg = item.getGoodsCoverImg();
         if (item.getGoodsTypeId().equals(GoodsTypeEnum.PACKAGE.getValue())) {
             leftCnt = item.getItems().get(0).getCnt() - item.getItems().get(0).getCntUsed();
         } else if (item.getGoodsTypeId().equals(GoodsTypeEnum.ACTIVITY.getValue())) {
             leftCnt = item.getItems().stream().mapToInt(i -> i.getCnt() - i.getCntUsed()).sum();
         }
+    }
+
+    public String getCoverImg() {
+        return coverImg;
     }
 
     public Integer getGoodsType() {

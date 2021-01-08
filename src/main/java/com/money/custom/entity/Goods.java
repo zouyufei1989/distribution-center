@@ -81,6 +81,7 @@ public class Goods extends BaseEntity {
         item.scope = ActivityScopeEnum.ALL.getValue();
         item.maxCntPerCus = Consts.MAX_CNT_PER_CUSTOMER;
         item.sumPrice = request.getSumPrice();
+        item.coverImg = request.getCoverImg();
 
         item.setStatus(request.getStatus());
         item.name = request.getName();
@@ -99,6 +100,7 @@ public class Goods extends BaseEntity {
         item.name = request.getName();
         item.desc = request.getDesc();
         item.cnt = request.getCnt();
+        item.coverImg = request.getCoverImg();
 
         item.copyOperationInfo(request);
         return item;
