@@ -6,6 +6,7 @@ import com.money.custom.service.CustomerService;
 import com.money.h5.entity.H5GridRequestBase;
 import com.money.h5.entity.H5RequestBase;
 import com.money.h5.entity.request.QueryByIdRequest;
+import com.money.h5.entity.request.QueryMyCustomerRequest;
 import com.money.h5.entity.response.QueryMyCustomerResponse;
 import com.money.h5.entity.response.QueryPersonalInfoResponse;
 import io.swagger.annotations.Api;
@@ -30,9 +31,10 @@ public class MyCustomerController {
     @ApiOperation(value = "查询我的客源列表（可分页）", notes = "openId=tabc")
     @ResponseBody
     @RequestMapping(value = "query", method = RequestMethod.POST)
-    public QueryMyCustomerResponse queryMyCustomer(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {
+    public QueryMyCustomerResponse queryMyCustomer(@Valid @RequestBody QueryMyCustomerRequest request, BindingResult bindingResult) {
         QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
         queryCustomerRequest.setParentOpenId(request.getOpenId());
+        queryCustomerRequest.setNameOrPhone(request.getKey());
         queryCustomerRequest.copyPagerFromH5Request(request);
         queryCustomerRequest.copyPagerFromH5Request(request);
         List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);
