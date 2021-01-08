@@ -1,5 +1,6 @@
 package com.money.h5.interceptor;
 
+import com.gexin.fastjson.JSON;
 import com.money.framework.util.MD5Utils;
 import com.money.h5.entity.H5RequestBase;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +14,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-//@Component
-//@Aspect
+@Component
+@Aspect
 public class CheckSignAspectJ {
 
     final static Logger logger = LoggerFactory.getLogger(CheckSignAspectJ.class);
@@ -34,6 +35,7 @@ public class CheckSignAspectJ {
         Object[] args = point.getArgs();
         for (Object arg : args) {
             if (arg instanceof H5RequestBase) {
+                logger.info("小程序接口参数:{}", JSON.toJSONString(arg));
                 checkArg((H5RequestBase) arg);
             }
         }
@@ -47,7 +49,7 @@ public class CheckSignAspectJ {
         Assert.isTrue(Math.abs(arg.getTimestamp() - System.currentTimeMillis()) < TIMESTAMP_TIMEOUT_MMS, "时间戳已过期");
         Assert.hasText(arg.getSign(), "参数缺少签名");
 
-        String md5 = MD5Utils.getMD5("zlz"+arg.getTimestamp().toString());
+        String md5 = MD5Utils.getMD5("zlz" + arg.getTimestamp().toString());
         Assert.isTrue(StringUtils.equals(md5, arg.getSign()), "签名错误");
     }
 

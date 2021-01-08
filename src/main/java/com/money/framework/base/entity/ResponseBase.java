@@ -13,6 +13,7 @@ public class ResponseBase {
     private String message = ResponseCodeEnum.SUCCESS.getName();
     private Boolean success = true;
     private Object data;
+    private Object extraData;
 
     public static ResponseBase success() {
         return new ResponseBase();
@@ -21,6 +22,13 @@ public class ResponseBase {
     public static ResponseBase success(Object data) {
         ResponseBase responseBase = new ResponseBase();
         responseBase.setData(data);
+        return responseBase;
+    }
+
+    public static ResponseBase success(Object data,Object extraData) {
+        ResponseBase responseBase = new ResponseBase();
+        responseBase.setData(data);
+        responseBase.setExtraData(extraData);
         return responseBase;
     }
 
@@ -48,6 +56,14 @@ public class ResponseBase {
         this.code = ResponseCodeEnum.ERROR.getValue();
         this.message = ResponseCodeEnum.ERROR.getName();
         return this;
+    }
+
+    public Object getExtraData() {
+        return extraData;
+    }
+
+    public void setExtraData(Object extraData) {
+        this.extraData = extraData;
     }
 
     public void setData(Object data) {

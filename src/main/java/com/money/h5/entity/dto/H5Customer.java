@@ -2,9 +2,12 @@ package com.money.h5.entity.dto;
 
 import com.money.custom.entity.Customer;
 import com.money.custom.entity.Goods;
+import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.framework.util.DateUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Objects;
 
 @ApiModel(description = "个人信息")
 public class H5Customer {
@@ -20,6 +23,13 @@ public class H5Customer {
     private String groupName;
     @ApiModelProperty(value = "账户余额")
     private Integer availableMoney;
+    @ApiModelProperty(value = "类型  1.普客  2.股东")
+    private Integer type;
+    @ApiModelProperty(value = "头像地址")
+    private String headCover;
+    @ApiModelProperty(value = "微信昵称")
+    private String nickName;
+
 
     public H5Customer() {}
 
@@ -30,6 +40,24 @@ public class H5Customer {
         this.expireDate = DateUtils.getMonthEnd(item.getCustomerGroup().getExpireDate());
         this.groupName = item.getCustomerGroup().getGroupName();
         this.availableMoney = item.getWallet().getAvailableMoney();
+        this.type = item.getCustomerGroup().getType();
+        if (Objects.isNull(type)) {
+            type = CustomerTypeEnum.NORMAL.getValue();
+        }
+        headCover = item.getHeadCover();
+        nickName = item.getNickName();
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public String getHeadCover() {
+        return headCover;
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 
     public Integer getId() {

@@ -2,6 +2,7 @@ package com.money.h5.service;
 
 import com.gexin.fastjson.JSON;
 import com.money.custom.entity.Customer;
+import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.RedisKeyEnum;
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.request.QueryCustomerRequest;
@@ -9,6 +10,7 @@ import com.money.custom.service.CustomerService;
 import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.RedisUtils;
+import com.money.h5.entity.dto.H5Customer;
 import com.money.h5.entity.dto.WechatPhoneResponse;
 import com.money.h5.entity.request.AddCustomer4WechatRequest;
 import com.money.h5.entity.request.LoginRequest;
@@ -45,7 +47,7 @@ public class H5Service extends BaseServiceImpl {
         Customer customer = customerService.findByOpenId(openId);
 
         if (Objects.nonNull(customer) && StringUtils.isNotEmpty(customer.getPhone()) && StringUtils.isNotEmpty(customer.getHeadCover()) && StringUtils.isNotEmpty(customer.getNickName())) {
-            return ResponseBase.success(openId);
+            return ResponseBase.success(openId, new H5Customer(customer));
         }
 
         if (Objects.isNull(customer)) {

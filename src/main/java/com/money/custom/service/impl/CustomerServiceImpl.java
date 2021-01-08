@@ -91,12 +91,17 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     @Override
     public Customer findByOpenId(String openId) {
         Customer customer = dao.findById(openId);
+
+        if(Objects.isNull(customer)){
+            return null;
+        }
+
         if (StringUtils.isEmpty(customer.getCustomerGroupIds())) {
             return customer;
         }
 
         String[] customerGroupIds = customer.getCustomerGroupIds().split(",");
-        Assert.isTrue(customerGroupIds.length == 1, "暂不支持注册多个门店");
+        Assert.isTrue(customerGroupIds.length <= 1, "暂不支持注册多个门店");
         return findById(customerGroupIds[0]);
     }
 
