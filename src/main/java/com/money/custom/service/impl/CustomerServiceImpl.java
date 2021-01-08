@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -90,18 +91,13 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     @Override
     public Customer findByOpenId(String openId) {
         Customer customer = dao.findById(openId);
-
-        if(Objects.nonNull(customer)){
-            QueryBonusWalletRequest request = new QueryBonusWalletRequest();
-            request.setOpenId(customer.getOpenId());
-            List<BonusWallet> bonusWallets = bonusWalletService.selectSearchList(request);
-            if (CollectionUtils.isNotEmpty(bonusWallets)) {
-                customer.setBonusWallet(bonusWallets.get(0));
-                Assert.isTrue(bonusWallets.size() <= 1, "暂不支持注册多个门店");
-            }
+        if (StringUtils.isEmpty(customer.getCustomerGroupIds())) {
+            return customer;
         }
 
-        return customer;
+        String[] customerGroupIds = customer.getCustomerGroupIds().split(",");
+        Assert.isTrue(customerGroupIds.length == 1, "暂不支持注册多个门店");
+        return findById(customerGroupIds[0]);
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER)

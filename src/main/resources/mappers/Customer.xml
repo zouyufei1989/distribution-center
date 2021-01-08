@@ -134,7 +134,8 @@
 			phone,
 			open_id AS openId,
 			nick_name AS nickName,
-			head_cover AS headCover
+			head_cover AS headCover,
+			(SELECT GROUP_CONCAT(id) FROM d_customer_group WHERE customer_id = d_customer.id GROUP BY customer_id) AS customerGroupIds
 		FROM <include refid="tableName"/>
 		WHERE id = #{id} OR open_id = #{id}
 	</select>

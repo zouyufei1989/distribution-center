@@ -20,6 +20,7 @@ public class Customer extends BaseEntity {
     private String nickName;
     private String headCover;
 
+    private String customerGroupIds;
     private CustomerGroup customerGroup = new CustomerGroup();
     private Wallet wallet = new Wallet();
     private BonusWallet bonusWallet = new BonusWallet();
@@ -39,6 +40,14 @@ public class Customer extends BaseEntity {
         openId = request.getOpenId();
 
         copyOperationInfo(request);
+    }
+
+    public String getCustomerGroupIds() {
+        return customerGroupIds;
+    }
+
+    public void setCustomerGroupIds(String customerGroupIds) {
+        this.customerGroupIds = customerGroupIds;
     }
 
     public BonusPlan getBonusPlan() {

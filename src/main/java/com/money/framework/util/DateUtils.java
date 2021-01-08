@@ -1,6 +1,7 @@
 package com.money.framework.util;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,6 +99,9 @@ public final class DateUtils {
 
     // 获取本月最后一天
     public static String getMonthEnd(String date) {
+        if (StringUtils.isEmpty(date)) {
+            return StringUtils.EMPTY;
+        }
         return YearMonth.parse(date, DateTimeFormatter.ofPattern("yyyy-MM")).atEndOfMonth().format(DAY_FORMATTER);
     }
 

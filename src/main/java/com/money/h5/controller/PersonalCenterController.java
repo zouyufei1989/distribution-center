@@ -34,8 +34,8 @@ public class PersonalCenterController {
     @ApiOperation(value = "查询个人信息", notes = "id=1")
     @ResponseBody
     @RequestMapping(value = "queryPersonalInfo", method = RequestMethod.POST)
-    public QueryPersonalInfoResponse queryGoodsDetail(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
-        Customer customer = customerService.findById(request.getId());
+    public QueryPersonalInfoResponse queryGoodsDetail(@Valid @RequestBody H5RequestBase request, BindingResult bindingResult) {
+        Customer customer = customerService.findByOpenId(request.getOpenId());
         return new QueryPersonalInfoResponse(customer);
     }
 
