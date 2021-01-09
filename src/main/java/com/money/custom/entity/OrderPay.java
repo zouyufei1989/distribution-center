@@ -185,4 +185,5 @@ public class OrderPay extends OperationalEntity {
     public void setPayType(Integer payType) {
         this.payType = payType;
     }
+
 }

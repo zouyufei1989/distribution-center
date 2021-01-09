@@ -8,11 +8,13 @@ import java.util.Map;
 public class QueryOrderPayRequest extends QueryGridRequestBase {
 
     private OrderPay orderPay = new OrderPay();
+    private String openId;
 
     @Override
     public Map<String, Object> buildParams() {
         Map<String, Object> params = super.buildParams();
         params.put("orderPay", orderPay);
+        params.put("openId", openId);
         return params;
     }
 
@@ -26,5 +28,9 @@ public class QueryOrderPayRequest extends QueryGridRequestBase {
 
     public void setOrderId(Integer orderId) {
         this.orderPay.setOrderId(orderId);
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 }

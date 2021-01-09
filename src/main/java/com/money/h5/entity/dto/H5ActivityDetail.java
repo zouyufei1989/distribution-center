@@ -19,6 +19,8 @@ public class H5ActivityDetail {
     private Integer cnt;
     @ApiModelProperty(value = "单位")
     private String unit;
+    @ApiModelProperty(value = "缩略图")
+    private String thumbnail;
 
     public H5ActivityDetail(){}
 
@@ -29,6 +31,11 @@ public class H5ActivityDetail {
         this.cnt = goodsItem.getCnt();
         this.unit = goodsItem.getUnit();
         this.sumPrice = goodsItem.getPrice() * goodsItem.getCnt();
+        this.thumbnail = goodsItem.getThumbnail();
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
     }
 
     public Integer getSumPrice() {

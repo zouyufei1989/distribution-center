@@ -13,8 +13,13 @@
             <result column="actuallyMoney" property="actuallyMoney"/>
             <result column="payType" property="payType"/>
             <result column="createDate" property="createDate"/>
+            <result column="groupName" property="groupName"/>
             <result column="order_goodsTypeId" property="order.goodsTypeId"/>
             <result column="order_goodsCombine" property="order.goodsCombine"/>
+            <result column="order_goodsName" property="order.goodsName"/>
+            <result column="order_payType" property="order.payType"/>
+            <result column="order_goodsTypeName" property="order.goodsTypeName"/>
+            <result column="orderCnt" property="order.orderCnt"/>
             <collection property="items" ofType="OrderPayItem">
                 <id column="iid" property="id"/>
                 <result column="iorderId" property="orderId"/>
@@ -34,17 +39,28 @@
 			dop.create_date AS createDate,
 			do.goods_type_id AS order_goodsTypeId,
 			do.goods_combine AS order_goodsCombine,
+			do.goods_name AS order_goodsName,
+			dop.pay_type AS order_payType,
+			do.order_cnt AS orderCnt,
+			do.goods_type_name AS order_goodsTypeName,
 			dopi.id AS iid,
 			dopi.order_id AS iorderId,
 			dopi.type,
-			dopi.amount
+			dopi.amount,
+			dg.name AS groupName
 		FROM <include refid="tableName"/> dop
 		LEFT JOIN d_order_pay_item dopi ON dopi.order_pay_id = dop.id
 		LEFT JOIN d_order do ON do.id = dop.order_id
+		LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		WHERE
 			1=1
 			<if test="orderPay.orderId!=null">
 				AND dop.order_id = #{orderPay.orderId}
+			</if>
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{openId}
 			</if>
 		ORDER BY dop.id DESC
 		<if test="rows != null and rows > 0">
@@ -56,10 +72,17 @@
 		SELECT
 			COUNT(*)
 		FROM <include refid="tableName"/> dop
+		LEFT JOIN d_order_pay_item dopi ON dopi.order_pay_id = dop.id
+		LEFT JOIN d_order do ON do.id = dop.order_id
+		LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
 		WHERE
 			1=1
 			<if test="orderPay.orderId!=null">
 				AND dop.order_id = #{orderPay.orderId}
+			</if>
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{openId}
 			</if>
 	</select>
 
