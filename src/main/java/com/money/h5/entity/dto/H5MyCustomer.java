@@ -20,6 +20,8 @@ public class H5MyCustomer {
     private Boolean consumed;
     @ApiModelProperty(value = "手机号")
     private String phone;
+    @ApiModelProperty(value = "头像")
+    private String headCover;
 
     public H5MyCustomer() {}
 
@@ -30,6 +32,11 @@ public class H5MyCustomer {
         this.createDate = DateUtils.format(item.getCustomerGroup().getCreateDate(), "yyyy-MM-dd");
         this.consumed = item.getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.OLD.getValue());
         this.phone = item.getPhone();
+        this.headCover = item.getHeadCover();
+    }
+
+    public String getHeadCover() {
+        return headCover;
     }
 
     public String getPhone() {
