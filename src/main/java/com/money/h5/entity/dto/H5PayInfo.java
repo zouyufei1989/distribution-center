@@ -31,7 +31,7 @@ public class H5PayInfo {
         payType = orderPay.getOrder().getPayTypeName();
         goodsName = orderPay.getOrder().getGoodsName();
         amount = orderPay.getActuallyMoney();
-        cnt = orderPay.getOrder().getOrderCnt();
+        cnt = orderPay.getOrder().getOrderCnt()* orderPay.getOrder().getGoodsCnt();
         goodsType = orderPay.getOrder().getGoodsTypeName();
     }
 

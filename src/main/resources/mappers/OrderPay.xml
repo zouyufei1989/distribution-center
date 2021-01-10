@@ -20,6 +20,7 @@
             <result column="order_payType" property="order.payType"/>
             <result column="order_goodsTypeName" property="order.goodsTypeName"/>
             <result column="orderCnt" property="order.orderCnt"/>
+            <result column="goodsCnt" property="order.goodsCnt"/>
             <collection property="items" ofType="OrderPayItem">
                 <id column="iid" property="id"/>
                 <result column="iorderId" property="orderId"/>
@@ -42,6 +43,7 @@
 			do.goods_name AS order_goodsName,
 			dop.pay_type AS order_payType,
 			do.order_cnt AS orderCnt,
+			do.goods_cnt AS goodsCnt,
 			do.goods_type_name AS order_goodsTypeName,
 			dopi.id AS iid,
 			dopi.order_id AS iorderId,

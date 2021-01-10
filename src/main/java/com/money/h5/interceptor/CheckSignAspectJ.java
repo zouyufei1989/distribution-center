@@ -36,7 +36,7 @@ public class CheckSignAspectJ {
         for (Object arg : args) {
             if (arg instanceof H5RequestBase) {
                 logger.info("小程序接口参数:{}", JSON.toJSONString(arg));
-                checkArg((H5RequestBase) arg);
+                //checkArg((H5RequestBase) arg);
             }
         }
 

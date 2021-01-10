@@ -5,6 +5,7 @@ import com.money.custom.entity.enums.CustomerTotalNewEnum;
 import com.money.framework.util.DateUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.commons.lang3.StringUtils;
 
 @ApiModel(description = "客源信息")
 public class H5MyCustomer {
@@ -29,6 +30,9 @@ public class H5MyCustomer {
         this.id = item.getCustomerGroup().getId();
         this.serialNumber = item.getCustomerGroup().getSerialNumber();
         this.name = item.getName();
+        if (StringUtils.isEmpty(this.name)) {
+            this.name = item.getNickName();
+        }
         this.createDate = DateUtils.format(item.getCustomerGroup().getCreateDate(), "yyyy-MM-dd");
         this.consumed = item.getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.OLD.getValue());
         this.phone = item.getPhone();

@@ -92,7 +92,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     public Customer findByOpenId(String openId) {
         Customer customer = dao.findById(openId);
 
-        if(Objects.isNull(customer)){
+        if (Objects.isNull(customer)) {
             return null;
         }
 
@@ -110,7 +110,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
     @Transactional
     public String add(MoACustomerRequest request) {
         List<Customer> customers = queryCustomerUsingPhone(request.getPhone());
-        if (customers.stream().anyMatch(c -> c.getCustomerGroup().getGroupId().equals(request.getGroupId()))) {
+        if (customers.stream().anyMatch(c -> Objects.nonNull(c.getCustomerGroup().getGroupId()) && c.getCustomerGroup().getGroupId().equals(request.getGroupId()))) {
             throw PandabusSpecException.businessError(ResponseCodeEnum.CUSTOMER_GROUP_EXISTS);
         }
 

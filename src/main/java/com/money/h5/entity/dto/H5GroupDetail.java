@@ -3,6 +3,7 @@ package com.money.h5.entity.dto;
 import com.money.custom.entity.Group;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.commons.lang3.StringUtils;
 
 @ApiModel(description = "门店详情")
 public class H5GroupDetail extends H5Group {
@@ -33,7 +34,12 @@ public class H5GroupDetail extends H5Group {
         detailCoverImg = group.getDetailCoverImg();
         detailImg = group.getDetailImg();
         video = group.getVideo();
+
         openRules = group.getOpenRules();
+        if (StringUtils.isNotEmpty(openRules) && openRules.contains("@")) {
+            openRules = openRules.replace("@", " ");
+        }
+
         lng = group.getLng();
         lat = group.getLat();
     }
