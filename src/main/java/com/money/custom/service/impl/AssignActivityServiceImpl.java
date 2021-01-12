@@ -136,6 +136,7 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
 
             QueryOrderRequest queryOrderRequest = new QueryOrderRequest();
             queryOrderRequest.setGoodsId(activity.getId());
+            queryOrderRequest.getCustomer().setOpenId(receiverOpenId);
             int claimCnt = orderService.selectSearchListCount(queryOrderRequest);
             Assert.isTrue(claimCnt < activity.getMaxCntPerCus(), "领取次数已达到上限");
 
