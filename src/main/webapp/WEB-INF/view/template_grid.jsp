@@ -31,7 +31,7 @@
 
         if (item.header === "客户姓名") {
             return 70;
-        } else if (item.header === "客户编号" || item.header==="积分方案编号") {
+        } else if (item.header === "客户编号" || item.header === "积分方案编号") {
             return 130;
         } else if (item.header === "客户类型") {
             return 70;
@@ -45,6 +45,8 @@
             return 140;
         } else if (item.formatter != undefined && item.formatter && item.formatter.name === 'yyyyMMddhhmmssFormatter') {
             return 170;
+        } else if (item.formatter != undefined && item.formatter && item.formatter.name === 'imgPreViewFormatter') {
+            return 150;
         } else if (item.header.length > 4) {
             return 16 * item.header.length;
         }
