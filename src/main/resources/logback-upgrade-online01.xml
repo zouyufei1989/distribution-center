@@ -91,7 +91,7 @@
         <appender-ref ref="JOB_APPENDER"/>
     </logger>
 
-	<root level="info">
+	<root level="debug">
 		<appender-ref ref="FILEDEBUG"/>
 		<appender-ref ref="FILEINFO"/>
 		<appender-ref ref="FILEERROR"/>

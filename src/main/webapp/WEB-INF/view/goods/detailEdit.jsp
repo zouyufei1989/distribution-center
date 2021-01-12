@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-12 text-center">
-                                        <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" onclick="saveDetail()">保存</button>
+                                        <button type="button" id="btn_saveDetail" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" onclick="saveDetail()">保存</button>
                                         <button type="button" class="btn btn-w-m btn-default btn-update-footer" onclick="cancelEdit()">取消</button>
                                     </div>
                                 </div>

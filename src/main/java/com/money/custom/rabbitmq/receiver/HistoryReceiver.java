@@ -70,7 +70,7 @@ public class HistoryReceiver extends ReceiverBase {
             findById = cls.getMethod("findById", String.class);
             return findById.invoke(service, id);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            getLogger().warn("获取历史记录失败 : " + cls.getName(), e.getMessage());
+            getLogger().error("获取历史记录失败 : " + cls.getName(), e);
         }
         return null;
     }
