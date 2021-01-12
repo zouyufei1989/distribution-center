@@ -6,6 +6,11 @@ $(document).ready(function () {
             order: {
             },
             orderItems:[]
+        },
+        methods:{
+            moneyFormatter(val){
+                return moneyFormatter(val);
+            }
         }
     });
 
