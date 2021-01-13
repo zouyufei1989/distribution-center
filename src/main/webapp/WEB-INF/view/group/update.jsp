@@ -81,7 +81,7 @@
                                         <img id="detailCoverImg_url" src="">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                     <label class="col-sm-3 control-label"><span style="color: red;"></span>详情图片:</label>
                                     <div class="col-sm-2">
                                         <div class="upload_box" id="detailImg" data-toggle="modal" data-target="#detailImgModal">+</div>

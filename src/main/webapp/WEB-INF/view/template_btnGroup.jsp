@@ -43,6 +43,7 @@
                         $('#updateModal h3').text("新建" + _this.getModalName());
                         $('#updateModal form').validate().resetForm();
                         $('#updateModal img').attr('src','');
+                        $('#updateModal iframe').attr('src','');
                         $('#updateModal').modal('show');
                         if(typeof additionFunc4Add === 'function'){
                             additionFunc4Add();
