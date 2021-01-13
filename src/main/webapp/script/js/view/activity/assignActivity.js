@@ -59,12 +59,21 @@ $(document).ready(function () {
             },
             cntChange(step, id) {
                 var item = this.shareHolders.filter(i => i.customerGroup.id === id);
-                if (item) {
+                if (item ) {
                     item[0].cnt = item[0].cnt + Number.parseInt(step);
+                    if(item[0].cnt<0){
+                        item[0].cnt = 0;
+                    }
                 }
             },
             cancel() {
                 $('#assignModal').modal('hide');
+                if(this.shareHolders && this.shareHolders.length>0){
+                    $.each(this.shareHolders,function(index,item){
+                        item.checked = false;
+                        item.cnt = 0;
+                    });
+                }
             },
             assign(e) {
                 var _this = this;
