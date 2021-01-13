@@ -23,7 +23,7 @@
                                         <input type="text" value="" name="index" id="index" min="0" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                     <label class="col-sm-3 control-label"><span style="color: red;"></span>点击链接:</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="href" name="href"/>
