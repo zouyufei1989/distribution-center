@@ -37,7 +37,7 @@ public class H5GroupDetail extends H5Group {
 
         openRules = group.getOpenRules();
         if (StringUtils.isNotEmpty(openRules) && openRules.contains("@")) {
-            openRules = openRules.replace("@", " ");
+            openRules = openRules.replace("@", " ").replaceFirst("-", "至");
         }
 
         lng = group.getLng();
