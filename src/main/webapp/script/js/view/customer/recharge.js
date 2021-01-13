@@ -50,7 +50,7 @@ $(document).ready(function () {
         max: 9999999,
         step: 1,
         decimals: 0,
-        postfix: '¥',
+        postfix: '元',
         buttondown_class: 'btn btn-white',
         buttonup_class: 'btn btn-white'
     });
@@ -64,7 +64,7 @@ function goRecharge(rowId) {
         name: customer.name,
         phone: customer.phone,
         serialNumber: customer['customerGroup.serialNumber'],
-        recharge: 10
+        recharge: 0
     };
     $('#rechargeModal').modal('show')
 }

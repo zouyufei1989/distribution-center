@@ -1,4 +1,4 @@
-var attrs = ['groupId', 'name', 'desc', 'status', 'serialNumber', 'bonusRate', 'cashbackAmount'];
+var attrs = ['groupId', 'name', 'desc', 'status', 'serialNumber'];
 
 $(document).ready(function () {
     new Vue({el: '#status'});
