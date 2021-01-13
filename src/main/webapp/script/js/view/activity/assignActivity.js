@@ -60,7 +60,7 @@ $(document).ready(function () {
             cntChange(step, id) {
                 var item = this.shareHolders.filter(i => i.customerGroup.id === id);
                 if (item) {
-                    item[0].cnt += step;
+                    item[0].cnt = item[0].cnt + Number.parseInt(step);
                 }
             },
             cancel() {
