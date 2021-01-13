@@ -34,6 +34,8 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    MyLogoutSuccessHandler myLogoutSuccessHandler;
+    @Autowired
     SecurityServiceImpl securityService;
     @Autowired
     MyPasswordEncoder myPasswordEncoder;
@@ -110,7 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private void securityLogout(HttpSecurity http) throws Exception {
         http
                 .logout()
-                .logoutSuccessUrl("/login")
+                .logoutSuccessHandler(myLogoutSuccessHandler)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .deleteCookies()
                 .clearAuthentication(true)
