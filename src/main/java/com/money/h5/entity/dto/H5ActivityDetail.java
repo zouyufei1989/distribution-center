@@ -12,9 +12,9 @@ public class H5ActivityDetail {
     @ApiModelProperty(value = "项目描述")
     private String desc;
     @ApiModelProperty(value = "单价")
-    private Integer price;
+    private Long price;
     @ApiModelProperty(value = "单项总价")
-    private Integer sumPrice;
+    private Long sumPrice;
     @ApiModelProperty(value = "次数")
     private Integer cnt;
     @ApiModelProperty(value = "单位")
@@ -38,7 +38,7 @@ public class H5ActivityDetail {
         return thumbnail;
     }
 
-    public Integer getSumPrice() {
+    public Long getSumPrice() {
         return sumPrice;
     }
 
@@ -58,11 +58,11 @@ public class H5ActivityDetail {
         this.desc = desc;
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

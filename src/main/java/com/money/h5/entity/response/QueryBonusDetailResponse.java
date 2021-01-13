@@ -13,16 +13,16 @@ import java.util.stream.Collectors;
 public class QueryBonusDetailResponse extends GridResponseBase {
 
     @ApiModelProperty(value = "可提现金额")
-    private Integer pending;
+    private Long pending;
 
     public QueryBonusDetailResponse() {}
 
-    public QueryBonusDetailResponse(Integer total, Integer records, List<BonusWalletDetail> items, Integer pending) {
+    public QueryBonusDetailResponse(Integer total, Integer records, List<BonusWalletDetail> items, Long pending) {
         super(total, records, items.stream().map(H5BonusDetail::new).collect(Collectors.toList()));
         this.pending = pending;
     }
 
-    public Integer getPending() {
+    public Long getPending() {
         return pending;
     }
 

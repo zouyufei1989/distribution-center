@@ -15,7 +15,7 @@ public class AssignActivity extends BaseEntity {
     private Integer goodsId;
     private String goodsName;
     private Integer containGoodsCnt;
-    private Integer sumPrice;
+    private Long sumPrice;
     private Integer assignCustomerCnt;
     private Integer assignSumCnt;
 
@@ -65,11 +65,11 @@ public class AssignActivity extends BaseEntity {
         this.containGoodsCnt = containGoodsCnt;
     }
 
-    public Integer getSumPrice() {
+    public Long getSumPrice() {
         return sumPrice;
     }
 
-    public void setSumPrice(Integer sumPrice) {
+    public void setSumPrice(Long sumPrice) {
         this.sumPrice = sumPrice;
     }
 

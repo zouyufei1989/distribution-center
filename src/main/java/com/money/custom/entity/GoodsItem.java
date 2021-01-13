@@ -17,9 +17,9 @@ public class GoodsItem extends BaseEntity {
     private Integer parentId;
     private Integer goodsId;
     private String name;
-    private Integer profitRate; // ÷1000
+    private Long profitRate; // ÷1000
     private Integer goodsTagId;
-    private Integer price;   // ÷100
+    private Long price;   // ÷100
     private Integer showPrice;
     private String unit;
     private String thumbnail;
@@ -99,11 +99,11 @@ public class GoodsItem extends BaseEntity {
         this.name = name;
     }
 
-    public Integer getProfitRate() {
+    public Long getProfitRate() {
         return profitRate;
     }
 
-    public void setProfitRate(Integer profitRate) {
+    public void setProfitRate(Long profitRate) {
         this.profitRate = profitRate;
     }
 
@@ -115,11 +115,11 @@ public class GoodsItem extends BaseEntity {
         this.goodsTagId = goodsTagId;
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

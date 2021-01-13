@@ -14,7 +14,7 @@ public class RechargeRequest extends OperationalEntity {
     private Integer customerGroupId;
     @NotNull(message = "请输入充值金额")
     @Min(value = 0, message = "充值金额不可少于0元")
-    private Integer amount;
+    private Long amount;
 
     public Integer getCustomerGroupId() {
         return customerGroupId;
@@ -24,11 +24,11 @@ public class RechargeRequest extends OperationalEntity {
         this.customerGroupId = customerGroupId;
     }
 
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 }

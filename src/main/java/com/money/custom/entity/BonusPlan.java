@@ -21,10 +21,10 @@ public class BonusPlan extends BaseEntity {
     private String name;
     @NotNull(message = "积分比例不可为空")
     @Max(value = 10000, message = "积分比例最大为100")
-    private Integer bonusRate;
+    private Long bonusRate;
     private Integer cashbackFirst;
     @Min(value = 0, message = "返现最小为0")
-    private Integer cashbackAmount;
+    private Long cashbackAmount;
     private String desc;
 
     private Integer usedCount;
@@ -73,13 +73,6 @@ public class BonusPlan extends BaseEntity {
         this.name = name;
     }
 
-    public Integer getBonusRate() {
-        return bonusRate;
-    }
-
-    public void setBonusRate(Integer bonusRate) {
-        this.bonusRate = bonusRate;
-    }
 
     public Integer getCashbackFirst() {
         return cashbackFirst;
@@ -89,11 +82,19 @@ public class BonusPlan extends BaseEntity {
         this.cashbackFirst = cashbackFirst;
     }
 
-    public Integer getCashbackAmount() {
+    public Long getBonusRate() {
+        return bonusRate;
+    }
+
+    public void setBonusRate(Long bonusRate) {
+        this.bonusRate = bonusRate;
+    }
+
+    public Long getCashbackAmount() {
         return cashbackAmount;
     }
 
-    public void setCashbackAmount(Integer cashbackAmount) {
+    public void setCashbackAmount(Long cashbackAmount) {
         this.cashbackAmount = cashbackAmount;
     }
 

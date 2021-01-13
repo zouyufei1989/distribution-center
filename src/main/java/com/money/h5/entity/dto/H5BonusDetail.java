@@ -12,11 +12,11 @@ import java.util.Objects;
 @ApiModel(description = "积分记录")
 public class H5BonusDetail {
     @ApiModelProperty(value = "积分")
-    private Integer bonusAmount;
+    private Long bonusAmount;
     @ApiModelProperty(value = "消费顾客")
     private String customerName;
     @ApiModelProperty(value = "消费/提现金额")
-    private Integer consumeAmount;
+    private Long consumeAmount;
     @ApiModelProperty(value = "积分比例")
     private String bonusRate;
     @ApiModelProperty(value = "消费/提现时间")
@@ -39,7 +39,7 @@ public class H5BonusDetail {
         return createDate;
     }
 
-    public Integer getBonusAmount() {
+    public Long getBonusAmount() {
         return bonusAmount;
     }
 
@@ -47,7 +47,7 @@ public class H5BonusDetail {
         return customerName;
     }
 
-    public Integer getConsumeAmount() {
+    public Long getConsumeAmount() {
         return consumeAmount;
     }
 

@@ -72,10 +72,10 @@ public class OrderPayServiceImpl extends BaseServiceImpl implements OrderPayServ
     }
 
     private void splitAmountToPayType(PayOrderRequest request, Customer customer) {
-        Integer payAmount = request.getActuallyMoney();
-        Integer money = 0;
-        Integer bonus = 0;
-        Integer offLineAmount = 0;
+        Long payAmount = request.getActuallyMoney();
+        Long money = 0L;
+        Long bonus = 0L;
+        Long offLineAmount = 0L;
         if (PayTypeEnum.MONEY.pay(request.getPayType())) {
             money = customer.getWallet().getAvailableMoney();
             if (money > payAmount) {
@@ -115,8 +115,8 @@ public class OrderPayServiceImpl extends BaseServiceImpl implements OrderPayServ
         Assert.notEmpty(orders, "未查询到订单");
         Assert.isTrue(orders.stream().allMatch(i -> i.getStatus().equals(OrderStatusEnum.PENDING_PAY.getValue())), "订单状态异常，不可支付");
         Assert.isTrue(orders.stream().mapToInt(Order::getCustomerGroupId).distinct().count() == 1, "订单属于多位顾客");
-        int batchSumPrice = orders.stream().mapToInt(Order::getOrderPrice).sum();
-        Assert.isTrue(batchSumPrice == request.getSumMoney(), "商品价格已更新");
+        Long batchSumPrice = orders.stream().mapToLong(Order::getOrderPrice).sum();
+        Assert.isTrue(batchSumPrice.equals(request.getSumMoney()), "商品价格已更新");
         return orders;
     }
 

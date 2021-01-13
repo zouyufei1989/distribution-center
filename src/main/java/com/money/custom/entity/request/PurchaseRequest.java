@@ -17,10 +17,10 @@ public class PurchaseRequest extends OperationalEntity {
     @NotEmpty(message = "请选择要购买的商品")
     private List<Goods> goodsChoosed;
     @NotNull(message = "总金额不可为空")
-    private Integer sumMoney;
+    private Long sumMoney;
     @NotNull(message = "实付金额不可为空")
-    private Integer actuallyMoney;
-    private Integer extraMoneyOffline;
+    private Long actuallyMoney;
+    private Long extraMoneyOffline;
 
     private Boolean payMoney;
     private Boolean payBonus;
@@ -56,27 +56,27 @@ public class PurchaseRequest extends OperationalEntity {
         this.goodsChoosed = goodsChoosed;
     }
 
-    public Integer getSumMoney() {
+    public Long getSumMoney() {
         return sumMoney;
     }
 
-    public void setSumMoney(Integer sumMoney) {
+    public void setSumMoney(Long sumMoney) {
         this.sumMoney = sumMoney;
     }
 
-    public Integer getActuallyMoney() {
+    public Long getActuallyMoney() {
         return actuallyMoney;
     }
 
-    public void setActuallyMoney(Integer actuallyMoney) {
+    public void setActuallyMoney(Long actuallyMoney) {
         this.actuallyMoney = actuallyMoney;
     }
 
-    public Integer getExtraMoneyOffline() {
+    public Long getExtraMoneyOffline() {
         return Objects.nonNull(extraMoneyOffline) ? extraMoneyOffline : 0;
     }
 
-    public void setExtraMoneyOffline(Integer extraMoneyOffline) {
+    public void setExtraMoneyOffline(Long extraMoneyOffline) {
         this.extraMoneyOffline = extraMoneyOffline;
     }
 

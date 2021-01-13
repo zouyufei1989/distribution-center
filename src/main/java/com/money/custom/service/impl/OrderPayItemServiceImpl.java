@@ -53,7 +53,7 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
             return item.getId().toString();
         }
 
-        Integer bonus = calProfit(item) * parent.getBonusPlan().getBonusRate() / 100 / 100;
+        Long bonus = calProfit(item) * parent.getBonusPlan().getBonusRate() / 100 / 100;
         BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item, parent.getBonusPlan(), BonusChangeTypeEnum.GAIN);
         bonusWalletService.recharge(bonusRechargeRequest);
 
@@ -73,7 +73,7 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
         QueryOrderItemRequest queryOrderItemRequest = new QueryOrderItemRequest();
         queryOrderItemRequest.setOrderId(item.getOrderId());
         List<OrderItem> orderItems = orderItemService.selectSearchList(queryOrderItemRequest);
-        long sumPrice = orderItems.stream().mapToInt(o -> o.getGoodsPrice() * o.getCnt()).sum();
+        long sumPrice = orderItems.stream().mapToLong(o -> o.getGoodsPrice() * o.getCnt()).sum();
         long sumProfit = orderItems.stream().map(OrderItem::calProfit).mapToInt(Integer::intValue).sum();
         return (int) (item.getAmount() * sumProfit / sumPrice);
     }

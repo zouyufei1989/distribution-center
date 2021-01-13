@@ -6,14 +6,14 @@ import java.util.Objects;
 
 public class StringFormatUtils {
 
-    public static String moneyFen2Yuan(Integer fen) {
+    public static String moneyFen2Yuan(Long fen) {
         if (Objects.isNull(fen)) {
             return StringUtils.EMPTY;
         }
         return String.format("%.2f", fen / 100.0);
     }
 
-    public static String percent(Integer percent){
+    public static String percent(Long percent){
         if (Objects.isNull(percent)) {
             return StringUtils.EMPTY;
         }

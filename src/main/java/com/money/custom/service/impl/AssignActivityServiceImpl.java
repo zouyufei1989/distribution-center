@@ -195,7 +195,7 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
         claimActivity.setCnt(1);
         PurchaseRequest purchaseRequest = new PurchaseRequest();
         purchaseRequest.setSumMoney(activity.getSumPrice());
-        purchaseRequest.setActuallyMoney(0);
+        purchaseRequest.setActuallyMoney(0L);
         purchaseRequest.setCustomerGroupId(Integer.parseInt(newCustomerGroupId));
         purchaseRequest.setPayBonus(false);
         purchaseRequest.setPayMoney(false);

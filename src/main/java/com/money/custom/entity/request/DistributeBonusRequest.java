@@ -9,15 +9,15 @@ import java.util.List;
 
 public class DistributeBonusRequest extends OperationalEntity {
 
-    private Integer amount;
+    private Long amount;
     @NotEmpty(message = "请选择下发积分客户")
     private List<Integer> customerGroupIds = new ArrayList<>();
 
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

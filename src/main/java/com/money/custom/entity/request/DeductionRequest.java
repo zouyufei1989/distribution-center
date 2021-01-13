@@ -6,10 +6,10 @@ import com.money.framework.base.entity.OperationalEntity;
 public class DeductionRequest extends OperationalEntity {
 
     private Integer customerGroupId;
-    private Integer amount;
+    private Long amount;
     private Integer orderPayItemId;
 
-    public DeductionRequest(OrderPay orderPay, Integer amount, String payItemId) {
+    public DeductionRequest(OrderPay orderPay, Long amount, String payItemId) {
         this.customerGroupId = orderPay.getCustomer().getCustomerGroup().getId();
         this.amount = amount;
         this.orderPayItemId = Integer.parseInt(payItemId);
@@ -33,11 +33,11 @@ public class DeductionRequest extends OperationalEntity {
         this.customerGroupId = customerGroupId;
     }
 
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 }

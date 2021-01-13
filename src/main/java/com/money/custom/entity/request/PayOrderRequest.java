@@ -5,17 +5,17 @@ import com.money.framework.base.entity.OperationalEntity;
 public class PayOrderRequest extends OperationalEntity {
 
     private String orderBatchId;
-    private Integer sumMoney;
-    private Integer actuallyMoney;
+    private Long sumMoney;
+    private Long actuallyMoney;
 
-    private Integer moneyAmount;
-    private Integer bonusAmount;
-    private Integer offLineAmount;
+    private Long moneyAmount;
+    private Long bonusAmount;
+    private Long offLineAmount;
 
-    private Integer actuallyMoneyUsed;
-    private Integer moneyAmountUsed;
-    private Integer bonusAmountUsed;
-    private Integer offLineAmountUsed;
+    private Long actuallyMoneyUsed;
+    private Long moneyAmountUsed;
+    private Long bonusAmountUsed;
+    private Long offLineAmountUsed;
 
     private Integer payType;
 
@@ -28,10 +28,10 @@ public class PayOrderRequest extends OperationalEntity {
         this.payType = request.getPayType();
 
         this.offLineAmount = request.getExtraMoneyOffline();
-        moneyAmountUsed = 0;
-        bonusAmountUsed = 0;
-        offLineAmountUsed = 0;
-        actuallyMoneyUsed = 0;
+        moneyAmountUsed = 0L;
+        bonusAmountUsed = 0L;
+        offLineAmountUsed = 0L;
+        actuallyMoneyUsed = 0L;
         copyOperationInfo(request);
     }
 
@@ -39,35 +39,35 @@ public class PayOrderRequest extends OperationalEntity {
         return actuallyMoney.equals(sumMoney);
     }
 
-    public Integer getActuallyMoneyUsed() {
+    public Long getActuallyMoneyUsed() {
         return actuallyMoneyUsed;
     }
 
-    public void addActuallyMoneyUsed(Integer actuallyMoneyUsed) {
+    public void addActuallyMoneyUsed(Long actuallyMoneyUsed) {
         this.actuallyMoneyUsed += actuallyMoneyUsed;
     }
 
-    public Integer getMoneyAmountUsed() {
+    public Long getMoneyAmountUsed() {
         return moneyAmountUsed;
     }
 
-    public void addMoneyAmountUsed(Integer moneyAmountUsed) {
+    public void addMoneyAmountUsed(Long moneyAmountUsed) {
         this.moneyAmountUsed += moneyAmountUsed;
     }
 
-    public Integer getBonusAmountUsed() {
+    public Long getBonusAmountUsed() {
         return bonusAmountUsed;
     }
 
-    public void addBonusAmountUsed(Integer bonusAmountUsed) {
+    public void addBonusAmountUsed(Long bonusAmountUsed) {
         this.bonusAmountUsed += bonusAmountUsed;
     }
 
-    public Integer getOffLineAmountUsed() {
+    public Long getOffLineAmountUsed() {
         return offLineAmountUsed;
     }
 
-    public void addOffLineAmountUsed(Integer offLineAmountUsed) {
+    public void addOffLineAmountUsed(Long offLineAmountUsed) {
         this.offLineAmountUsed += offLineAmountUsed;
     }
 
@@ -79,19 +79,19 @@ public class PayOrderRequest extends OperationalEntity {
         return payType;
     }
 
-    public Integer getSumMoney() {
+    public Long getSumMoney() {
         return sumMoney;
     }
 
-    public void setSumMoney(Integer sumMoney) {
+    public void setSumMoney(Long sumMoney) {
         this.sumMoney = sumMoney;
     }
 
-    public Integer getActuallyMoney() {
+    public Long getActuallyMoney() {
         return actuallyMoney;
     }
 
-    public void setActuallyMoney(Integer actuallyMoney) {
+    public void setActuallyMoney(Long actuallyMoney) {
         this.actuallyMoney = actuallyMoney;
     }
 
@@ -103,27 +103,27 @@ public class PayOrderRequest extends OperationalEntity {
         this.orderBatchId = orderBatchId;
     }
 
-    public Integer getMoneyAmount() {
+    public Long getMoneyAmount() {
         return moneyAmount;
     }
 
-    public void setMoneyAmount(Integer moneyAmount) {
+    public void setMoneyAmount(Long moneyAmount) {
         this.moneyAmount = moneyAmount;
     }
 
-    public Integer getBonusAmount() {
+    public Long getBonusAmount() {
         return bonusAmount;
     }
 
-    public void setBonusAmount(Integer bonusAmount) {
+    public void setBonusAmount(Long bonusAmount) {
         this.bonusAmount = bonusAmount;
     }
 
-    public Integer getOffLineAmount() {
+    public Long getOffLineAmount() {
         return offLineAmount;
     }
 
-    public void setOffLineAmount(Integer offLineAmount) {
+    public void setOffLineAmount(Long offLineAmount) {
         this.offLineAmount = offLineAmount;
     }
 }

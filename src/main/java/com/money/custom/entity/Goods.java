@@ -33,7 +33,7 @@ public class Goods extends BaseEntity {
     private Integer scope;
     private Integer maxCntPerCus;
     private String coverImg;
-    private Integer sumPrice;
+    private Long sumPrice;
     private Integer expireMonthCnt;
 
     private Integer assignCnt;
@@ -177,11 +177,11 @@ public class Goods extends BaseEntity {
         this.expireMonthCnt = expireMonthCnt;
     }
 
-    public Integer getSumPrice() {
+    public Long getSumPrice() {
         return sumPrice;
     }
 
-    public void setSumPrice(Integer sumPrice) {
+    public void setSumPrice(Long sumPrice) {
         this.sumPrice = sumPrice;
     }
 

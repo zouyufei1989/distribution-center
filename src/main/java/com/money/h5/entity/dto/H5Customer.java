@@ -22,7 +22,7 @@ public class H5Customer {
     @ApiModelProperty(value = "所属门店名")
     private String groupName;
     @ApiModelProperty(value = "账户余额")
-    private Integer availableMoney;
+    private Long availableMoney;
     @ApiModelProperty(value = "类型  1.普客  2.股东")
     private Integer type;
     @ApiModelProperty(value = "头像地址")
@@ -100,11 +100,11 @@ public class H5Customer {
         this.groupName = groupName;
     }
 
-    public Integer getAvailableMoney() {
+    public Long getAvailableMoney() {
         return availableMoney;
     }
 
-    public void setAvailableMoney(Integer availableMoney) {
+    public void setAvailableMoney(Long availableMoney) {
         this.availableMoney = availableMoney;
     }
 }

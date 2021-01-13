@@ -10,13 +10,13 @@ public class OrderPayItem extends OperationalEntity {
     private Integer orderPayId;
     private Integer orderId;
     private Integer type;
-    private Integer amount;
+    private Long amount;
 
     private Customer customer;
 
     public OrderPayItem() {}
 
-    public OrderPayItem(OrderPay pay, PayTypeEnum type, Integer amount) {
+    public OrderPayItem(OrderPay pay, PayTypeEnum type, Long amount) {
         this.orderPayId = pay.getId();
         this.orderId = pay.getOrderId();
         this.type = type.getValue();
@@ -63,11 +63,11 @@ public class OrderPayItem extends OperationalEntity {
         this.type = type;
     }
 
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 }

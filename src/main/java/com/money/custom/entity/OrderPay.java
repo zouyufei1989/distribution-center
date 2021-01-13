@@ -12,14 +12,14 @@ public class OrderPay extends OperationalEntity {
     private Integer id;
     private String orderBatchId;
     private Integer orderId;
-    private Integer sumMoney;
-    private Integer actuallyMoney;
+    private Long sumMoney;
+    private Long actuallyMoney;
     private Integer payType;
-    private Integer bonusRate;
+    private Long bonusRate;
 
-    private Integer moneyAmount;
-    private Integer bonusAmount;
-    private Integer offlineAmount;
+    private Long moneyAmount;
+    private Long bonusAmount;
+    private Long offlineAmount;
 
     private Customer customer;
     private List<OrderPayItem> items;
@@ -28,7 +28,7 @@ public class OrderPay extends OperationalEntity {
     public OrderPay() {}
 
     public OrderPay(Order order, PayOrderRequest request, boolean lastOne) {
-        int payPercent = order.getOrderPrice() * 100 / request.getSumMoney();
+        Long payPercent = order.getOrderPrice() * 100 / request.getSumMoney();
 
         this.orderBatchId = order.getBatchId();
         this.orderId = order.getId();
@@ -106,35 +106,35 @@ public class OrderPay extends OperationalEntity {
         this.customer = customer;
     }
 
-    public Integer getBonusRate() {
+    public Long getBonusRate() {
         return bonusRate;
     }
 
-    public void setBonusRate(Integer bonusRate) {
+    public void setBonusRate(Long bonusRate) {
         this.bonusRate = bonusRate;
     }
 
-    public void setMoneyAmount(Integer moneyAmount) {
+    public void setMoneyAmount(Long moneyAmount) {
         this.moneyAmount = moneyAmount;
     }
 
-    public void setBonusAmount(Integer bonusAmount) {
+    public void setBonusAmount(Long bonusAmount) {
         this.bonusAmount = bonusAmount;
     }
 
-    public void setOfflineAmount(Integer offlineAmount) {
+    public void setOfflineAmount(Long offlineAmount) {
         this.offlineAmount = offlineAmount;
     }
 
-    public Integer getMoneyAmount() {
+    public Long getMoneyAmount() {
         return moneyAmount;
     }
 
-    public Integer getBonusAmount() {
+    public Long getBonusAmount() {
         return bonusAmount;
     }
 
-    public Integer getOfflineAmount() {
+    public Long getOfflineAmount() {
         return offlineAmount;
     }
 
@@ -162,19 +162,19 @@ public class OrderPay extends OperationalEntity {
         this.orderBatchId = orderBatchId;
     }
 
-    public Integer getSumMoney() {
+    public Long getSumMoney() {
         return sumMoney;
     }
 
-    public void setSumMoney(Integer sumMoney) {
+    public void setSumMoney(Long sumMoney) {
         this.sumMoney = sumMoney;
     }
 
-    public Integer getActuallyMoney() {
+    public Long getActuallyMoney() {
         return actuallyMoney;
     }
 
-    public void setActuallyMoney(Integer actuallyMoney) {
+    public void setActuallyMoney(Long actuallyMoney) {
         this.actuallyMoney = actuallyMoney;
     }
 

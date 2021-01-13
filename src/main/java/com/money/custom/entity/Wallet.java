@@ -12,9 +12,9 @@ import java.util.Objects;
 public class Wallet extends OperationalEntity {
 
     private Integer id;
-    private Integer sumMoney;
-    private Integer usedMoney;
-    private Integer availableMoney;
+    private Long sumMoney;
+    private Long usedMoney;
+    private Long availableMoney;
 
     public void recharge(RechargeRequest request) {
         this.sumMoney += request.getAmount();
@@ -30,9 +30,9 @@ public class Wallet extends OperationalEntity {
 
     public static Wallet totalNew(OperationalEntity operationEntry) {
         Wallet wallet = new Wallet();
-        wallet.setSumMoney(0);
-        wallet.setUsedMoney(0);
-        wallet.setAvailableMoney(0);
+        wallet.setSumMoney(0L);
+        wallet.setUsedMoney(0L);
+        wallet.setAvailableMoney(0L);
         wallet.copyOperationInfo(operationEntry);
         return wallet;
     }
@@ -49,27 +49,27 @@ public class Wallet extends OperationalEntity {
         this.id = id;
     }
 
-    public Integer getSumMoney() {
+    public Long getSumMoney() {
         return sumMoney;
     }
 
-    public void setSumMoney(Integer sumMoney) {
+    public void setSumMoney(Long sumMoney) {
         this.sumMoney = sumMoney;
     }
 
-    public Integer getUsedMoney() {
+    public Long getUsedMoney() {
         return usedMoney;
     }
 
-    public void setUsedMoney(Integer usedMoney) {
+    public void setUsedMoney(Long usedMoney) {
         this.usedMoney = usedMoney;
     }
 
-    public Integer getAvailableMoney() {
+    public Long getAvailableMoney() {
         return availableMoney;
     }
 
-    public void setAvailableMoney(Integer availableMoney) {
+    public void setAvailableMoney(Long availableMoney) {
         this.availableMoney = availableMoney;
     }
 }

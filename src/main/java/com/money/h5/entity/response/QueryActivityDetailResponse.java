@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class QueryActivityDetailResponse extends ResponseBase {
 
     @ApiModelProperty(value = "总价值")
-    private Integer totalPrice;
+    private Long totalPrice;
     @ApiModelProperty(value = "详情列表")
     private List<H5ActivityDetail> details;
 
@@ -24,7 +24,7 @@ public class QueryActivityDetailResponse extends ResponseBase {
         details = goods.getItems().stream().map(H5ActivityDetail::new).collect(Collectors.toList());;
     }
 
-    public Integer getTotalPrice() {
+    public Long getTotalPrice() {
         return totalPrice;
     }
 

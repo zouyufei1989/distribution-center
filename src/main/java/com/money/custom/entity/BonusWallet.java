@@ -12,10 +12,10 @@ import java.util.Date;
 public class BonusWallet extends OperationalEntity {
 
     private Integer id;
-    private Integer sumBonus;
-    private Integer pendingBonus;
-    private Integer usedBonus;
-    private Integer availableBonus;
+    private Long sumBonus;
+    private Long pendingBonus;
+    private Long usedBonus;
+    private Long availableBonus;
     private String lastDistributionDate;
 
     private Customer customer;
@@ -48,11 +48,11 @@ public class BonusWallet extends OperationalEntity {
 
     public static BonusWallet totalNew(OperationalEntity operationEntry) {
         BonusWallet wallet = new BonusWallet();
-        wallet.setSumBonus(0);
-        wallet.setPendingBonus(0);
-        wallet.setSumBonus(0);
-        wallet.setAvailableBonus(0);
-        wallet.setUsedBonus(0);
+        wallet.setSumBonus(0L);
+        wallet.setPendingBonus(0L);
+        wallet.setSumBonus(0L);
+        wallet.setAvailableBonus(0L);
+        wallet.setUsedBonus(0L);
         wallet.copyOperationInfo(operationEntry);
         return wallet;
     }
@@ -65,35 +65,35 @@ public class BonusWallet extends OperationalEntity {
         this.id = id;
     }
 
-    public Integer getSumBonus() {
+    public Long getSumBonus() {
         return sumBonus;
     }
 
-    public void setSumBonus(Integer sumBonus) {
+    public void setSumBonus(Long sumBonus) {
         this.sumBonus = sumBonus;
     }
 
-    public Integer getPendingBonus() {
+    public Long getPendingBonus() {
         return pendingBonus;
     }
 
-    public void setPendingBonus(Integer pendingBonus) {
+    public void setPendingBonus(Long pendingBonus) {
         this.pendingBonus = pendingBonus;
     }
 
-    public Integer getUsedBonus() {
+    public Long getUsedBonus() {
         return usedBonus;
     }
 
-    public void setUsedBonus(Integer usedBonus) {
+    public void setUsedBonus(Long usedBonus) {
         this.usedBonus = usedBonus;
     }
 
-    public Integer getAvailableBonus() {
+    public Long getAvailableBonus() {
         return availableBonus;
     }
 
-    public void setAvailableBonus(Integer availableBonus) {
+    public void setAvailableBonus(Long availableBonus) {
         this.availableBonus = availableBonus;
     }
 

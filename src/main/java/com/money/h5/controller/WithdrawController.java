@@ -38,7 +38,7 @@ public class WithdrawController {
         int recordCount = this.bonusWalletService.selectSearchListCount(bonusWalletDetailRequest);
 
         Customer customer = customerService.findByOpenId(request.getOpenId());
-        Integer pending = customer.getBonusWallet().getPendingBonus();
+        Long pending = customer.getBonusWallet().getPendingBonus();
 
         return new QueryBonusDetailResponse(recordCount, request.calTotalPage(recordCount), this.bonusWalletService.selectSearchList(bonusWalletDetailRequest), pending);
     }

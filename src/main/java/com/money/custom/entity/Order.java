@@ -29,19 +29,19 @@ public class Order extends BaseEntity {
     private String goodsDesc;
     private Integer goodsCnt;
     private Integer goodsItemTypeCnt;
-    private Integer goodsSumPrice;
+    private Long goodsSumPrice;
     private String goodsCoverImg;
 
     private String goodsSerialNumber;
-    private Integer orderPrice;
+    private Long orderPrice;
     private Integer orderCnt;
     private String customerName;
     private String serialNumber;
     private String phone;
     private Integer customerType;
     private Integer payType;
-    private Integer sumMoney;
-    private Integer actuallyMoney;
+    private Long sumMoney;
+    private Long actuallyMoney;
     private String groupName;
     private String parentName;
 
@@ -78,11 +78,11 @@ public class Order extends BaseEntity {
         return EnumUtils.getNameByValue(OrderStatusEnum.class, getStatus());
     }
 
-    public Integer getActuallyMoney() {
+    public Long getActuallyMoney() {
         return actuallyMoney;
     }
 
-    public void setActuallyMoney(Integer actuallyMoney) {
+    public void setActuallyMoney(Long actuallyMoney) {
         this.actuallyMoney = actuallyMoney;
     }
 
@@ -168,11 +168,11 @@ public class Order extends BaseEntity {
         this.payType = payType;
     }
 
-    public Integer getSumMoney() {
+    public Long getSumMoney() {
         return sumMoney;
     }
 
-    public void setSumMoney(Integer sumMoney) {
+    public void setSumMoney(Long sumMoney) {
         this.sumMoney = sumMoney;
     }
 
@@ -286,19 +286,19 @@ public class Order extends BaseEntity {
         this.goodsItemTypeCnt = goodsItemTypeCnt;
     }
 
-    public Integer getGoodsSumPrice() {
+    public Long getGoodsSumPrice() {
         return goodsSumPrice;
     }
 
-    public void setGoodsSumPrice(Integer goodsSumPrice) {
+    public void setGoodsSumPrice(Long goodsSumPrice) {
         this.goodsSumPrice = goodsSumPrice;
     }
 
-    public Integer getOrderPrice() {
+    public Long getOrderPrice() {
         return orderPrice;
     }
 
-    public void setOrderPrice(Integer orderPrice) {
+    public void setOrderPrice(Long orderPrice) {
         this.orderPrice = orderPrice;
     }
 

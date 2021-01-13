@@ -18,7 +18,7 @@ public class MoAGoods4PackageRequest extends OperationalEntity {
     @NotNull(message = "请输入次数")
     private Integer cnt;
     @NotNull(message = "请输入套餐价格")
-    private Integer sumPrice;
+    private Long sumPrice;
     @NotNull(message = "请上传封面图片")
     private String coverImg;
 
@@ -30,11 +30,11 @@ public class MoAGoods4PackageRequest extends OperationalEntity {
         this.coverImg = coverImg;
     }
 
-    public Integer getSumPrice() {
+    public Long getSumPrice() {
         return sumPrice;
     }
 
-    public void setSumPrice(Integer sumPrice) {
+    public void setSumPrice(Long sumPrice) {
         this.sumPrice = sumPrice;
     }
 

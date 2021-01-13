@@ -192,7 +192,7 @@ public class GoodsServiceImpl extends BaseServiceImpl implements GoodsService {
         items.forEach(i -> {
             i.setCnt(request.getItems().stream().filter(r -> r.getGoodsItemId().equals(i.getId())).findAny().get().getCnt());
         });
-        goods.setSumPrice(items.stream().mapToInt(i -> i.getPrice() * i.getCnt()).sum());
+        goods.setSumPrice(items.stream().mapToLong(i -> i.getPrice() * i.getCnt()).sum());
         dao.add(goods);
 
         items.forEach(i -> {

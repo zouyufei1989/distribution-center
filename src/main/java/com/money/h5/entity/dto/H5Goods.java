@@ -12,7 +12,7 @@ public class H5Goods {
     @ApiModelProperty(value = "名称")
     private String name;
     @ApiModelProperty(value = "价格-分")
-    private Integer price;
+    private Long price;
     @ApiModelProperty(value = "缩略图")
     private String thumbnail;
     @ApiModelProperty(value = "描述")
@@ -50,7 +50,7 @@ public class H5Goods {
         return name;
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 

@@ -15,7 +15,7 @@ public class H5PayInfo {
     @ApiModelProperty(value = "支付类型")
     private String payType;
     @ApiModelProperty(value = "消费金额")
-    private Integer amount;
+    private Long amount;
     @ApiModelProperty(value = "商品名称")
     private String goodsName;
     @ApiModelProperty(value = "商品类型")
@@ -51,7 +51,7 @@ public class H5PayInfo {
         return payType;
     }
 
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 

@@ -7,12 +7,12 @@ import com.money.custom.entity.enums.BonusChangeTypeEnum;
 public class BonusRechargeRequest extends RechargeRequest {
 
     private Integer orderPayItemId;
-    private Integer bonusRate;
+    private Long bonusRate;
     private BonusChangeTypeEnum changeTypeEnum;
-    private Integer srcCustomerMoneyPay;
-    private Integer srcCustomerMoneyAvailable;
+    private Long srcCustomerMoneyPay;
+    private Long srcCustomerMoneyAvailable;
 
-    public BonusRechargeRequest(Integer amount, OrderPayItem item, BonusPlan bonusPlan,BonusChangeTypeEnum changeTypeEnum) {
+    public BonusRechargeRequest(Long amount, OrderPayItem item, BonusPlan bonusPlan,BonusChangeTypeEnum changeTypeEnum) {
         setAmount(amount);
         setCustomerGroupId(item.getCustomer().getCustomerGroup().getParentId());
         setOrderPayItemId(item.getId());
@@ -25,19 +25,19 @@ public class BonusRechargeRequest extends RechargeRequest {
         copyOperationInfo(item);
     }
 
-    public Integer getSrcCustomerMoneyPay() {
+    public Long getSrcCustomerMoneyPay() {
         return srcCustomerMoneyPay;
     }
 
-    public void setSrcCustomerMoneyPay(Integer srcCustomerMoneyPay) {
+    public void setSrcCustomerMoneyPay(Long srcCustomerMoneyPay) {
         this.srcCustomerMoneyPay = srcCustomerMoneyPay;
     }
 
-    public Integer getSrcCustomerMoneyAvailable() {
+    public Long getSrcCustomerMoneyAvailable() {
         return srcCustomerMoneyAvailable;
     }
 
-    public void setSrcCustomerMoneyAvailable(Integer srcCustomerMoneyAvailable) {
+    public void setSrcCustomerMoneyAvailable(Long srcCustomerMoneyAvailable) {
         this.srcCustomerMoneyAvailable = srcCustomerMoneyAvailable;
     }
 
@@ -49,7 +49,7 @@ public class BonusRechargeRequest extends RechargeRequest {
         this.changeTypeEnum = changeTypeEnum;
     }
 
-    public Integer getBonusRate() {
+    public Long getBonusRate() {
         return bonusRate;
     }
 

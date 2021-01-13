@@ -10,15 +10,15 @@ public class WalletDetail extends OperationalEntity {
 
     private Integer id;
     private Integer walletId;
-    private Integer moneyChange;
+    private Long moneyChange;
     private Integer changeType;
 
-    private Integer befSumMoney;
-    private Integer befUsedMoney;
-    private Integer befAvailableMoney;
-    private Integer aftSumMoney;
-    private Integer aftUsedMoney;
-    private Integer aftAvailableMoney;
+    private Long befSumMoney;
+    private Long befUsedMoney;
+    private Long befAvailableMoney;
+    private Long aftSumMoney;
+    private Long aftUsedMoney;
+    private Long aftAvailableMoney;
 
     private Customer customer;
 
@@ -82,59 +82,59 @@ public class WalletDetail extends OperationalEntity {
         this.walletId = walletId;
     }
 
-    public Integer getMoneyChange() {
+    public Long getMoneyChange() {
         return moneyChange;
     }
 
-    public void setMoneyChange(Integer moneyChange) {
+    public void setMoneyChange(Long moneyChange) {
         this.moneyChange = moneyChange;
     }
 
-    public Integer getBefSumMoney() {
+    public Long getBefSumMoney() {
         return befSumMoney;
     }
 
-    public void setBefSumMoney(Integer befSumMoney) {
+    public void setBefSumMoney(Long befSumMoney) {
         this.befSumMoney = befSumMoney;
     }
 
-    public Integer getBefUsedMoney() {
+    public Long getBefUsedMoney() {
         return befUsedMoney;
     }
 
-    public void setBefUsedMoney(Integer befUsedMoney) {
+    public void setBefUsedMoney(Long befUsedMoney) {
         this.befUsedMoney = befUsedMoney;
     }
 
-    public Integer getBefAvailableMoney() {
+    public Long getBefAvailableMoney() {
         return befAvailableMoney;
     }
 
-    public void setBefAvailableMoney(Integer befAvailableMoney) {
+    public void setBefAvailableMoney(Long befAvailableMoney) {
         this.befAvailableMoney = befAvailableMoney;
     }
 
-    public Integer getAftSumMoney() {
+    public Long getAftSumMoney() {
         return aftSumMoney;
     }
 
-    public void setAftSumMoney(Integer aftSumMoney) {
+    public void setAftSumMoney(Long aftSumMoney) {
         this.aftSumMoney = aftSumMoney;
     }
 
-    public Integer getAftUsedMoney() {
+    public Long getAftUsedMoney() {
         return aftUsedMoney;
     }
 
-    public void setAftUsedMoney(Integer aftUsedMoney) {
+    public void setAftUsedMoney(Long aftUsedMoney) {
         this.aftUsedMoney = aftUsedMoney;
     }
 
-    public Integer getAftAvailableMoney() {
+    public Long getAftAvailableMoney() {
         return aftAvailableMoney;
     }
 
-    public void setAftAvailableMoney(Integer aftAvailableMoney) {
+    public void setAftAvailableMoney(Long aftAvailableMoney) {
         this.aftAvailableMoney = aftAvailableMoney;
     }
 }

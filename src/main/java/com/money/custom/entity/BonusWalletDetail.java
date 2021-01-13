@@ -11,24 +11,24 @@ public class BonusWalletDetail extends OperationalEntity {
 
     private Integer id;
     private Integer bonusWalletId;
-    private Integer bonusChange;
+    private Long bonusChange;
     private Integer changeType;
-    private Integer befSumBonus;
-    private Integer befPendingBonus;
-    private Integer befAvailableBonus;
-    private Integer befUsedBonus;
-    private Integer aftSumBonus;
-    private Integer aftPendingBonus;
-    private Integer aftAvailableBonus;
-    private Integer aftUsedBonus;
+    private Long befSumBonus;
+    private Long befPendingBonus;
+    private Long befAvailableBonus;
+    private Long befUsedBonus;
+    private Long aftSumBonus;
+    private Long aftPendingBonus;
+    private Long aftAvailableBonus;
+    private Long aftUsedBonus;
     private Integer orderPayItemId;
-    private Integer bonusRate;
+    private Long bonusRate;
 
     private Customer customer;
-    private Integer payAmount;
+    private Long payAmount;
 
-    private Integer srcCustomerMoneyPay;
-    private Integer srcCustomerMoneyAvailable;
+    private Long srcCustomerMoneyPay;
+    private Long srcCustomerMoneyAvailable;
     private String srcCustomerName;
 
 
@@ -99,35 +99,35 @@ public class BonusWalletDetail extends OperationalEntity {
         this.srcCustomerName = srcCustomerName;
     }
 
-    public Integer getSrcCustomerMoneyPay() {
+    public Long getSrcCustomerMoneyPay() {
         return srcCustomerMoneyPay;
     }
 
-    public void setSrcCustomerMoneyPay(Integer srcCustomerMoneyPay) {
+    public void setSrcCustomerMoneyPay(Long srcCustomerMoneyPay) {
         this.srcCustomerMoneyPay = srcCustomerMoneyPay;
     }
 
-    public Integer getSrcCustomerMoneyAvailable() {
+    public Long getSrcCustomerMoneyAvailable() {
         return srcCustomerMoneyAvailable;
     }
 
-    public void setSrcCustomerMoneyAvailable(Integer srcCustomerMoneyAvailable) {
+    public void setSrcCustomerMoneyAvailable(Long srcCustomerMoneyAvailable) {
         this.srcCustomerMoneyAvailable = srcCustomerMoneyAvailable;
     }
 
-    public Integer getPayAmount() {
+    public Long getPayAmount() {
         return payAmount;
     }
 
-    public void setPayAmount(Integer payAmount) {
+    public void setPayAmount(Long payAmount) {
         this.payAmount = payAmount;
     }
 
-    public Integer getBonusRate() {
+    public Long getBonusRate() {
         return bonusRate;
     }
 
-    public void setBonusRate(Integer bonusRate) {
+    public void setBonusRate(Long bonusRate) {
         this.bonusRate = bonusRate;
     }
 
@@ -159,11 +159,11 @@ public class BonusWalletDetail extends OperationalEntity {
         this.bonusWalletId = bonusWalletId;
     }
 
-    public Integer getBonusChange() {
+    public Long getBonusChange() {
         return bonusChange;
     }
 
-    public void setBonusChange(Integer bonusChange) {
+    public void setBonusChange(Long bonusChange) {
         this.bonusChange = bonusChange;
     }
 
@@ -175,67 +175,67 @@ public class BonusWalletDetail extends OperationalEntity {
         this.changeType = changeType;
     }
 
-    public Integer getBefSumBonus() {
+    public Long getBefSumBonus() {
         return befSumBonus;
     }
 
-    public void setBefSumBonus(Integer befSumBonus) {
+    public void setBefSumBonus(Long befSumBonus) {
         this.befSumBonus = befSumBonus;
     }
 
-    public Integer getBefPendingBonus() {
+    public Long getBefPendingBonus() {
         return befPendingBonus;
     }
 
-    public void setBefPendingBonus(Integer befPendingBonus) {
+    public void setBefPendingBonus(Long befPendingBonus) {
         this.befPendingBonus = befPendingBonus;
     }
 
-    public Integer getBefAvailableBonus() {
+    public Long getBefAvailableBonus() {
         return befAvailableBonus;
     }
 
-    public void setBefAvailableBonus(Integer befAvailableBonus) {
+    public void setBefAvailableBonus(Long befAvailableBonus) {
         this.befAvailableBonus = befAvailableBonus;
     }
 
-    public Integer getBefUsedBonus() {
+    public Long getBefUsedBonus() {
         return befUsedBonus;
     }
 
-    public void setBefUsedBonus(Integer befUsedBonus) {
+    public void setBefUsedBonus(Long befUsedBonus) {
         this.befUsedBonus = befUsedBonus;
     }
 
-    public Integer getAftSumBonus() {
+    public Long getAftSumBonus() {
         return aftSumBonus;
     }
 
-    public void setAftSumBonus(Integer aftSumBonus) {
+    public void setAftSumBonus(Long aftSumBonus) {
         this.aftSumBonus = aftSumBonus;
     }
 
-    public Integer getAftPendingBonus() {
+    public Long getAftPendingBonus() {
         return aftPendingBonus;
     }
 
-    public void setAftPendingBonus(Integer aftPendingBonus) {
+    public void setAftPendingBonus(Long aftPendingBonus) {
         this.aftPendingBonus = aftPendingBonus;
     }
 
-    public Integer getAftAvailableBonus() {
+    public Long getAftAvailableBonus() {
         return aftAvailableBonus;
     }
 
-    public void setAftAvailableBonus(Integer aftAvailableBonus) {
+    public void setAftAvailableBonus(Long aftAvailableBonus) {
         this.aftAvailableBonus = aftAvailableBonus;
     }
 
-    public Integer getAftUsedBonus() {
+    public Long getAftUsedBonus() {
         return aftUsedBonus;
     }
 
-    public void setAftUsedBonus(Integer aftUsedBonus) {
+    public void setAftUsedBonus(Long aftUsedBonus) {
         this.aftUsedBonus = aftUsedBonus;
     }
 }

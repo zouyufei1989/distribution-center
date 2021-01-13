@@ -16,12 +16,12 @@ public class MoAGoods4SingleRequest extends OperationalEntity {
     private String name;
     @Min(value = 0, message = "毛利率需大于0")
     @NotNull(message = "请输入毛利率")
-    private Integer profitRate; // ÷1000
+    private Long profitRate; // ÷1000
     @NotNull(message = "请选择商品标签")
     private Integer goodsTagId;
     @Min(value = 0, message = "单价需大于0")
     @NotNull(message = "请输入单价")
-    private Integer price;   // ÷100
+    private Long price;   // ÷100
     @NotNull(message = "请选择是否展示价格")
     private Integer showPrice;
     @Length(max = 20, message = "单位不可超过20个字符")
@@ -60,11 +60,11 @@ public class MoAGoods4SingleRequest extends OperationalEntity {
         this.name = name;
     }
 
-    public Integer getProfitRate() {
+    public Long getProfitRate() {
         return profitRate;
     }
 
-    public void setProfitRate(Integer profitRate) {
+    public void setProfitRate(Long profitRate) {
         this.profitRate = profitRate;
     }
 
@@ -76,11 +76,11 @@ public class MoAGoods4SingleRequest extends OperationalEntity {
         this.goodsTagId = goodsTagId;
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

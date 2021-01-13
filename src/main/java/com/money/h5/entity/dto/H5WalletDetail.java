@@ -11,13 +11,13 @@ import java.util.Date;
 public class H5WalletDetail {
 
     @ApiModelProperty(value = "金额")
-    private Integer amount;
+    private Long amount;
     @ApiModelProperty(value = "充值日期")
     private String createDate;
     @ApiModelProperty(value = "消费期限")
     private String expireDate;
     @ApiModelProperty(value = "积分比例")
-    private Integer bonusRate;
+    private Long bonusRate;
 
     public H5WalletDetail(WalletDetail item) {
         amount = item.getMoneyChange();
@@ -26,7 +26,7 @@ public class H5WalletDetail {
         bonusRate = item.getCustomer().getBonusPlan().getBonusRate();
     }
 
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
@@ -34,7 +34,7 @@ public class H5WalletDetail {
         return expireDate;
     }
 
-    public Integer getBonusRate() {
+    public Long getBonusRate() {
         return bonusRate;
     }
 
