@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     Vue.component('upload-img-modal', {
-        props: ['id', 'title', 'target', 'img'],
+        props: ['id', 'title', 'target', 'img','width','height'],
         data: function () {
             return {
                 inputId: "input_" + this.id,
@@ -69,9 +69,12 @@
                             <label class="col-sm-3 control-label">{{title}}:</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="file" class="form-control" name="file" :id="inputId"> <span class="input-group-btn">
-                                    <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" :id="btnId">上&nbsp;&nbsp;&nbsp;&nbsp;传</button>
-                                </span>
+                                    <input type="file" class="form-control" name="file" :id="inputId">
+                                    <input type="hidden" class="form-control" v-model="width" id="width" name="width">
+                                    <input type="hidden" class="form-control" v-model="height" id="height" name="height">
+                                    <span class="input-group-btn">
+                                        <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" :id="btnId">上&nbsp;&nbsp;&nbsp;&nbsp;传</button>
+                                    </span>
                                 </div>
                             </div>
                         </div>

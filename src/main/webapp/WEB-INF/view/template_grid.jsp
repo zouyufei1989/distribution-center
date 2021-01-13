@@ -10,7 +10,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="wrapper animated fadeInRight" style="height:300px">
-                    <div id="preview" style="height: 300px; background-size: 100%; background-repeat: no-repeat;"></div>
+                    <div id="preview" style="height: 300px; background-size: 100%; background-repeat: no-repeat;z-index: 5000"></div>
                 </div>
             </div>
         </div>
@@ -243,7 +243,7 @@
                 if (gridLoadComplete && typeof gridLoadComplete === 'function') {
                     gridLoadComplete(XMLHttpRequest);
                 }
-                $('img').click(function (e) {
+                $(gridId).find('img').click(function (e) {
                     $('#preview').css('background-image', "url(" + $(e.target).attr('src') + ")");
                     $('#gridImgPreview').modal('show');
                 });

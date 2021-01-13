@@ -28,11 +28,11 @@ public class UploadUtils {
 
     private UploadUtils() {}
 
-    public FileUploaded saveFileToUpyun(MultipartFile file) throws IOException {
+    public FileUploaded saveFileToUpyun(MultipartFile file, Integer height, Integer width) throws IOException {
         FileUploaded fileUploaded = new FileUploaded();
 
         File tmpFile = saveTmpFile(file);
-        String url  = upYunUtil.saveFile(tmpFile);
+        String url = upYunUtil.saveFile(tmpFile, null, height, width);
         fileUploaded.setUrl(url);
         fileUploaded.setUploadDateTime(new Date());
         fileUploaded.setSrcFileName(file.getOriginalFilename());

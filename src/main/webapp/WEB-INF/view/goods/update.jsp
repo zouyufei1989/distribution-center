@@ -90,4 +90,4 @@
     </div>
 </div>
 
-<upload-img-modal id="thumbnailModal" title="商品展示图" img="thumbnailUrl"></upload-img-modal>
+<upload-img-modal id="thumbnailModal" title="商品展示图" img="thumbnailUrl" width="686" height="313"></upload-img-modal>

@@ -91,4 +91,4 @@
     </div>
 </div>
 
-<upload-img-modal id="coverImgModal" title="活动封面" img="coverImgUrl"></upload-img-modal>
+<upload-img-modal id="coverImgModal" title="活动封面" img="coverImgUrl" width="686" height="176"></upload-img-modal>

@@ -66,7 +66,37 @@ public class UpYunUtil {
         if (result) {
             return URL + filePath;
         } else {
-            throw  PandabusSpecException.businessError(ResponseCodeEnum.UPLOAD_FAIL);
+            throw PandabusSpecException.businessError(ResponseCodeEnum.UPLOAD_FAIL);
+        }
+    }
+
+    public String saveFile(File picFile, Map<String, String> params, Integer width, Integer height) throws IOException {
+        // 初始化空间
+        upyun = new UpYun(BUCKET_NAME, USER_NAME, USER_PWD);
+        String filePath = DIR_ROOT + UPLOAD_FOLDER + PATH_SEPARATOR + picFile.getName();
+        upyun.setContentMD5(UpYun.md5(picFile));
+
+        boolean result = true;
+        if (Objects.isNull(params)) {
+            result = upyun.writeFile(filePath, picFile, true);
+        } else {
+            result = upyun.writeFile(filePath, picFile, true, params);
+        }
+
+        if (result) {
+            if (Objects.nonNull(width) && Objects.nonNull(height)) {
+                return URL + filePath + "!/both/" + width + "x" + height;
+            }
+            if (Objects.nonNull(width)) {
+                return URL + filePath + "!/fw/" + width;
+            }
+            if (Objects.nonNull(height)) {
+                return URL + filePath + "!/fh/" + height;
+            }
+
+            return URL + filePath;
+        } else {
+            throw PandabusSpecException.businessError(ResponseCodeEnum.UPLOAD_FAIL);
         }
 
     }

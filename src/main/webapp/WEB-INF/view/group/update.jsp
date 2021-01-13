@@ -159,7 +159,7 @@
     </div>
 </div>
 
-<upload-img-modal id="thumbnailModal" title="缩略图" img="thumbnail_url"></upload-img-modal>
-<upload-img-modal id="detailCoverImgModal" title="详情封面" img="detailCoverImg_url"></upload-img-modal>
+<upload-img-modal id="thumbnailModal" title="缩略图" img="thumbnail_url" width="112" height="112"></upload-img-modal>
+<upload-img-modal id="detailCoverImgModal" title="详情封面" img="detailCoverImg_url" width="686" height="343"></upload-img-modal>
 <upload-img-modal id="detailImgModal" title="详情" img="detailImg_url"></upload-img-modal>
 <upload-img-modal id="videoModal" title="介绍视频" img="videoUrl"></upload-img-modal>
