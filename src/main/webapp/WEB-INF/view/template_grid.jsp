@@ -10,7 +10,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="wrapper animated fadeInRight" style="height:300px">
-                    <div id="preview" style="height: 300px; background-size: 100%; background-repeat: no-repeat;z-index: 5000"></div>
+                    <div id="preview" style="height: 300px;background-size: 100%; background: no-repeat center;z-index: 5000"></div>
                 </div>
             </div>
         </div>
