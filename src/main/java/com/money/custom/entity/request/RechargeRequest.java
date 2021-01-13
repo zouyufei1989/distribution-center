@@ -13,6 +13,7 @@ public class RechargeRequest extends OperationalEntity {
     @NotNull(message = "请指定要充值的客户")
     private Integer customerGroupId;
     @NotNull(message = "请输入充值金额")
+    @Min(value = 0, message = "充值金额不可少于0元")
     private Integer amount;
 
     public Integer getCustomerGroupId() {
