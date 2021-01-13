@@ -52,7 +52,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>商品展示图：</label>
+                                    <label class="col-sm-3 control-label">
+                                        <span style="color: red;">*</span>商品展示图：
+                                        <br>
+                                        <span style="color:darkgrey;font-size: smaller">(图片尺寸:宽686 * 高313)</span>
+                                    </label>
                                     <div class="col-sm-2">
                                         <div class="upload_box" id="thumbnail" data-toggle="modal" data-target="#thumbnailModal">+</div>
                                     </div>

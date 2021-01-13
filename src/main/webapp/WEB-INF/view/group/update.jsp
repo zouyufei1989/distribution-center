@@ -64,7 +64,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>缩略图:</label>
+                                    <label class="col-sm-3 control-label">
+                                        <span style="color: red;"></span>缩略图:
+                                        <br>
+                                        <span style="color:darkgrey;font-size: smaller">(图片尺寸:宽112 * 高112)</span>
+                                    </label>
                                     <div class="col-sm-2">
                                         <div class="upload_box" id="thumbnail" data-toggle="modal" data-target="#thumbnailModal">+</div>
                                     </div>
@@ -73,7 +77,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"><span style="color: red;"></span>详情封面图片:</label>
+                                    <label class="col-sm-3 control-label">
+                                        <span style="color: red;"></span>详情封面图片:
+                                        <br>
+                                        <span style="color:darkgrey;font-size: smaller">(图片尺寸:宽686 * 高343)</span>
+                                    </label>
                                     <div class="col-sm-2">
                                         <div class="upload_box" id="detailCoverImg" data-toggle="modal" data-target="#detailCoverImgModal">+</div>
                                     </div>
