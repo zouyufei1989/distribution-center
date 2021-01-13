@@ -121,6 +121,7 @@ $(document).ready(function () {
                                     Alert("", "成功！", "success", function () {
                                         reloadList();
                                         _this.timestamp = new Date().getTime();
+                                        $('#consumeModal').modal('hide');
                                     });
                                 });
                             }
