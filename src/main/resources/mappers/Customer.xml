@@ -11,6 +11,7 @@
 			dc.name,
 			dc.phone,
 			dc.head_cover AS headCover,
+			dc.nick_name AS nickName,
 			dbp.name AS `customerGroup.bonusPlanName`,
 			dbp.id AS `customerGroup.bonusPlanId`,
 			dw.available_money AS `wallet.sumMoney`,
