@@ -19,7 +19,7 @@ $(document).ready(function () {
             {name: 'desc', header: '店铺简介'},
             {name: 'thumbnail', header: '缩略图', formatter: imgPreViewFormatter},
             {name: 'detailCoverImg', header: '详情封面图', formatter: imgPreViewFormatter},
-            {name: 'detailImg', header: '详情图片', formatter: imgPreViewFormatter},
+            // {name: 'detailImg', header: '详情图片', formatter: imgPreViewFormatter},
             {name: 'openRules4Show', header: '营业时间', width: 120},
             {name: 'index', header: '门店排序'},
             {name: 'statusName', header: '状态'},

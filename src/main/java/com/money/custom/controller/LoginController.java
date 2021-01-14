@@ -11,11 +11,13 @@ import com.money.custom.utils.VerifyImgUtils;
 import com.money.framework.base.web.controller.BaseController;
 import com.money.framework.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -32,13 +34,19 @@ public class LoginController extends BaseController {
     @Autowired
     RedisUtils redisUtils;
 
+    @Value("${beian}")
+    String BEIAN;
+
+
     @RequestMapping("/")
-    public String index() {
+    public String index(HttpServletRequest request) {
+        request.setAttribute("beian", BEIAN);
         return "/login/index";
     }
 
     @RequestMapping(value = "/login")
-    public String showLoginPage() {
+    public String showLoginPage(HttpServletRequest request) {
+        request.setAttribute("beian", BEIAN);
         return "/login/index";
     }
 

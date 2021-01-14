@@ -27,7 +27,7 @@ public class H5Order {
     public H5Order(Order item) {
         id = item.getId();
         goodsName = item.getGoodsName();
-        serialNumber = item.getSerialNumber();
+        serialNumber = item.getGoodsSerialNumber();
         goodsType = item.getGoodsTypeId();
         goodsTypeName = item.getGoodsTypeName();
         coverImg = item.getGoodsCoverImg();
