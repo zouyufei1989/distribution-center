@@ -1,6 +1,7 @@
 package com.money.h5.entity.dto;
 
 import com.money.custom.entity.OrderPay;
+import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.framework.util.DateUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,8 +32,11 @@ public class H5PayInfo {
         payType = orderPay.getOrder().getPayTypeName();
         goodsName = orderPay.getOrder().getGoodsName();
         amount = orderPay.getActuallyMoney();
-        cnt = orderPay.getOrder().getOrderCnt()* orderPay.getOrder().getGoodsCnt();
+        cnt = orderPay.getOrder().getOrderCnt() * orderPay.getOrder().getGoodsCnt();
         goodsType = orderPay.getOrder().getGoodsTypeName();
+        if (goodsType.equals(GoodsTypeEnum.ACTIVITY.getName())) {
+            this.payType = "活动抵消";
+        }
     }
 
     public String getGoodsType() {
