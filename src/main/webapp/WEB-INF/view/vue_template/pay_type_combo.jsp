@@ -26,7 +26,6 @@
             data = sort(data, (i, j) => {
                 return i.value == j.value ? 0 : i.value - j.value;
             });
-            console.log(this.must_choose_one)
             if (this.must_choose_one == 'false' || this.must_choose_one == false) {
                 data = [{value: null, name: '请选择'}].concat(data);
             }

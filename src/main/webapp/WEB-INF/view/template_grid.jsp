@@ -165,7 +165,6 @@
             },
             onSelectRow: function (row_id, status) {
                 var rowSelect = $("#" + this.id).jqGrid("getRowData", row_id);
-                console.log(row_id + ":" + status);
                 if (status) {
                     //选中
                     _ROWS_CHOOSED.push(rowSelect);

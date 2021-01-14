@@ -58,7 +58,6 @@ $(document).ready(function () {
 
 function goRecharge(rowId) {
     var customer = $("#table_list").jqGrid("getRowData", rowId);
-    console.log(customer)
     chargeVue.customer = {
         id: customer['customerGroup.id'],
         name: customer.name,

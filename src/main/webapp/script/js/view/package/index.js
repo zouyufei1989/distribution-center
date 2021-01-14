@@ -48,7 +48,6 @@ function subGridRowExpanded(subgrid_id, row_id, rowExpanded) {
                     {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
                     {name: 'id', header: "id", hidden: true},
                 ], subgrid_table_id, subgrid_pager_id,true);
-            console.log(result.data.items.length)
         }
     });
 }
