@@ -10,7 +10,7 @@ $(document).ready(function () {
             {name: 'desc', header: '项目简介', width: 200},
             {name: 'cnt', header: '内含次数'},
             {name: 'goodsItemTypeCnt', header: '包含商品'},
-            {name: 'sumPrice', header: '价格(元)', formatter:moneyFormatter},
+            {name: 'sumPrice', header: '价格(元)', formatter: moneyFormatter},
             {name: 'broughtCnt', header: '已够数量'},
             {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
             {name: 'statusName', header: '状态'},
@@ -47,7 +47,7 @@ function subGridRowExpanded(subgrid_id, row_id, rowExpanded) {
                     {name: 'goodsTagName', header: '标签'},
                     {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
                     {name: 'id', header: "id", hidden: true},
-                ], subgrid_table_id, subgrid_pager_id);
+                ], subgrid_table_id, subgrid_pager_id,true);
             console.log(result.data.items.length)
         }
     });

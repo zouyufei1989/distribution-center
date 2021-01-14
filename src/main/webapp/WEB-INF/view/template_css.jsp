@@ -137,11 +137,21 @@
         margin-top: 25px !important;
     }
 
-    .ui-jqgrid tr.jqgrow td {
+    .ui-jqgrid tr.jqgrow td{
         white-space: normal !important;
         height:auto;
-        vertical-align:text-top;
-        padding-top:2px;
+        vertical-align:middle;
+        padding:10px !important;
+        text-align: center;
+        word-break : break-all;
+    }
+
+    .ui-jqgrid .ui-jqgrid-htable th{
+        white-space: normal !important;
+        vertical-align:middle !important;
+        text-align: center !important;
+        word-break : break-all;
+        padding:10px !important;
     }
 
 </style>

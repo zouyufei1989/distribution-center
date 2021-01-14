@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">
-                                        <span style="color: red;">活动封面:</span>
+                                        <span style="">活动封面:</span>
                                         <br>
                                         <span style="color:darkgrey;font-size: smaller">(图片尺寸:宽686 * 高176)</span>
                                     </label>

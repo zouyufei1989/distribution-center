@@ -29,29 +29,7 @@
             return item.width;
         }
 
-        if (item.header === "客户姓名") {
-            return 70;
-        } else if (item.header === "客户编号" || item.header === "积分方案编号") {
-            return 130;
-        } else if (item.header === "客户类型") {
-            return 70;
-        } else if (item.header === "手机号码" || item.header === "联系电话") {
-            return 110;
-        } else if (item.header === "所属门店") {
-            return 100;
-        } else if (item.header === "状态") {
-            return 50;
-        } else if (item.formatter != undefined && item.formatter && item.formatter.name === 'yyyyMMddhhmmFormatter') {
-            return 140;
-        } else if (item.formatter != undefined && item.formatter && item.formatter.name === 'yyyyMMddhhmmssFormatter') {
-            return 170;
-        } else if (item.formatter != undefined && item.formatter && item.formatter.name === 'imgPreViewFormatter') {
-            return 150;
-        } else if (item.header.length > 4) {
-            return 16 * item.header.length;
-        }
-
-        return 70;
+        return 100;
     }
 
 
@@ -64,13 +42,13 @@
             data: data,
             datatype: "local",
             height: "100%",
-            shrinkToFit: true,
             autowidth: true,
-            autoScroll: true,
+            shrinkToFit: true,
             rowNum: rowNum || 20,
             rownumbers: true,
             multiselect: true,
             rownumWidth: 50,
+            cellLayout:50,
             rowList: [20, 50, 100],
             colNames: columns.map(function (item) {
                 return item.header;
@@ -171,9 +149,8 @@
             datatype: "json",
             mtype: "GET",
             height: "100%",
-            shrinkToFit: columns.length < 6,
-            autoScroll: true,
             autowidth: true,
+            shrinkToFit: true,
             rowNum: rows || 20,
             rownumbers: true,
             multiselect: true,
@@ -207,6 +184,7 @@
                 }
             },
             rownumWidth: 50,
+            cellLayout:50,
             rowList: rows ? [rows] : [20, 50, 100],
             colNames: columns.map(function (item) {
                 return item.header;

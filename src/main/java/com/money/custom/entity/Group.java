@@ -32,9 +32,7 @@ public class Group extends BaseEntity {
     private String thumbnail;
     @NotBlank(message = "请上传详情封面")
     private String detailCoverImg;
-    @NotBlank(message = "请上传详情图片")
     private String detailImg;
-    @NotBlank(message = "请上传介绍视频")
     private String video;
     @NotNull(message = "请输入门店排序")
     private Integer index;
