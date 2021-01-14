@@ -385,11 +385,11 @@
     }
 
     function yyyyMMddhhmmssFormatter(val) {
-        return timeFormatter(val, 'yyyy-MM-dd hh:mm:ss');
+        return timeFormatter(val, 'yyyy-MM-dd') + "<br>" + timeFormatter(val, 'hh:mm:ss');
     }
 
     function yyyyMMddhhmmFormatter(val) {
-        return timeFormatter(val, 'yyyy-MM-dd hh:mm');
+        return timeFormatter(val, 'yyyy-MM-dd') + "<br>" + timeFormatter(val, 'hh:mm');
     }
 
     function yyyyMMddFormatter(val) {
