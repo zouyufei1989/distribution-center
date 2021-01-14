@@ -30,12 +30,15 @@ $(document).ready(function () {
             {name: 'sumMoney4Show', header: '股本/余额'},
             {name: 'groupName', header: '所属门店'},
             {name: 'customerGroup.expireDate', header: '股东到期时间'},
-            {name: 'createDate', header: '创建时间',formatter:yyyyMMddhhmmFormatter},
+            {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
             {name: 'customerGroup.statusName', header: '状态'},
             {
                 name: 'id', header: '操作', formatter: function (val, opt, obj) {
-                    return hyperlinkeButtonFormatter('充值', 'goRecharge(' + obj.customerGroup.id + ')', '#1ab394') + hyperlinkeButtonFormatter('消费', 'goConsume(' + obj.customerGroup.id + ')', '#f8ac59')
-                },width:100
+                    if (obj.customerGroup.type == 2) {
+                        return hyperlinkeButtonFormatter('充值', 'goRecharge(' + obj.customerGroup.id + ')', '#1ab394') + hyperlinkeButtonFormatter('消费', 'goConsume(' + obj.customerGroup.id + ')', '#f8ac59');
+                    }
+                    return hyperlinkeButtonFormatter('消费', 'goConsume(' + obj.customerGroup.id + ')', '#f8ac59')
+                }, width: 100
             },
             {name: 'customerGroup.groupId', header: "groupId", hidden: true},
             {name: 'customerGroup.bonusPlanId', header: "bonusPlanId", hidden: true},
