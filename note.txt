@@ -48,3 +48,11 @@ nginx:
 
     18904084252
     xinze99@aliyun.com
+
+域名相关
+    测试：
+        https://zlz-test.xyz/store/
+        https://test.zlz-test.xyz/store/login   （推荐使用）
+    生产：
+        https://zlz-test.xyz:8081/store/
+        https://prod.zlz-test.xyz/store/login   （推荐使用）
