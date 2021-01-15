@@ -22,7 +22,6 @@ public class MoAGoods4SingleRequest extends OperationalEntity {
     @Min(value = 0, message = "单价需大于0")
     @NotNull(message = "请输入单价")
     private Long price;   // ÷100
-    @NotNull(message = "请选择是否展示价格")
     private Integer showPrice;
     @Length(max = 20, message = "单位不可超过20个字符")
     @NotBlank(message = "请输入单位")

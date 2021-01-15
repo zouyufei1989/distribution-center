@@ -16,11 +16,21 @@ public class H5RequestBase {
     @NotBlank(message = "openId不可为空")
     private String openId;
     private String phone;
+    @ApiModelProperty(hidden = true)
+    private boolean debug;
 
     public Map<String, Object> buildParams() {
         Map<String, Object> params = new HashMap<>();
         params.put("openId", openId);
         return params;
+    }
+
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 
     public String getOpenId() {

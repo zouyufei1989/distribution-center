@@ -15,7 +15,7 @@
                         </a>
 
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="${ctx}/logout">注销</a></li>
+                            <li><a href="${ctx}/logout">退出登录</a></li>
                         </ul>
                     </div>
                 </li>

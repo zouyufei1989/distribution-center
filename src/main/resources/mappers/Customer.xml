@@ -8,7 +8,7 @@
 	<select id="selectSearchList" parameterType="Map" resultType="Customer">
 		SELECT
 			dc.id,
-			dc.name,
+			IFNULL(dc.name,dc.nick_name) AS name,
 			dc.phone,
 			dc.open_id AS openId,
 			dc.head_cover AS headCover,
@@ -47,7 +47,7 @@
 				AND (dc.phone LIKE CONCAT('%',#{nameOrPhone},'%') OR dc.name LIKE CONCAT('%',#{nameOrPhone},'%'))
 			</if>
 			<if test="customer.name!=null and customer.name!=''">
-				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
+				AND (dc.name LIKE CONCAT('%',#{customer.name},'%') OR dc.nick_name LIKE CONCAT('%',#{customer.name},'%'))
 			</if>
 			<if test="customer.phone!=null and customer.phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{customer.phone},'%')
@@ -99,7 +99,7 @@
 				AND (dc.phone LIKE CONCAT('%',#{nameOrPhone},'%') OR dc.name LIKE CONCAT('%',#{nameOrPhone},'%'))
 			</if>
 			<if test="customer.name!=null and customer.name!=''">
-				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
+				AND (dc.name LIKE CONCAT('%',#{customer.name},'%') OR dc.nick_name LIKE CONCAT('%',#{customer.name},'%'))
 			</if>
 			<if test="customer.phone!=null and customer.phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{customer.phone},'%')

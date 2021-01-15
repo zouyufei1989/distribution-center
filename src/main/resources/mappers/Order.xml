@@ -58,7 +58,7 @@
 			do.goods_combine AS goodsCombine,
 			do.expire_date AS expireDate,
 			do.create_date AS createDate,
-			dc.name AS customerName,
+			IFNULL(dc.name,dc.nick_name) AS customerName,
 			dc.phone,
 			dcg.serial_number AS serialNumber,
 			dcg.type AS customerType,
@@ -112,7 +112,7 @@
 				AND do.customer_group_id = #{order.customerGroupId}
 			</if>
 			<if test="customer.name!=null and customer.name!=''">
-				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
+				AND (dc.name LIKE CONCAT('%',#{customer.name},'%') OR dc.nick_name LIKE CONCAT('%',#{customer.name},'%'))
 			</if>
 			<if test="customer.openId!=null and customer.openId!=''">
 				AND dc.open_id =#{customer.openId}
@@ -167,7 +167,7 @@
 				AND do.customer_group_id = #{order.customerGroupId}
 			</if>
 			<if test="customer.name!=null and customer.name!=''">
-				AND dc.name LIKE CONCAT('%',#{customer.name},'%')
+				AND (dc.name LIKE CONCAT('%',#{customer.name},'%') OR dc.nick_name LIKE CONCAT('%',#{customer.name},'%'))
 			</if>
 			<if test="customer.openId!=null and customer.openId!=''">
 				AND dc.open_id =#{customer.openId}

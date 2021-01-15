@@ -16,7 +16,6 @@ $(document).ready(function () {
             },
             {name: 'ownerName', header: '负责人'},
             {name: 'ownerPhone', header: '店铺电话'},
-            {name: 'desc', header: '店铺简介'},
             {name: 'thumbnail', header: '缩略图', formatter: imgPreViewFormatter},
             {name: 'detailCoverImg', header: '详情封面图', formatter: imgPreViewFormatter},
             // {name: 'detailImg', header: '详情图片', formatter: imgPreViewFormatter},

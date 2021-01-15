@@ -35,8 +35,11 @@ public class CheckSignAspectJ {
         Object[] args = point.getArgs();
         for (Object arg : args) {
             if (arg instanceof H5RequestBase) {
-                logger.info("小程序接口参数:{}", JSON.toJSONString(arg));
-                //checkArg((H5RequestBase) arg);
+                logger.info("wechat mini program :{} -> {}", point.getSignature().getName(), JSON.toJSONString(arg));
+                if (((H5RequestBase) arg).isDebug()) {
+                    continue;
+                }
+//                checkArg((H5RequestBase) arg);
             }
         }
 

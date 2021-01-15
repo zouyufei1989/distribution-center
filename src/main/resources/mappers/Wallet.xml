@@ -7,7 +7,7 @@
 
 	<select id="selectSearchList4Detail" parameterType="Map" resultType="WalletDetail">
 		SELECT
-			dc.name AS 'customer.name',
+			IFNULL(dc.name,dc.nick_name) AS 'customer.name',
 			dc.phone AS 'customer.phone',
 			dcg.serial_number AS 'customer.customerGroup.serialNumber',
 			dcg.type AS 'customer.customerGroup.type',
@@ -37,7 +37,7 @@
 				AND dcg.id = #{customerGroupId}
 			</if>
 			<if test="name!=null and name!=''">
-				AND dc.name LIKE CONCAT('%',#{name},'%')
+				AND (dc.name LIKE CONCAT('%',#{name},'%') OR dc.nick_name LIKE CONCAT('%',#{name},'%'))
 			</if>
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}
@@ -81,7 +81,7 @@
 				AND dwd.change_type = #{changeType}
 			</if>
 			<if test="name!=null and name!=''">
-				AND dc.name LIKE CONCAT('%',#{name},'%')
+				AND (dc.name LIKE CONCAT('%',#{name},'%') OR dc.nick_name LIKE CONCAT('%',#{name},'%'))
 			</if>
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}

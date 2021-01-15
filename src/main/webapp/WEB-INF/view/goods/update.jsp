@@ -33,7 +33,7 @@
                                         <goods-tag-combo id="goodsTagId" must-choose-one="true" :group_id = 'groupId'></goods-tag-combo>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>是否展示价格:</label>
                                     <div class="col-sm-7">
                                         <goods-show-price-combo id="showPrice" must-choose-one="true"></goods-show-price-combo>

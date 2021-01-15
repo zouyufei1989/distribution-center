@@ -7,7 +7,7 @@
 
 	<select id="selectSearchList" parameterType="Map" resultType="ActivityClaimRecord">
 		SELECT
-			dc.name AS customerName,
+			IFNULL(dc.name,dc.nick_name) AS customerName,
 			dacr.create_date AS createDate,
 			dcg.serial_number AS customerSerialNumber
 		FROM <include refid="tableName"/> dacr

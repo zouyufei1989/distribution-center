@@ -9,7 +9,7 @@
                 <span class="m-r-sm text-muted welcome-message">欢迎使用</span>
             </li>
             <li>
-                <a href="${ctx}/logout"> <i class="fa fa-sign-out"></i> 注销</a>
+                <a href="${ctx}/logout"> <i class="fa fa-sign-out"></i> 退出登录</a>
             </li>
         </ul>
     </nav>
