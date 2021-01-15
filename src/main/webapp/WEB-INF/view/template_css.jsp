@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<title>管理系统</title>
+<title>沛尚医美</title>
 <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resource/favicon.ico" media="screen"/>
 <link href="${pageContext.request.contextPath}/script/plugins/inspinia/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/script/plugins/inspinia/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -137,21 +137,25 @@
         margin-top: 25px !important;
     }
 
-    .ui-jqgrid tr.jqgrow td{
+    .ui-jqgrid tr.jqgrow td {
         white-space: normal !important;
-        height:auto;
-        vertical-align:middle;
-        padding:10px !important;
+        height: auto;
+        vertical-align: middle;
+        padding: 10px !important;
         text-align: center;
-        word-break : break-all;
+        word-break: break-all;
     }
 
-    .ui-jqgrid .ui-jqgrid-htable th{
+    .ui-jqgrid .ui-jqgrid-htable th {
         white-space: normal !important;
-        vertical-align:middle !important;
+        vertical-align: middle !important;
         text-align: center !important;
-        word-break : break-all;
-        padding:10px !important;
+        word-break: break-all;
+        padding: 10px !important;
+    }
+
+    .ui-icon-carat-1-s {
+        margin-left: 12px !important;
     }
 
 </style>
