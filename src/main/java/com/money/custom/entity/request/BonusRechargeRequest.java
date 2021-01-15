@@ -11,8 +11,10 @@ public class BonusRechargeRequest extends RechargeRequest {
     private BonusChangeTypeEnum changeTypeEnum;
     private Long srcCustomerMoneyPay;
     private Long srcCustomerMoneyAvailable;
+    private String batchId;
 
-    public BonusRechargeRequest(Long amount, OrderPayItem item, BonusPlan bonusPlan,BonusChangeTypeEnum changeTypeEnum) {
+    public BonusRechargeRequest(Long amount, OrderPayItem item, BonusPlan bonusPlan, BonusChangeTypeEnum changeTypeEnum) {
+        this.batchId = item.getOrderId().toString();
         setAmount(amount);
         setCustomerGroupId(item.getCustomer().getCustomerGroup().getParentId());
         setOrderPayItemId(item.getId());
@@ -23,6 +25,10 @@ public class BonusRechargeRequest extends RechargeRequest {
         srcCustomerMoneyAvailable = item.getCustomer().getWallet().getAvailableMoney();
 
         copyOperationInfo(item);
+    }
+
+    public String getBatchId() {
+        return batchId;
     }
 
     public Long getSrcCustomerMoneyPay() {

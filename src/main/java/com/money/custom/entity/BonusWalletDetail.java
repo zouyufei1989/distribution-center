@@ -7,18 +7,21 @@ import com.money.custom.entity.request.DeductionRequest;
 import com.money.custom.entity.request.DistributeBonusRequest;
 import com.money.framework.base.entity.OperationalEntity;
 
+import java.util.UUID;
+
 public class BonusWalletDetail extends OperationalEntity {
 
     private Integer id;
+    private String batchId;
     private Integer bonusWalletId;
     private Long bonusChange;
     private Integer changeType;
     private Long befSumBonus;
-    private Long befPendingBonus;
+    private Long befDistributeBonus;
     private Long befAvailableBonus;
     private Long befUsedBonus;
     private Long aftSumBonus;
-    private Long aftPendingBonus;
+    private Long aftDistributeBonus;
     private Long aftAvailableBonus;
     private Long aftUsedBonus;
     private Integer orderPayItemId;
@@ -35,39 +38,45 @@ public class BonusWalletDetail extends OperationalEntity {
     public BonusWalletDetail() {}
 
     public BonusWalletDetail(BonusRechargeRequest request, BonusWallet wallet) {
+        this.batchId = request.getBatchId();
         bonusRate = request.getBonusRate();
         bonusWalletId = wallet.getId();
         orderPayItemId = request.getOrderPayItemId();
         bonusChange = request.getAmount();
         changeType = request.getChangeTypeEnum().getValue();
         befSumBonus = wallet.getSumBonus();
-        befPendingBonus = wallet.getPendingBonus();
+        befDistributeBonus = wallet.getDistributeBonus();
         befAvailableBonus = wallet.getAvailableBonus();
         befUsedBonus = wallet.getUsedBonus();
 
         aftSumBonus = wallet.getSumBonus() + bonusChange;
-        aftPendingBonus = wallet.getPendingBonus() + bonusChange;
-        aftAvailableBonus = wallet.getAvailableBonus();
+        aftDistributeBonus = wallet.getDistributeBonus();
+        aftAvailableBonus = wallet.getAvailableBonus() + bonusChange;
         aftUsedBonus = wallet.getUsedBonus();
 
         srcCustomerMoneyPay = request.getSrcCustomerMoneyPay();
         srcCustomerMoneyAvailable = request.getSrcCustomerMoneyAvailable() - request.getSrcCustomerMoneyPay();
+        if (srcCustomerMoneyAvailable < 0L) {
+            getLogger().warn("srcCustomerMoneyAvailable {} <0, reset to 0", srcCustomerMoneyAvailable);
+            srcCustomerMoneyAvailable = 0L;
+        }
 
         copyOperationInfo(request);
     }
 
     public BonusWalletDetail(DeductionRequest request, BonusWallet wallet) {
+        batchId = UUID.randomUUID().toString();
         bonusWalletId = wallet.getId();
         orderPayItemId = request.getOrderPayItemId();
         bonusChange = request.getAmount();
         changeType = BonusChangeTypeEnum.DEDUCTION.getValue();
         befSumBonus = wallet.getSumBonus();
-        befPendingBonus = wallet.getPendingBonus();
+        befDistributeBonus = wallet.getDistributeBonus();
         befAvailableBonus = wallet.getAvailableBonus();
         befUsedBonus = wallet.getUsedBonus();
 
         aftSumBonus = wallet.getSumBonus();
-        aftPendingBonus = wallet.getPendingBonus();
+        aftDistributeBonus = wallet.getDistributeBonus();
         aftAvailableBonus = wallet.getAvailableBonus() - request.getAmount();
         aftUsedBonus = wallet.getUsedBonus() + request.getAmount();
 
@@ -75,20 +84,25 @@ public class BonusWalletDetail extends OperationalEntity {
     }
 
     public BonusWalletDetail(DistributeBonusRequest request, BonusWallet wallet) {
+        batchId = UUID.randomUUID().toString();
         bonusWalletId = wallet.getId();
         bonusChange = request.getAmount();
         changeType = BonusChangeTypeEnum.DISTRIBUTION.getValue();
         befSumBonus = wallet.getSumBonus();
-        befPendingBonus = wallet.getPendingBonus();
+        befDistributeBonus = wallet.getDistributeBonus();
         befAvailableBonus = wallet.getAvailableBonus();
         befUsedBonus = wallet.getUsedBonus();
 
         aftSumBonus = wallet.getSumBonus();
-        aftPendingBonus = wallet.getPendingBonus() - request.getAmount();
-        aftAvailableBonus = wallet.getAvailableBonus() + request.getAmount();
+        aftDistributeBonus = wallet.getDistributeBonus() + request.getAmount();
+        aftAvailableBonus = wallet.getAvailableBonus() - request.getAmount();
         aftUsedBonus = wallet.getUsedBonus();
 
         copyOperationInfo(request);
+    }
+
+    public String getBatchId() {
+        return batchId;
     }
 
     public String getSrcCustomerName() {
@@ -183,12 +197,20 @@ public class BonusWalletDetail extends OperationalEntity {
         this.befSumBonus = befSumBonus;
     }
 
-    public Long getBefPendingBonus() {
-        return befPendingBonus;
+    public Long getBefDistributeBonus() {
+        return befDistributeBonus;
     }
 
-    public void setBefPendingBonus(Long befPendingBonus) {
-        this.befPendingBonus = befPendingBonus;
+    public void setBefDistributeBonus(Long befDistributeBonus) {
+        this.befDistributeBonus = befDistributeBonus;
+    }
+
+    public Long getAftDistributeBonus() {
+        return aftDistributeBonus;
+    }
+
+    public void setAftDistributeBonus(Long aftDistributeBonus) {
+        this.aftDistributeBonus = aftDistributeBonus;
     }
 
     public Long getBefAvailableBonus() {
@@ -213,14 +235,6 @@ public class BonusWalletDetail extends OperationalEntity {
 
     public void setAftSumBonus(Long aftSumBonus) {
         this.aftSumBonus = aftSumBonus;
-    }
-
-    public Long getAftPendingBonus() {
-        return aftPendingBonus;
-    }
-
-    public void setAftPendingBonus(Long aftPendingBonus) {
-        this.aftPendingBonus = aftPendingBonus;
     }
 
     public Long getAftAvailableBonus() {

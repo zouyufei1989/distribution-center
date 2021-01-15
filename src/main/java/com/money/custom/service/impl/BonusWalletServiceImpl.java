@@ -118,10 +118,10 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
 
             BonusWallet bonusWallet = customer.getBonusWallet();
             if (distributeAll) {
-                request.setAmount(bonusWallet.getPendingBonus());
+                request.setAmount(bonusWallet.getAvailableBonus());
             }
             Assert.isTrue(request.getAmount() > 0, "下发积分为0");
-            Assert.isTrue(bonusWallet.getPendingBonus() >= request.getAmount(), "积分不足，无法下发");
+            Assert.isTrue(bonusWallet.getAvailableBonus() >= request.getAmount(), "积分不足，无法下发");
 
             BonusWalletDetail detail = new BonusWalletDetail(request, bonusWallet);
             dao.addDetail(detail);

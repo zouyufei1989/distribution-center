@@ -13,7 +13,7 @@
 			dcg.serial_number AS 'customer.customerGroup.serialNumber',
 			dcg.id AS 'customer.customerGroup.id',
 			dcg.type AS 'customer.customerGroup.type',
-			dbw.pending_bonus AS pendingBonus,
+			dbw.available_bonus AS availableBonus,
 			dg.name AS groupName,
 			dbw.last_distribution_date AS lastDistributionDate
 		FROM d_bonus_wallet dbw
@@ -38,7 +38,7 @@
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
 			</if>
 			<if test="search4Distribution!=null and search4Distribution==1">
-				AND dbw.pending_bonus &gt;0 AND dcg.type = 2
+				AND dbw.available_bonus &gt;0 AND dcg.type = 2
 			</if>
 		ORDER BY dcg.serial_number
 		<if test="rows != null and  rows > 0">
@@ -71,7 +71,7 @@
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
 			</if>
 			<if test="search4Distribution!=null and search4Distribution==1">
-				AND dbw.pending_bonus &gt;0 AND dcg.type = 2
+				AND dbw.available_bonus &gt;0 AND dcg.type = 2
 			</if>
 	</select>
 
@@ -82,14 +82,14 @@
 			dc.phone AS 'customer.phone',
 			dcg.serial_number AS 'customer.customerGroup.serialNumber',
 			dcg.type AS 'customer.customerGroup.type',
-			dbwd.bonus_change AS bonusChange,
+			SUM(dbwd.bonus_change) AS bonusChange,
 			dbwd.bonus_rate AS bonusRate,
-			dbwd.bef_available_bonus AS befAvailableBonus,
-			dbwd.bef_pending_bonus AS befPendingBonus,
-			dbwd.bef_sum_bonus AS befSumBonus,
-			dbwd.aft_available_bonus AS aftAvailableBonus,
-			dbwd.aft_pending_bonus AS aftPendingBonus,
-			dbwd.aft_sum_bonus AS aftSumBonus,
+			IF(dbwd.change_type=1, MIN(dbwd.bef_available_bonus),dbwd.bef_available_bonus) AS befAvailableBonus,
+			dbwd.bef_distribute_bonus AS befDistributeBonus,
+			IF(dbwd.change_type=1,MIN(dbwd.bef_sum_bonus),dbwd.bef_sum_bonus) AS befSumBonus,
+			IF(dbwd.change_type=1,MAX(dbwd.aft_available_bonus),dbwd.aft_available_bonus) AS aftAvailableBonus,
+			dbwd.aft_distribute_bonus AS aftDistributeBonus,
+			IF(dbwd.change_type=1,MAX(dbwd.aft_sum_bonus),dbwd.aft_sum_bonus) AS aftSumBonus,
 			dbwd.create_date AS createDate,
 			dbwd.change_type AS changeType,
 			dg.name AS groupName,
@@ -139,6 +139,7 @@
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}
 			</if>
+		GROUP BY dbwd.batch_id, dbwd.change_type
 		ORDER BY dbwd.id DESC
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
@@ -188,7 +189,7 @@
 		SELECT 
 			id,
 			sum_bonus AS sumBonus,
-			pending_bonus AS pendingBonus,
+			distribute_bonus AS distributeBonus,
 			used_bonus AS usedBonus,
 			available_bonus AS availableBonus
 		FROM <include refid="tableName"/>
@@ -199,7 +200,7 @@
 		INSERT INTO <include refid="tableName"/>
 		(
 			sum_bonus,
-			pending_bonus,
+			distribute_bonus,
 			used_bonus,
 			available_bonus,
 			create_date,
@@ -209,7 +210,7 @@
 		VALUES 
 		(
 			#{sumBonus},
-			#{pendingBonus},
+			#{distributeBonus},
 			#{usedBonus},
 			#{availableBonus},
 			NOW(),
@@ -227,8 +228,8 @@
 			<if test="sumBonus != null">
 				,sum_bonus = #{sumBonus}
 			</if>
-			<if test="pendingBonus != null">
-				,pending_bonus = #{pendingBonus}
+			<if test="distributeBonus != null">
+				,distribute_bonus = #{distributeBonus}
 			</if>
 			<if test="usedBonus != null">
 				,used_bonus = #{usedBonus}
@@ -245,15 +246,16 @@
 	<insert id="addDetail" parameterType="BonusWalletDetail">
 		INSERT INTO d_bonus_wallet_detail
 		(
+			batch_id,
 			bonus_wallet_id,
 			bonus_change,
 			change_type,
 			bef_sum_bonus,
-			bef_pending_bonus,
+			bef_distribute_bonus,
 			bef_available_bonus,
 			bef_used_bonus,
 			aft_sum_bonus,
-			aft_pending_bonus,
+			aft_distribute_bonus,
 			aft_available_bonus,
 			aft_used_bonus,
 			order_pay_item_id,
@@ -266,15 +268,16 @@
 		)
 		VALUES
 		(
+			#{batchId},
 			#{bonusWalletId},
 			#{bonusChange},
 			#{changeType},
 			#{befSumBonus},
-			#{befPendingBonus},
+			#{befDistributeBonus},
 			#{befAvailableBonus},
 			#{befUsedBonus},
 			#{aftSumBonus},
-			#{aftPendingBonus},
+			#{aftDistributeBonus},
 			#{aftAvailableBonus},
 			#{aftUsedBonus},
 			#{orderPayItemId},

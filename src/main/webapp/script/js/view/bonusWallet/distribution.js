@@ -38,7 +38,7 @@ $(document).ready(function () {
                 if (this.shareHolders.length == 0) {
                     return 0;
                 }
-                return this.shareHolders[0].pendingBonus;
+                return this.shareHolders[0].availableBonus;
             },
             multipleTip() {
                 return "您正在为" + this.shareHolders.length + "名股东: " + this.shareHolderNames + " 发放积分";

@@ -13,7 +13,7 @@ public class BonusWallet extends OperationalEntity {
 
     private Integer id;
     private Long sumBonus;
-    private Long pendingBonus;
+    private Long distributeBonus;
     private Long usedBonus;
     private Long availableBonus;
     private String lastDistributionDate;
@@ -22,7 +22,7 @@ public class BonusWallet extends OperationalEntity {
 
     public void recharge(BonusRechargeRequest rechargeRequest) {
         this.sumBonus += rechargeRequest.getAmount();
-        this.pendingBonus += rechargeRequest.getAmount();
+        this.availableBonus += rechargeRequest.getAmount();
     }
 
     public void deduction(DeductionRequest request) {
@@ -32,8 +32,8 @@ public class BonusWallet extends OperationalEntity {
     }
 
     public void distribution(DistributeBonusRequest request) {
-        this.pendingBonus -= request.getAmount();
-        this.availableBonus += request.getAmount();
+        this.availableBonus -= request.getAmount();
+        this.distributeBonus += request.getAmount();
         this.lastDistributionDate = DateUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
         copyOperationInfo(request);
     }
@@ -49,7 +49,7 @@ public class BonusWallet extends OperationalEntity {
     public static BonusWallet totalNew(OperationalEntity operationEntry) {
         BonusWallet wallet = new BonusWallet();
         wallet.setSumBonus(0L);
-        wallet.setPendingBonus(0L);
+        wallet.setDistributeBonus(0L);
         wallet.setSumBonus(0L);
         wallet.setAvailableBonus(0L);
         wallet.setUsedBonus(0L);
@@ -73,12 +73,12 @@ public class BonusWallet extends OperationalEntity {
         this.sumBonus = sumBonus;
     }
 
-    public Long getPendingBonus() {
-        return pendingBonus;
+    public Long getDistributeBonus() {
+        return distributeBonus;
     }
 
-    public void setPendingBonus(Long pendingBonus) {
-        this.pendingBonus = pendingBonus;
+    public void setDistributeBonus(Long distributeBonus) {
+        this.distributeBonus = distributeBonus;
     }
 
     public Long getUsedBonus() {
