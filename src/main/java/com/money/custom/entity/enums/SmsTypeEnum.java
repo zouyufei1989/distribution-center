@@ -2,8 +2,8 @@ package com.money.custom.entity.enums;
 
 public enum SmsTypeEnum implements IEnumKeyValue {
 
-    VERIFY_CODE(1, "" ),
-    BONUS_NOTIFY(2, "");
+    VERIFY_CODE(1, "SMS_208510247"),
+    BONUS_NOTIFY(2, "SMS_209820050");
 
     private Integer value;
     private String name;

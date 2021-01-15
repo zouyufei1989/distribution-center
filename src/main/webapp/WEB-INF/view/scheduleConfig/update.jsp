@@ -62,7 +62,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">说明:</label>
                                 <div class="col-sm-7">
-                                    <div id="editor"></div>
+                                    <input type="text" class="form-control" id="comment" name="comment"/>
                                 </div>
                             </div>
                             <div class="form-group">

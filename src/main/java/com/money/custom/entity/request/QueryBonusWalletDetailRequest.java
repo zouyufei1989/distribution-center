@@ -12,6 +12,7 @@ public class QueryBonusWalletDetailRequest extends QueryGridRequestBase {
     private Integer changeType;
     private Integer addBonus;
     private String openId;
+    private String batchId;
 
     @Override
     public Map<String, Object> buildParams() {
@@ -24,7 +25,12 @@ public class QueryBonusWalletDetailRequest extends QueryGridRequestBase {
         params.put("changeType", changeType);
         params.put("addBonus", addBonus);
         params.put("openId", openId);
+        params.put("batchId", batchId);
         return params;
+    }
+
+    public void setBatchId(String batchId) {
+        this.batchId = batchId;
     }
 
     public void setOpenId(String openId) {

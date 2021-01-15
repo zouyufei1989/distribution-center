@@ -3,9 +3,11 @@ package com.money.custom.entity.response;
 import com.alibaba.fastjson.JSON;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
+import com.money.framework.base.annotation.IgnoreXss;
 import com.money.framework.base.entity.ResponseBase;
 import org.apache.commons.lang3.StringUtils;
 
+@IgnoreXss
 public class SendSmsResponse extends ResponseBase {
 
     static final String SUCCESS_CODE = "OK";

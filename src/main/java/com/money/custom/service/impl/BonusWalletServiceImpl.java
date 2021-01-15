@@ -8,12 +8,14 @@ import com.money.custom.entity.request.*;
 import com.money.custom.service.BonusWalletService;
 import com.money.custom.service.CustomerGroupService;
 import com.money.custom.service.CustomerService;
+import com.money.custom.service.SmsService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
     CustomerGroupService customerGroupService;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    SmsService smsService;
 
     @Override
     public List<BonusWallet> selectSearchList(QueryBonusWalletRequest request) {
@@ -83,8 +87,6 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
 
         wallet.recharge(request);
         edit(wallet);
-        //TODO send sms to shareholder
-
         return wallet.getId().toString();
     }
 
@@ -129,6 +131,22 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
             bonusWallet.distribution(request);
             dao.edit(bonusWallet);
         });
+    }
+
+    @Override
+    public void sendSms4BonusGained(String batchId) {
+        QueryBonusWalletDetailRequest request = new QueryBonusWalletDetailRequest();
+        request.setBatchId(batchId);
+        List<BonusWalletDetail> bonusWalletDetails = selectSearchList(request);
+        if (CollectionUtils.isEmpty(bonusWalletDetails)) {
+            getLogger().warn("订单{}未产生积分记录", batchId);
+            return;
+        }
+
+        bonusWalletDetails.stream()
+                .map(i -> Sms.bonusNotify(i.getCustomer().getPhone(), i.getBonusChange()))
+                .forEach(i -> smsService.addSms(i));
+
     }
 
 }

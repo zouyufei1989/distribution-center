@@ -139,6 +139,9 @@
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}
 			</if>
+			<if test="batchId!=null and batchId!=''">
+				AND dbwd.batch_id = #{batchId}
+			</if>
 		GROUP BY dbwd.batch_id, dbwd.change_type
 		ORDER BY dbwd.id DESC
 		<if test="rows != null and  rows > 0">
@@ -182,6 +185,9 @@
 			</if>
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}
+			</if>
+			<if test="batchId!=null and batchId!=''">
+				AND dbwd.batch_id = #{batchId}
 			</if>
 	</select>
 

@@ -28,4 +28,6 @@ public interface BonusWalletService extends BaseService {
     String deduction(DeductionRequest request);
 
     void distribution(DistributeBonusRequest request);
+
+    void sendSms4BonusGained(String batchId);
 }

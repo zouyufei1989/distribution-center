@@ -27,8 +27,8 @@ import java.util.Optional;
 @RabbitListener(queues = QueueConsts.MSG_QUEUE)
 public class MessageReceiver extends ReceiverBase {
 
-    @Value("${aliyuncs.sms.sign_name}")
-    static String SIGN_NAME;
+    @Value("${aliyuncs.sms.sign.name}")
+    String SIGN_NAME;
 
     @Autowired
     SmsDao smsDao;
@@ -47,8 +47,6 @@ public class MessageReceiver extends ReceiverBase {
         getLogger().info("发送短信");
     }
 
-    //TODO check transactional
-    @Transactional
     void sendSms(Integer id) {
         Sms sms = smsDao.querySmsDetail(id);
         Assert.notNull(sms, "未查询到短信信息");
@@ -63,8 +61,7 @@ public class MessageReceiver extends ReceiverBase {
 
             Optional<IEnumKeyValue> typeOpt = EnumUtils.getByValue(SmsTypeEnum.class, sms.getType());
             Assert.isTrue(typeOpt.isPresent(), "未知短信类型" + sms.getType());
-
-            SendSmsResponse response = aliyunService.sendSms(sms.getPhone(), sms.getParam(), SIGN_NAME, typeOpt.get().getName());
+            SendSmsResponse response = aliyunService.sendSms(sms.getPhone(), sms.getParams(), SIGN_NAME, typeOpt.get().getName());
             sms.setRequest(response.getRequest());
             sms.setResponse(response.getResponse());
             sms.setStatus(response.isSuccess() ? SmsStatusEnum.SEND.getValue() : SmsStatusEnum.FAIL.getValue());

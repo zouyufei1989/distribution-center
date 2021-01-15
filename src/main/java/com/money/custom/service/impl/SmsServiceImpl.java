@@ -34,11 +34,13 @@ public class SmsServiceImpl extends BaseServiceImpl implements SmsService {
 
     @Override
     public void addSms(Sms sms) {
+        getLogger().info("新增短信通知:{}", sms.toString());
         smsDao.add(sms);
     }
 
     @Override
     public void addSmsSend(Sms sms) {
+        getLogger().info("立即发送短信:{}", sms.toString());
         smsDao.add(sms);
         rabbitMqUtils.send(QueueConsts.MSG_QUEUE, sms.getId(), "id");
     }

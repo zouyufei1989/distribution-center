@@ -13,7 +13,7 @@
 			request,
 			response,
 			params,
-			status
+			status,
 			create_date
 		)
 		VALUES
@@ -50,6 +50,7 @@
 
 	<select id="querySmsDetail" resultType="Sms" parameterType="int">
 		SELECT
+			id,
 			phone,
 			`type`,
 			status,

@@ -1,6 +1,5 @@
 package com.money.custom.dao.impl;
 
-import com.money.custom.dao.ActivityClaimRecordDao;
 import com.money.custom.dao.SmsDao;
 import com.money.custom.entity.Sms;
 import com.money.framework.base.annotation.SQLContext;
@@ -26,6 +25,6 @@ public class SmsDaoImpl extends BaseDaoImpl implements SmsDao {
 
     @Override
     public Sms querySmsDetail(Integer id) {
-        return selectOne("Integer", id);
+        return selectOne("querySmsDetail", id);
     }
 }

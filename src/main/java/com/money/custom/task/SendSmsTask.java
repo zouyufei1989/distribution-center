@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-@ConditionalOnExpression("'${switch.task}'.equals('on')")
+//@ConditionalOnExpression("'${switch.task}'.equals('on')")
 @Component
 public class SendSmsTask extends ConfigurableTaskBase {
 

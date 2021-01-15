@@ -141,6 +141,8 @@ public class OrderPayServiceImpl extends BaseServiceImpl implements OrderPayServ
         changeOrderStatusRequest.copyOperationInfo(item);
         orderService.changeStatus(changeOrderStatusRequest);
 
+        bonusWalletService.sendSms4BonusGained(item.getOrderId().toString());
+
         return item.getId().toString();
     }
 
