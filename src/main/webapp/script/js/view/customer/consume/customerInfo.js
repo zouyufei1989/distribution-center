@@ -41,7 +41,7 @@ $(document).ready(function () {
 
                         consumeVue.customerInfo = {
                             availableMoney: result.data.wallet.availableMoney4Show,
-                            availableBonus: result.data.bonusWallet.availableBonus,
+                            availableBonus: result.data.bonusWallet.availableBonus/100.0,
                             customerGroupId: result.data.customerGroup.id,
                             customerType:result.data.customerGroup.type,
                             name:result.data.name,

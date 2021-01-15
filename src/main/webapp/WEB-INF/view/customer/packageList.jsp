@@ -16,7 +16,7 @@
                                     <th>项目次数</th>
                                     <th>已使用次数</th>
                                     <th>剩余次数</th>
-                                    <th>剩余时间</th>
+                                    <th>消费时间</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -26,7 +26,7 @@
                                     <td>{{p.items[0].cnt}}</td>
                                     <td>{{p.items[0].cntUsed}}</td>
                                     <td>{{p.items[0].cnt - p.items[0].cntUsed}}</td>
-                                    <td>{{formatCreateDate(p.createDate)}}</td>
+                                    <td v-html="formatCreateDate(p.createDate)"></td>
                                 </tr>
                                 </tbody>
                             </table>
