@@ -46,6 +46,20 @@ public class Sms extends BaseEntity {
         return sms;
     }
 
+    public static Sms verifyCodeNotify(String phone, String verifyCode) {
+        Sms sms = new Sms();
+        sms.setPhone(phone);
+        sms.setType(SmsTypeEnum.VERIFY_CODE.getValue());
+        sms.setStatus(SmsStatusEnum.PENDING.getValue());
+        sms.setLevel(MessageLevelEnum.HIGH.getValue());
+
+        JSONObject obj = new JSONObject();
+        obj.put("code", verifyCode);
+        sms.setParams(JSON.toJSONString(obj));
+
+        return sms;
+    }
+
     public String getTypeName() {
         return EnumUtils.getNameByValue(SmsTypeEnum.class, type);
     }

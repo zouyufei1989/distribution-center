@@ -19,6 +19,8 @@ public interface CustomerService extends BaseService {
 
     String add(MoACustomerRequest request);
 
+    String add(Customer customer);
+
     String addFromWechat(AddCustomer4WechatRequest request);
 
     String edit(MoACustomerRequest request);

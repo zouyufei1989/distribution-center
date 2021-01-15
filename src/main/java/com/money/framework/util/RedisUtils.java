@@ -1,6 +1,7 @@
 package com.money.framework.util;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,11 @@ public class RedisUtils {
     public final static Logger logger = LoggerFactory.getLogger(RedisUtils.class);
 
     public <T> T getObject(String key, Class<T> type) {
-        return JSON.parseObject(stringRedisTemplate.opsForValue().get(key), type);
+        String val = stringRedisTemplate.opsForValue().get(key);
+        if (StringUtils.isEmpty(val)) {
+            return null;
+        }
+        return JSON.parseObject(val, type);
     }
 
     public <T> List<T> getObjectArray(String key, Class<T> type) {
@@ -53,5 +58,9 @@ public class RedisUtils {
 
     public void setExpiredSec(String key, int sec) {
         stringRedisTemplate.expire(key, sec, TimeUnit.SECONDS);
+    }
+
+    public Long getExpiredSec(String key) {
+        return stringRedisTemplate.opsForValue().getOperations().getExpire(key);
     }
 }

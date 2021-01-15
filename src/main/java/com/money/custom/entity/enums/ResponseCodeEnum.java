@@ -16,6 +16,8 @@ public enum ResponseCodeEnum {
     WRONG_VERIFY_CODE(8, "验证码错误"),
     ASK_4_PHONE(9, "需要获取微信手机号"),
     ASK_4_USER_INFO(10, "需要获取微信用户信息"),
+    TOO_FREQUENCY_4_SMS_VERIFY_CODE(11, "频繁获取短信验证码"),
+    WRONG_SMS_VERIFY_CODE(12, "短信验证码错误"),
 
     SUCCESS(0, "成功");
 

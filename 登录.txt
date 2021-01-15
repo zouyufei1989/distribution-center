@@ -1,0 +1,4 @@
+1. 微信登录：
+    login(jsCode) -> 返回openId -> completeCustomerInfo(openId,小程序属性，rawData+iv)
+2. 手机号登录
+    phoneLogin(phone+code)->返回phone -> login(jsCode,phone)->返回openId,phone -> completeCustomerInfo(openId,小程序属性，phone)

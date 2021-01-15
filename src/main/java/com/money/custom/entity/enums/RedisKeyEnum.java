@@ -9,7 +9,7 @@ public enum RedisKeyEnum {
     GROUPS(Consts.GROUP_NAME + "_GROUPS", 60 * 60),
     GOODS_TAGS(Consts.GROUP_NAME + "_GOODS_TAGS", 60 * 60),
     DEPARTMENTS(Consts.GROUP_NAME + "_DEPARTMENTS", 60 * 60),
-    VERIFY_CODE(Consts.GROUP_NAME + "_VERIFY_CODE", 3 * 60),
+    SMS_VERIFY_CODE(Consts.GROUP_NAME + "_SMS_VERIFY_CODE_", 3 * 60),
 
     WECHAT_SESSION_KEY("SESSION_ID_", 0),
 

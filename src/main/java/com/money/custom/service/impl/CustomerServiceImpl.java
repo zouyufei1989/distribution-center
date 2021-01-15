@@ -136,6 +136,12 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         return customer.getId().toString();
     }
 
+    @Override
+    public String add(Customer customer) {
+        dao.add(customer);
+        return customer.getId().toString();
+    }
+
     private List<Customer> queryCustomerUsingPhone(String phone) {
         QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
         queryCustomerRequest.setExactPhone(phone);

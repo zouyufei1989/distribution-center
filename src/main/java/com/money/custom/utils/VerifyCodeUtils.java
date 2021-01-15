@@ -16,12 +16,11 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 
-/**
- * Created by zhangkai on 2019/2/16.
- */
 public class VerifyCodeUtils {
     // 使用到Algerian字体，系统里没有的话需要安装字体，字体只显示大写，去掉了1,0,i,o几个容易混淆的字符
     public static final String VERIFY_CODES = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+    public static final String VERIFY_CODES_DIGITAL = "2345678901";
+
     private static Random random = new Random();
 
     /**
@@ -32,6 +31,10 @@ public class VerifyCodeUtils {
      */
     public static String generateVerifyCode(int verifySize) {
         return generateVerifyCode(verifySize, VERIFY_CODES);
+    }
+
+    public static String generateDigitalVerifyCode(int verifySize) {
+        return generateVerifyCode(verifySize, VERIFY_CODES_DIGITAL);
     }
 
     /**

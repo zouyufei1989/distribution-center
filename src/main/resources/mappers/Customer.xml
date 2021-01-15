@@ -10,6 +10,7 @@
 			dc.id,
 			dc.name,
 			dc.phone,
+			dc.open_id AS openId,
 			dc.head_cover AS headCover,
 			dc.nick_name AS nickName,
 			dbp.name AS `customerGroup.bonusPlanName`,
