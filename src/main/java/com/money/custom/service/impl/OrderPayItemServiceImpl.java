@@ -63,6 +63,7 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
         bonusWalletService.recharge(bonusRechargeRequest);
 
         item.getCustomer().getCustomerGroup().setTotalNew(CustomerTotalNewEnum.OLD.getValue());
+        item.getCustomer().getCustomerGroup().copyOperationInfo(item);
         customerGroupService.edit(item.getCustomer().getCustomerGroup());
 
         return item.getId().toString();
