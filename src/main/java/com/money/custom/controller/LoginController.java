@@ -84,7 +84,7 @@ public class LoginController extends BaseController {
         String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
         session.setAttribute(ConstsEnum.LOGIN_VERIFY_CODE.getName(), verifyCode.toLowerCase());
         // 生成图片
-        int w = 150, h = 30;
+        int w = 100, h = 30;
         VerifyCodeUtils.outputImage(w, h, response.getOutputStream(), verifyCode);
     }
 

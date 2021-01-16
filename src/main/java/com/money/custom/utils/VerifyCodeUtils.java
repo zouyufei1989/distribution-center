@@ -143,7 +143,8 @@ public class VerifyCodeUtils {
         g2.setColor(Color.GRAY);// 设置边框色
         g2.fillRect(0, 0, w, h);
 
-        Color c = getRandColor(200, 250);
+//        Color c = getRandColor(200, 250);
+        Color c = new Color(255, 255, 255);
         g2.setColor(c);// 设置背景色
         g2.fillRect(0, 2, w, h - 4);
 
