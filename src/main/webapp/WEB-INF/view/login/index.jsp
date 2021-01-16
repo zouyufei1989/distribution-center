@@ -34,34 +34,34 @@
 <body class="gray-bg" style="background:url(resource/picture/bg.jpg) no-repeat;background-size:cover">
 
 <div class="row">
-    <div class="loginColumns animated fadeInDown">
-        <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-                <div class="ibox-content loginBox">
-                    <form id="loginForm" class="form-horizontal form-update">
-                        <div class="form-group text-center">
-                            <img src="resource/picture/logo@3x.png" style="margin-left: -20pt;width: 20pt;height: 20pt">
-                            <span style="font-family:MicrosoftYaHei;color: #404E51 ;font-size: 16pt;margin-left: 10px">沛尚回归系统</span>
-                        </div>
-                        <p id="errorInfo" style="color: red;"></p>
-                        <div class="form-group ">
-                            <input type="text" name="userName" id="userName" class="form-control" placeholder="用户名" required="true">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" name="password" id="password" class="form-control" placeholder="密码" required="true">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0 !important;">
-                            <input type="text" name="verifyCode" id="verifyCode" class="form-control" placeholder="验证码" required="true" style="width:65%; display: inline !important;"> <img id="img_verify_code" style="float: right;"/>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-outline btn-link pull-right" onclick="getVerifyCode()">换一个</button>
-                        </div>
-                    </form>
-                    <button onclick="login()" class="btn btn-primary block full-width m-b" style="height: 32px;background-color:#00AAB9 !important;">登录</button>
-                    <button type="reset" class="btn block full-width m-b btn-default" onclick="$('form')[0].reset()" style="height: 32px;">重置</button>
+    <div class="col-md-offset-3 col-md-6">
+        <div class="loginColumns animated fadeInDown">
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6">
+                    <div class="ibox-content loginBox">
+                        <form id="loginForm" class="form-horizontal form-update">
+                            <div class="form-group text-center">
+                                <img src="resource/picture/logo@3x.png" style="margin-left: -20pt;width: 20pt;height: 20pt"> <span style="font-family:MicrosoftYaHei;color: #404E51 ;font-size: 16pt;margin-left: 10px">沛尚回归系统</span>
+                            </div>
+                            <p id="errorInfo" style="color: red;"></p>
+                            <div class="form-group ">
+                                <input type="text" name="userName" id="userName" class="form-control" placeholder="用户名" required="true">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="密码" required="true">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0 !important;">
+                                <input type="text" name="verifyCode" id="verifyCode" class="form-control" placeholder="验证码" required="true" style="width:65%; display: inline !important;"> <img id="img_verify_code" style="float: right;"/>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-outline btn-link pull-right" onclick="getVerifyCode()">换一个</button>
+                            </div>
+                        </form>
+                        <button onclick="login()" class="btn btn-primary block full-width m-b" style="height: 32px;background-color:#00AAB9 !important;">登录</button>
+                        <button type="reset" class="btn block full-width m-b btn-default" onclick="$('form')[0].reset()" style="height: 32px;">重置</button>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
