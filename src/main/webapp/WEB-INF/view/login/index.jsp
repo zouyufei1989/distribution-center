@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理系统</title>
+    <title>沛尚医美</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="resource/favicon.ico" media="screen"/>
     <link href="script/plugins/inspinia/css/bootstrap.min.css" rel="stylesheet">

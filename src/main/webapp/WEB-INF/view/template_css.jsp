@@ -101,10 +101,16 @@
     .param_row {
         padding-top: 5px;
         padding-bottom: 5px;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .param_row > .form-group:not(:first-child) {
         margin-left: 10px;
+    }
+
+    .param_row > .form-group {
+        margin-top: 10px;
     }
 
     .param_row select {

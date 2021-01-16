@@ -36,7 +36,7 @@
 
 
 <template id="reload-export-btn-template">
-    <div class="pull-right form-group">
+    <div class="pull-right form-group" style="margin-left: auto;">
         <button v-show="reload" type="button" class="btn btn-default btn-search" onclick="reloadList()">查询</button>
         <button v-show="exportexcel" type="button" class="btn btn-default btn-search" @click="exportExcel">导出</button>
     </div>
