@@ -53,6 +53,8 @@ nginx:
     测试：
         https://zlz-test.xyz/store/
         https://test.zlz-test.xyz/store/login   （推荐使用）
+
     生产：
         https://zlz-test.xyz:8081/store/
-        https://prod.zlz-test.xyz/store/login   （推荐使用）
+        https://prod.zlz-test.xyz/store/login
+        https://hwmhealth.com/store/login   （推荐使用）
