@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<title>沛尚医美</title>
+<title>沛尚回归</title>
 <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resource/favicon.ico" media="screen"/>
 <link href="${pageContext.request.contextPath}/script/plugins/inspinia/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/script/plugins/inspinia/font-awesome/css/font-awesome.css" rel="stylesheet">

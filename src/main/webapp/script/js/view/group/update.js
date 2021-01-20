@@ -17,8 +17,8 @@ $(document).ready(function () {
     });
     initWeekday('sel_start_weekday');
     initWeekday('sel_end_weekday');
-    initTime('sel_start_time');
-    initTime('sel_end_time');
+    initTime('sel_start_time','09:00');
+    initTime('sel_end_time','21:00');
 
 
     VUE_CITY = new Vue({el: '#cityCode', data: {cityCode: null, cityName: null}});
@@ -80,10 +80,14 @@ function initWeekday(ele) {
     $('#' + ele).append("<option value='周日'>周日</option>");
 }
 
-function initTime(ele) {
+function initTime(ele,def) {
     var time = new Date('2020-01-01 00:00:00').getTime();
     for (var i = 0; i < 24 * 60; i+=5) {
         var timeStr = new Date(time + i * 1000 * 60).Format('hh:mm');
+        if(timeStr === def){
+            $('#' + ele).append("<option selected value='" + timeStr + "'>" + timeStr + "</option>");
+            continue;
+        }
         $('#' + ele).append("<option value='" + timeStr + "'>" + timeStr + "</option>");
     }
 }

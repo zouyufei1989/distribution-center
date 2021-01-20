@@ -189,6 +189,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         Customer updateCustomer = new Customer();
         updateCustomer.setId(customerGroup.getCustomerId());
         updateCustomer.setName(request.getName());
+        updateCustomer.setPhone(request.getPhone());
         dao.edit(updateCustomer);
         return updateCustomer.getId().toString();
     }
