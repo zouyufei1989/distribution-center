@@ -77,7 +77,11 @@ public final class DateUtils {
     }
 
     public static String nextMonth() {
-        return LocalDate.now().plusMonths(1).format(DateTimeFormatter.ofPattern("yyyy-MM"));
+        return nextMonth(1);
+    }
+
+    public static String nextMonth(int n) {
+        return LocalDate.now().plusMonths(n).format(DateTimeFormatter.ofPattern("yyyy-MM"));
     }
 
     public static String nowMonth() {
@@ -98,11 +102,11 @@ public final class DateUtils {
     }
 
     // 获取本月最后一天
-    public static String getMonthEnd(String date) {
-        if (StringUtils.isEmpty(date)) {
+    public static String getMonthEnd(String yyyyMM) {
+        if (StringUtils.isEmpty(yyyyMM)) {
             return StringUtils.EMPTY;
         }
-        return YearMonth.parse(date, DateTimeFormatter.ofPattern("yyyy-MM")).atEndOfMonth().format(DAY_FORMATTER);
+        return YearMonth.parse(yyyyMM, DateTimeFormatter.ofPattern("yyyy-MM")).atEndOfMonth().format(DAY_FORMATTER);
     }
 
     // 获取下月月初时间

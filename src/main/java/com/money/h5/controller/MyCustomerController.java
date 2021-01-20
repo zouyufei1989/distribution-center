@@ -1,13 +1,18 @@
 package com.money.h5.controller;
 
 import com.money.custom.entity.Customer;
+import com.money.custom.entity.OrderPay;
 import com.money.custom.entity.request.QueryCustomerRequest;
+import com.money.custom.entity.request.QueryOrderPayRequest;
 import com.money.custom.service.CustomerService;
+import com.money.custom.service.OrderPayService;
+import com.money.framework.util.DateUtils;
 import com.money.h5.entity.H5GridRequestBase;
 import com.money.h5.entity.H5RequestBase;
 import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.request.QueryMyCustomerRequest;
 import com.money.h5.entity.response.QueryMyCustomerResponse;
+import com.money.h5.entity.response.QueryOrderPayGroupByMonthResponse;
 import com.money.h5.entity.response.QueryPersonalInfoResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +32,8 @@ public class MyCustomerController {
 
     @Autowired
     CustomerService customerService;
+    @Autowired
+    OrderPayService orderPayService;
 
     @ApiOperation(value = "查询我的客源列表（可分页）", notes = "openId=tabc")
     @ResponseBody
@@ -40,6 +47,15 @@ public class MyCustomerController {
         List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);
         Integer recordCount = customerService.selectSearchListCount(queryCustomerRequest);
         return new QueryMyCustomerResponse(recordCount, request.calTotalPage(recordCount), customers);
+    }
+
+    @ApiOperation(value = "查询我的消费，按月聚合", notes = "id:6  近6个月")
+    @ResponseBody
+    @RequestMapping(value = "queryPayInfoGroupByMonth", method = RequestMethod.POST)
+    public QueryOrderPayGroupByMonthResponse queryMyCustomer(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+        QueryOrderPayRequest queryOrderPayRequest = new QueryOrderPayRequest(request.getId());
+        List<OrderPay> orderPays = orderPayService.selectSearchList(queryOrderPayRequest);
+        return new QueryOrderPayGroupByMonthResponse(Integer.parseInt(request.getId()), orderPays);
     }
 
 }

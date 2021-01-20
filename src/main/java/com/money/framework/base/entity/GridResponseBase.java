@@ -7,11 +7,11 @@ import io.swagger.annotations.ApiModelProperty;
 public class GridResponseBase extends ResponseBase {
 
     @ApiModelProperty(value = "总条数")
-    private Integer records;
+    protected Integer records;
     @ApiModelProperty(value = "总页数")
-    private Integer total;
+    protected Integer total;
     @ApiModelProperty(value = "当前页面数据")
-    private Object rows;
+    protected Object rows;
 
     public GridResponseBase() {}
 
@@ -20,6 +20,7 @@ public class GridResponseBase extends ResponseBase {
         this.records = records;
         this.rows = rows;
     }
+
 
     public GridResponseBase(Object rows) {
         this.rows = rows;

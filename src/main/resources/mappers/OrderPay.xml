@@ -64,6 +64,12 @@
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}
 			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dop.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
 		ORDER BY dop.id DESC
 		<if test="rows != null and rows > 0">
 			LIMIT #{start}, #{rows}
@@ -85,6 +91,12 @@
 			</if>
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dop.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
 			</if>
 	</select>
 
