@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 public class H5MyCustomer {
     @ApiModelProperty(value = "id")
     private Integer id;
+    @ApiModelProperty(value = "openId")
+    private String openId;
     @ApiModelProperty(value = "姓名")
     private String name;
     @ApiModelProperty(value = "编号")
@@ -37,6 +39,11 @@ public class H5MyCustomer {
         this.consumed = item.getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.OLD.getValue());
         this.phone = item.getPhone();
         this.headCover = item.getHeadCover();
+        this.openId = item.getOpenId();
+    }
+
+    public String getOpenId() {
+        return openId;
     }
 
     public String getHeadCover() {

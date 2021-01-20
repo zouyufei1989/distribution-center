@@ -13,6 +13,7 @@ import com.money.h5.entity.request.QueryByIdRequest;
 import com.money.h5.entity.request.QueryMyCustomerRequest;
 import com.money.h5.entity.response.QueryMyCustomerResponse;
 import com.money.h5.entity.response.QueryOrderPayGroupByMonthResponse;
+import com.money.h5.entity.response.QueryOrderPayResponse;
 import com.money.h5.entity.response.QueryPersonalInfoResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,13 +50,24 @@ public class MyCustomerController {
         return new QueryMyCustomerResponse(recordCount, request.calTotalPage(recordCount), customers);
     }
 
-    @ApiOperation(value = "查询我的消费，按月聚合", notes = "id:6  近6个月")
+    @ApiOperation(value = "查询客源的消费，按月聚合", notes = "id:6  近6个月")
     @ResponseBody
     @RequestMapping(value = "queryPayInfoGroupByMonth", method = RequestMethod.POST)
-    public QueryOrderPayGroupByMonthResponse queryMyCustomer(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+    public QueryOrderPayGroupByMonthResponse queryPayInfoGroupByMonth(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+        Integer monthInterval = Integer.parseInt(request.getId());
+        QueryOrderPayRequest queryOrderPayRequest = new QueryOrderPayRequest(monthInterval);
+        List<OrderPay> orderPays = orderPayService.selectSearchList(queryOrderPayRequest);
+        return new QueryOrderPayGroupByMonthResponse(monthInterval, orderPays);
+    }
+
+    @ApiOperation(value = "查询客源的消费，按月展开", notes = "id: 2020-01 月份")
+    @ResponseBody
+    @RequestMapping(value = "queryPayInfoByMonth", method = RequestMethod.POST)
+    public QueryOrderPayResponse queryPayInfoByMonth(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
         QueryOrderPayRequest queryOrderPayRequest = new QueryOrderPayRequest(request.getId());
         List<OrderPay> orderPays = orderPayService.selectSearchList(queryOrderPayRequest);
-        return new QueryOrderPayGroupByMonthResponse(Integer.parseInt(request.getId()), orderPays);
+        Integer recordCount = orderPayService.selectSearchListCount(queryOrderPayRequest);
+        return new QueryOrderPayResponse(recordCount, request.calTotalPage(recordCount), orderPays);
     }
 
 }

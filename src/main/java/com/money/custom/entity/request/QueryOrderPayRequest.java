@@ -16,10 +16,15 @@ public class QueryOrderPayRequest extends QueryGridRequestBase {
 
     public QueryOrderPayRequest() {}
 
-    public QueryOrderPayRequest(String monthInterval) {
-        startDate = DateUtils.nextMonth(Integer.parseInt(monthInterval) * -1) + "-01";
+    public QueryOrderPayRequest(Integer monthInterval) {
+        startDate = DateUtils.nextMonth(monthInterval * -1) + "-01";
         String end = DateUtils.nowMonth();
         endDate = DateUtils.getMonthEnd(end);
+    }
+
+    public QueryOrderPayRequest(String month) {
+        startDate = month + "-01";
+        endDate = DateUtils.getMonthEnd(month);
     }
 
     @Override
