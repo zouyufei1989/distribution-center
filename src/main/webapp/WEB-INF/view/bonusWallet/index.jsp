@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>店铺:</label>
-                                    <group-combo id="groupId" must_choose_one="false" search-param></group-combo>
+                                    <group-combo id="groupId" search-param></group-combo>
                                 </div>
                                 <reload-export-btn-group id="btnGroup" reload="true"></reload-export-btn-group>
                             </div>

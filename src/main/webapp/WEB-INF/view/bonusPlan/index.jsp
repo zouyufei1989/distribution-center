@@ -25,7 +25,7 @@
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>门店:</label>
-                                    <group-combo id="bonusPlan.groupId" must_choose_one="false" search-param></group-combo>
+                                    <group-combo id="bonusPlan.groupId" search-param></group-combo>
                                 </div>
                                 <div class="form-group">
                                     <label>方案编号:</label> <input type="text" id="bonusPlan.serialNumber" search-param class="form-control">

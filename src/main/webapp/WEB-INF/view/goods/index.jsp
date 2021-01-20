@@ -63,7 +63,7 @@
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>门店:</label>
-                                    <group-combo id="goodsItem.groupId" must_choose_one="false" search-param ></group-combo>
+                                    <group-combo id="goodsItem.groupId" search-param ></group-combo>
                                 </div>
                                 <div class="form-group">
                                     <label>商品名称:</label> <input type="text" id="goodsItem.name" search-param class="form-control">

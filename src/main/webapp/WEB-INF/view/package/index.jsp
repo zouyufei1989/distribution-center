@@ -37,7 +37,7 @@
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>门店:</label>
-                                    <group-combo id="goods.groupId" must_choose_one="false" search-param></group-combo>
+                                    <group-combo id="goods.groupId" search-param></group-combo>
                                 </div>
                                 <div class="form-group">
                                     <label>套餐名称:</label> <input type="text" id="goods.name" search-param class="form-control">

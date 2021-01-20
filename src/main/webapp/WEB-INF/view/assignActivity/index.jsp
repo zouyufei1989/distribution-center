@@ -50,7 +50,7 @@
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>门店:</label>
-                                    <group-combo id="groupId" must_choose_one="false" search-param></group-combo>
+                                    <group-combo id="groupId" search-param></group-combo>
                                 </div>
                                 <div class="form-group">
                                     <label>赠送时间:</label>
