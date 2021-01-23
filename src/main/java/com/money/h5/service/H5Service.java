@@ -6,6 +6,7 @@ import com.money.custom.entity.Sms;
 import com.money.custom.entity.enums.RedisKeyEnum;
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.request.QueryCustomerRequest;
+import com.money.custom.service.AssignActivityService;
 import com.money.custom.service.CustomerService;
 import com.money.custom.service.SmsService;
 import com.money.custom.utils.VerifyCodeUtils;
@@ -14,10 +15,7 @@ import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.RedisUtils;
 import com.money.h5.entity.dto.H5Customer;
 import com.money.h5.entity.dto.WechatPhoneResponse;
-import com.money.h5.entity.request.AddCustomer4WechatRequest;
-import com.money.h5.entity.request.LoginRequest;
-import com.money.h5.entity.request.SmsLoginRequest;
-import com.money.h5.entity.request.TransWechatInfo2CustomerRequest;
+import com.money.h5.entity.request.*;
 import com.money.h5.entity.response.WechatLoginResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +28,7 @@ import javax.management.Query;
 import javax.xml.ws.Response;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class H5Service extends BaseServiceImpl {
@@ -42,6 +41,8 @@ public class H5Service extends BaseServiceImpl {
     RedisUtils redisUtils;
     @Autowired
     SmsService smsService;
+    @Autowired
+    AssignActivityService assignActivityService;
 
     public ResponseBase login(LoginRequest loginRequest) {
         WechatLoginResponse wechatLoginResponse = wechatService.jscode2session(loginRequest.getJsCode());
@@ -186,5 +187,9 @@ public class H5Service extends BaseServiceImpl {
         customerService.add(customer);
         getLogger().info("创建新用户 {}", loginRequest.getPhone());
         return StringUtils.EMPTY;
+    }
+
+    public String getActivityDistributionUniqueCode(QueryByIdRequest request) {
+        return assignActivityService.getActivityDistributionUniqueCode(request.getId());
     }
 }

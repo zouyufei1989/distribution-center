@@ -1,30 +1,25 @@
 package com.money.custom.service.impl;
 
-import com.money.custom.dao.ActivityClaimRecordDao;
 import com.money.custom.dao.AssignActivityDao;
-import com.money.custom.dao.BannerDao;
 import com.money.custom.entity.*;
 import com.money.custom.entity.enums.*;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.*;
-import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.entity.OperationalEntity;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.DateUtils;
+import com.money.framework.util.RedisUtils;
 import com.money.h5.entity.H5GridRequestBase;
-import com.money.h5.entity.H5RequestBase;
-import com.money.h5.entity.request.QueryByIdRequest;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.management.Query;
-import javax.servlet.jsp.el.ScopedAttributeELResolver;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +43,8 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
     ActivityClaimRecordService claimRecordService;
     @Autowired
     UtilsService utilsService;
+    @Autowired
+    RedisUtils redisUtils;
 
     @Override
     public List<AssignActivity> selectSearchList(QueryAssignActivityRequest request) {
@@ -108,8 +105,11 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
 
     @Transactional
     @Override
-    public void claimActivity(Integer assignActivityId, String receiverOpenId) {
-        Assert.notNull(assignActivityId, "活动id不可为空");
+    public void claimActivity(String code, String receiverOpenId) {
+        Assert.hasText(code, "无效链接");
+        Integer assignActivityId = redisUtils.getObject(code, Integer.class);
+
+        Assert.notNull(assignActivityId, "链接已失效");
         Assert.notNull(receiverOpenId, "openId不可以为空");
 
         Customer newCustomer = customerService.findByOpenId(receiverOpenId);
@@ -152,6 +152,24 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
 
         activityAssign = dao.findAssignActivityItemById(assignActivityId.toString());
         Assert.isTrue(activityAssign.getAvailableCnt() > -1, "活动剩余数量不足");
+
+        redisUtils.delete(code);
+    }
+
+    @Override
+    public String getActivityDistributionUniqueCode(String assignActivityId) {
+        Assert.notNull(assignActivityId, "活动id不可为空");
+
+        AssignActivityItem activityAssign = dao.findAssignActivityItemById(assignActivityId);
+        Assert.notNull(activityAssign, "未查询到活动");
+        Assert.isTrue(activityAssign.getAvailableCnt() > 0, "活动剩余数量不足");
+
+        Goods activity = goodsService.findById(activityAssign.getGoodsId().toString());
+        Assert.notNull(activity, "未查询到活动");
+
+        String code = RedisKeyEnum.ACTIVITY_DISTRIBUTION.getName() + UUID.randomUUID().toString();
+        redisUtils.setObject(code, assignActivityId, RedisKeyEnum.ACTIVITY_DISTRIBUTION.getTimeout());
+        return code;
     }
 
     private String addCustomerGroup(String receiverOpenId, Customer newCustomer, Customer parent, Integer groupId) {

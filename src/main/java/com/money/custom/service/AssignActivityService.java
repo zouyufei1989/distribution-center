@@ -27,5 +27,7 @@ public interface AssignActivityService extends BaseService {
 
     List<Map<String, Object>> querySummary();
 
-    void claimActivity(Integer assignActivityId, String receiverOpenId);
+    void claimActivity(String code, String receiverOpenId);
+
+    String getActivityDistributionUniqueCode(String assignId);
 }

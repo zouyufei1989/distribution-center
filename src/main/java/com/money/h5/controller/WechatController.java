@@ -42,12 +42,20 @@ public class WechatController {
         return h5Service.completeCustomerInfo(request);
     }
 
-    @ApiOperation(value = "领取活动", notes = "openId=abc")
+    @ApiOperation(value = "领取活动", notes = "openId为当前登录用户id, id是getActivityDistributionUniqueCode 拿到的唯一标识")
     @ResponseBody
     @RequestMapping(value = "claimActivity", method = RequestMethod.POST)
     public ResponseBase claimActivity(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
-        assignActivityService.claimActivity(Integer.parseInt(request.getId()), request.getOpenId());
+        assignActivityService.claimActivity(request.getId(), request.getOpenId());
         return ResponseBase.success();
+    }
+
+    @ApiOperation(value = "获取分享活动唯一标识", notes = "id: 3")
+    @ResponseBody
+    @RequestMapping(value = "getActivityDistributionUniqueCode", method = RequestMethod.POST)
+    public ResponseBase getActivityDistributionUniqueCode(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
+        String code = h5Service.getActivityDistributionUniqueCode(request);
+        return ResponseBase.success(code);
     }
 
     @ApiOperation(value = "获取登录短信验证码", notes = "返回值中data为验证码有效期(秒)")

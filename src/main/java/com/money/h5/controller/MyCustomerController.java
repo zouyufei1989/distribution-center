@@ -50,7 +50,7 @@ public class MyCustomerController {
         return new QueryMyCustomerResponse(recordCount, request.calTotalPage(recordCount), customers);
     }
 
-    @ApiOperation(value = "查询客源的消费，按月聚合", notes = "id:6  近6个月")
+    @ApiOperation(value = "查询客源的消费，按月聚合", notes = "id:6  近6个月  openId:tabc")
     @ResponseBody
     @RequestMapping(value = "queryPayInfoGroupByMonth", method = RequestMethod.POST)
     public QueryOrderPayGroupByMonthResponse queryPayInfoGroupByMonth(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
@@ -60,7 +60,7 @@ public class MyCustomerController {
         return new QueryOrderPayGroupByMonthResponse(monthInterval, orderPays);
     }
 
-    @ApiOperation(value = "查询客源的消费，按月展开", notes = "id: 2020-01 月份")
+    @ApiOperation(value = "查询客源的消费，按月展开", notes = "id: 2021-01 月份 openId:tabc")
     @ResponseBody
     @RequestMapping(value = "queryPayInfoByMonth", method = RequestMethod.POST)
     public QueryOrderPayResponse queryPayInfoByMonth(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
