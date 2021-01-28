@@ -21,8 +21,7 @@
                     type: 'post',
                     async: false,
                     success: function (result) {
-                        // items = items.concat(result.rows.filter(i=> i.items && i.items.length>0 ));
-                        items = items.concat(result.rows);
+                        items = items.concat(result.rows.filter(i=> i.items && i.items.length>0 ));
                     }
                 });
                 return items;
