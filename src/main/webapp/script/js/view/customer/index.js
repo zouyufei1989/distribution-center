@@ -74,7 +74,7 @@ function showPackageList(id, name) {
         async: false,
         cached: false,
         success: function (result) {
-            packagesVue.packages = result.rows.filter(i => i.status == 2 || i.status == 3)
+            packagesVue.packages = result.rows.filter(i => i.items.length>0 && (i.status == 2 || i.status == 3))
             $('#packagesModal').modal('show');
         }
     });

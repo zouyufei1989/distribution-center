@@ -10,6 +10,7 @@ import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.DateUtils;
 import com.money.framework.util.RedisUtils;
 import com.money.h5.entity.H5GridRequestBase;
+import org.apache.commons.collections4.CollectionUtils;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,7 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
         Assert.notNull(activity, "活动不存在");
         Assert.isTrue(activity.getStatus().equals(CommonStatusEnum.ENABLE.getValue()), "活动已失效");
         Assert.isTrue(activity.getExpireDate().compareTo(DateUtils.nowDate()) >= 0, "活动已过期");
+        Assert.isTrue(activity.getType().equals(GoodsTypeEnum.ACTIVITY.getValue()) && CollectionUtils.isNotEmpty(activity.getItems()), "活动未设置商品，不可分享");
 
         QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
         queryCustomerRequest.setCustomerGroupIds(request.getItems().stream().map(AssignActivityRequest.AssignItem::getCustomerGroupId).collect(Collectors.toList()));

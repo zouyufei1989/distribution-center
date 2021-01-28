@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     Vue.component('order-combo', {
-        props: ['id', 'must_choose_one', 'customer_group_id', 'type', 'status','timestamp'],
+        props: ['id', 'must_choose_one', 'customer_group_id', 'type', 'status', 'timestamp'],
         data: function () {
             return {
                 items: []
@@ -27,8 +27,8 @@
                             items = items.concat(combineOrders.map(o => {
                                 return {
                                     id: o.id,
-                                    cnt: o.items[0].cnt,
-                                    cntUsed: o.items[0].cntUsed,
+                                    cnt: o.items[0] ? o.items[0].cnt : 0,
+                                    cntUsed: o.items[0] ? o.items[0].cntUsed : 0,
                                     name: o.goodsName,
                                 }
                             }).filter(o => o.cnt > o.cntUsed));

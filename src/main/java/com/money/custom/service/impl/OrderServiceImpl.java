@@ -5,6 +5,7 @@ import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.Goods;
 import com.money.custom.entity.Order;
 import com.money.custom.entity.OrderItem;
+import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.request.AddOrderRequest;
 import com.money.custom.entity.request.ChangeOrderStatusRequest;
@@ -16,6 +17,7 @@ import com.money.custom.service.OrderItemService;
 import com.money.custom.service.OrderService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,6 +75,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
         Goods goods = goodsService.findById(request.getGoodsId().toString());
         Assert.notNull(goods, "商品不存在");
         Assert.isTrue(goods.getGroupId().equals(customerInfo.getGroupId()), "客户不可跨门店购买商品");
+        Assert.isTrue(goods.getType().equals(GoodsTypeEnum.PACKAGE.getValue()) && CollectionUtils.isNotEmpty(goods.getItems()),"套餐未设置商品，不可购买");
 
         Order order = new Order(goods, customerInfo, request);
         dao.add(order);
