@@ -75,7 +75,13 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
         Goods goods = goodsService.findById(request.getGoodsId().toString());
         Assert.notNull(goods, "商品不存在");
         Assert.isTrue(goods.getGroupId().equals(customerInfo.getGroupId()), "客户不可跨门店购买商品");
-        Assert.isTrue(goods.getType().equals(GoodsTypeEnum.PACKAGE.getValue()) && CollectionUtils.isNotEmpty(goods.getItems()),"套餐未设置商品，不可购买");
+        if(goods.getType().equals(GoodsTypeEnum.PACKAGE.getValue())){
+            Assert.isTrue( CollectionUtils.isNotEmpty(goods.getItems()),"套餐未设置商品，不可购买");
+        }
+        if(goods.getType().equals(GoodsTypeEnum.ACTIVITY.getValue())){
+            Assert.isTrue( CollectionUtils.isNotEmpty(goods.getItems()),"活动未设置商品，不可购买");
+        }
+
 
         Order order = new Order(goods, customerInfo, request);
         dao.add(order);

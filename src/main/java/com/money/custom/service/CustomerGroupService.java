@@ -16,8 +16,6 @@ public interface CustomerGroupService extends BaseService {
 
     String add(CustomerGroup item);
 
-    String add(String openId, Integer groupId,OperationalEntity operationalEntity);
-
     String edit(CustomerGroup item);
 
     List<String> changeStatus(ChangeStatusRequest request);

@@ -15,6 +15,7 @@
 			dcg.bonus_plan_id AS bonusPlanId,
 			dcg.status,
 			dcg.serial_number AS serialNumber,
+			dcg.cashback_first AS cashbackFirst,
 			dcg.`type`,
 			dcg.expire_date AS expireDate,
 			dcg.bank_card_number AS bankCardNumber,
@@ -37,6 +38,7 @@
 			dcg.group_id AS groupId,
 			dcg.bonus_plan_id AS bonusPlanId,
 			dcg.status,
+			dcg.cashback_first AS cashbackFirst,
 			dcg.serial_number AS serialNumber,
 			dcg.`type`,
 			dcg.expire_date AS expireDate,
@@ -64,6 +66,7 @@
 			bonus_plan_id,
 			status,
 			serial_number,
+			cashback_first,
 			`type`,
 			total_new,
 			expire_date,
@@ -84,6 +87,7 @@
 			#{bonusPlanId},
 			#{status},
 			#{serialNumber},
+			#{cashbackFirst},
 			#{type},
 			#{totalNew},
 			#{expireDate},
@@ -115,6 +119,9 @@
 			</if>
 			<if test="bonusPlanId != null">
 				,`bonus_plan_id` = #{bonusPlanId}
+			</if>
+			<if test="cashbackFirst != null">
+				,`cashback_first` = #{cashbackFirst}
 			</if>
 			<if test="status != null">
 				,status = #{status}

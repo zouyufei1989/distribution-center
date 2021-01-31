@@ -2,11 +2,10 @@ package com.money.custom.service.impl;
 
 import com.money.custom.dao.OrderPayItemDao;
 import com.money.custom.entity.Customer;
-import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.OrderItem;
 import com.money.custom.entity.OrderPayItem;
 import com.money.custom.entity.enums.BonusChangeTypeEnum;
-import com.money.custom.entity.enums.CashBackTypeEnum;
+import com.money.custom.entity.enums.FirstCashBackTypeEnum;
 import com.money.custom.entity.enums.CustomerTotalNewEnum;
 import com.money.custom.entity.enums.PayTypeEnum;
 import com.money.custom.entity.request.BonusRechargeRequest;
@@ -53,7 +52,7 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
             return item.getId().toString();
         }
 
-        if (parent.getBonusPlan().getCashbackFirst().equals(CashBackTypeEnum.CASHBACK.getValue()) && item.getCustomer().getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.NEW.getValue())) {
+        if (parent.getCustomerGroup().getCashbackFirst().equals(FirstCashBackTypeEnum.CASHBACK.getValue()) && item.getCustomer().getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.NEW.getValue())) {
             BonusRechargeRequest  bonusRechargeRequest = new BonusRechargeRequest(parent.getBonusPlan().getCashbackAmount(), item, parent.getBonusPlan(),BonusChangeTypeEnum.BONUSBACK);
             bonusWalletService.recharge(bonusRechargeRequest);
         }

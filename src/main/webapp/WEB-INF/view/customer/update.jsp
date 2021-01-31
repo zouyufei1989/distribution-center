@@ -10,6 +10,7 @@
                         <div class="col-lg-12">
                             <%@ include file="../vue_template/city_combo.jsp" %>
                             <%@ include file="../vue_template/status_combo.jsp" %>
+                            <%@ include file="../vue_template/cash_back_first_combo.jsp" %>
                             <form id="mainForm" class="form-horizontal ">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>所属门店:</label>
@@ -68,6 +69,12 @@
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>状态:</label>
                                     <div class="col-sm-7">
                                         <status-combo id="status" must-choose-one="true"></status-combo>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>首次是否返现：</label>
+                                    <div class="col-sm-7">
+                                        <cash-back-first-combo id="cashbackFirst"></cash-back-first-combo>
                                     </div>
                                 </div>
                                 <div class="form-group">

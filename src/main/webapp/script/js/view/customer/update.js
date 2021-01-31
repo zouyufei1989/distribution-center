@@ -1,17 +1,21 @@
-var attrs = ['groupId', 'name', 'serialNumber', 'phone', 'type', 'expireDate','bankCardNumber','bankName','status'];
+var attrs = ['groupId', 'name', 'serialNumber', 'phone', 'type', 'expireDate','bankCardNumber','bankName','status','cashbackFirst'];
 
 $(document).ready(function () {
     new Vue({el: '#status'});
     new Vue({el: '#groupId'});
     new Vue({el: '#expireDate'});
+    new Vue({el: '#cashbackFirst'});
 
     $('#normal').click(function () {
         $('#expireDate').parent().parent().parent().hide();
         $('#expireDate').val('');
+        $('#cashbackFirst').val(0).trigger('change');
+        $('#cashbackFirst').attr('disabled','disabled');
     });
 
     $('#shareholder').click(function () {
         $('#expireDate').parent().parent().parent().show();
+        $('#cashbackFirst').removeAttr('disabled');
     });
 });
 

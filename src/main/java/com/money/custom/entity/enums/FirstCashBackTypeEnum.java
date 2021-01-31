@@ -1,14 +1,14 @@
 package com.money.custom.entity.enums;
 
-public enum CashBackTypeEnum implements IEnumKeyValue {
+public enum FirstCashBackTypeEnum implements IEnumKeyValue {
 
-    NONE(0, "无"),
-    CASHBACK(1, "首次消费返现");
+    NONE(0, "无返现"),
+    CASHBACK(1, "返现");
 
     private Integer value;
     private String name;
 
-    CashBackTypeEnum(Integer value, String name) {
+    FirstCashBackTypeEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

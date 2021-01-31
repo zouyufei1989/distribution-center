@@ -54,20 +54,6 @@ public class CustomerGroupServiceImpl extends BaseServiceImpl implements Custome
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER_GRUOP)
     @Override
-    public String add(String openId, Integer groupId, OperationalEntity operationalEntity) {
-        Customer customer = customerService.findByOpenId(openId);
-        Assert.notNull(customer,"");
-
-        String walletId = walletService.add(Wallet.totalNew(operationalEntity));
-        String bonusWalletId = bonusWalletService.add(BonusWallet.totalNew(operationalEntity));
-        CustomerGroup customerGroup = new CustomerGroup( utilsService.generateSerialNumber(SerialNumberEnum.CS), customer.getId(), walletId, bonusWalletId,operationalEntity);
-        customerGroupService.add(customerGroup);
-
-        return customerGroup.getId().toString();
-    }
-
-    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER_GRUOP)
-    @Override
     public String edit(CustomerGroup item) {
         dao.edit(item);
         return item.getId().toString();

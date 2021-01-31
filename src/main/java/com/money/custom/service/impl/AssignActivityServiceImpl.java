@@ -74,7 +74,9 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
         Assert.notNull(activity, "活动不存在");
         Assert.isTrue(activity.getStatus().equals(CommonStatusEnum.ENABLE.getValue()), "活动已失效");
         Assert.isTrue(activity.getExpireDate().compareTo(DateUtils.nowDate()) >= 0, "活动已过期");
-        Assert.isTrue(activity.getType().equals(GoodsTypeEnum.ACTIVITY.getValue()) && CollectionUtils.isNotEmpty(activity.getItems()), "活动未设置商品，不可分享");
+        if (activity.getType().equals(GoodsTypeEnum.ACTIVITY.getValue())) {
+            Assert.isTrue(CollectionUtils.isNotEmpty(activity.getItems()), "活动未设置商品，不可分享");
+        }
 
         QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
         queryCustomerRequest.setCustomerGroupIds(request.getItems().stream().map(AssignActivityRequest.AssignItem::getCustomerGroupId).collect(Collectors.toList()));
@@ -127,7 +129,7 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
 
         Goods activity = goodsService.findById(activityAssign.getGoodsId().toString());
         Assert.notNull(activity, "未查询到活动");
-        Assert.isTrue(activity.getStatus().equals(CommonStatusEnum.ENABLE.getValue()),"活动已失效");
+        Assert.isTrue(activity.getStatus().equals(CommonStatusEnum.ENABLE.getValue()), "活动已失效");
 
         Integer groupId = activityAssign.getGroupId();
         String newCustomerGroupId = "";
@@ -169,7 +171,7 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
 
         Goods activity = goodsService.findById(activityAssign.getGoodsId().toString());
         Assert.notNull(activity, "未查询到活动");
-        Assert.isTrue(activity.getStatus().equals(CommonStatusEnum.ENABLE.getValue()),"活动已失效");
+        Assert.isTrue(activity.getStatus().equals(CommonStatusEnum.ENABLE.getValue()), "活动已失效");
 
         String code = RedisKeyEnum.ACTIVITY_DISTRIBUTION.getName() + UUID.randomUUID().toString();
         redisUtils.setObject(code, assignActivityId, RedisKeyEnum.ACTIVITY_DISTRIBUTION.getTimeout());

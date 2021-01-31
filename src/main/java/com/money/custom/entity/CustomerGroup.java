@@ -21,6 +21,7 @@ public class CustomerGroup extends BaseEntity {
     private Integer type;
     private String expireDate;
     private Integer totalNew;
+    private Integer cashbackFirst;
 
     private String bonusPlanName;
     private Integer packageCount;
@@ -38,18 +39,16 @@ public class CustomerGroup extends BaseEntity {
         setSerialNumber(request.getSerialNumber());
         setStatus(request.getStatus());
         setType(request.getType());
+        setCashbackFirst(request.getCashbackFirst());
         totalNew = CustomerTotalNewEnum.NEW.getValue();
     }
 
-    public CustomerGroup(String serialNumber, Integer customerId, String walletId, String bonusWalletId, OperationalEntity op) {
-        copyOperationInfo(op);
-        setCustomerId(customerId);
-        setWalletId(walletId);
-        setBonusWalletId(bonusWalletId);
-        setSerialNumber(serialNumber);
-        setStatus(CommonStatusEnum.ENABLE.getValue());
-        setType(CustomerTypeEnum.NORMAL.getValue());
-        totalNew = CustomerTotalNewEnum.NEW.getValue();
+    public Integer getCashbackFirst() {
+        return cashbackFirst;
+    }
+
+    public void setCashbackFirst(Integer cashbackFirst) {
+        this.cashbackFirst = cashbackFirst;
     }
 
     public Integer getTotalNew() {

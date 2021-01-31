@@ -27,6 +27,16 @@ public class MoACustomerRequest extends OperationalEntity {
     private String bankName;
     @NotNull(message = "请选择状态")
     private Integer status;
+    @NotNull(message = "请选择首次是否返现")
+    private Integer cashbackFirst;
+
+    public Integer getCashbackFirst() {
+        return cashbackFirst;
+    }
+
+    public void setCashbackFirst(Integer cashbackFirst) {
+        this.cashbackFirst = cashbackFirst;
+    }
 
     public Integer getStatus() {
         return status;

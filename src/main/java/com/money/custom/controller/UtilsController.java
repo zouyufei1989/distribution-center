@@ -103,6 +103,11 @@ public class UtilsController extends BaseController {
     public GridResponseBase selectGoodsType() {
         return new GridResponseBase(EnumUtils.getEnumEntriesVN(GoodsTypeEnum.class));
     }
+    @ResponseBody
+    @RequestMapping(value = "selectFirstCashback")
+    public GridResponseBase selectFirstCashback() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(FirstCashBackTypeEnum.class));
+    }
 
     @ResponseBody
     @RequestMapping(value = "selectActivityScope")
