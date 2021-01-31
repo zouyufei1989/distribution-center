@@ -33,6 +33,14 @@ $(document).ready(function () {
         radioClass: 'iradio_square-green',
     });
 
+    $('#cashbackFirst0').click(function () {
+        $('#div_cashback').hide();
+        $('#div_cashback input').val(0);
+    });
+
+    $('#cashbackFirst1').click(function () {
+        $('#div_cashback').show();
+    });
 });
 
 function additionFunc4Add() {
@@ -48,12 +56,14 @@ function additionFunc4Add() {
 }
 
 function fillAdditionAttrs(result) {
+    $('#cashbackFirst' + result.cashbackFirst).trigger('click');
     $('#cashbackAmount').val(result.data.cashbackAmount / 100);
     $('#bonusRate').val(result.data.bonusRate / 100);
 }
 
 function additionParam() {
     return {
+        cashbackFirst: $('input:radio[name="cashbackFirst"]:checked').val(),
         cashbackAmount: Number.parseFloat($('#cashbackAmount').val()) * 100,
         bonusRate: Number.parseFloat($('#bonusRate').val()) * 100,
     };

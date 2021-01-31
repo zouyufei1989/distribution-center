@@ -33,8 +33,19 @@
                                         <input type="text" value="" id="bonusRate" min="0">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>首次是否返现：</label>
+                                    <div class="col-sm-7">
+                                        <label>
+                                            <input type="radio" name="cashbackFirst" id="cashbackFirst1" value="1" checked> 是
+                                        </label>
+                                        <label style="margin-left: 15px">
+                                            <input type="radio" name="cashbackFirst" id="cashbackFirst0" value="0"> 否
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="form-group" id="div_cashback">
-                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>首次消费返现金额：</label>
+                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>设置返现金额：</label>
                                     <div class="col-sm-7">
                                         <input type="text" value="" id="cashbackAmount" min="0">
                                     </div>

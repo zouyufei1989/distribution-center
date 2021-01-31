@@ -52,8 +52,8 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
             return item.getId().toString();
         }
 
-        if (parent.getCustomerGroup().getCashbackFirst().equals(FirstCashBackTypeEnum.CASHBACK.getValue()) && item.getCustomer().getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.NEW.getValue())) {
-            BonusRechargeRequest  bonusRechargeRequest = new BonusRechargeRequest(parent.getBonusPlan().getCashbackAmount(), item, parent.getBonusPlan(),BonusChangeTypeEnum.BONUSBACK);
+        if (parent.getBonusPlan().getCashbackFirst().equals(FirstCashBackTypeEnum.CASHBACK.getValue()) && parent.getCustomerGroup().getCashbackFirst().equals(FirstCashBackTypeEnum.CASHBACK.getValue()) && item.getCustomer().getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.NEW.getValue())) {
+            BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(parent.getBonusPlan().getCashbackAmount(), item, parent.getBonusPlan(), BonusChangeTypeEnum.BONUSBACK);
             bonusWalletService.recharge(bonusRechargeRequest);
         }
 

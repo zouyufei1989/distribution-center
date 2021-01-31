@@ -180,6 +180,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         CustomerGroup customerGroupUpdate = new CustomerGroup();
         customerGroupUpdate.setId(customerGroup.getId());
         customerGroupUpdate.setType(request.getType());
+        customerGroupUpdate.setCashbackFirst(request.getCashbackFirst());
         customerGroupUpdate.setExpireDate(request.getExpireDate());
         customerGroupUpdate.setBankName(request.getBankName());
         customerGroupUpdate.setBankCardNumber(request.getBankCardNumber());

@@ -11,6 +11,7 @@
 			dbp.serial_number AS serialNumber,
 			dbp.name,
 			dbp.bonus_rate AS bonusRate,
+			dbp.cashback_first AS cashbackFirst,
 			dbp.cashback_amount AS cashbackAmount,
 			dbp.status,
 			dbp.desc,
@@ -69,13 +70,14 @@
 				AND dbp.group_id = #{groupId}
 			</if>
 	</select>
-	
+
 	<select id="findById" parameterType="String" resultType="BonusPlan">
-		SELECT 
+		SELECT
 			dbp.id,
 			dbp.serial_number AS serialNumber,
 			dbp.name,
 			dbp.bonus_rate AS bonusRate,
+			dbp.cashback_first AS cashbackFirst,
 			dbp.cashback_amount AS cashbackAmount,
 			dbp.status,
 			dbp.desc,
@@ -93,6 +95,7 @@
 			serial_number,
 			`name`,
 			bonus_rate,
+			cashback_first,
 			cashback_amount,
 			status,
 			`desc`,
@@ -101,11 +104,12 @@
 			creator,
 			create_ip
 		)
-		VALUES 
+		VALUES
 		(
 			#{serialNumber},
 			#{name},
 			#{bonusRate},
+			#{cashbackFirst},
 			#{cashbackAmount},
 			#{status},
 			#{desc},
@@ -130,6 +134,9 @@
 			</if>
 			<if test="bonusRate != null">
 				,`bonus_rate` = #{bonusRate}
+			</if>
+			<if test="cashbackFirst != null">
+				,cashback_first = #{cashbackFirst}
 			</if>
 			<if test="cashbackAmount != null">
 				,cashback_amount = #{cashbackAmount}
