@@ -169,6 +169,7 @@ public class AssignActivityServiceImpl extends BaseServiceImpl implements Assign
 
         Goods activity = goodsService.findById(activityAssign.getGoodsId().toString());
         Assert.notNull(activity, "未查询到活动");
+        Assert.isTrue(activity.getStatus().equals(CommonStatusEnum.ENABLE.getValue()),"活动已失效");
 
         String code = RedisKeyEnum.ACTIVITY_DISTRIBUTION.getName() + UUID.randomUUID().toString();
         redisUtils.setObject(code, assignActivityId, RedisKeyEnum.ACTIVITY_DISTRIBUTION.getTimeout());
