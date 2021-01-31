@@ -31,6 +31,7 @@ function fillAdditionAttrs(result) {
     $('#bankCardNumber').val(result.data.customerGroup.bankCardNumber);
     $('#bankName').val(result.data.customerGroup.bankName);
     $('#status').val(result.data.customerGroup.status).trigger('change');
+    $('#cashbackFirst').val(result.data.customerGroup.cashbackFirst).trigger('change');
 }
 
 function additionParam() {
