@@ -32,6 +32,9 @@ $(document).ready(function () {
             {name: 'customerGroup.expireDate', header: '股东到期时间'},
             {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
             {name: 'customerGroup.statusName', header: '状态'},
+            {name: 'myCustomerCnt', header: '我的客源',formatter:function(val,opt,obj){
+                    return hyperlinkeButtonFormatter(val , 'showMyCustomer(' + obj.customerGroup.id + ',"' + obj.name + '")')
+            }},
             {
                 name: 'id', header: '操作', formatter: function (val, opt, obj) {
                     if (obj.customerGroup.type == 2) {
@@ -78,4 +81,17 @@ function showPackageList(id, name) {
             $('#packagesModal').modal('show');
         }
     });
+}
+
+function showMyCustomer(id,parentName){
+    $('#sp_parentName').html(parentName);
+    initGridData("list/search", {parentId:id},
+        [
+            {name: 'name', header: '客户姓名'},
+            {name: 'customerGroup.serialNumber', header: '客户编号'},
+            {name: 'phone', header: '联系电话'},
+            {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
+            {name: 'customerGroup.statusName', header: '状态'}]
+        , "table_list_mycustomer", "pager_list_mycustomer");
+    $('#myCustomerModal').modal('show');
 }
