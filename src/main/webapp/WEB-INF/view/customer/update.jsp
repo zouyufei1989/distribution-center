@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>首次是否返现：</label>
+                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>首次是否积分：</label>
                                     <div class="col-sm-7">
                                         <cash-back-first-combo id="cashbackFirst"></cash-back-first-combo>
                                     </div>

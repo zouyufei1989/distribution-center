@@ -52,14 +52,20 @@ public class OrderPayItemServiceImpl extends BaseServiceImpl implements OrderPay
             return item.getId().toString();
         }
 
-        if (parent.getBonusPlan().getCashbackFirst().equals(FirstCashBackTypeEnum.CASHBACK.getValue()) && parent.getCustomerGroup().getCashbackFirst().equals(FirstCashBackTypeEnum.CASHBACK.getValue()) && item.getCustomer().getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.NEW.getValue())) {
+        if (parent.getBonusPlan().getCashbackFirst().equals(FirstCashBackTypeEnum.CASHBACK.getValue()) && item.getCustomer().getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.NEW.getValue())) {
             BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(parent.getBonusPlan().getCashbackAmount(), item, parent.getBonusPlan(), BonusChangeTypeEnum.BONUSBACK);
             bonusWalletService.recharge(bonusRechargeRequest);
         }
 
-        Long bonus = calProfit(item) * parent.getBonusPlan().getBonusRate() / 100 / 100;
-        BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item, parent.getBonusPlan(), BonusChangeTypeEnum.GAIN);
-        bonusWalletService.recharge(bonusRechargeRequest);
+        boolean gainBonus = item.getCustomer().getCustomerGroup().getTotalNew().equals(CustomerTotalNewEnum.OLD.getValue());
+        if (!gainBonus) {
+            gainBonus = parent.getCustomerGroup().getCashbackFirst().equals(FirstCashBackTypeEnum.CASHBACK.getValue());
+        }
+        if (gainBonus) {
+            Long bonus = calProfit(item) * parent.getBonusPlan().getBonusRate() / 100 / 100;
+            BonusRechargeRequest bonusRechargeRequest = new BonusRechargeRequest(bonus, item, parent.getBonusPlan(), BonusChangeTypeEnum.GAIN);
+            bonusWalletService.recharge(bonusRechargeRequest);
+        }
 
         item.getCustomer().getCustomerGroup().setTotalNew(CustomerTotalNewEnum.OLD.getValue());
         item.getCustomer().getCustomerGroup().copyOperationInfo(item);
