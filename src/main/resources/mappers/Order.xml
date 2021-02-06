@@ -266,4 +266,24 @@
 			</foreach>
  	</update>
 
+ 	<select id="queryOrderInfo4Refund" parameterType="Integer" resultType="OrderRefundParams">
+		SELECT
+			do.status AS orderStatus,
+			dop.actually_money AS orderActualMoney,
+			SUM(dbwd.bonus_change) AS bonusGenerated,
+			IFNULL(dc.name,dc.nick_name) AS parentCustomerName,
+			dcg.id AS parentCustomerGroupId,
+			dbw.available_bonus AS availableBonus,
+			do.create_date AS createDate,
+			do.customer_group_id AS customerGroupId
+		FROM d_order do
+		LEFT JOIN d_order_pay dop ON do.id = dop.order_id
+		LEFT JOIN d_bonus_wallet_detail dbwd ON dbwd.batch_id = do.id AND dbwd.change_type IN (1,3)
+		LEFT JOIN d_customer_group dcg ON dcg.bonus_wallet_id = dbwd.bonus_wallet_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_bonus_wallet dbw ON dbw.id = dcg.bonus_wallet_id
+		WHERE do.id = #{orderId}
+		GROUP BY do.id
+	</select>
+
 </mapper>

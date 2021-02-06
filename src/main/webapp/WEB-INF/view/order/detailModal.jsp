@@ -73,10 +73,37 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <form id="" class="form-horizontal ">
-                                <div class="form-group" v-for="item in orderItems">
+                                <div class="form-group" v-for="(item,i) in orderItems">
                                     <label class="col-sm-3 control-label">{{item.goodsTagName}}</label>
                                     <label class="col-sm-3 control-label">{{item.goodsName}}({{moneyFormatter(item.goodsPrice)}}/{{item.goodsUnit}}) * {{item.cnt}}</label>
                                     <label class="col-sm-3 control-label">¥ {{moneyFormatter(item.goodsPrice*item.cnt)}}</label>
+                                    <button v-show="refund && order.status!=5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" @click="refundMoney()">退款</button>
+                                    <button v-show="refund && order.status==5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" disabled>已退款</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <hr v-show="refund">
+                <h4 v-show="refund">积分记录</h4>
+                <div class="wrapper animated fadeInRight" v-show="refund">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form id="" class="form-horizontal ">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">所属股东:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" v-model="refundParams.parentCustomerName" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">积分数量:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" v-model="parentAvailableBonus" disabled>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" style="margin-top: 5px" data-style="zoom-in" class="btn btn-primary btn-xs" @click="refundBonus()">扣除</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>

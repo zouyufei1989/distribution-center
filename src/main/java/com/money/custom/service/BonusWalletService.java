@@ -30,4 +30,7 @@ public interface BonusWalletService extends BaseService {
     void distribution(DistributeBonusRequest request);
 
     void sendSms4BonusGained(String batchId);
+
+    void orderRefund(OrderRefundRequest refundRequest);
+
 }

@@ -81,6 +81,7 @@
 			IFNULL(dc.name,dc.nick_name) AS 'customer.name',
 			dc.phone AS 'customer.phone',
 			dcg.serial_number AS 'customer.customerGroup.serialNumber',
+			dcg.id AS 'customer.customerGroup.id',
 			dcg.type AS 'customer.customerGroup.type',
 			SUM(dbwd.bonus_change) AS bonusChange,
 			dbwd.bonus_rate AS bonusRate,
@@ -120,6 +121,9 @@
 			</if>
 			<if test="addBonus!=null and addBonus==1">
 				AND dbwd.change_type IN (1,3)
+			</if>
+			<if test="h5List!=null and h5List==true">
+				AND dbwd.change_type IN (1,3,-2)
 			</if>
 			<if test="name!=null and name!=''">
 				AND (dc.name LIKE CONCAT('%',#{name},'%') OR dc.nick_name LIKE CONCAT('%',#{name},'%'))
@@ -164,6 +168,9 @@
 			</if>
 			<if test="addBonus!=null and addBonus==1">
 				AND dbwd.change_type IN (1,3)
+			</if>
+			<if test="h5List!=null and h5List==true">
+				AND dbwd.change_type IN (1,3,-2)
 			</if>
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}

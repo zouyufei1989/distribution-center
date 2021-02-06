@@ -2,20 +2,19 @@ package com.money.custom.service.impl;
 
 import com.money.custom.dao.BonusWalletDao;
 import com.money.custom.entity.*;
+import com.money.custom.entity.enums.BonusChangeTypeEnum;
 import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.request.*;
-import com.money.custom.service.BonusWalletService;
-import com.money.custom.service.CustomerGroupService;
-import com.money.custom.service.CustomerService;
-import com.money.custom.service.SmsService;
+import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -30,6 +29,8 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
     CustomerService customerService;
     @Autowired
     SmsService smsService;
+    @Autowired
+    OrderService orderService;
 
     @Override
     public List<BonusWallet> selectSearchList(QueryBonusWalletRequest request) {
@@ -146,6 +147,30 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
         bonusWalletDetails.stream()
                 .map(i -> Sms.bonusNotify(i.getCustomer().getPhone(), i.getBonusChange()))
                 .forEach(i -> smsService.addSms(i));
+    }
+
+    @Transactional
+    @Override
+    public void orderRefund(OrderRefundRequest refundRequest) {
+        OrderRefundParams orderRefundParams = orderService.queryOrderInfo4Refund(refundRequest.getOrderId());
+        Assert.notNull(orderRefundParams, "订单不存在");
+        Assert.isTrue(orderRefundParams.getOrderStatus().equals(OrderStatusEnum.REFUND.getValue()), "请先进行退款操作");
+
+        Assert.isTrue(refundRequest.getRefundAmount() <= orderRefundParams.getBonusGenerated(), "扣除积分不可超过订单产生的积分");
+        Assert.isTrue(refundRequest.getRefundAmount() <= orderRefundParams.getAvailableBonus(), "扣除积分不可超过股东剩余积分");
+
+
+        CustomerGroup customer = customerGroupService.findById(orderRefundParams.getParentCustomerGroupId().toString());
+        Assert.notNull(customer, "未查询到上级股东");
+        Assert.notNull(customer.getBonusWalletId(), "股东积分钱包尚未初始化");
+
+        BonusWallet wallet = findById(customer.getBonusWalletId().toString());
+
+        BonusWalletDetail detail = new BonusWalletDetail(refundRequest, wallet);
+        dao.addDetail(detail);
+
+        wallet.deduction(refundRequest);
+        edit(wallet);
 
     }
 

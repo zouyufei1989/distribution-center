@@ -21,6 +21,8 @@ public class H5BonusDetail {
     private String bonusRate;
     @ApiModelProperty(value = "消费/提现时间")
     private String createDate;
+    @ApiModelProperty(value = "积分变动类型  1.客源消费获取积分 3.客源首次消费获取积分 -2.退款积分扣除")
+    private Integer changeType;
 
     public H5BonusDetail(BonusWalletDetail detail) {
         bonusAmount = detail.getBonusChange();
@@ -32,7 +34,11 @@ public class H5BonusDetail {
         } else if(Objects.nonNull(detail.getBonusRate())){
             bonusRate = StringFormatUtils.percent(detail.getBonusRate());
         }
+        this.changeType = detail.getChangeType();
+    }
 
+    public Integer getChangeType() {
+        return changeType;
     }
 
     public String getCreateDate() {

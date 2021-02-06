@@ -4,6 +4,7 @@ package com.money.custom.entity;
 import com.money.custom.entity.request.BonusRechargeRequest;
 import com.money.custom.entity.request.DeductionRequest;
 import com.money.custom.entity.request.DistributeBonusRequest;
+import com.money.custom.entity.request.OrderRefundRequest;
 import com.money.framework.base.entity.OperationalEntity;
 import com.money.framework.util.DateUtils;
 
@@ -28,6 +29,12 @@ public class BonusWallet extends OperationalEntity {
     public void deduction(DeductionRequest request) {
         this.usedBonus += request.getAmount();
         this.availableBonus -= request.getAmount();
+        copyOperationInfo(request);
+    }
+
+    public void deduction(OrderRefundRequest request) {
+        this.usedBonus += request.getRefundAmount();
+        this.availableBonus -= request.getRefundAmount();
         copyOperationInfo(request);
     }
 

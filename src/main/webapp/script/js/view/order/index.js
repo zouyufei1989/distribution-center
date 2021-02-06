@@ -15,13 +15,15 @@ $(document).ready(function () {
             {name: 'creator', header: '操作人'},
             {
                 name: 'id', header: '操作', formatter: function (val) {
-                    return hyperlinkeButtonFormatter('查看详情', 'showOrderDetail(' + val + ')')
+                    return hyperlinkeButtonFormatter('退款', 'showOrderDetail4Refund(' + val + ')','red') +
+                        hyperlinkeButtonFormatter('查看详情', 'showOrderDetail(' + val + ')');
                 },width:120
             },
             {name: 'id', header: "id", hidden: true},
             {name: 'actuallyMoney', header: "actuallyMoney", hidden: true, formatter: moneyFormatter},
             {name: 'parentName', header: "parentName", hidden: true},
             {name: 'phone', header: "phone", hidden: true},
+            {name: 'status', header: "status", hidden: true},
             {
                 name: 'items', header: "items", formatter: function (val) {
                     return JSON.stringify(val)
@@ -33,8 +35,27 @@ $(document).ready(function () {
 function showOrderDetail(orderId) {
     var rowSelect = $("#table_list").jqGrid("getRowData", orderId);
     detailModal.order = rowSelect;
+    detailModal.refund = false;
     detailModal.orderItems = JSON.parse(rowSelect.items);
     $('#detailModal').modal('show')
+}
+
+function showOrderDetail4Refund(orderId) {
+    showOrderDetail(orderId);
+    detailModal.refund = true;
+
+    $.ajax({
+        url: 'queryOrderInfo4Refund',
+        type: 'post',
+        data: {
+            'orderId': orderId
+        },
+        async: true,
+        cache: false,
+        success: function (result) {
+            detailModal.refundParams = result.data;
+        }
+    });
 }
 
 function subGridRowExpanded(subgrid_id, row_id, rowExpanded) {

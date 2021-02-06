@@ -56,6 +56,7 @@ public class MyCustomerController {
     public QueryOrderPayGroupByMonthResponse queryPayInfoGroupByMonth(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
         Integer monthInterval = Integer.parseInt(request.getId());
         QueryOrderPayRequest queryOrderPayRequest = new QueryOrderPayRequest(monthInterval);
+        queryOrderPayRequest.setOpenId(request.getOpenId());
         List<OrderPay> orderPays = orderPayService.selectSearchList(queryOrderPayRequest);
         return new QueryOrderPayGroupByMonthResponse(monthInterval, orderPays);
     }
@@ -65,6 +66,7 @@ public class MyCustomerController {
     @RequestMapping(value = "queryPayInfoByMonth", method = RequestMethod.POST)
     public QueryOrderPayResponse queryPayInfoByMonth(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
         QueryOrderPayRequest queryOrderPayRequest = new QueryOrderPayRequest(request.getId());
+        queryOrderPayRequest.setOpenId(request.getOpenId());
         List<OrderPay> orderPays = orderPayService.selectSearchList(queryOrderPayRequest);
         Integer recordCount = orderPayService.selectSearchListCount(queryOrderPayRequest);
         return new QueryOrderPayResponse(recordCount, request.calTotalPage(recordCount), orderPays);

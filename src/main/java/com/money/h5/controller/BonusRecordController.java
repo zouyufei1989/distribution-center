@@ -31,7 +31,7 @@ public class BonusRecordController {
     public QueryBonusDetailResponse queryBonusRecord(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {
         QueryBonusWalletDetailRequest queryOrderConsumptionRequest = new QueryBonusWalletDetailRequest();
         queryOrderConsumptionRequest.setOpenId(request.getOpenId());
-        queryOrderConsumptionRequest.setAddBonus(1);
+        queryOrderConsumptionRequest.setH5List(true);
         queryOrderConsumptionRequest.copyPagerFromH5Request(request);
         int recordCount = this.bonusWalletService.selectSearchListCount(queryOrderConsumptionRequest);
         return new QueryBonusDetailResponse(recordCount, request.calTotalPage(recordCount), this.bonusWalletService.selectSearchList(queryOrderConsumptionRequest), 0L);

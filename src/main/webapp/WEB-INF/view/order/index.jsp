@@ -22,6 +22,7 @@
                         <%@ include file="../vue_template/customer_type_combo.jsp" %>
                         <%@ include file="../vue_template/group_combo.jsp" %>
                         <%@ include file="../vue_template/pay_type_combo.jsp" %>
+                        <%@ include file="../template_loading_modal.jsp" %>
                         <%@ include file="../vue_template/goods_type_combo.jsp" %>
                         <form role="form" class="form-inline" style="padding: 0px">
                             <div class="param_row">
@@ -62,11 +63,13 @@
 </div>
 
 <%@ include file="detailModal.jsp" %>
+<%@ include file="refund.jsp" %>
 
 </body>
 <script type="text/javascript">
     loadJS("../script/js/view/order/index.js", 1)
     loadJS("../script/js/view/order/detailModal.js", 1)
+    loadJS("../script/js/view/order/refund.js", 1)
 </script>
 
 </html>

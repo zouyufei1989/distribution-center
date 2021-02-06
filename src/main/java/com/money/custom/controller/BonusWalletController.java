@@ -1,6 +1,7 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.request.DistributeBonusRequest;
+import com.money.custom.entity.request.OrderRefundRequest;
 import com.money.custom.entity.request.QueryBonusWalletDetailRequest;
 import com.money.custom.entity.request.QueryBonusWalletRequest;
 import com.money.custom.service.BonusWalletService;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
 
 @VisitLogFlag(module = "客户管理")
 @Controller
@@ -54,5 +58,13 @@ public class BonusWalletController extends BaseController {
     public GridResponseBase queryBonusWalletDetail(QueryBonusWalletDetailRequest request) {
         int recordCount = this.bonusWalletService.selectSearchListCount(request);
         return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.bonusWalletService.selectSearchList(request));
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "refund", method = RequestMethod.POST)
+    public ResponseBase refund(@Valid @RequestBody OrderRefundRequest request, BindingResult bindingResult) {
+        this.bonusWalletService.orderRefund(request);
+        return ResponseBase.success();
     }
 }

@@ -117,5 +117,4 @@ public class CustomerController extends BaseController {
         return ResponseBase.success();
     }
 
-
 }

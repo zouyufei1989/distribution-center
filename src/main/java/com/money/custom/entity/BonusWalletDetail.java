@@ -5,6 +5,7 @@ import com.money.custom.entity.enums.BonusChangeTypeEnum;
 import com.money.custom.entity.request.BonusRechargeRequest;
 import com.money.custom.entity.request.DeductionRequest;
 import com.money.custom.entity.request.DistributeBonusRequest;
+import com.money.custom.entity.request.OrderRefundRequest;
 import com.money.framework.base.entity.OperationalEntity;
 
 import java.util.UUID;
@@ -79,6 +80,24 @@ public class BonusWalletDetail extends OperationalEntity {
         aftDistributeBonus = wallet.getDistributeBonus();
         aftAvailableBonus = wallet.getAvailableBonus() - request.getAmount();
         aftUsedBonus = wallet.getUsedBonus() + request.getAmount();
+
+        copyOperationInfo(request);
+    }
+
+    public BonusWalletDetail(OrderRefundRequest request, BonusWallet wallet) {
+        batchId = request.getOrderId().toString();
+        bonusWalletId = wallet.getId();
+        bonusChange = request.getRefundAmount();
+        changeType = BonusChangeTypeEnum.DEDUCTION_BY_REFUND.getValue();
+        befSumBonus = wallet.getSumBonus();
+        befDistributeBonus = wallet.getDistributeBonus();
+        befAvailableBonus = wallet.getAvailableBonus();
+        befUsedBonus = wallet.getUsedBonus();
+
+        aftSumBonus = wallet.getSumBonus();
+        aftDistributeBonus = wallet.getDistributeBonus();
+        aftAvailableBonus = wallet.getAvailableBonus() - request.getRefundAmount();
+        aftUsedBonus = wallet.getUsedBonus() + request.getRefundAmount();
 
         copyOperationInfo(request);
     }
