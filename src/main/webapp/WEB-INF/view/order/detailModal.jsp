@@ -77,8 +77,8 @@
                                     <label class="col-sm-3 control-label">{{item.goodsTagName}}</label>
                                     <label class="col-sm-3 control-label">{{item.goodsName}}({{moneyFormatter(item.goodsPrice)}}/{{item.goodsUnit}}) * {{item.cnt}}</label>
                                     <label class="col-sm-3 control-label">¥ {{moneyFormatter(item.goodsPrice*item.cnt)}}</label>
-                                    <button v-show="refund && order.status!=5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" @click="refundMoney()">退款</button>
-                                    <button v-show="refund && order.status==5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" disabled>已退款</button>
+                                    <button v-show="refund && refundParams.orderStatus<5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" @click="refundMoney()">退款</button>
+                                    <button v-show="refund && refundParams.orderStatus>=5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" disabled>已退款</button>
                                 </div>
                             </form>
                         </div>
@@ -102,7 +102,8 @@
                                         <input type="text" class="form-control" v-model="parentAvailableBonus" disabled>
                                     </div>
                                     <div class="col-sm-2">
-                                        <button type="button" style="margin-top: 5px" data-style="zoom-in" class="btn btn-primary btn-xs" @click="refundBonus()">扣除</button>
+                                        <button v-show="refund && refundParams.orderStatus==5" type="button" style="margin-top: 5px" data-style="zoom-in" class="btn btn-primary btn-xs" @click="refundBonus()">扣除</button>
+                                        <button v-show="refund && refundParams.orderStatus==6" type="button" style="margin-top: 5px;" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" disabled>已扣除</button>
                                     </div>
                                 </div>
                             </form>

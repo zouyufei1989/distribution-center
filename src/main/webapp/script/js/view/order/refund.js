@@ -36,7 +36,7 @@ $(document).ready(function () {
                                     Alert("", "成功！", "success", function () {
                                         $('#refundMoneyModal').modal('hide');
                                         reloadList();
-                                        detailModal.order.status = 5;
+                                        detailModal.refundParams.orderStatus = 5;
                                     });
                                 })
                             }
@@ -83,6 +83,7 @@ $(document).ready(function () {
                                     }
 
                                     Alert("", "成功！", "success", function () {
+                                        detailModal.refundParams.orderStatus = 6;
                                         $('.modal').modal('hide');
                                     });
                                 })

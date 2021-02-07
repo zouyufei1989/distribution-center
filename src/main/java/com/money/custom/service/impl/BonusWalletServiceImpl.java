@@ -10,6 +10,7 @@ import com.money.custom.entity.request.*;
 import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
+import com.money.h5.entity.response.QueryBonusDetailResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -156,6 +157,8 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
         Assert.notNull(orderRefundParams, "订单不存在");
         Assert.isTrue(orderRefundParams.getOrderStatus().equals(OrderStatusEnum.REFUND.getValue()), "请先进行退款操作");
 
+        Assert.isTrue(!orderRefundParams.getOrderStatus().equals(OrderStatusEnum.REFUND_BONUS.getValue()),"不可重复扣除积分");
+
         Assert.isTrue(refundRequest.getRefundAmount() <= orderRefundParams.getBonusGenerated(), "扣除积分不可超过订单产生的积分");
         Assert.isTrue(refundRequest.getRefundAmount() <= orderRefundParams.getAvailableBonus(), "扣除积分不可超过股东剩余积分");
 
@@ -171,6 +174,10 @@ public class BonusWalletServiceImpl extends BaseServiceImpl implements BonusWall
 
         wallet.deduction(refundRequest);
         edit(wallet);
+
+        ChangeOrderStatusRequest changeOrderStatusRequest = new ChangeOrderStatusRequest(refundRequest.getOrderId().toString(), OrderStatusEnum.REFUND_BONUS.getValue());
+        changeOrderStatusRequest.copyOperationInfo(refundRequest);
+        orderService.changeStatus(changeOrderStatusRequest);
 
     }
 

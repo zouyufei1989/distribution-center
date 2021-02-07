@@ -56,9 +56,14 @@ function additionFunc4Add() {
 }
 
 function fillAdditionAttrs(result) {
+    $('#div_cashback').show();
     $('#cashbackFirst' + result.cashbackFirst).trigger('click');
     $('#cashbackAmount').val(result.data.cashbackAmount / 100);
     $('#bonusRate').val(result.data.bonusRate / 100);
+    $('input:radio[value="'+result.data.cashbackFirst+'"]').attr('checked','checked');
+    if(result.data.cashbackFirst==0){
+        $('#div_cashback').hide();
+    }
 }
 
 function additionParam() {

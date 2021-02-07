@@ -9,15 +9,15 @@ $(document).ready(function () {
             {name: 'customerTypeName', header: '客户类型'},
             {name: 'goodsTypeName', header: '消费类型'},
             {name: 'sumMoney', header: '应收金额', formatter: moneyFormatter},
-            {name: 'payTypeName', header: '支付方式',width:120},
-            {name: 'groupName', header: '消费门店',width:120},
+            {name: 'payTypeName', header: '支付方式', width: 120},
+            {name: 'groupName', header: '消费门店', width: 120},
             {name: 'createDate', header: '消费时间', formatter: yyyyMMddhhmmssFormatter},
             {name: 'creator', header: '操作人'},
             {
                 name: 'id', header: '操作', formatter: function (val) {
-                    return hyperlinkeButtonFormatter('退款', 'showOrderDetail4Refund(' + val + ')','red') +
-                        hyperlinkeButtonFormatter('查看详情', 'showOrderDetail(' + val + ')');
-                },width:120
+                    return hyperlinkeButtonFormatter('查看详情', 'showOrderDetail(' + val + ')') +
+                        hyperlinkeButtonFormatter('退款', 'showOrderDetail4Refund(' + val + ')', 'red');
+                }, width: 120
             },
             {name: 'id', header: "id", hidden: true},
             {name: 'actuallyMoney', header: "actuallyMoney", hidden: true, formatter: moneyFormatter},

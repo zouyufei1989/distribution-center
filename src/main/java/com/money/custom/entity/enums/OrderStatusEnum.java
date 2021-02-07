@@ -6,7 +6,8 @@ public enum OrderStatusEnum implements IEnumKeyValue {
     USING(2, "已支付，使用中"),
     USED(3, "已支付，已用光"),
     CANCEL(4, "已取消"),
-    REFUND(5, "已退款");
+    REFUND(5, "已退款"),
+    REFUND_BONUS(6, "已退积分");
 
     private Integer value;
     private String name;

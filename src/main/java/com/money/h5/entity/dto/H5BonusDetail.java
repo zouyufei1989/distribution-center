@@ -28,13 +28,16 @@ public class H5BonusDetail {
         bonusAmount = detail.getBonusChange();
         customerName = detail.getSrcCustomerName();
         consumeAmount = detail.getSrcCustomerMoneyPay();
-        createDate = DateUtils.format(detail.getCreateDate(),"yyyy-MM-dd HH:mm:ss");
+        createDate = DateUtils.format(detail.getCreateDate(), "yyyy-MM-dd HH:mm:ss");
         if (detail.getChangeType().equals(BonusChangeTypeEnum.BONUSBACK.getValue())) {
             bonusRate = "首次消费返积分";
-        } else if(Objects.nonNull(detail.getBonusRate())){
+        } else if (Objects.nonNull(detail.getBonusRate())) {
             bonusRate = StringFormatUtils.percent(detail.getBonusRate());
         }
         this.changeType = detail.getChangeType();
+        if (this.changeType < 0) {
+            this.bonusAmount *= -1;
+        }
     }
 
     public Integer getChangeType() {

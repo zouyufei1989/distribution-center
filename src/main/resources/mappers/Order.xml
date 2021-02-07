@@ -139,7 +139,6 @@
 		SELECT
 			COUNT(*)
 		FROM <include refid="tableName"/> do
-		LEFT JOIN d_order_item doi ON doi.order_id = do.id
 		LEFT JOIN d_customer_group dcg ON do.customer_group_id = dcg.id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
 		LEFT JOIN d_order_pay dop ON dop.order_id = do.id
