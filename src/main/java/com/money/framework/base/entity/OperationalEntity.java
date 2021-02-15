@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class OperationalEntity implements Serializable {
 
@@ -56,7 +57,7 @@ public class OperationalEntity implements Serializable {
     }
 
     public void setOperationInfo(String name, String ip, Integer groupId) {
-        if(StringUtils.isEmpty(this.creator)){
+        if (StringUtils.isEmpty(this.creator)) {
             this.creator = name;
         }
         this.updater = name;
@@ -67,7 +68,7 @@ public class OperationalEntity implements Serializable {
         this.createDate = new Date();
         this.updateDate = new Date();
 
-        if (groupId != null && this.groupId == null) {
+        if (Objects.nonNull(groupId) && Objects.isNull(this.groupId)) {
             setGroupId(groupId);
         }
     }
@@ -96,6 +97,7 @@ public class OperationalEntity implements Serializable {
         this.updateDate = new Date();
 
     }
+
     public void ofH5(String openId) {
         this.creator = openId;
         this.updater = openId;

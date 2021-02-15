@@ -49,6 +49,18 @@
             z-index: 9999;
         }
 
+        #reservationPeriodModal i {
+            cursor: pointer !important;
+            margin-top: 3px;
+        }
+
+        .addPeriod{
+            border: 1px dashed slategray;
+            padding:5px 20px 5px 20px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
     </style>
 </head>
 <body>
@@ -91,11 +103,13 @@
 
 <%@ include file="update.jsp" %>
 <%@ include file="showOnMap.jsp" %>
+<%@ include file="reservationPeriod.jsp" %>
 
 </body>
 <script type="text/javascript">
     loadJS("../script/js/view/group/index.js", 1)
     loadJS("../script/js/view/group/update.js", 1)
+    loadJS("../script/js/view/group/reservationPeriod.js", 1)
 </script>
 
 </html>

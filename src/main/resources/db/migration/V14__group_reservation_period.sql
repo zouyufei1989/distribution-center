@@ -1,0 +1,1 @@
+alter table d_group_reservation_period add column cnt int after status;

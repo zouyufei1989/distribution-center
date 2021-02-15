@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="GroupReservationPeriod">
+
+	<sql id="tableName">d_group_reservation_period</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="GroupReservationPeriod">
+		SELECT
+			id,
+			start_time AS startTime,
+			end_time AS endTime,
+			cnt
+		FROM <include refid="tableName"/>
+		WHERE
+			status = 1
+			AND group_id = #{groupId}
+		ORDER BY startTime
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/>
+		WHERE
+			status = 1
+			AND group_id = #{groupId}
+	</select>
+
+	<insert id="addBatch" parameterType="GroupReservationPeriod" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			start_time,
+			end_time,
+			status,
+			cnt,
+			group_id,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		<foreach collection="list" item="item" separator=",">
+			(
+				#{item.startTime},
+				#{item.endTime},
+				#{item.status},
+				#{item.cnt},
+				#{item.groupId},
+				NOW(),
+				#{item.creator},
+				#{item.createIp}
+			)
+		</foreach>
+	</insert>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>
