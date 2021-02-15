@@ -1,14 +1,16 @@
 package com.money.custom.entity;
 
 import com.money.custom.entity.enums.HistoryEntityEnum;
-import com.money.framework.base.annotation.AddHistoryLog;
+import com.money.custom.entity.request.ModifyGroupDetailImgsRequest;
+import com.money.custom.entity.request.ModifyGroupVedioesRequest;
+import com.money.framework.base.annotation.IgnoreXss;
 import com.money.framework.base.entity.BaseEntity;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 public class Group extends BaseEntity {
 
@@ -32,6 +34,7 @@ public class Group extends BaseEntity {
     private String thumbnail;
     @NotBlank(message = "请上传详情封面")
     private String detailCoverImg;
+    @IgnoreXss
     private String detailImg;
     private String video;
     @NotNull(message = "请输入门店排序")
@@ -42,8 +45,44 @@ public class Group extends BaseEntity {
     private Double lng;
     @NotNull(message = "门店经纬度不可为空")
     private Double lat;
+    private String videoCoverImg;
+    @IgnoreXss
+    private String videoList;
 
     private String cityName;
+
+    public Group() {}
+
+    public Group(ModifyGroupDetailImgsRequest request) {
+        Assert.notNull(request.getGroupId(), "请指明门店");
+        setId(request.getGroupId());
+        setDetailImg(request.getDetailCoverImg());
+        copyOperationInfo(request);
+    }
+
+    public Group(ModifyGroupVedioesRequest request) {
+        Assert.notNull(request.getGroupId(), "请指明门店");
+        setId(request.getGroupId());
+        setVideoList(request.getVideoList());
+        copyOperationInfo(request);
+    }
+
+
+    public String getVideoCoverImg() {
+        return videoCoverImg;
+    }
+
+    public void setVideoCoverImg(String videoCoverImg) {
+        this.videoCoverImg = videoCoverImg;
+    }
+
+    public String getVideoList() {
+        return videoList;
+    }
+
+    public void setVideoList(String videoList) {
+        this.videoList = videoList;
+    }
 
     public String getHistoryType() {
         return HistoryEntityEnum.GROUP.getName();

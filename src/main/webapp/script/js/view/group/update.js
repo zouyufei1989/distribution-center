@@ -1,4 +1,4 @@
-var attrs = ['name', 'cityCode', 'address', 'ownerName', 'ownerPhone', 'status', 'desc', 'thumbnail', 'detailCoverImg', 'detailImg', 'index', 'openRules', 'lng', 'lat'];
+var attrs = ['name', 'cityCode', 'address', 'ownerName', 'ownerPhone', 'status', 'desc', 'thumbnail', 'detailCoverImg', 'videoCoverImg', 'index', 'openRules', 'lng', 'lat'];
 var VUE_CITY;
 var mapModel;
 
@@ -7,8 +7,7 @@ $(document).ready(function () {
     new Vue({el: '#status'});
     new Vue({el: '#thumbnailModal'});
     new Vue({el: '#detailCoverImgModal'});
-    new Vue({el: '#detailImgModal'});
-    new Vue({el: '#videoModal'});
+    new Vue({el: '#videoCoverImgModal'});
 
     $("#index").TouchSpin({
         verticalbuttons: true,
@@ -54,7 +53,7 @@ function fillAdditionAttrs(result) {
     }
     $('#thumbnail_url').attr('src', result.data.thumbnail);
     $('#detailCoverImg_url').attr('src', result.data.detailCoverImg);
-    $('#detailImg_url').attr('src', result.data.detailImg);
+    $('#videoCoverImg_url').attr('src', result.data.videoCoverImg);
     $('#videoUrl').attr('src', result.data.video);
     refreshStationMarker();
 }
@@ -64,7 +63,7 @@ function additionParam() {
         cityCode: $('#cityCode').val(),
         thumbnail: $('#thumbnail_url').attr('src'),
         detailCoverImg: $('#detailCoverImg_url').attr('src'),
-        detailImg: $('#detailImg_url').attr('src'),
+        videoCoverImg: $('#videoCoverImg_url').attr('src'),
         video: $('#videoUrl').attr('src'),
         openRules: $('#sel_start_weekday').val() + "-" + $('#sel_end_weekday').val() + "@" + $('#sel_start_time').val() + "-" + $('#sel_end_time').val()
     };

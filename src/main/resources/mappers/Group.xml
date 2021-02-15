@@ -19,6 +19,8 @@
 			dg.detail_cover_img AS detailCoverImg,
 			dg.detail_img AS detailImg,
 			dg.video,
+			dg.video_cover_img AS videoCoverImg,
+			dg.video_list AS videoList,
 			dg.`index`,
 			dg.open_rules AS openRules,
 			dg.lng,
@@ -84,6 +86,7 @@
 			video,
 			detail_cover_img AS detailCoverImg,
 			detail_img AS detailImg,
+			video_cover_img AS videoCoverImg,
 			`index`,
 			open_rules AS openRules,
 			city_code AS cityCode
@@ -191,6 +194,12 @@
 			</if>
 			<if test="index != null">
 				,`index` = #{index}
+			</if>
+			<if test="videoCoverImg!=null">
+				, video_cover_img = #{videoCoverImg}
+			</if>
+			<if test="videoList!=null">
+				, video_list = #{videoList}
 			</if>
 		WHERE id = #{id}
 	</update>

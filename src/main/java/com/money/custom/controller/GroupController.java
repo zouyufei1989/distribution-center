@@ -2,10 +2,7 @@ package com.money.custom.controller;
 
 import com.money.custom.entity.Group;
 import com.money.custom.entity.GroupReservationPeriod;
-import com.money.custom.entity.request.ChangeStatusRequest;
-import com.money.custom.entity.request.QueryGridRequestBase;
-import com.money.custom.entity.request.QueryGroupRequest;
-import com.money.custom.entity.request.SaveGroupReservationPeriodsRequest;
+import com.money.custom.entity.request.*;
 import com.money.custom.service.GroupReservationPeriodService;
 import com.money.custom.service.GroupService;
 import com.money.framework.base.annotation.VisitLogFlag;
@@ -59,6 +56,22 @@ public class GroupController extends BaseController {
     @RequestMapping(value = "findById", method = RequestMethod.POST)
     public ResponseBase findById(String id) {
         return ResponseBase.success(this.groupService.findById(id));
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "editDetailImg", method = RequestMethod.POST)
+    public ResponseBase editDetailImg(@Valid @RequestBody ModifyGroupDetailImgsRequest request, BindingResult bindingResult) {
+        this.groupService.edit(new Group(request));
+        return ResponseBase.success();
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "editVideoList", method = RequestMethod.POST)
+    public ResponseBase editVideoList(@Valid @RequestBody ModifyGroupVedioesRequest request, BindingResult bindingResult) {
+        this.groupService.edit(new Group(request));
+        return ResponseBase.success();
     }
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)

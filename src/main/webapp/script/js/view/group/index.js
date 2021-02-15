@@ -17,8 +17,24 @@ $(document).ready(function () {
             {name: 'ownerName', header: '负责人'},
             {name: 'ownerPhone', header: '店铺电话'},
             {name: 'thumbnail', header: '缩略图', formatter: imgPreViewFormatter},
-            {name: 'detailCoverImg', header: '详情封面图', formatter: imgPreViewFormatter},
-            // {name: 'detailImg', header: '详情图片', formatter: imgPreViewFormatter},
+            {
+                name: 'detailImg', header: '详情图片列表', formatter: function (val, opt, obj) {
+                    var cnt = 0;
+                    if (val) {
+                        cnt = val.split(";").length;
+                    }
+                    return hyperlinkeButtonFormatter(cnt, "showCoverImgModal('" + val + "'," + obj.id + ")");
+                }
+            },
+            {
+                name: 'videoList', header: '介绍视频列表', formatter: function (val,opt,obj) {
+                    var cnt = 0;
+                    if (val) {
+                        cnt = val.split(";").length;
+                    }
+                    return hyperlinkeButtonFormatter(cnt, "showVideoListModal('" + val + "'," + obj.id + ")");
+                }
+            },
             {name: 'openRules4Show', header: '营业时间', width: 120},
             {name: 'index', header: '门店排序'},
             {name: 'statusName', header: '状态'},
@@ -43,4 +59,16 @@ function showGroupOnMap(lng, lat) {
     }
     group4Show = {lng: lng, lat: lat};
     $('#map4ShowModal').modal('show');
+}
+
+function showCoverImgModal(detailImgs,groupId) {
+    coverImgModalVue.groupId = groupId;
+    coverImgModalVue.detailImgList = detailImgs.split(';');
+    coverImgModalVue.show();
+}
+
+function showVideoListModal(videoList,groupId) {
+    videoListModalVue.groupId = groupId;
+    videoListModalVue.videoList = videoList.split(';');
+    videoListModalVue.show();
 }
