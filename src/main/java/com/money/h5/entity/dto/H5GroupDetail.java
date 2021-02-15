@@ -13,12 +13,17 @@ public class H5GroupDetail extends H5Group {
     private String phone;
     @ApiModelProperty(value = "描述")
     private String desc;
-    @ApiModelProperty(value = "详情图")
-    private String detailCoverImg;
     @ApiModelProperty(value = "详情封面图")
+    private String detailCoverImg;
+    @ApiModelProperty(value = "详情图集合 ;分割")
     private String detailImg;
-    @ApiModelProperty(value = "介绍视频")
+    @ApiModelProperty(value = "介绍视频，废弃，保留该字段兼容老数据接口")
     private String video;
+    @ApiModelProperty(value = "视频集合封面")
+    private String videoCoverImg;
+    @ApiModelProperty(value = "介绍视频集合 ;分割")
+    private String videoList;
+
     @ApiModelProperty(value = "营业时间")
     private String openRules;
     @ApiModelProperty(value = "地理位置 经度")
@@ -34,6 +39,8 @@ public class H5GroupDetail extends H5Group {
         detailCoverImg = group.getDetailCoverImg();
         detailImg = group.getDetailImg();
         video = group.getVideo();
+        videoCoverImg = group.getVideoCoverImg();
+        videoList = group.getVideoList();
 
         openRules = group.getOpenRules();
         if (StringUtils.isNotEmpty(openRules) && openRules.contains("@")) {
@@ -42,6 +49,14 @@ public class H5GroupDetail extends H5Group {
 
         lng = group.getLng();
         lat = group.getLat();
+    }
+
+    public String getVideoCoverImg() {
+        return videoCoverImg;
+    }
+
+    public String getVideoList() {
+        return videoList;
     }
 
     public String getAddress() {

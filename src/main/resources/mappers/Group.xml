@@ -87,6 +87,7 @@
 			detail_cover_img AS detailCoverImg,
 			detail_img AS detailImg,
 			video_cover_img AS videoCoverImg,
+			video_list AS videoList,
 			`index`,
 			open_rules AS openRules,
 			city_code AS cityCode
