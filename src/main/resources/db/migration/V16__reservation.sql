@@ -1,0 +1,1 @@
+alter table d_reservation add index idx_date (date);

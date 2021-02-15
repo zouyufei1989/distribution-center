@@ -19,6 +19,7 @@
             <result column="goodsCombine" property="goodsCombine"/>
             <result column="goodsSerialNumber" property="goodsSerialNumber"/>
             <result column="goodsCoverImg" property="goodsCoverImg"/>
+            <result column="groupId" property="groupId"/>
 
             <result column="customerName" property="customerName"/>
             <result column="phone" property="phone"/>
@@ -61,6 +62,7 @@
 			IFNULL(dc.name,dc.nick_name) AS customerName,
 			dc.phone,
 			dcg.serial_number AS serialNumber,
+			dcg.group_id AS groupId,
 			dcg.type AS customerType,
 			dop.pay_type AS payType,
 			do.goods_type_id AS goodsTypeId,
@@ -187,24 +189,27 @@
 
 	<select id="findById" parameterType="String" resultType="Order">
 		SELECT
-			id,
-			batch_id AS batchId,
-			customer_group_id AS customerGroupId,
-			goods_id AS goodsId,
-			goods_name AS goodsName,
-			goods_combine AS goodsCombine,
-			goods_type_id AS goodsTypeId,
-			goods_type_name AS goodsTypeName,
-			expire_date AS expiredDate,
-			goods_desc AS goodsDesc,
-			goods_cnt AS goodsCnt,
-			goods_item_type_cnt AS goodsItemType,
-			goods_sum_price AS goodsSumPrice,
-			order_price AS orderPrice,
-			order_cnt AS orderCnt,
-			status
-		FROM <include refid="tableName"/>
-		WHERE id = #{id}
+			do.id,
+			do.batch_id AS batchId,
+			do.customer_group_id AS customerGroupId,
+			do.goods_id AS goodsId,
+			do.goods_name AS goodsName,
+			do.goods_combine AS goodsCombine,
+			do.goods_type_id AS goodsTypeId,
+			do.goods_type_name AS goodsTypeName,
+			do.expire_date AS expiredDate,
+			do.goods_desc AS goodsDesc,
+			do.goods_cnt AS goodsCnt,
+			do.goods_item_type_cnt AS goodsItemType,
+			do.goods_sum_price AS goodsSumPrice,
+			do.order_price AS orderPrice,
+			do.order_cnt AS orderCnt,
+			do.status,
+			dcg.group_id AS groupId
+		FROM <include refid="tableName"/> do
+		LEFT JOIN d_customer_group dcg ON do.customer_group_id = dcg.id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		WHERE do.id = #{id}
 	</select>
 
 	<insert id="add" parameterType="Order" useGeneratedKeys="true" keyProperty="id">

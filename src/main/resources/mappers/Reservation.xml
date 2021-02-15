@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Reservation">
+
+	<sql id="tableName">d_reservation</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="Reservation">
+		SELECT
+			dr.order_id AS orderId,
+			dr.customer_group_id AS customerGroupId,
+			dr.date,
+			dr.start_time AS startTime,
+			dr.end_time AS endTime,
+			dr.status,
+			dr.create_date AS createDate,
+			dr.update_date AS updateDate,
+			IFNULL(dc.name,dc.nick_name) AS customerName,
+			do.goods_name AS goodsName
+		FROM <include refid="tableName"/> dr
+		LEFT JOIN d_customer_group dcg ON dcg.id = dr.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_order do ON do.id = dr.order_id
+		WHERE
+			1=1
+			<if test="status!=null">
+				AND dr.status = #{status}
+			</if>
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{open_id}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dr.date &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dr.date &lt;= #{endDate}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				AND dr.start_time &gt;= #{startTime}
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				AND dr.start_time &lt;= #{endTime}
+			</if>
+		ORDER BY dr.id DESC
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/> dr
+		LEFT JOIN d_customer_group dcg ON dcg.id = dr.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_order do ON do.id = dr.order_id
+		WHERE
+			1=1
+			<if test="status!=null">
+				AND dr.status = #{status}
+			</if>
+			<if test="openId!=null and openId!=''">
+				AND dc.open_id = #{open_id}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dr.date &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dr.date &lt;= #{endDate}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				AND dr.start_time &gt;= #{startTime}
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				AND dr.start_time &lt;= #{endTime}
+			</if>
+	</select>
+	
+	<select id="findById" parameterType="String" resultType="Reservation">
+		SELECT 
+			dr.order_id AS orderId,
+			dr.customer_group_id AS customerGroupId,
+			dr.date,
+			dr.start_time AS startTime,
+			dr.end_time AS endTime,
+			dr.status,
+			dr.create_date AS createDate,
+			dr.update_date AS updateDate,
+			IFNULL(dc.name,dc.nick_name) AS customerName,
+			do.goods_name AS goodsName
+		FROM <include refid="tableName"/> dr
+		LEFT JOIN d_customer_group dcg ON dcg.id = dr.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_order do ON do.id = dr.order_id
+		WHERE dr.id = #{id}
+	</select>
+
+	<insert id="add" parameterType="Reservation" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			order_id,
+			customer_group_id,
+			date,
+			start_time,
+			end_time,
+			status,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{orderId},
+			#{customerGroupId},
+			#{date},
+			#{startTime},
+			#{endTime},
+			#{status},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>

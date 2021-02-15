@@ -53,4 +53,8 @@ public class QueryCustomerRequest extends QueryGridRequestBase {
     public void setParentOpenId(String parentOpenId) {
         this.parentOpenId = parentOpenId;
     }
+
+    public void setOpenId(String openId){
+        this.customer.setOpenId(openId);
+    }
 }

@@ -1,6 +1,9 @@
 package com.money.custom.entity;
 
+import com.money.custom.entity.enums.ReservationStatusEnum;
 import com.money.framework.base.entity.BaseEntity;
+import com.money.framework.util.EnumUtils;
+import com.money.h5.entity.request.ReserveRequest;
 
 public class Reservation extends BaseEntity {
 
@@ -11,9 +14,49 @@ public class Reservation extends BaseEntity {
     private String date;
     private String startTime;
     private String endTime;
-    private Integer startTimeSec;
-    private Integer endTimeSec;
-    private Integer status;
+
+    private String openId;
+    private String goodsName;
+    private String customerName;
+
+    public Reservation(){}
+
+    public Reservation(ReserveRequest reserveRequest){
+        this.orderId = reserveRequest.getOrderId();
+        this.openId = reserveRequest.getOpenId();
+        this.date = reserveRequest.getDate();
+        this.startTime = reserveRequest.getStartTime();
+        this.endTime = reserveRequest.getEndTime();
+        copyOperationInfo(reserveRequest);
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getStatusName() {
+        return EnumUtils.getNameByValue(ReservationStatusEnum.class, getStatus());
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
     public Integer getId() {
         return id;
@@ -63,29 +106,4 @@ public class Reservation extends BaseEntity {
         this.endTime = endTime;
     }
 
-    public Integer getStartTimeSec() {
-        return startTimeSec;
-    }
-
-    public void setStartTimeSec(Integer startTimeSec) {
-        this.startTimeSec = startTimeSec;
-    }
-
-    public Integer getEndTimeSec() {
-        return endTimeSec;
-    }
-
-    public void setEndTimeSec(Integer endTimeSec) {
-        this.endTimeSec = endTimeSec;
-    }
-
-    @Override
-    public Integer getStatus() {
-        return status;
-    }
-
-    @Override
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 }

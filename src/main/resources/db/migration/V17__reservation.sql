@@ -1,0 +1,1 @@
+alter table d_reservation modify column creator varchar(100)

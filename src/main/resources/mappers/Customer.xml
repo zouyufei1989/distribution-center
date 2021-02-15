@@ -59,6 +59,9 @@
 			<if test="customer.name!=null and customer.name!=''">
 				AND (dc.name LIKE CONCAT('%',#{customer.name},'%') OR dc.nick_name LIKE CONCAT('%',#{customer.name},'%'))
 			</if>
+			<if test="customer.openId!=null and customer.openId!=''">
+				AND dc.open_id = #{customer.openId}
+			</if>
 			<if test="customer.phone!=null and customer.phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{customer.phone},'%')
 			</if>
@@ -110,6 +113,9 @@
 			</if>
 			<if test="customer.name!=null and customer.name!=''">
 				AND (dc.name LIKE CONCAT('%',#{customer.name},'%') OR dc.nick_name LIKE CONCAT('%',#{customer.name},'%'))
+			</if>
+			<if test="customer.openId!=null and customer.openId!=''">
+				AND dc.open_id = #{customer.openId}
 			</if>
 			<if test="customer.phone!=null and customer.phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{customer.phone},'%')
