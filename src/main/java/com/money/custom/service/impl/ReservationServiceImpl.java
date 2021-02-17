@@ -6,10 +6,7 @@ import com.money.custom.entity.GroupReservationPeriod;
 import com.money.custom.entity.Order;
 import com.money.custom.entity.Reservation;
 import com.money.custom.entity.dto.ReservationCalendar;
-import com.money.custom.entity.enums.CommonStatusEnum;
-import com.money.custom.entity.enums.GoodsTypeEnum;
-import com.money.custom.entity.enums.HistoryEntityEnum;
-import com.money.custom.entity.enums.OrderStatusEnum;
+import com.money.custom.entity.enums.*;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.CustomerService;
 import com.money.custom.service.GroupReservationPeriodService;
@@ -124,6 +121,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         queryReservationRequest.setGroupId(groupId);
         queryReservationRequest.setStartDate(request.getStartDate());
         queryReservationRequest.setEndDate(request.getEndDate());
+        queryReservationRequest.setStatus(ReservationStatusEnum.SUCCESS.getValue());
         List<Reservation> reservations = selectSearchList(queryReservationRequest);
         getLogger().info("{}至{}共{}个预约", request.getStartDate(), request.getEndDate(), reservations.size());
 
