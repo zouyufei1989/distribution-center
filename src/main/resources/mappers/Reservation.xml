@@ -30,7 +30,7 @@
 				AND dcg.group_id = #{groupId}
 			</if>
 			<if test="openId!=null and openId!=''">
-				AND dc.open_id = #{open_id}
+				AND dc.open_id = #{openId}
 			</if>
 			<if test="startDate!=null and startDate!=''">
 				AND dr.date &gt;= #{startDate}
@@ -63,7 +63,7 @@
 				AND dr.status = #{status}
 			</if>
 			<if test="openId!=null and openId!=''">
-				AND dc.open_id = #{open_id}
+				AND dc.open_id = #{openId}
 			</if>
 			<if test="startDate!=null and startDate!=''">
 				AND dr.date &gt;= #{startDate}
@@ -90,7 +90,8 @@
 			dr.create_date AS createDate,
 			dr.update_date AS updateDate,
 			IFNULL(dc.name,dc.nick_name) AS customerName,
-			do.goods_name AS goodsName
+			do.goods_name AS goodsName,
+			dr.creator
 		FROM <include refid="tableName"/> dr
 		LEFT JOIN d_customer_group dcg ON dcg.id = dr.customer_group_id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id

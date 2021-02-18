@@ -88,6 +88,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         Assert.isTrue(reservationPeriodOpt.get().getAvailable() > 0, "选中时间段预约已满");
 
         item.setCustomerGroupId(customer.getCustomerGroup().getId());
+        item.setStatus(ReservationStatusEnum.SUCCESS.getValue());
         dao.add(item);
         return item.getId().toString();
     }
