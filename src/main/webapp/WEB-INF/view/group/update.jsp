@@ -90,19 +90,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label">
-                                        <span style="color: red;"></span>视频封面图片:
-                                        <br>
-                                        <span style="color:darkgrey;font-size: smaller">(图片尺寸:宽686 * 高343)</span>
-                                    </label>
-                                    <div class="col-sm-2">
-                                        <div class="upload_box" id="videoCoverImg" data-toggle="modal" data-target="#videoCoverImgModal">+</div>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <img id="videoCoverImg_url" src="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>营业时间:</label>
                                     <div class="col-sm-2">
                                         <select id="sel_start_weekday" class="select2_demo_3 form-control m-b" style="width: 100% !important;"> </select>
@@ -154,4 +141,3 @@
 
 <upload-img-modal id="thumbnailModal" title="缩略图" img="thumbnail_url" width="112" height="112"></upload-img-modal>
 <upload-img-modal id="detailCoverImgModal" title="详情封面" img="detailCoverImg_url" width="686" height="343"></upload-img-modal>
-<upload-img-modal id="videoCoverImgModal" title="视频封面" img="videoCoverImg_url" width="686" height="343"></upload-img-modal>

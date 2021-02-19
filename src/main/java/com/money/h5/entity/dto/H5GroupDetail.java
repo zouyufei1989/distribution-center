@@ -19,9 +19,7 @@ public class H5GroupDetail extends H5Group {
     private String detailImg;
     @ApiModelProperty(value = "介绍视频，废弃，保留该字段兼容老数据接口")
     private String video;
-    @ApiModelProperty(value = "视频集合封面")
-    private String videoCoverImg;
-    @ApiModelProperty(value = "介绍视频集合 ;分割")
+    @ApiModelProperty(value = "介绍视频集合 JSON集合")
     private String videoList;
 
     @ApiModelProperty(value = "营业时间")
@@ -39,7 +37,6 @@ public class H5GroupDetail extends H5Group {
         detailCoverImg = group.getDetailCoverImg();
         detailImg = group.getDetailImg();
         video = group.getVideo();
-        videoCoverImg = group.getVideoCoverImg();
         videoList = group.getVideoList();
 
         openRules = group.getOpenRules();
@@ -49,10 +46,6 @@ public class H5GroupDetail extends H5Group {
 
         lng = group.getLng();
         lat = group.getLat();
-    }
-
-    public String getVideoCoverImg() {
-        return videoCoverImg;
     }
 
     public String getVideoList() {

@@ -27,10 +27,10 @@ $(document).ready(function () {
                 }
             },
             {
-                name: 'videoList', header: '介绍视频列表', formatter: function (val,opt,obj) {
+                name: 'videoList', header: '介绍视频列表', formatter: function (val, opt, obj) {
                     var cnt = 0;
                     if (val) {
-                        cnt = val.split(";").length;
+                        cnt = JSON.parse(val).length;
                     }
                     return hyperlinkeButtonFormatter(cnt, "showVideoListModal('" + val + "'," + obj.id + ")");
                 }
@@ -61,14 +61,14 @@ function showGroupOnMap(lng, lat) {
     $('#map4ShowModal').modal('show');
 }
 
-function showCoverImgModal(detailImgs,groupId) {
+function showCoverImgModal(detailImgs, groupId) {
     coverImgModalVue.groupId = groupId;
     coverImgModalVue.detailImgList = detailImgs.split(';');
     coverImgModalVue.show();
 }
 
-function showVideoListModal(videoList,groupId) {
+function showVideoListModal(videoList, groupId) {
     videoListModalVue.groupId = groupId;
-    videoListModalVue.videoList = videoList.split(';');
+    videoListModalVue.videoList = videoList ? JSON.parse(videoList) : [];
     videoListModalVue.show();
 }

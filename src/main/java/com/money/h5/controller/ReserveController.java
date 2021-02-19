@@ -1,21 +1,14 @@
 package com.money.h5.controller;
 
-import com.money.custom.entity.Customer;
 import com.money.custom.entity.Reservation;
-import com.money.custom.entity.enums.ReservationStatusEnum;
-import com.money.custom.entity.request.ChangeReservationStatusRequest;
-import com.money.custom.entity.request.QueryCustomerRequest;
 import com.money.custom.entity.request.QueryReservationCalenderRequest;
 import com.money.custom.entity.request.QueryReservationRequest;
 import com.money.custom.service.ReservationService;
 import com.money.framework.base.entity.ResponseBase;
 import com.money.h5.entity.H5GridRequestBase;
-import com.money.h5.entity.H5RequestBase;
 import com.money.h5.entity.request.CancelReserveRequest;
-import com.money.h5.entity.request.QueryMyCustomerRequest;
 import com.money.h5.entity.request.QueryReserveCalenderRequest;
 import com.money.h5.entity.request.ReserveRequest;
-import com.money.h5.entity.response.QueryMyCustomerResponse;
 import com.money.h5.entity.response.QueryMyReservationResponse;
 import com.money.h5.service.H5ReserveService;
 import io.swagger.annotations.Api;
@@ -25,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.Query;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -40,7 +32,7 @@ public class ReserveController {
     @Autowired
     H5ReserveService h5ReserveService;
 
-    @ApiOperation(value = "预约日历", notes = "startDate至endDate预约情况；如startDate=endDate，则返回当天每个预约时间段的预约情况")
+    @ApiOperation(value = "预约日历", notes = "startDate至endDate预约情况；如startDate=endDate，则返回当天每个预约时间段的预约情况",hidden = true)
     @ResponseBody
     @RequestMapping(value = "queryReservationCalender", method = RequestMethod.POST)
     public ResponseBase queryReservationCalender(@Valid @RequestBody QueryReserveCalenderRequest request, BindingResult bindingResult) {
@@ -52,7 +44,7 @@ public class ReserveController {
     }
 
 
-    @ApiOperation(value = "预约", notes = "orderId=62")
+    @ApiOperation(value = "预约", notes = "orderId=62",hidden = true)
     @ResponseBody
     @RequestMapping(value = "reserve", method = RequestMethod.POST)
     public ResponseBase reserve(@Valid @RequestBody ReserveRequest request, BindingResult bindingResult) {
@@ -60,7 +52,7 @@ public class ReserveController {
         return ResponseBase.success();
     }
 
-    @ApiOperation(value = "取消预约", notes = "reserveId=1")
+    @ApiOperation(value = "取消预约", notes = "reserveId=1",hidden = true)
     @ResponseBody
     @RequestMapping(value = "cancel", method = RequestMethod.POST)
     public ResponseBase cancel(@Valid @RequestBody CancelReserveRequest request, BindingResult bindingResult) {
@@ -68,7 +60,7 @@ public class ReserveController {
         return ResponseBase.success();
     }
 
-    @ApiOperation(value = "我的预约（可分页）", notes = "openId=oSpLm5PPyJv5tO-HCGnH5mGUR6lA")
+    @ApiOperation(value = "我的预约（可分页）", notes = "openId=oSpLm5PPyJv5tO-HCGnH5mGUR6lA",hidden = true)
     @ResponseBody
     @RequestMapping(value = "queryMyReservations", method = RequestMethod.POST)
     public QueryMyReservationResponse queryMyReservations(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {

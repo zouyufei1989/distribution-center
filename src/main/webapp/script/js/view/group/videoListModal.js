@@ -5,9 +5,13 @@ $(document).ready(function () {
         el: '#videoListModal',
         data: {
             videoList: [],
-            groupId: null
+            groupId: null,
         },
         methods: {
+            effectUrl(url){
+                console.log(url)
+                return url && url.length>0;
+            },
             show() {
                 $('#videoListModal').modal('show');
             },
@@ -17,9 +21,12 @@ $(document).ready(function () {
             hideUploadModal() {
                 $('#uploadVideoModal').modal('hide');
             },
-            uploadVideo(e) {
+            hideUploadCoverModal() {
+                $('#uploadVideoCoverModal').modal('hide');
+            },
+            upload(e,attr,formId) {
                 var _this = this;
-                var file = $('#video').val();
+                var file = $('#'+formId + ' input').val();
                 if (file == '') {
                     Alert("", "请选择文件!");
                     return;
@@ -32,16 +39,33 @@ $(document).ready(function () {
                         success: function (result) {
                             loadingEnd(function () {
                                 if (result.success) {
-                                    $('#video').val('');
+                                    $('#'+formId + ' input').val('')
                                     _this.hideUploadModal();
-                                    _this.videoList.push(result.fileUrl);
+                                    _this.hideUploadCoverModal();
+
+                                    var i = 0;
+                                    for (; i < _this.videoList.length; i++) {
+                                        if (!_this.videoList[i]) {
+                                            break;
+                                        }else if (!_this.videoList[i][attr]){
+                                            break;
+                                        }
+                                    }
+                                    if(i==_this.videoList.length){
+                                        var item = {imgUrl:'',videoUrl:''};
+                                        item[attr] = result.fileUrl;
+                                        _this.videoList.push(item);
+                                    }else{
+                                        _this.videoList[i][attr] = result.fileUrl;
+                                    }
+
                                     return;
                                 }
                                 Alert("", "上传失败!", "error");
                             });
                         }
                     }
-                    $("#uploadVideoForm").ajaxSubmit(option);
+                    $("#"+formId).ajaxSubmit(option);
                 });
             },
             remove(i) {
@@ -60,8 +84,8 @@ $(document).ready(function () {
                             'Content-Type': 'application/json;charset=UTF-8'
                         },
                         data: JSON.stringify({
-                            groupId:_this.groupId,
-                            videoList:_this.videoList.join(";")
+                            groupId: _this.groupId,
+                            videoList: JSON.stringify(_this.videoList)
                         }),
                         async: true,
                         cache: false,
