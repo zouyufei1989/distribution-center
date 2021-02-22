@@ -68,8 +68,17 @@ $(document).ready(function () {
                     $("#"+formId).ajaxSubmit(option);
                 });
             },
-            remove(i) {
-                this.videoList.splice(i, 1);
+            removeImg(i) {
+                this.videoList[i].imgUrl = "";
+                if(!this.videoList[i].videoUrl){
+                    this.videoList.splice(i,1);
+                }
+            },
+            removeVideo(i) {
+                this.videoList[i].videoUrl = "";
+                if(!this.videoList[i].imgUrl){
+                    this.videoList.splice(i,1);
+                }
             },
             save(e) {
                 var _this = this;

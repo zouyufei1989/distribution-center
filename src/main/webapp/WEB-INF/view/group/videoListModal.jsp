@@ -11,13 +11,13 @@
                             <div class="form-group" v-for="(item,i) in videoList">
                                 <div class="com-md-offset-1 col-sm-5">
                                     <img v-show="item.imgUrl" :src="item.imgUrl" style="width:100%;height: auto">
-                                    <i v-show="item.imgUrl" class="fa fa-times" @click="remove(i)"></i>
+                                    <i v-show="item.imgUrl" class="fa fa-times" @click="removeImg(i)"></i>
                                 </div>
                                 <div class="col-sm-5">
                                     <figure v-show="item.videoUrl">
                                         <iframe style="width:100%" :src="item.videoUrl" frameborder="0" allowfullscreen></iframe>
                                     </figure>
-                                    <i v-show="item.videoUrl" class="fa fa-times" @click="remove(i)"></i>
+                                    <i v-show="item.videoUrl" class="fa fa-times" @click="removeVideo(i)"></i>
                                 </div>
                             </div>
                             <div class="form-group">
