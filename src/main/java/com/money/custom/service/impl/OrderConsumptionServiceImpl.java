@@ -22,9 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,6 +58,13 @@ public class OrderConsumptionServiceImpl extends BaseServiceImpl implements Orde
             i.addAll(j);
             return i;
         }).get();
+
+        if (request.getDistinctByConsumption()) {
+            orderItemConsumptions = orderItemConsumptions.stream().collect(
+                    Collectors.collectingAndThen(
+                            Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(OrderItemConsumption::getOrderConsumptionId))), ArrayList::new)
+            );
+        }
 
         return orderItemConsumptions.stream().sorted(Comparator.comparingInt(OrderItemConsumption::getId).reversed()).collect(Collectors.toList());
     }

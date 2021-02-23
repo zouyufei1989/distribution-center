@@ -1,0 +1,1 @@
+alter table d_order_consumption add index idx_create_date(create_date);

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PackageConsumption">
+
+	<select id="selectSearchList" parameterType="Map" resultType="PackageConsumption">
+		SELECT
+			dcg.id AS customerGroupId,
+			IFNULL(dc.name,dc.nick_name) AS customerName,
+			dcg.serial_number AS serialNumber,
+			dc.phone,
+			dcg.type AS customerType,
+			COUNT(DISTINCT(do.id)) AS packageCount,
+			SUM(orderConsumption.orderUsedCnt) AS usedCount,
+			SUM(orderConsumption.orderAvailableCnt) AS availableCount,
+			GROUP_CONCAT(do.goods_name) AS goodsNames,
+			GROUP_CONCAT(do.id) AS orderIds
+		FROM d_customer dc
+		LEFT JOIN d_customer_group dcg ON dc.id = dcg.customer_id
+		LEFT JOIN d_order do ON do.customer_group_id = dcg.id
+		LEFT JOIN (
+			SELECT
+				order_consumption_id,
+				MAX(aft_used_cnt) AS orderUsedCnt,
+				MIN(aft_available_cnt) AS orderAvailableCnt,
+				doc.order_id
+			FROM `d_order_item_consumption` doic
+			LEFT JOIN d_order_consumption doc ON doc.id = doic.order_consumption_id
+			WHERE
+				1=1
+				<if test="startDate!=null and startDate!=''">
+					AND doc.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+				</if>
+				<if test="endDate!=null and endDate!=''">
+					AND doc.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+				</if>
+			GROUP BY doc.order_id
+		) orderConsumption ON orderConsumption.order_id = do.id
+		WHERE
+		 	do.goods_type_id = 2
+		 	<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="customerName!=null and customerName!=''">
+				AND (dc.name LIKE CONCAT('%',#{customerName},'%') OR dc.nick_name LIKE CONCAT('%',#{customerName},'%'))
+			</if>
+			<if test="phone!=null and phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{phone},'%')
+			</if>
+		GROUP BY dcg.id
+		HAVING serial_number IS NOT NULL
+		ORDER BY dc.name
+		<if test="rows != null and rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT COUNT(*) FROM
+		(
+			SELECT
+				dcg.serial_number
+			FROM d_customer dc
+			LEFT JOIN d_customer_group dcg ON dc.id = dcg.customer_id
+			LEFT JOIN d_order do ON do.customer_group_id = dcg.id
+			LEFT JOIN (
+				SELECT
+					order_consumption_id,
+					MAX(aft_used_cnt) AS orderUsedCnt,
+					MIN(aft_available_cnt) AS orderAvailableCnt,
+					doc.order_id
+				FROM `d_order_item_consumption` doic
+				LEFT JOIN d_order_consumption doc ON doc.id = doic.order_consumption_id
+				WHERE
+					1=1
+					<if test="startDate!=null and startDate!=''">
+						AND doc.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+					</if>
+					<if test="endDate!=null and endDate!=''">
+						AND doc.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+					</if>
+				GROUP BY doc.order_id
+			) orderConsumption ON orderConsumption.order_id = do.id
+			WHERE
+				do.goods_type_id = 2
+				<if test="groupId!=null">
+					AND dcg.group_id = #{groupId}
+				</if>
+				<if test="customerName!=null and customerName!=''">
+					AND (dc.name LIKE CONCAT('%',#{customerName},'%') OR dc.nick_name LIKE CONCAT('%',#{customerName},'%'))
+				</if>
+				<if test="phone!=null and phone!=''">
+					AND dc.phone LIKE CONCAT('%',#{phone},'%')
+				</if>
+			GROUP BY dcg.id
+			HAVING serial_number IS NOT NULL
+		)t
+	</select>
+
+</mapper>

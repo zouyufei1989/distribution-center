@@ -30,6 +30,7 @@
                 <result column="goodsUnit" property="goodsUnit"/>
                 <result column="groupName" property="groupName"/>
                 <result column="icreateDate" property="createDate"/>
+                <result column="orderConsumptionId" property="orderConsumptionId"/>
             </collection>
         </resultMap>
 
@@ -57,7 +58,8 @@
 			doi.goods_price AS goodsPrice,
 			doi.goods_unit AS goodsUnit,
 			dg.name AS groupName,
-			doic.create_date AS icreateDate
+			doic.create_date AS icreateDate,
+			doic.order_consumption_id AS orderConsumptionId
 		FROM <include refid="tableName"/> doc
 		LEFT JOIN d_order_item_consumption doic ON doic.order_consumption_id = doc.id
 		LEFT JOIN d_order_item doi ON doi.id = doic.order_item_id
