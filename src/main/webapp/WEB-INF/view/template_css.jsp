@@ -160,6 +160,11 @@
         padding: 10px !important;
     }
 
+    .ui-jqgrid-bdiv{
+        height: auto !important;
+        min-height: 20px !important;
+    }
+
     .ui-icon-carat-1-s {
         margin-left: 12px !important;
     }

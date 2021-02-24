@@ -9,7 +9,7 @@ public class QueryOrderConsumptionRequest extends QueryGridRequestBase {
     private OrderConsumption orderConsumption = new OrderConsumption();
     private String openId;
 
-    private Boolean distinctByConsumption;
+    private Boolean distinctByConsumption = false;
 
     @Override
     public Map<String, Object> buildParams() {

@@ -71,7 +71,7 @@ public class MvcConfigurer implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         Map<String, Set<String>> urlPattMap = new HashMap<>();
-        urlPattMap.put("/statistics/", Sets.newHashSet("visitLogStatistics"));
+        urlPattMap.put("/statistics/", Sets.newHashSet("visitLogStatistics","shareHolderStatistics"));
         urlPattMap.put("/exceptionLog/", Sets.newHashSet("index"));
         urlPattMap.put("/group/", Sets.newHashSet("index", "update"));
         urlPattMap.put("/banner/", Sets.newHashSet("index"));

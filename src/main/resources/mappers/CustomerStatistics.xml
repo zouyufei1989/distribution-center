@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CustomerStatistics">
+
+	<select id="shareHolderStatistics" parameterType="Map" resultType="ShareHolderStatistics">
+		SELECT
+			dcg.id,
+			IFNULL(dc.name,dc.nick_name) AS shareHolderName,
+			dc.phone,
+			dg.name AS groupName,
+			childrenCnt.allCnt AS allCnt,
+			childrenCnt.monthCnt AS monthCnt,
+			childrenCnt.consumeCnt AS consumeCnt,
+			childrenCnt.consumeCnt/childrenCnt.monthCnt AS consumeRate,
+			dbw.available_bonus AS availableBonus
+		FROM d_customer_group dcg
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		LEFT JOIN d_bonus_wallet dbw ON dbw.id = dcg.bonus_wallet_id
+		LEFT JOIN (
+			SELECT
+				COUNT(*) allCnt,
+				COUNT(create_date BETWEEN CONCAT(#{startDate},' 00:00:00') AND CONCAT(#{endDate},' 23:59:59') OR NULL) monthCnt,
+				COUNT(orderCnt.cnt) consumeCnt,
+				parent_id
+			FROM d_customer_group
+			LEFT JOIN (
+				SELECT
+					COUNT(*) cnt,
+					customer_group_id
+				FROM d_order
+				GROUP BY customer_group_id
+			) orderCnt ON orderCnt.customer_group_id = d_customer_group.id
+			GROUP BY parent_id
+		) childrenCnt ON childrenCnt.parent_id = dcg.id
+		WHERE
+			dcg.type = 2
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+		ORDER BY ${sortType}
+	</select>
+
+</mapper>
