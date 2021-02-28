@@ -37,7 +37,7 @@
 <style type="text/css">
 
     [v-cloak] {
-        display: none
+        display: none !important;
     }
 
     .btn-tool {
