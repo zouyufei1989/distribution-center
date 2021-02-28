@@ -18,8 +18,8 @@ $(document).ready(function () {
                     return hyperlinkeButtonFormatter('查看记录', 'showDetail("' + obj.customerName + '","' + obj.goodsNames + '","' + obj.orderIds + '")')
                 }
             },
-            {name: 'goodsNames', header: 'goodsNames'},
-            {name: 'orderIds', header: 'orderIds'},
+            {name: 'goodsNames', header: 'goodsNames', hidden: true},
+            {name: 'orderIds', header: 'orderIds', hidden: true},
             {name: 'id', header: "id", hidden: true},
         ]);
 

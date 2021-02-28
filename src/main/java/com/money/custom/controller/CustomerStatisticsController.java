@@ -29,4 +29,18 @@ public class CustomerStatisticsController extends BaseController {
     public ResponseBase queryShareHolderStatistics(@Valid @RequestBody ShareHolderStatisticsRequest request, BindingResult bindingResult) {
         return ResponseBase.success(customerStatisticsService.shareHolderStatistics(request));
     }
+
+    @VisitLogFlag(resource = "顾客统计", type = VisitLogTypeEnum.READ)
+    @ResponseBody
+    @RequestMapping(value = "queryCustomerStatistics")
+    public ResponseBase queryCustomerStatistics(@Valid @RequestBody ShareHolderStatisticsRequest request, BindingResult bindingResult) {
+        return ResponseBase.success(customerStatisticsService.customerStatistics(request));
+    }
+
+    @VisitLogFlag(resource = "顾客总计", type = VisitLogTypeEnum.READ)
+    @ResponseBody
+    @RequestMapping(value = "queryCustomerSummaryStatistics")
+    public ResponseBase queryCustomerSummaryStatistics(@Valid @RequestBody ShareHolderStatisticsRequest request, BindingResult bindingResult) {
+        return ResponseBase.success(customerStatisticsService.customerSummaryStatistics(request));
+    }
 }

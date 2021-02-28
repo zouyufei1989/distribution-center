@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<div class="form-group" id="div_btnGroup" v-cloak style="margin-bottom:20px">
+<div class="form-group" id="div_btnGroup" v-cloak :style="btnStyle">
     <template>
         <button v-for="btn in buttons" type="button" :class="['btn','btn-outline','btn-tool',btn.btn_class]" :id="btn.btn_id" data-toggle="modal" :data-target="btn.modal_name" :data-func-id="btn.fun_id">{{btn.btn_name}}</button>
     </template>
@@ -28,6 +28,10 @@
                         }
                     });
                     return result;
+                },
+                btnStyle() {
+                    var marginBottom = this.buttons.length > 0 ? 20 : 0;
+                    return {marginBottom: marginBottom + 'px'};
                 }
             },
             methods: {
@@ -42,10 +46,10 @@
                     if (editOnModal()) {
                         $('#updateModal h3').text("新建" + _this.getModalName());
                         $('#updateModal form').validate().resetForm();
-                        $('#updateModal img').attr('src','');
-                        $('#updateModal iframe').attr('src','');
+                        $('#updateModal img').attr('src', '');
+                        $('#updateModal iframe').attr('src', '');
                         $('#updateModal').modal('show');
-                        if(typeof additionFunc4Add === 'function'){
+                        if (typeof additionFunc4Add === 'function') {
                             additionFunc4Add();
                         }
                         return;
@@ -75,7 +79,7 @@
                         }
                         $('#updateModal h3').text("编辑" + _this.getModalName());
                         $('#updateModal form').validate().resetForm();
-                        $('#updateModal img').attr('src','');
+                        $('#updateModal img').attr('src', '');
                         $('#updateModal').modal('show');
                         return;
                     }

@@ -3,6 +3,8 @@ package com.money.custom.entity.dto;
 import com.money.custom.utils.StringFormatUtils;
 import com.money.framework.base.entity.BaseEntity;
 
+import java.util.Objects;
+
 public class ShareHolderStatistics extends BaseEntity {
 
     private Integer id;
@@ -17,7 +19,7 @@ public class ShareHolderStatistics extends BaseEntity {
         return availableBonus;
     }
 
-    public String getAvailableBonus4Show(){
+    public String getAvailableBonus4Show() {
         return StringFormatUtils.moneyFen2Yuan(availableBonus);
     }
 
@@ -26,6 +28,9 @@ public class ShareHolderStatistics extends BaseEntity {
     }
 
     public Long getConsumeRate() {
+        if (Objects.isNull(consumeCnt) || Objects.isNull(allCnt)) {
+            return 0L;
+        }
         return Math.round(consumeCnt * 10000.0 / allCnt);
     }
 

@@ -49,6 +49,18 @@ public final class DateUtils {
         return null;
     }
 
+    public static String format(String date, String srcFormat, String format) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(srcFormat);
+            Date srcDate = sdf.parse(date);
+            sdf = new SimpleDateFormat(format);
+            return sdf.format(srcDate);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
     public final static String now() {
         try {
             return format(new Date(), "yyyy-MM-dd");

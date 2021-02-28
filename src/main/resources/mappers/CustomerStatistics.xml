@@ -39,7 +39,52 @@
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
 			</if>
-		ORDER BY ${sortType}
+		ORDER BY ${sortType} DESC
+	</select>
+	
+	<select id="customerStatistics" parameterType="Map" resultType="CustomerStatistics">
+		SELECT
+			dcg.id,
+			IFNULL(dc.name,dc.nick_name) AS customerName,
+			IFNULL(parentC.name,parentC.nick_name) AS parentName,
+			dc.phone,
+			COUNT(doc.create_date BETWEEN CONCAT(#{startDate},' 00:00:00') AND CONCAT(#{endDate},' 23:59:59')  OR NULL) AS monthCnt,
+			MAX(doc.create_date) AS lastConsumeDate
+		FROM d_customer_group dcg
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_customer_group parent ON parent.id = dcg.parent_id
+		LEFT JOIN d_customer parentC ON parentC.id = parent.customer_id
+		LEFT JOIN d_order do ON do.customer_group_id = dcg.id
+		LEFT JOIN d_order_consumption doc ON doc.order_id = do.id
+		WHERE
+			dcg.type = 1
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+		GROUP BY dcg.id
+		ORDER BY dcg.id
+	</select>
+
+	<select id="customerSummaryStatistics" parameterType="Map" resultType="Map">
+		SELECT
+			COUNT(t.consumptionCnt>0 OR NULL) AS arrivalCnt,
+			COUNT(t.consumptionCnt IS NULL OR NULL) AS pendingCnt,
+			COUNT(t.consumptionCnt>0 AND dcg.create_date BETWEEN CONCAT(#{startDate},' 00:00:00') AND CONCAT(#{endDate},' 23:59:59') OR NULL) AS newArrivalCnt,
+			COUNT(t.consumptionCnt IS NULL AND dcg.create_date BETWEEN CONCAT(#{startDate},' 00:00:00') AND CONCAT(#{endDate},' 23:59:59') OR NULL) AS newPendingCnt
+		FROM d_customer_group dcg
+		LEFT JOIN (
+			SELECT
+				do.customer_group_id,
+				COUNT(*) consumptionCnt
+			FROM d_order_consumption doc
+			LEFT JOIN d_order do ON do.id = doc.order_id
+			GROUP BY do.customer_group_id
+		) t ON t.customer_group_id = dcg.id
+		WHERE
+			dcg.type = 1
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
 	</select>
 
 </mapper>
