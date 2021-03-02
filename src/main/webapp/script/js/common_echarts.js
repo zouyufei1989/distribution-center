@@ -3,23 +3,29 @@ function formatOptions(option) {
     formatDataZoom(option);
     formatMaxBarWidth(option);
     formatGrid(option);
-    formatXnamesRotate(option);
+    // formatXnamesRotate(option);
 
     function formatXnamesRotate(option) {
-        if (option.xAxis[0].axisLabel) {
-            option.xAxis[0].axisLabel.rotate = 45;
-        } else {
+        if (!option.xAxis) {
+            return;
+        }
+        if (typeof option.xAxis[0].axisLabel == "undefined") {
             option.xAxis[0].axisLabel = {rotate: 45};
+        } else {
+            option.xAxis[0].axisLabel.rotate = 45;
         }
     }
 
     function formatGrid(option) {
-        option.grid = {top: 80, bottom: 100};
+        option.grid = {top: 40, bottom: 100};
     }
 
     function formatDataZoom(option) {
         var max = 4;
         var xLength = 0;
+        if (!option.xAxis) {
+            return;
+        }
         if (option.xAxis.data) {
             xLength = option.xAxis.data.length;
         } else if (option.xAxis.length > 0) {
@@ -57,6 +63,6 @@ function formatOptions(option) {
     }
 }
 
-function formatGridBottom(option,bottom) {
+function formatGridBottom(option, bottom) {
     option.grid.bottom = bottom;
 }

@@ -33,10 +33,9 @@
     }
 
 
-    function initGridLocalData(data, columns, gridId, pagerId, cannotExpand, rowNum) {
+    function initGridLocalData(data, columns, gridId, pagerId, cannotExpand, rowNum, multiselect) {
         gridId = "#" + (gridId || "table_list");
         pagerId = "#" + (pagerId || "pager_list");
-        columns = appendHistoryColumn(columns);
 
         $(gridId).jqGrid({
             data: data,
@@ -46,7 +45,7 @@
             shrinkToFit: true,
             rowNum: rowNum || 20,
             rownumbers: true,
-            multiselect: true,
+            multiselect: (typeof (multiselect) == "undefined" || multiselect == null) ? true : multiselect,
             rownumWidth: 50,
             cellLayout:50,
             rowList: [20, 50, 100],

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OperationStatistics">
+
+	<select id="summaryInfo" parameterType="Map" resultType="PerformanceSummary">
+		SELECT
+			COUNT(*) AS allCnt,
+			COUNT(dcg.create_date BETWEEN CONCAT(#{startDate},' 00:00:00') AND CONCAT(#{endDate},' 23:59:59') OR NULL) AS monthCnt,
+			COUNT(t.cnt>0 OR NULL) consumedCnt
+		FROM d_customer_group dcg
+		LEFT JOIN (
+			SELECT
+				COUNT(*) cnt,
+				do.customer_group_id
+			FROM d_order_consumption doc
+			LEFT JOIN d_order do ON do.id = doc.order_id
+			GROUP BY do.customer_group_id
+		)t ON t.customer_group_id = dcg.id
+		WHERE
+			1=1
+			<if test="groupId!=null">
+				AND dcg.group_id = #{groupId}
+			</if>
+	</select>
+
+	<select id="groupPerformance" parameterType="Map" resultType="GroupPerformance">
+		SELECT
+			SUM(actually_money) sumMoney,
+			DATE_FORMAT(dop.create_date,'%Y-%m-%d') `date`,
+			dg.name AS groupName,
+			dg.id AS groupId
+		FROM d_order_pay dop
+		LEFT JOIN d_order do ON do.id = dop.order_id
+		LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		WHERE
+			1=1
+			<if test="groupId!=null">
+				AND dg.id = #{groupId}
+			</if>
+			<if test="startDate!=null">
+				AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null">
+				AND dop.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+		GROUP BY dg.id,`date`
+	</select>
+	
+	<select id="goodsSellingRank" parameterType="Map" resultType="Map">
+		SELECT
+			dgs.name AS goodsName,
+			dgs.id AS goodsId,
+			dg.name AS groupName,
+			SUM(do.order_cnt) AS cnt,
+			SUM(dop.actually_money) AS sumMoney
+		FROM d_order_pay dop
+		LEFT JOIN d_order do ON do.id = dop.order_id
+		LEFT JOIN d_goods dgs ON dgs.id = do.goods_id
+		LEFT JOIN d_group dg ON dg.id = dgs.group_id
+		WHERE
+			1=1
+			<if test="groupId!=null">
+				AND dgs.group_id = #{groupId}
+			</if>
+			<if test="goodsTypeId!=null">
+				AND do.goods_type_id = #{goodsTypeId}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dop.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+		GROUP BY dgs.id
+		ORDER BY cnt DESC
+	</select>
+
+	<select id="groupPerformancePie" parameterType="Map" resultType="Map">
+		SELECT
+		(
+			SELECT
+				IFNULL(SUM(dop.actually_money),0)
+			FROM d_order_pay dop
+			LEFT JOIN d_order do ON do.id = dop.order_id
+			LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
+			WHERE
+				do.goods_type_id = 1
+				<if test="groupId!=null">
+					AND dcg.id = #{groupId}
+				</if>
+				<if test="startDate!=null and startDate!=''">
+					AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+				</if>
+				<if test="endDate!=null and endDate!=''">
+					AND dop.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+				</if>
+		) AS singleSumMoney,
+		(
+			SELECT
+				IFNULL(SUM(dop.actually_money),0)
+			FROM d_order_pay dop
+			LEFT JOIN d_order do ON do.id = dop.order_id
+			LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
+			WHERE
+				do.goods_type_id = 2
+				<if test="groupId!=null">
+					AND dcg.id = #{groupId}
+				</if>
+				<if test="startDate!=null and startDate!=''">
+					AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+				</if>
+				<if test="endDate!=null and endDate!=''">
+					AND dop.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+				</if>
+		) AS packageSumMoney,
+		(
+			SELECT
+				IFNULL(SUM(money_change),0)
+			FROM d_wallet_detail dwd
+			LEFT JOIN d_wallet dw ON dw.id = dwd.wallet_id
+			LEFT JOIN d_customer_group dcg ON dcg.wallet_id = dw.id
+			WHERE
+				dwd.change_type = 1
+				<if test="groupId!=null">
+					ANd dcg.id = #{groupId}
+				</if>
+				<if test="startDate!=null and startDate!=''">
+					AND dwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+				</if>
+				<if test="endDate!=null and endDate!=''">
+					AND dwd.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+				</if>
+		) AS rechargeSumMoney,
+		(
+			SELECT
+				IFNULL(SUM(consumedMoney),0)
+			FROM
+			(
+				SELECT
+					MAX(doic.aft_used_cnt)/aft_sum_cnt * dop.actually_money AS consumedMoney
+				FROM d_order_item_consumption doic
+				LEFT JOIN d_order_consumption doc ON doc.id = doic.order_consumption_id
+				LEFT JOIN d_order_pay dop ON dop.order_id = doc.order_id
+				LEFT JOIN d_order do ON do.id = dop.order_id
+				LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
+				WHERE
+					do.goods_type_id = 2
+					<if test="groupId!=null">
+						AND dcg.id = #{groupId}
+					</if>
+					<if test="startDate!=null and startDate!=''">
+						AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+					</if>
+					<if test="endDate!=null and endDate!=''">
+						AND dop.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+					</if>
+				GROUP BY dop.order_id
+			)t
+		) AS packageConsumedMoney
+	</select>
+
+	<select id="bonusStatistics" parameterType="Map" resultType="Map">
+		SELECT
+			IFNULL(SUM(IF(dbwd.change_type IN (1,3),dbwd.bonus_change,0)),0) notDistributed,
+			IFNULL(SUM(IF(dbwd.change_type =2,dbwd.bonus_change,0)),0) distributed
+		FROM d_bonus_wallet_detail dbwd
+		LEFT JOIN d_customer_group dcg ON dcg.bonus_wallet_id = dbwd.bonus_wallet_id
+		WHERE
+			1=1
+			<if test="groupId!=null">
+				dcg.id = #{groupId}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				AND dbwd.create_date &lt;= CONCAT(#{endDate},' 23:59:59')
+			</if>
+	</select>
+
+	
+
+</mapper>

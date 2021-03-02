@@ -10,6 +10,7 @@ import java.util.Map;
 public class StatisticsBaseRequest extends OperationalEntity {
 
     private String month;
+    private String year;
     private String startDate;
     private String endDate;
 
@@ -17,6 +18,10 @@ public class StatisticsBaseRequest extends OperationalEntity {
     public Map<String, Object> buildParams() {
         Map<String, Object> params = super.buildParams();
         params.put("groupId", getGroupId());
+        if(StringUtils.isNotEmpty(year)){
+            params.put("startDate", year + "-01-01");
+            params.put("endDate", year+"-12-31");
+        }
         if(StringUtils.isNotEmpty(month)){
             params.put("startDate", month + "-01");
             params.put("endDate", DateUtils.getMonthEnd(month));
@@ -29,6 +34,10 @@ public class StatisticsBaseRequest extends OperationalEntity {
         }
 
         return params;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public void setStartDate(String startDate) {

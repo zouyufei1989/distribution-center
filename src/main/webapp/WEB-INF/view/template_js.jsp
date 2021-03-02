@@ -88,7 +88,7 @@
     var CITY_CODE = '${sessionScope.user.cityCode}';
     var LOGIN_USER = '${sessionScope.user.username}';
     var CITY_NAME = '${sessionScope.user.cityName}';
-    var CITY_CENTER = [121.473658,31.230378];
+    var CITY_CENTER = [121.473658, 31.230378];
     var JS_FUNC_LIST = ${sessionScope.funcList}; //所有页面操作按钮
     var JS_ROLE_FUNC_IDS = ${sessionScope.RoleFuncIds}; // 用户在当前页面拥有的按钮权限
     var JS_PAGE_NAME; // 页面当前URL - 域名后面第一个href
@@ -401,6 +401,12 @@
     }
 
     function moneyFormatter(val) {
+        if (typeof val === "undefined") {
+            return "";
+        }
+        if (val === 0) {
+            return 0;
+        }
         if (!val) {
             return ''
         }
@@ -411,6 +417,12 @@
     }
 
     function rateFormatter(val) {
+        if (typeof val === "undefined") {
+            return "";
+        }
+        if (val === 0) {
+            return 0;
+        }
         if (!val) {
             return ''
         }
