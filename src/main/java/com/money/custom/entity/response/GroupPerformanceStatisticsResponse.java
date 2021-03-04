@@ -14,6 +14,9 @@ public class GroupPerformanceStatisticsResponse {
 
     public GroupPerformanceStatisticsResponse(List<GroupPerformance> items, StatisticsGroupPerformanceRequest request) {
         for (GroupPerformance gp : items) {
+            if(Objects.isNull(gp.getGroupId())){
+                continue;
+            }
             String key = getKey(gp, request.getType());
             if (!result.containsKey(key)) {
                 result.put(key, 0L);

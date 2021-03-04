@@ -12,7 +12,7 @@
 			childrenCnt.allCnt AS allCnt,
 			childrenCnt.monthCnt AS monthCnt,
 			childrenCnt.consumeCnt AS consumeCnt,
-			childrenCnt.consumeCnt/childrenCnt.monthCnt AS consumeRate,
+			childrenCnt.consumeCnt/childrenCnt.allCnt AS consumeRate,
 			dbw.available_bonus AS availableBonus
 		FROM d_customer_group dcg
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id

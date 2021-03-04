@@ -14,6 +14,7 @@ public class ShareHolderStatistics extends BaseEntity {
     private Integer monthCnt;
     private Integer consumeCnt;
     private Long availableBonus;
+    private Double consumeRate;
 
     public Long getAvailableBonus() {
         return availableBonus;
@@ -27,15 +28,19 @@ public class ShareHolderStatistics extends BaseEntity {
         this.availableBonus = availableBonus;
     }
 
-    public Long getConsumeRate() {
-        if (Objects.isNull(consumeCnt) || Objects.isNull(allCnt)) {
-            return 0L;
-        }
-        return Math.round(consumeCnt * 10000.0 / allCnt);
+    public Double getConsumeRate() {
+        return consumeRate;
+    }
+
+    public void setConsumeRate(Double consumeRate) {
+        this.consumeRate = consumeRate;
     }
 
     public String getConsumeRate4Show() {
-        return StringFormatUtils.percent(getConsumeRate());
+        if (Objects.isNull(consumeRate)) {
+            return "0%";
+        }
+        return StringFormatUtils.percent((long) (consumeRate * 10000));
     }
 
     public Integer getId() {
