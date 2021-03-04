@@ -88,7 +88,7 @@
 			WHERE
 				do.goods_type_id = 1
 				<if test="groupId!=null">
-					AND dcg.id = #{groupId}
+					AND dcg.group_id = #{groupId}
 				</if>
 				<if test="startDate!=null and startDate!=''">
 					AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
@@ -106,7 +106,7 @@
 			WHERE
 				do.goods_type_id = 2
 				<if test="groupId!=null">
-					AND dcg.id = #{groupId}
+					AND dcg.group_id = #{groupId}
 				</if>
 				<if test="startDate!=null and startDate!=''">
 					AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
@@ -124,7 +124,7 @@
 			WHERE
 				dwd.change_type = 1
 				<if test="groupId!=null">
-					ANd dcg.id = #{groupId}
+					ANd dcg.group_id = #{groupId}
 				</if>
 				<if test="startDate!=null and startDate!=''">
 					AND dwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
@@ -148,7 +148,7 @@
 				WHERE
 					do.goods_type_id = 2
 					<if test="groupId!=null">
-						AND dcg.id = #{groupId}
+						AND dcg.group_id = #{groupId}
 					</if>
 					<if test="startDate!=null and startDate!=''">
 						AND dop.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
@@ -170,7 +170,7 @@
 		WHERE
 			1=1
 			<if test="groupId!=null">
-				dcg.id = #{groupId}
+				AND dcg.group_id = #{groupId}
 			</if>
 			<if test="startDate!=null and startDate!=''">
 				AND dbwd.create_date &gt;= CONCAT(#{startDate},' 00:00:00')
