@@ -57,7 +57,7 @@
 		LEFT JOIN d_order do ON do.customer_group_id = dcg.id
 		LEFT JOIN d_order_consumption doc ON doc.order_id = do.id
 		WHERE
-			dcg.type = 1
+			1=1
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
 			</if>
@@ -81,7 +81,7 @@
 			GROUP BY do.customer_group_id
 		) t ON t.customer_group_id = dcg.id
 		WHERE
-			dcg.type = 1
+			1=1
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
 			</if>
