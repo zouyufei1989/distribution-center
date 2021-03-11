@@ -11,6 +11,7 @@
 			dg.parent_id AS parentId,
 			dg.name,
 			dg.status,
+			dg.reserve_flag AS reserveFlag,
 			address AS address,
 			owner_name AS ownerName,
 			owner_phone AS ownerPhone,
@@ -76,6 +77,7 @@
 			parent_id AS parentId,
 			name,
 			status,
+			reserve_flag AS reserveFlag,
 			address AS address,
 			owner_name AS ownerName,
 			owner_phone AS ownerPhone,
@@ -201,6 +203,9 @@
 			</if>
 			<if test="videoList!=null">
 				, video_list = #{videoList}
+			</if>
+			<if test="reserveFlag!=null">
+				, reserve_flag = #{reserveFlag}
 			</if>
 		WHERE id = #{id}
 	</update>

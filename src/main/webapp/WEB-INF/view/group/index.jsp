@@ -103,7 +103,6 @@
 
 <%@ include file="update.jsp" %>
 <%@ include file="showOnMap.jsp" %>
-<%@ include file="reservationPeriod.jsp" %>
 <%@ include file="detailImgModal.jsp" %>
 <%@ include file="videoListModal.jsp" %>
 
@@ -111,7 +110,6 @@
 <script type="text/javascript">
     loadJS("../script/js/view/group/index.js", 1)
     loadJS("../script/js/view/group/update.js", 1)
-    loadJS("../script/js/view/group/reservationPeriod.js", 1)
     loadJS("../script/js/view/group/detailImgModal.js", 1)
     loadJS("../script/js/view/group/videoListModal.js", 1)
 </script>

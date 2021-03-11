@@ -1,13 +1,16 @@
 package com.money.custom.service.impl;
 
 import com.money.custom.dao.GroupReservationPeriodDao;
+import com.money.custom.entity.Group;
 import com.money.custom.entity.GroupReservationPeriod;
 import com.money.custom.entity.enums.CommonStatusEnum;
+import com.money.custom.entity.enums.GroupReserveFlagEnum;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryGridRequestBase;
 import com.money.custom.entity.request.QueryGroupRequest;
 import com.money.custom.entity.request.SaveGroupReservationPeriodsRequest;
 import com.money.custom.service.GroupReservationPeriodService;
+import com.money.custom.service.GroupService;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +27,16 @@ public class GroupReservationPeriodServiceImpl extends BaseServiceImpl implement
 
     @Autowired
     GroupReservationPeriodDao dao;
+    @Autowired
+    GroupService groupService;
 
     @Override
     public List<GroupReservationPeriod> selectSearchList(QueryGridRequestBase request) {
+        Assert.notNull(request.getGroupId(), "请指定门店id");
+        Group byId = groupService.findById(request.getGroupId().toString());
+        Assert.notNull(byId, "门店不存在");
+        Assert.isTrue(byId.getReserveFlag().equals(GroupReserveFlagEnum.YES.getValue()), "门店不支持预约");
+
         return dao.selectSearchList(request);
     }
 
@@ -42,6 +52,10 @@ public class GroupReservationPeriodServiceImpl extends BaseServiceImpl implement
         Assert.notEmpty(periods, "要添加的预约时间段为空");
         Integer groupId = request.getGroupId();
         Assert.notNull(groupId, "门店id不可为空");
+
+        Group byId = groupService.findById(groupId.toString());
+        Assert.notNull(byId, "门店不存在");
+        Assert.isTrue(byId.getReserveFlag().equals(GroupReserveFlagEnum.YES.getValue()), "门店不支持预约");
 
         periods.sort(Comparator.comparing(GroupReservationPeriod::getStartTime));
         for (int i = 0; i < periods.size() - 1; i++) {

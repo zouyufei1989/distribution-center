@@ -1,11 +1,15 @@
 var reservationPeriodModalVue;
+var switchery;
 $(document).ready(function () {
+    new Vue({el: '.param_row'});
+    switchery = new Switchery($('#reserveFlag')[0], {color: '#1AB394'});
 
     reservationPeriodModalVue = new Vue({
         el: '#reservationPeriodModal',
         data: {
             periods: [],
-            groupId: null
+            groupId: null,
+            reserveFlag: 0
         },
         methods: {
             show() {
@@ -30,10 +34,6 @@ $(document).ready(function () {
                         }
                     }
                 });
-                $('#reservationPeriodModal').modal('show');
-            },
-            hide(){
-                $('#reservationPeriodModal').modal('hide');
             },
             add() {
                 this.periods.push({
@@ -46,13 +46,10 @@ $(document).ready(function () {
             remove(i) {
                 this.periods.splice(i, 1);
             },
-            cancel() {
-                $('#reservationPeriodModal').modal('hide');
-            },
-            setStartTime(i,e){
+            setStartTime(i, e) {
                 this.periods[i].startTime = $(e.target).val();
             },
-            setEndTime(i,e){
+            setEndTime(i, e) {
                 this.periods[i].endTime = $(e.target).val();
             },
             save(e) {
@@ -70,7 +67,7 @@ $(document).ready(function () {
                             },
                             data: JSON.stringify({
                                 periods: _this.periods,
-                                groupId:_this.groupId
+                                groupId: _this.groupId
                             }),
                             async: true,
                             cache: false,
@@ -82,7 +79,7 @@ $(document).ready(function () {
                                     return;
                                 }
                                 loadingEnd(function () {
-                                    Alert("", "成功！", "success",function(){
+                                    Alert("", "成功！", "success", function () {
                                         _this.hide();
                                     });
                                 });
@@ -94,12 +91,51 @@ $(document).ready(function () {
         }
     });
 
-    $('#btn_reservation_period').click(function () {
-        if (_ROWS_CHOOSED.length != 1) {
-            Alert('', '请选择一条待编辑数据', 'warning');
-            return;
-        }
-        reservationPeriodModalVue.groupId = _ROWS_CHOOSED[0].id;
-        reservationPeriodModalVue.show();
+    initReserveFlag();
+    $('#groupId').change(function () {
+        initReserveFlag();
     });
+
 });
+
+function initReserveFlag() {
+    $('#reserveFlag').unbind('change');
+    $.ajax({
+            url: '../group/findById',
+            data: {id: $('#groupId').val()},
+            type: 'post',
+            async: false,
+            cached: false,
+            success: function (result) {
+                if (result.data.reserveFlag == 0 && $('#reserveFlag').is(":checked") == true) {
+                    $('#reserveFlag').trigger('click')
+                }
+                if (result.data.reserveFlag == 1 && $('#reserveFlag').is(":checked") == false) {
+                    $('#reserveFlag').trigger('click')
+                }
+                reservationPeriodModalVue.reserveFlag = result.data.reserveFlag;
+            }
+        }
+    );
+
+    $('#reserveFlag').change(function () {
+        $.ajax({
+            url: 'changeReserveFlag',
+            type: 'post',
+            headers: {
+                "Cache-Control": "no-cache",
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            data: JSON.stringify({
+                groupId: $('#groupId').val(),
+                reserveFlag: $('#reserveFlag').is(":checked") ? 1 : 0
+            }),
+            async: false,
+            cache: false,
+            success: function (result) {
+                reservationPeriodModalVue.reserveFlag = $('#reserveFlag').is(":checked") ? 1 : 0;
+            }
+        });
+    });
+}

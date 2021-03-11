@@ -1,10 +1,13 @@
 package com.money.custom.entity;
 
+import com.money.custom.entity.enums.GroupReserveFlagEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.request.ChangeGroupReserveFlagRequest;
 import com.money.custom.entity.request.ModifyGroupDetailImgsRequest;
 import com.money.custom.entity.request.ModifyGroupVedioesRequest;
 import com.money.framework.base.annotation.IgnoreXss;
 import com.money.framework.base.entity.BaseEntity;
+import com.money.framework.util.EnumUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
@@ -48,10 +51,17 @@ public class Group extends BaseEntity {
     private String videoCoverImg;
     @IgnoreXss
     private String videoList;
+    private Integer reserveFlag;
 
     private String cityName;
 
     public Group() {}
+
+    public Group(ChangeGroupReserveFlagRequest request) {
+        setId(request.getGroupId());
+        setReserveFlag(request.getReserveFlag());
+        copyOperationInfo(request);
+    }
 
     public Group(ModifyGroupDetailImgsRequest request) {
         Assert.notNull(request.getGroupId(), "请指明门店");
@@ -67,6 +77,17 @@ public class Group extends BaseEntity {
         copyOperationInfo(request);
     }
 
+    public String getReserveFlagName() {
+        return EnumUtils.getNameByValue(GroupReserveFlagEnum.class, reserveFlag);
+    }
+
+    public Integer getReserveFlag() {
+        return reserveFlag;
+    }
+
+    public void setReserveFlag(Integer reserveFlag) {
+        this.reserveFlag = reserveFlag;
+    }
 
     public String getVideoCoverImg() {
         return videoCoverImg;

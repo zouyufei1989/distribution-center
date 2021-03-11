@@ -18,6 +18,8 @@
 <link href="${pageContext.request.contextPath}/script/plugins/inspinia/css/animate.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/script/plugins/inspinia/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
+<!--switchery-->
+<link href="${pageContext.request.contextPath}/script/plugins/inspinia/css/plugins/switchery/switchery.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/script/plugins/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">
 <!--多级下拉列表-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/treeselect/vue-treeselect.min.css">

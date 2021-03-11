@@ -32,8 +32,6 @@ public class GroupController extends BaseController {
     private GroupService groupService;
     @Autowired
     UploadUtils uploadUtils;
-    @Autowired
-    GroupReservationPeriodService groupReservationPeriodService;
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
@@ -87,22 +85,6 @@ public class GroupController extends BaseController {
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
     public ResponseBase changeStatus(@RequestBody ChangeStatusRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         this.groupService.changeStatus(request);
-        return ResponseBase.success();
-    }
-
-    @VisitLogFlag(type = VisitLogTypeEnum.READ)
-    @ResponseBody
-    @RequestMapping(value = "reservationPeriodsList")
-    public GridResponseBase reservationPeriodsList(QueryGridRequestBase request) {
-        int recordCount = this.groupReservationPeriodService.selectSearchListCount(request);
-        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.groupReservationPeriodService.selectSearchList(request));
-    }
-
-    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
-    @ResponseBody
-    @RequestMapping(value = "addReservationPeriods", method = RequestMethod.POST)
-    public ResponseBase add(@Valid @RequestBody SaveGroupReservationPeriodsRequest request, BindingResult bindingResult) {
-        this.groupReservationPeriodService.add(request);
         return ResponseBase.success();
     }
 
