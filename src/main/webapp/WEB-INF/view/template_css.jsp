@@ -23,6 +23,8 @@
 <link href="${pageContext.request.contextPath}/script/plugins/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">
 <!--多级下拉列表-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/treeselect/vue-treeselect.min.css">
+<!--toastr-->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/inspinia/css/plugins/toastr/toastr.min.css">
 <!--拖拽上传-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/script/plugins/dropzone/dropzone.css">
 <!--数字文本框-->

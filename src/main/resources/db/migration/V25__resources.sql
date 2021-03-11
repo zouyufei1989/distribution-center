@@ -1,0 +1,1 @@
+update ns_resources set func_ids = func_ids - 2048 where id = 401;

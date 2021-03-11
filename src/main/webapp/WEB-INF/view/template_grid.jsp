@@ -226,6 +226,9 @@
             },
             gridComplete: function (e) {
                 _ROWS_CHOOSED = [];
+                if(typeof gridCompleted === 'function'){
+                    gridCompleted();
+                }
             }
         });
 

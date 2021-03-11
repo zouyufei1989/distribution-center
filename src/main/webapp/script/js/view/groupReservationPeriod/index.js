@@ -117,25 +117,4 @@ function initReserveFlag() {
             }
         }
     );
-
-    $('#reserveFlag').change(function () {
-        $.ajax({
-            url: 'changeReserveFlag',
-            type: 'post',
-            headers: {
-                "Cache-Control": "no-cache",
-                'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
-            data: JSON.stringify({
-                groupId: $('#groupId').val(),
-                reserveFlag: $('#reserveFlag').is(":checked") ? 1 : 0
-            }),
-            async: false,
-            cache: false,
-            success: function (result) {
-                reservationPeriodModalVue.reserveFlag = $('#reserveFlag').is(":checked") ? 1 : 0;
-            }
-        });
-    });
 }

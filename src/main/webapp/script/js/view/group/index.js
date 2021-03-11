@@ -38,6 +38,16 @@ $(document).ready(function () {
             {name: 'openRules4Show', header: '营业时间', width: 120},
             {name: 'index', header: '门店排序'},
             {name: 'statusName', header: '状态'},
+            {
+                name: 'reserveFlag', header: '可预约', formatter: function (val, opt, obj) {
+                    var input = $('<input type="checkbox" class="js-switch" checked/>');
+                    if (val === 0) {
+                        input = $('<input type="checkbox" class="js-switch"/>');
+                    }
+                    input.attr('data-id',obj.id);
+                    return input.prop("outerHTML");
+                }
+            },
             {name: 'createDate', header: '创建日期', formatter: yyyyMMddhhmmFormatter},
             {name: 'id', header: "id", hidden: true},
         ]);
@@ -71,4 +81,35 @@ function showVideoListModal(videoList, groupId) {
     videoListModalVue.groupId = groupId;
     videoListModalVue.videoList = videoList ? JSON.parse(videoList) : [];
     videoListModalVue.show();
+}
+
+function gridCompleted() {
+    $.each($('.js-switch'), function (i, item) {
+        new Switchery(item, {color: '#1AB394'});
+        $(item).change(function(e){
+            console.log($(e.target).is(":checked"))
+            $.ajax({
+                url: '../groupReservationPeriod/changeReserveFlag',
+                type: 'post',
+                headers: {
+                    "Cache-Control": "no-cache",
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                data: JSON.stringify({
+                    groupId: $(e.target).attr('data-id'),
+                    reserveFlag: $(e.target).is(":checked") ? 1 : 0
+                }),
+                async: false,
+                cache: false,
+                success: function (result) {
+                    if(result.success ){
+                        toastr.success('门店预约修改成功')
+                    }else{
+                        toastr.error('门店预约修改失败')
+                    }
+                }
+            });
+        });
+    })
 }

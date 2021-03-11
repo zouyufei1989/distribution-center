@@ -57,6 +57,8 @@
 
     <!--多级下拉列表-->
     loadJS("${pageContext.request.contextPath}/script/plugins/vue/vue-treeselect.min.js");
+    <!--toastr-->
+    loadJS("${pageContext.request.contextPath}/script/plugins/inspinia/js/plugins/toastr/toastr.min.js");
     <!--拖拽上传-->
     loadJS("${pageContext.request.contextPath}/script/plugins/dropzone/dropzone.js");
     <!--数字countup-->
@@ -501,6 +503,22 @@
         $('.modal-body h3').after('<hr/>');
         $('.modal-body h5').after('<hr/>');
 
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "progressBar": false,
+            "preventDuplicates": false,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "400",
+            "hideDuration": "500",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
     });
 
     loadJS("${pageContext.request.contextPath}/script/js/common_map.js", 1)
