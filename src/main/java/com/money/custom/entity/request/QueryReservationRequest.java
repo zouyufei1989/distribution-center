@@ -10,6 +10,7 @@ public class QueryReservationRequest extends QueryGridRequestBase {
     private String startTime;
     private String endTime;
     private Integer status;
+    private Integer goodsId;
 
     @Override
     public Map<String, Object> buildParams() {
@@ -20,7 +21,12 @@ public class QueryReservationRequest extends QueryGridRequestBase {
         params.put("startTime", startTime);
         params.put("endTime", endTime);
         params.put("status", status);
+        params.put("goodsId", goodsId);
         return params;
+    }
+
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
     }
 
     public void setOpenId(String openId) {

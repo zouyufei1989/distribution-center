@@ -16,7 +16,8 @@
 			dr.create_date AS createDate,
 			dr.update_date AS updateDate,
 			IFNULL(dc.name,dc.nick_name) AS customerName,
-			do.goods_name AS goodsName
+			do.goods_name AS goodsName,
+			dc.phone
 		FROM <include refid="tableName"/> dr
 		LEFT JOIN d_customer_group dcg ON dcg.id = dr.customer_group_id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
@@ -25,6 +26,9 @@
 			1=1
 			<if test="status!=null">
 				AND dr.status = #{status}
+			</if>
+			<if test="goodsId!=null">
+				AND do.goods_id = #{goodsId}
 			</if>
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
@@ -61,6 +65,9 @@
 			1=1
 			<if test="status!=null">
 				AND dr.status = #{status}
+			</if>
+			<if test="goodsId!=null">
+				AND do.goods_id = #{goodsId}
 			</if>
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}

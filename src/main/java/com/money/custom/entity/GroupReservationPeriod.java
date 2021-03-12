@@ -12,11 +12,21 @@ public class GroupReservationPeriod extends BaseEntity {
     @NotNull(message = "可预约人数不可为空")
     @Min(value = 0, message = "可预约人数不可小于0")
     private Integer cnt;
+    @NotNull(message = "项目ID不可为空")
+    private Integer goodsId;
     private Integer status;
     @NotBlank(message = "开始时间不可为空")
     private String startTime;
     @NotBlank(message = "结束时间不可为空")
     private String endTime;
+
+    public Integer getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
+    }
 
     public Integer getCnt() {
         return cnt;

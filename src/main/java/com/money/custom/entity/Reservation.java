@@ -2,6 +2,7 @@ package com.money.custom.entity;
 
 import com.money.custom.entity.enums.ReservationStatusEnum;
 import com.money.framework.base.entity.BaseEntity;
+import com.money.framework.util.DateUtils;
 import com.money.framework.util.EnumUtils;
 import com.money.h5.entity.request.ReserveRequest;
 
@@ -18,16 +19,29 @@ public class Reservation extends BaseEntity {
     private String openId;
     private String goodsName;
     private String customerName;
+    private String phone;
 
-    public Reservation(){}
+    public Reservation() {}
 
-    public Reservation(ReserveRequest reserveRequest){
+    public Reservation(ReserveRequest reserveRequest) {
         this.orderId = reserveRequest.getOrderId();
         this.openId = reserveRequest.getOpenId();
         this.date = reserveRequest.getDate();
         this.startTime = reserveRequest.getStartTime();
         this.endTime = reserveRequest.getEndTime();
         copyOperationInfo(reserveRequest);
+    }
+
+    public long getTimestamp() {
+        return DateUtils.parse(this.date + " " + this.startTime, "yyyy-MM-dd HH:mm").getTime();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getOpenId() {

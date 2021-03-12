@@ -60,6 +60,19 @@ public class Sms extends BaseEntity {
         return sms;
     }
 
+    public static Sms reservationNotify(String phone) {
+        Sms sms = new Sms();
+        sms.setPhone(phone);
+        sms.setType(SmsTypeEnum.RESERVATION_NOTIFY.getValue());
+        sms.setStatus(SmsStatusEnum.PENDING.getValue());
+        sms.setLevel(MessageLevelEnum.MEDIUM.getValue());
+
+        JSONObject obj = new JSONObject();
+        sms.setParams(JSON.toJSONString(obj));
+
+        return sms;
+    }
+
     public String getTypeName() {
         return EnumUtils.getNameByValue(SmsTypeEnum.class, type);
     }

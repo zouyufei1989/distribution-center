@@ -70,17 +70,6 @@ public final class DateUtils {
         return null;
     }
 
-    public final static long getTimeStamp() {
-        try {
-            Date date = new Date();
-            long time = date.getTime();
-            return time;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        return 0;
-    }
-
     public static String addDay(String date, int day, String format) {
         Calendar cd = Calendar.getInstance();
         cd.setTime(parse(date, format));

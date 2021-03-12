@@ -14,7 +14,7 @@
 		FROM <include refid="tableName"/>
 		WHERE
 			status = 1
-			AND group_id = #{groupId}
+			AND goods_id = #{goodsId}
 		ORDER BY startTime
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
@@ -27,7 +27,7 @@
 		FROM <include refid="tableName"/>
 		WHERE
 			status = 1
-			AND group_id = #{groupId}
+			AND goods_id = #{goodsId}
 	</select>
 
 	<insert id="addBatch" parameterType="GroupReservationPeriod" useGeneratedKeys="true" keyProperty="id">
@@ -37,6 +37,7 @@
 			end_time,
 			status,
 			cnt,
+			goods_id,
 			group_id,
 			create_date,
 			creator,
@@ -49,6 +50,7 @@
 				#{item.endTime},
 				#{item.status},
 				#{item.cnt},
+				#{item.goodsId},
 				#{item.groupId},
 				NOW(),
 				#{item.creator},

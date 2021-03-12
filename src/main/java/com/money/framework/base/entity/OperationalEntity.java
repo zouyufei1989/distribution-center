@@ -83,7 +83,9 @@ public class OperationalEntity implements Serializable {
         this.createDate = src.getCreateDate();
         this.updateDate = src.getUpdateDate();
 
-        setGroupId(src.getGroupId());
+        if (Objects.isNull(this.groupId)) {
+            setGroupId(src.getGroupId());
+        }
     }
 
     public void ofH5(H5RequestBase requestBase) {

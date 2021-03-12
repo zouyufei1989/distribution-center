@@ -67,7 +67,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         Order order = orderService.findById(item.getOrderId().toString());
         Asserts.notNull(order, "订单不存在");
         Assert.isTrue(order.getStatus().equals(OrderStatusEnum.USING.getValue()), "订单状态非法");
-        Assert.isTrue(order.getGoodsTypeId().equals(GoodsTypeEnum.PACKAGE.getValue()), "仅支持套餐预约");
+        Assert.isTrue(order.getGoodsTypeId().equals(GoodsTypeEnum.PACKAGE.getValue()) || order.getGoodsTypeId().equals(GoodsTypeEnum.ACTIVITY.getValue()), "仅支持套餐/活动预约");
 
         QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
         queryCustomerRequest.setOpenId(item.getOpenId());
@@ -81,10 +81,10 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         QueryReservationCalenderRequest queryReservationCalenderRequest = new QueryReservationCalenderRequest();
         queryReservationCalenderRequest.setStartDate(item.getDate());
         queryReservationCalenderRequest.setEndDate(item.getDate());
-        queryReservationCalenderRequest.setGroupId(order.getGroupId());
+        queryReservationCalenderRequest.setOrderId(order.getId());
         List<ReservationCalendar> reservationCalendars = queryReservationCalender(queryReservationCalenderRequest);
         Optional<ReservationCalendar> reservationPeriodOpt = reservationCalendars.stream().filter(i -> i.getStart().equals(item.getStartTime()) && i.getEnd().equals(item.getEndTime())).findAny();
-        Assert.isTrue(reservationPeriodOpt.isPresent(), "预约时间段非法");
+        Assert.isTrue(reservationPeriodOpt.isPresent(), "预约时间段不存在");
         Assert.isTrue(reservationPeriodOpt.get().getAvailable() > 0, "选中时间段预约已满");
 
         item.setCustomerGroupId(customer.getCustomerGroup().getId());
@@ -104,22 +104,17 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
     public List<ReservationCalendar> queryReservationCalender(QueryReservationCalenderRequest request) {
         List<ReservationCalendar> reservationCalendars = new ArrayList<>();
 
-        Integer groupId = request.getGroupId();
-        if (Objects.isNull(groupId)) {
-            Assert.notNull(request.getOrderId(), "无法定位到所属门店");
-            Order order = orderService.findById(request.getOrderId().toString());
-            Assert.notNull(order, "订单不存在");
-            groupId = order.getGroupId();
-        }
+        Order order = orderService.findById(request.getOrderId().toString());
+        Assert.notNull(order, "订单不存在");
 
-        QueryGridRequestBase queryGridRequestBase = new QueryGridRequestBase();
-        queryGridRequestBase.setGroupId(groupId);
-        List<GroupReservationPeriod> groupReservationPeriods = groupReservationPeriodService.selectSearchList(queryGridRequestBase);
-        Assert.notEmpty(groupReservationPeriods, "门店尚未设置预约时间段");
+        QueryGroupReservationPeriodRequest queryGroupReservationPeriodRequest = new QueryGroupReservationPeriodRequest();
+        queryGroupReservationPeriodRequest.setGoodsId(order.getGoodsId());
+        List<GroupReservationPeriod> groupReservationPeriods = groupReservationPeriodService.selectSearchList(queryGroupReservationPeriodRequest);
+        Assert.notEmpty(groupReservationPeriods, "项目未设置预约时间段");
         int maxPerDay = groupReservationPeriods.stream().mapToInt(GroupReservationPeriod::getCnt).sum();
 
         QueryReservationRequest queryReservationRequest = new QueryReservationRequest();
-        queryReservationRequest.setGroupId(groupId);
+        queryReservationRequest.setGoodsId(order.getGoodsId());
         queryReservationRequest.setStartDate(request.getStartDate());
         queryReservationRequest.setEndDate(request.getEndDate());
         queryReservationRequest.setStatus(ReservationStatusEnum.SUCCESS.getValue());
