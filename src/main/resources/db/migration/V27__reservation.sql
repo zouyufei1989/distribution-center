@@ -1,0 +1,1 @@
+alter table d_reservation add column cancel_date datetime after status;

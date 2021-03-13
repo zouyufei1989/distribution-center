@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         SKIP_URL.add("/withdraw/**");
         SKIP_URL.add("/wechat/**");
         SKIP_URL.add("/consumption/**");
-        SKIP_URL.add("/reserve/**");
+        SKIP_URL.add("/h5Reservation/**");
     }
 
     @Bean

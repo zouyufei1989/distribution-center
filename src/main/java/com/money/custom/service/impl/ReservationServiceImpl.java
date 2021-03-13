@@ -60,7 +60,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         Asserts.notBlank(item.getEndTime(), "预约结束时间不可为空");
         Assert.isTrue(item.getDate().compareTo(DateUtils.nowDate()) >= 0, "预约日期不可早于" + DateUtils.nowDate());
         Assert.isTrue(item.getStartTime().compareTo(item.getEndTime()) < 0, "结束时间不可早于开始时间");
-        if(DateUtils.nowDate().equals(item.getDate())){
+        if (DateUtils.nowDate().equals(item.getDate())) {
             Assert.isTrue(item.getEndTime().compareTo(DateUtils.nowTime() + ":00") >= 0, "预约时间不可早于当前时间");
         }
 
@@ -90,6 +90,37 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         item.setCustomerGroupId(customer.getCustomerGroup().getId());
         item.setStatus(ReservationStatusEnum.SUCCESS.getValue());
         dao.add(item);
+        return item.getId().toString();
+    }
+
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.RESERVATION)
+    @Override
+    public String edit(Reservation item) {
+        Asserts.notNull(item.getOrderId(), "未知订单");
+        Asserts.notBlank(item.getDate(), "预约日期不可为空");
+        Asserts.notBlank(item.getStartTime(), "预约开始时间不可为空");
+        Asserts.notBlank(item.getEndTime(), "预约结束时间不可为空");
+        Assert.isTrue(item.getDate().compareTo(DateUtils.nowDate()) >= 0, "预约日期不可早于" + DateUtils.nowDate());
+        Assert.isTrue(item.getStartTime().compareTo(item.getEndTime()) < 0, "结束时间不可早于开始时间");
+        if (DateUtils.nowDate().equals(item.getDate())) {
+            Assert.isTrue(item.getEndTime().compareTo(DateUtils.nowTime() + ":00") >= 0, "预约时间不可早于当前时间");
+        }
+
+        Order order = orderService.findById(item.getOrderId().toString());
+        Asserts.notNull(order, "订单不存在");
+        Assert.isTrue(order.getStatus().equals(OrderStatusEnum.USING.getValue()), "订单状态非法");
+        Assert.isTrue(order.getGoodsTypeId().equals(GoodsTypeEnum.PACKAGE.getValue()) || order.getGoodsTypeId().equals(GoodsTypeEnum.ACTIVITY.getValue()), "仅支持套餐/活动预约");
+
+        QueryReservationCalenderRequest queryReservationCalenderRequest = new QueryReservationCalenderRequest();
+        queryReservationCalenderRequest.setStartDate(item.getDate());
+        queryReservationCalenderRequest.setEndDate(item.getDate());
+        queryReservationCalenderRequest.setOrderId(order.getId());
+        List<ReservationCalendar> reservationCalendars = queryReservationCalender(queryReservationCalenderRequest);
+        Optional<ReservationCalendar> reservationPeriodOpt = reservationCalendars.stream().filter(i -> i.getStart().equals(item.getStartTime()) && i.getEnd().equals(item.getEndTime())).findAny();
+        Assert.isTrue(reservationPeriodOpt.isPresent(), "预约时间段不存在");
+        Assert.isTrue(reservationPeriodOpt.get().getAvailable() > 0, "选中时间段预约已满");
+
+        dao.edit(item);
         return item.getId().toString();
     }
 

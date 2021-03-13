@@ -19,6 +19,8 @@ public interface ReservationService extends BaseService {
 
     String add(Reservation item);
 
+    String edit(Reservation item);
+
     List<String> changeStatus(ChangeReservationStatusRequest request);
 
     List<ReservationCalendar> queryReservationCalender(QueryReservationCalenderRequest request);

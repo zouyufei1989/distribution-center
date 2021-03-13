@@ -10,7 +10,7 @@ import com.money.h5.entity.request.CancelReserveRequest;
 import com.money.h5.entity.request.QueryReserveCalenderRequest;
 import com.money.h5.entity.request.ReserveRequest;
 import com.money.h5.entity.response.QueryMyReservationResponse;
-import com.money.h5.service.H5ReserveService;
+import com.money.h5.service.H5ReservationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,15 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Api(description = "预约")
-@RequestMapping(value = "reserve")
+@RequestMapping(value = "h5Reservation")
 @Controller
 @CrossOrigin(allowCredentials = "true", maxAge = 3600)
-public class ReserveController {
+public class H5ReservationController {
 
     @Autowired
     ReservationService reservationService;
     @Autowired
-    H5ReserveService h5ReserveService;
+    H5ReservationService h5ReservationService;
 
     @ApiOperation(value = "预约日历", notes = "startDate至endDate预约情况；如startDate=endDate，则返回当天每个预约时间段的预约情况",hidden = true)
     @ResponseBody
@@ -56,7 +56,7 @@ public class ReserveController {
     @ResponseBody
     @RequestMapping(value = "cancel", method = RequestMethod.POST)
     public ResponseBase cancel(@Valid @RequestBody CancelReserveRequest request, BindingResult bindingResult) {
-        h5ReserveService.cancelReserve(request);
+        h5ReservationService.cancelReserve(request);
         return ResponseBase.success();
     }
 

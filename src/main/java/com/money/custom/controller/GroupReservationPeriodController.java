@@ -34,8 +34,8 @@ public class GroupReservationPeriodController extends BaseController {
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody
-    @RequestMapping(value = "reservationPeriodsList")
-    public GridResponseBase reservationPeriodsList(QueryGroupReservationPeriodRequest request) {
+    @RequestMapping(value = "list/search")
+    public GridResponseBase listSearch(QueryGroupReservationPeriodRequest request) {
         int recordCount = this.groupReservationPeriodService.selectSearchListCount(request);
         return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.groupReservationPeriodService.selectSearchList(request));
     }

@@ -6,6 +6,8 @@ import com.money.framework.util.DateUtils;
 import com.money.framework.util.EnumUtils;
 import com.money.h5.entity.request.ReserveRequest;
 
+import java.util.Date;
+
 public class Reservation extends BaseEntity {
 
 
@@ -15,6 +17,7 @@ public class Reservation extends BaseEntity {
     private String date;
     private String startTime;
     private String endTime;
+    private Date cancelDate;
 
     private String openId;
     private String goodsName;
@@ -30,6 +33,14 @@ public class Reservation extends BaseEntity {
         this.startTime = reserveRequest.getStartTime();
         this.endTime = reserveRequest.getEndTime();
         copyOperationInfo(reserveRequest);
+    }
+
+    public Date getCancelDate() {
+        return cancelDate;
+    }
+
+    public void setCancelDate(Date cancelDate) {
+        this.cancelDate = cancelDate;
     }
 
     public long getTimestamp() {

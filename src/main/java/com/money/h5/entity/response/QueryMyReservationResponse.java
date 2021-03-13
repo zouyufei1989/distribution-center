@@ -7,6 +7,7 @@ import com.money.h5.entity.dto.H5MyCustomer;
 import io.swagger.annotations.ApiModel;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ApiModel
@@ -32,7 +33,9 @@ public class QueryMyReservationResponse extends GridResponseBase {
         public H5Reservation(Reservation item) {
             this.id = item.getId();
             this.reserveDate = DateUtils.format(item.getCreateDate(), "yyyy-MM-dd HH:mm:ss");
-            this.cancelDate = DateUtils.format(item.getUpdateDate(), "yyyy-MM-dd HH:mm:ss");
+            if(Objects.nonNull(item.getCancelDate())){
+                this.cancelDate = DateUtils.format(item.getCancelDate(), "yyyy-MM-dd HH:mm:ss");
+            }
             this.status = item.getStatus();
             this.statusName = item.getStatusName();
             this.goodsName = item.getGoodsName();

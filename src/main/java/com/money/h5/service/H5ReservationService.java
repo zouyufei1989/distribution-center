@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 @Service
-public class H5ReserveService extends BaseServiceImpl {
+public class H5ReservationService extends BaseServiceImpl {
 
     @Autowired
     ReservationService reservationService;
