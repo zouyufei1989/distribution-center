@@ -2,8 +2,11 @@ package com.money.h5.entity.dto;
 
 import com.money.custom.entity.Order;
 import com.money.custom.entity.enums.GoodsTypeEnum;
+import com.money.custom.entity.enums.GroupReserveFlagEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Objects;
 
 @ApiModel(description = "订单信息")
 public class H5Order {
@@ -21,6 +24,8 @@ public class H5Order {
     private String goodsTypeName;
     @ApiModelProperty(value = "封面图")
     private String coverImg;
+    @ApiModelProperty(value = "是否可预约")
+    private boolean reservable;
 
     public H5Order() {}
 
@@ -36,6 +41,15 @@ public class H5Order {
         } else if (item.getGoodsTypeId().equals(GoodsTypeEnum.ACTIVITY.getValue())) {
             leftCnt = item.getItems().stream().mapToInt(i -> i.getCnt() - i.getCntUsed()).sum();
         }
+
+        this.reservable = false;
+        if (Objects.nonNull(item.getGroupReserveFlag()) && Objects.nonNull(item.getReservationPeriodCnt())) {
+            this.reservable = item.getGroupReserveFlag().equals(GroupReserveFlagEnum.YES.getValue()) && item.getReservationPeriodCnt() > 0;
+        }
+    }
+
+    public boolean getReservable() {
+        return reservable;
     }
 
     public String getCoverImg() {

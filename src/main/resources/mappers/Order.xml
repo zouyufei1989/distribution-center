@@ -34,6 +34,9 @@
             <result column="createDate" property="createDate"/>
             <result column="parentName" property="parentName"/>
 
+            <result column="groupReserveFlag" property="groupReserveFlag"/>
+            <result column="reservationPeriodCnt" property="reservationPeriodCnt"/>
+
             <collection property="items" ofType="OrderItem">
                 <id column="iid" property="id"/>
                 <result column="igoodsName" property="goodsName"/>
@@ -79,7 +82,9 @@
 			doi.goods_unit AS igoodsUnit,
 			dcp.name AS parentName,
 			dgs.serial_number AS goodsSerialNumber,
-			dgs.cover_img AS goodsCoverImg
+			dgs.cover_img AS goodsCoverImg,
+			dg.reserve_flag AS groupReserveFlag,
+			period.cnt AS reservationPeriodCnt
 		FROM <include refid="tableName"/> do
 		LEFT JOIN d_order_item doi ON doi.order_id = do.id
 		LEFT JOIN d_customer_group dcg ON do.customer_group_id = dcg.id
@@ -90,6 +95,10 @@
 		LEFT JOIN d_order_pay dop ON dop.order_id = do.id
 		LEFT JOIN d_goods dgs ON dgs.id = do.goods_id
 		LEFT JOIN ns_users nu ON nu.id = do.creator
+		LEFT JOIN
+		(
+			SELECT COUNT(*) cnt , goods_id FROM d_group_reservation_period WHERE status =1 GROUP BY goods_id
+		) period ON period.goods_id = dgs.id
 		WHERE
 			do.status != -2
 			<if test="groupId!=null">

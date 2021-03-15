@@ -45,6 +45,9 @@ public class Order extends BaseEntity {
     private String groupName;
     private String parentName;
 
+    private Integer groupReserveFlag;
+    private Integer reservationPeriodCnt;
+
     private List<OrderItem> items;
 
     public Order() {}
@@ -76,6 +79,22 @@ public class Order extends BaseEntity {
     @Override
     public String getStatusName() {
         return EnumUtils.getNameByValue(OrderStatusEnum.class, getStatus());
+    }
+
+    public Integer getGroupReserveFlag() {
+        return groupReserveFlag;
+    }
+
+    public Integer getReservationPeriodCnt() {
+        return reservationPeriodCnt;
+    }
+
+    public void setReservationPeriodCnt(Integer reservationPeriodCnt) {
+        this.reservationPeriodCnt = reservationPeriodCnt;
+    }
+
+    public void setGroupReserveFlag(Integer groupReserveFlag) {
+        this.groupReserveFlag = groupReserveFlag;
     }
 
     public Long getActuallyMoney() {

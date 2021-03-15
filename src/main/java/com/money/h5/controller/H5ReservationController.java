@@ -32,7 +32,7 @@ public class H5ReservationController {
     @Autowired
     H5ReservationService h5ReservationService;
 
-    @ApiOperation(value = "预约日历", notes = "startDate至endDate预约情况；如startDate=endDate，则返回当天每个预约时间段的预约情况",hidden = true)
+    @ApiOperation(value = "预约日历", notes = "startDate至endDate预约情况；如startDate=endDate，则返回当天每个预约时间段的预约情况")
     @ResponseBody
     @RequestMapping(value = "queryReservationCalender", method = RequestMethod.POST)
     public ResponseBase queryReservationCalender(@Valid @RequestBody QueryReserveCalenderRequest request, BindingResult bindingResult) {
@@ -44,7 +44,7 @@ public class H5ReservationController {
     }
 
 
-    @ApiOperation(value = "预约", notes = "orderId=62",hidden = true)
+    @ApiOperation(value = "预约", notes = "orderId=62")
     @ResponseBody
     @RequestMapping(value = "reserve", method = RequestMethod.POST)
     public ResponseBase reserve(@Valid @RequestBody ReserveRequest request, BindingResult bindingResult) {
