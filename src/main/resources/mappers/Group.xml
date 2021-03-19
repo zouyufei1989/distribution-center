@@ -12,6 +12,7 @@
 			dg.name,
 			dg.status,
 			dg.reserve_flag AS reserveFlag,
+			dg.reserve_days AS reserveDays,
 			address AS address,
 			owner_name AS ownerName,
 			owner_phone AS ownerPhone,
@@ -77,7 +78,6 @@
 			parent_id AS parentId,
 			name,
 			status,
-			reserve_flag AS reserveFlag,
 			address AS address,
 			owner_name AS ownerName,
 			owner_phone AS ownerPhone,
@@ -92,6 +92,8 @@
 			video_list AS videoList,
 			`index`,
 			open_rules AS openRules,
+			reserve_flag AS reserveFlag,
+			reserve_days AS reserveDays,
 			city_code AS cityCode
 		FROM <include refid="tableName"/>
 		WHERE id = #{id}
@@ -116,6 +118,8 @@
 			video,
 			`index`,
 			open_rules,
+			reserve_flag,
+			reserve_days,
 			create_date,
 			creator,
 		  	create_ip
@@ -137,6 +141,9 @@
 			#{detailImg},
 			#{video},
 			#{index},
+			#{openRules},
+			#{reserveFlag},
+			#{reserveDays},
 			#{openRules},
 			NOW(),
 			#{creator},
@@ -206,6 +213,9 @@
 			</if>
 			<if test="reserveFlag!=null">
 				, reserve_flag = #{reserveFlag}
+			</if>
+			<if test="reserveDays!=null">
+				, reserve_days = #{reserveDays}
 			</if>
 		WHERE id = #{id}
 	</update>

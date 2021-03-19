@@ -1,4 +1,4 @@
-var attrs = ['name', 'cityCode', 'address', 'ownerName', 'ownerPhone', 'status', 'desc', 'thumbnail', 'detailCoverImg', 'index', 'openRules', 'lng', 'lat'];
+var attrs = ['name', 'cityCode', 'address', 'ownerName', 'ownerPhone', 'status', 'desc', 'thumbnail', 'detailCoverImg', 'index', 'openRules', 'lng', 'lat','reserveDays'];
 var VUE_CITY;
 var mapModel;
 
@@ -9,6 +9,11 @@ $(document).ready(function () {
     new Vue({el: '#detailCoverImgModal'});
 
     $("#index").TouchSpin({
+        verticalbuttons: true,
+        buttondown_class: 'btn btn-white',
+        buttonup_class: 'btn btn-white'
+    });
+    $("#reserveDays").TouchSpin({
         verticalbuttons: true,
         buttondown_class: 'btn btn-white',
         buttonup_class: 'btn btn-white'

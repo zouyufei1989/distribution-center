@@ -52,7 +52,7 @@ public class H5ReservationController {
         return ResponseBase.success();
     }
 
-    @ApiOperation(value = "取消预约", notes = "reserveId=1",hidden = true)
+    @ApiOperation(value = "取消预约", notes = "reserveId=1")
     @ResponseBody
     @RequestMapping(value = "cancel", method = RequestMethod.POST)
     public ResponseBase cancel(@Valid @RequestBody CancelReserveRequest request, BindingResult bindingResult) {
@@ -60,7 +60,7 @@ public class H5ReservationController {
         return ResponseBase.success();
     }
 
-    @ApiOperation(value = "我的预约（可分页）", notes = "openId=oSpLm5PPyJv5tO-HCGnH5mGUR6lA",hidden = true)
+    @ApiOperation(value = "我的预约（可分页）", notes = "openId=oSpLm5PPyJv5tO-HCGnH5mGUR6lA")
     @ResponseBody
     @RequestMapping(value = "queryMyReservations", method = RequestMethod.POST)
     public QueryMyReservationResponse queryMyReservations(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {

@@ -46,6 +46,7 @@ public class Order extends BaseEntity {
     private String parentName;
 
     private Integer groupReserveFlag;
+    private Integer groupReserveDays;
     private Integer reservationPeriodCnt;
 
     private List<OrderItem> items;
@@ -87,6 +88,14 @@ public class Order extends BaseEntity {
 
     public Integer getReservationPeriodCnt() {
         return reservationPeriodCnt;
+    }
+
+    public Integer getGroupReserveDays() {
+        return groupReserveDays;
+    }
+
+    public void setGroupReserveDays(Integer groupReserveDays) {
+        this.groupReserveDays = groupReserveDays;
     }
 
     public void setReservationPeriodCnt(Integer reservationPeriodCnt) {

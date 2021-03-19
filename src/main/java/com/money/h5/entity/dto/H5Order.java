@@ -3,6 +3,7 @@ package com.money.h5.entity.dto;
 import com.money.custom.entity.Order;
 import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.enums.GroupReserveFlagEnum;
+import com.money.framework.util.DateUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -26,6 +27,10 @@ public class H5Order {
     private String coverImg;
     @ApiModelProperty(value = "是否可预约")
     private boolean reservable;
+    @ApiModelProperty(value = "可预约天数 [今天，今天+reserveDays] ")
+    private Integer reserveDays;
+    @ApiModelProperty(value = "可预约的最晚一天")
+    private String reserveDaysStr;
 
     public H5Order() {}
 
@@ -46,6 +51,16 @@ public class H5Order {
         if (Objects.nonNull(item.getGroupReserveFlag()) && Objects.nonNull(item.getReservationPeriodCnt())) {
             this.reservable = item.getGroupReserveFlag().equals(GroupReserveFlagEnum.YES.getValue()) && item.getReservationPeriodCnt() > 0;
         }
+        this.reserveDays = item.getGroupReserveDays();
+        reserveDaysStr = DateUtils.nextNDayStr(this.reserveDays);
+    }
+
+    public String getReserveDaysStr() {
+        return reserveDaysStr;
+    }
+
+    public Integer getReserveDays() {
+        return reserveDays;
     }
 
     public boolean getReservable() {

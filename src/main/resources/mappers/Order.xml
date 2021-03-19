@@ -35,6 +35,7 @@
             <result column="parentName" property="parentName"/>
 
             <result column="groupReserveFlag" property="groupReserveFlag"/>
+            <result column="groupReserveDays" property="groupReserveDays"/>
             <result column="reservationPeriodCnt" property="reservationPeriodCnt"/>
 
             <collection property="items" ofType="OrderItem">
@@ -84,6 +85,7 @@
 			dgs.serial_number AS goodsSerialNumber,
 			dgs.cover_img AS goodsCoverImg,
 			dg.reserve_flag AS groupReserveFlag,
+			dg.reserve_days AS groupReserveDays,
 			period.cnt AS reservationPeriodCnt
 		FROM <include refid="tableName"/> do
 		LEFT JOIN d_order_item doi ON doi.order_id = do.id

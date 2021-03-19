@@ -52,6 +52,7 @@ public class Group extends BaseEntity {
     @IgnoreXss
     private String videoList;
     private Integer reserveFlag;
+    private Integer reserveDays;
 
     private String cityName;
 
@@ -75,6 +76,14 @@ public class Group extends BaseEntity {
         setId(request.getGroupId());
         setVideoList(request.getVideoList());
         copyOperationInfo(request);
+    }
+
+    public Integer getReserveDays() {
+        return reserveDays;
+    }
+
+    public void setReserveDays(Integer reserveDays) {
+        this.reserveDays = reserveDays;
     }
 
     public String getReserveFlagName() {

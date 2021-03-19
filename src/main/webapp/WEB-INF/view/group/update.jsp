@@ -16,7 +16,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>所在城市：</label>
+                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>所在城市:</label>
                                     <div class="col-sm-7">
                                         <city-combo id="cityCode" must-choose-one="true" :city_code="cityCode" :city_name="cityName"></city-combo>
                                     </div>
@@ -110,6 +110,12 @@
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>门店排序:</label>
                                     <div class="col-sm-7">
                                         <input type="text" value="" name="index" id="index" min="0" required >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>预约天数:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" value="1" name="reserveDays" id="reserveDays" min="1" required >
                                     </div>
                                 </div>
                                 <div class="form-group">

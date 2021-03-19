@@ -1,17 +1,11 @@
 package com.money.custom.service.impl;
 
 import com.money.custom.dao.ReservationDao;
-import com.money.custom.entity.Customer;
-import com.money.custom.entity.GroupReservationPeriod;
-import com.money.custom.entity.Order;
-import com.money.custom.entity.Reservation;
+import com.money.custom.entity.*;
 import com.money.custom.entity.dto.ReservationCalendar;
 import com.money.custom.entity.enums.*;
 import com.money.custom.entity.request.*;
-import com.money.custom.service.CustomerService;
-import com.money.custom.service.GroupReservationPeriodService;
-import com.money.custom.service.OrderService;
-import com.money.custom.service.ReservationService;
+import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.DateUtils;
@@ -34,6 +28,8 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
     OrderService orderService;
     @Autowired
     GroupReservationPeriodService groupReservationPeriodService;
+    @Autowired
+    GroupService groupService;
 
     @Override
     public List<Reservation> selectSearchList(QueryReservationRequest request) {
@@ -137,6 +133,13 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
 
         Order order = orderService.findById(request.getOrderId().toString());
         Assert.notNull(order, "订单不存在");
+
+        Group group = groupService.findById(order.getGroupId().toString());
+        Assert.notNull(group, "未查询到门店信息");
+        Assert.isTrue(GroupReserveFlagEnum.YES.getValue().equals(group.getReserveFlag()), "门店不可预约");
+        if (Objects.nonNull(group.getReserveDays())) {
+            Assert.isTrue(DateUtils.nextNDayStr(group.getReserveDays()).compareTo(request.getEndDate()) >= 0, "只可预约" + group.getReserveDays() + "天内到店");
+        }
 
         QueryGroupReservationPeriodRequest queryGroupReservationPeriodRequest = new QueryGroupReservationPeriodRequest();
         queryGroupReservationPeriodRequest.setGoodsId(order.getGoodsId());
