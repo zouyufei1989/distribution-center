@@ -2,9 +2,10 @@
 
 <script type="text/javascript">
     Vue.component('goods-type-combo', {
-        props: ['id', 'must_choose_one'],
+        props: ['id', 'must_choose_one','data_exclude'],
         data: function () {
             var data = [];
+            var _this = this;
             $.ajax({
                 url: '${ctx}/utils/selectGoodsType',
                 data: {},
@@ -13,6 +14,9 @@
                 cached: false,
                 success: function (result) {
                     for (var key in result.rows) {
+                        if(_this.data_exclude ==key){
+                            continue;
+                        }
                         data.push({
                             value: key,
                             name: result.rows[key]

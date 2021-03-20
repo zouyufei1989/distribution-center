@@ -38,6 +38,7 @@ public class Goods extends BaseEntity {
 
     private Integer assignCnt;
     private Integer broughtCnt;
+    private Integer periodCnt;
 
     public Goods() {}
 
@@ -146,8 +147,20 @@ public class Goods extends BaseEntity {
         return item;
     }
 
-    public boolean getHasDetail(){
-        if(CollectionUtils.isEmpty(this.items)){
+    public String getTypeName() {
+        return EnumUtils.getNameByValue(GoodsTypeEnum.class, this.type);
+    }
+
+    public Integer getPeriodCnt() {
+        return periodCnt;
+    }
+
+    public void setPeriodCnt(Integer periodCnt) {
+        this.periodCnt = periodCnt;
+    }
+
+    public boolean getHasDetail() {
+        if (CollectionUtils.isEmpty(this.items)) {
             return false;
         }
         return StringUtils.isNotBlank(this.items.get(0).getDetail());

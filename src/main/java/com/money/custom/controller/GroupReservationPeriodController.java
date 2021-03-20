@@ -1,7 +1,9 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.Group;
+import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.request.*;
+import com.money.custom.service.GoodsService;
 import com.money.custom.service.GroupReservationPeriodService;
 import com.money.custom.service.GroupService;
 import com.money.framework.base.annotation.VisitLogFlag;
@@ -31,6 +33,16 @@ public class GroupReservationPeriodController extends BaseController {
     GroupReservationPeriodService groupReservationPeriodService;
     @Autowired
     GroupService groupService;
+    @Autowired
+    GoodsService goodsService;
+
+    @VisitLogFlag(type = VisitLogTypeEnum.READ)
+    @ResponseBody
+    @RequestMapping(value = "goodsList")
+    public GridResponseBase listSearch(QueryGoodsRequest request) {
+        int recordCount = this.goodsService.selectSearchListCount(request);
+        return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.goodsService.selectSearchList(request));
+    }
 
     @VisitLogFlag(type = VisitLogTypeEnum.READ)
     @ResponseBody

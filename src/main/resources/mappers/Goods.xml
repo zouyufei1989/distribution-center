@@ -24,7 +24,8 @@
 			dgs.cover_img AS coverImg,
 			dgs.create_date AS createDate,
 			assignInfo.assignCnt,
-			broughtOrder.broughtCnt
+			broughtOrder.broughtCnt,
+			reservePeriod.periodCnt
 		FROM <include refid="tableName"/> dgs
 		LEFT JOIN d_group dg ON dg.id = dgs.group_id
 		LEFT JOIN (
@@ -33,8 +34,17 @@
 		LEFT JOIN (
 			SELECT goods_id, SUM(order_cnt) AS broughtCnt FROM d_order WHERE status IN (2,3) GROUP BY goods_id
 		) broughtOrder ON broughtOrder.goods_id = dgs.id
+		LEFT JOIN (
+			SELECT goods_id , COUNT(*) periodCnt FROM d_group_reservation_period WHERE status = 1 GROUP BY goods_id
+		) reservePeriod ON reservePeriod.goods_id = dgs.id
 		WHERE
 			dgs.status != -2
+			<if test="typeList!=null and typeList.size()>0">
+				AND dgs.type IN
+				<foreach collection="typeList" open="(" item="item" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
 			<if test="goods.type!=null">
 				AND dgs.type = #{goods.type}
 			</if>
@@ -79,6 +89,12 @@
 		FROM <include refid="tableName"/> dgs
 		WHERE
 			dgs.status != -2
+			<if test="typeList!=null and typeList.size()>0">
+				AND dgs.type IN
+				<foreach collection="typeList" open="(" item="item" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
 			<if test="goods.type!=null">
 				AND dgs.type = #{goods.type}
 			</if>

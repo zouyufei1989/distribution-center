@@ -6,10 +6,12 @@ import com.money.custom.entity.Group;
 import com.money.custom.entity.GroupReservationPeriod;
 import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.enums.GroupReserveFlagEnum;
+import com.money.custom.entity.enums.ReservationStatusEnum;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.GoodsService;
 import com.money.custom.service.GroupReservationPeriodService;
 import com.money.custom.service.GroupService;
+import com.money.custom.service.ReservationService;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class GroupReservationPeriodServiceImpl extends BaseServiceImpl implement
     GroupService groupService;
     @Autowired
     GoodsService goodsService;
+    @Autowired
+    ReservationService reservationService;
 
     @Override
     public List<GroupReservationPeriod> selectSearchList(QueryGroupReservationPeriodRequest request) {
@@ -58,9 +62,10 @@ public class GroupReservationPeriodServiceImpl extends BaseServiceImpl implement
         Goods goods = goodsService.findById(periods.get(0).getGoodsId().toString());
         Assert.notNull(goods, "项目不存在");
 
-        Group byId = groupService.findById(goods.getGroupId().toString());
-        Assert.notNull(byId, "门店不存在");
-        Assert.isTrue(byId.getReserveFlag().equals(GroupReserveFlagEnum.YES.getValue()), "门店不支持预约");
+        QueryReservationRequest queryReservationRequest = new QueryReservationRequest();
+        queryReservationRequest.setGoodsId(goods.getId());
+        queryReservationRequest.setStatus(ReservationStatusEnum.SUCCESS.getValue());
+        Assert.isTrue(reservationService.selectSearchListCount(queryReservationRequest) == 0, "当前套餐、活动有预约，不可编辑时段");
 
         periods.sort(Comparator.comparing(GroupReservationPeriod::getStartTime));
         for (int i = 0; i < periods.size() - 1; i++) {

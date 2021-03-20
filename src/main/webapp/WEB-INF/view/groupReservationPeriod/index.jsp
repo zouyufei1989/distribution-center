@@ -28,64 +28,33 @@
                         <form role="form" class="form-inline" style="padding: 0px">
                             <%@ include file="../template_btnGroup.jsp" %>
                             <%@ include file="../vue_template/group_combo.jsp" %>
+                            <%@ include file="../vue_template/goods_type_combo.jsp" %>
                             <%@ include file="../template_search_export_btn.jsp" %>
+                            <%@ include file="../template_loading_modal.jsp" %>
                             <div class="param_row">
+                                <input type="hidden" id="onlyReservable" value="true" search-param class="form-control">
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label>门店:</label>
                                         <group-combo id="groupId" search-param></group-combo>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>名称:</label>
+                                        <input type="text" id="goods.name" search-param class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>类型:</label>
+                                        <goods-type-combo id="goods.type" search-param must_choose_one="false" data_exclude="1"></goods-type-combo>
+                                    </div>
+                                </div>
                                 <reload-export-btn-group id="btnGroup" reload="true"></reload-export-btn-group>
                             </div>
-                            <div class="param_row">
-                                <div style="margin-top: 20px;">
-                                    <label style="margin-right: 10px;">是否可预约:</label><input type="checkbox" class="js-switch" checked id="reserveFlag"/>
-                                </div>
-                            </div>
                         </form>
-                        <div class="jqGrid_wrapper" style="margin-top: 10px;" id="reservationPeriodModal">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr class="font-bold">
-                                    <th>开始时间</th>
-                                    <th>结束时间</th>
-                                    <th>可预约人数</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="(period,i) in periods">
-                                    <td>
-                                        <div class="input-group clockpicker" data-autoclose="true">
-                                            <input v-if="reserveFlag==1"  type="text" class="form-control input-sm" v-model="period.startTime" data-mask="99:99:99" @blur="setStartTime(i,$event)"> <span class="input-group-addon"><span class="fa fa-clock-o"></span></span>
-                                            <input v-else disabled  type="text" class="form-control input-sm" v-model="period.startTime" data-mask="99:99:99" @blur="setStartTime(i,$event)"> <span class="input-group-addon"><span class="fa fa-clock-o"></span></span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group clockpicker" data-autoclose="true">
-                                            <input v-if="reserveFlag==1"  type="text" class="form-control input-sm" v-model="period.endTime" data-mask="99:99:99" @blur="setEndTime(i,$event)"> <span class="input-group-addon"><span class="fa fa-clock-o"></span></span>
-                                            <input v-else disabled type="text" class="form-control input-sm" v-model="period.endTime" data-mask="99:99:99" @blur="setEndTime(i,$event)"> <span class="input-group-addon"><span class="fa fa-clock-o"></span></span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <input v-if="reserveFlag==1" type="text" class="form-control input-sm" v-model="period.cnt">
-                                        <input v-else disabled type="text" class="form-control input-sm" v-model="period.cnt">
-                                    </td>
-                                    <td><i v-show="reserveFlag==1" class="fa fa-times" @click="remove(i)"></i></td>
-                                </tr>
-                                <tr v-show="reserveFlag==1">
-                                    <td colspan="3" class="text-center">
-                                        <span class="addPeriod" @click="add()"> 添加时间段 + </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="text-center">
-                                        <button v-show="reserveFlag==1" type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" @click="save($event)">保存</button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <%@ include file="../template_grid.jsp" %>
                     </div>
                 </div>
             </div>
@@ -93,9 +62,14 @@
     </div>
 </div>
 
+<%@ include file="periodListModal.jsp" %>
+<%@ include file="updatePeriodListModal.jsp" %>
+
 </body>
 <script type="text/javascript">
     loadJS("../script/js/view/groupReservationPeriod/index.js", 1)
+    loadJS("../script/js/view/groupReservationPeriod/periodListModal.js", 1)
+    loadJS("../script/js/view/groupReservationPeriod/updatePeriodListModal.js", 1)
 </script>
 
 </html>
