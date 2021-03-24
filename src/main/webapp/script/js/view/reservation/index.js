@@ -18,10 +18,24 @@ $(document).ready(function () {
             {name: 'statusName', header: '状态'},
             {
                 name: 'id', header: '操作', formatter: function (val, opt, obj) {
-                    return hyperlinkeButtonFormatter('修改', 'showUpdateModal(\'' + JSON.stringify(obj) + '\')') + hyperlinkeButtonFormatter('到店', 'goConsume(' + val + ')');
+                   if(obj.status ==1){
+                       return hyperlinkeButtonFormatter('修改', 'showUpdateModal(\'' + JSON.stringify(obj) + '\')')
+                           + hyperlinkeButtonFormatter('取消', 'cancelReservation(' + obj.id + ')', '#ed5565')
+                           + hyperlinkeButtonFormatter('到店', 'goConsume(' + val + ')', '#f8ac59');
+                   }
+                   return '';
                 }
             },
             {name: 'customerGroupId', header: "customerGroupId", hidden: true},
             {name: 'id', header: "id", hidden: true},
         ]);
 });
+
+function cancelReservation(id) {
+    _ROWS_CHOOSED = [];
+    jQuery("#table_list").jqGrid('resetSelection');
+    jQuery("#table_list").jqGrid('setSelection', id);
+    Confirm("确定要取消该预约？", function () {
+        changeStatus(2);
+    });
+}

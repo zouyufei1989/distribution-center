@@ -1,6 +1,8 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.Reservation;
+import com.money.custom.entity.request.ChangeReservationStatusRequest;
+import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryReservationCalenderByOrderIdRequest;
 import com.money.custom.entity.request.QueryReservationRequest;
 import com.money.custom.service.ReservationService;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.lang.reflect.InvocationTargetException;
 
 @VisitLogFlag(module = "客户管理", resource = "到店预约记录")
 @Controller
@@ -53,4 +57,11 @@ public class ReservationController extends BaseController {
         return ResponseBase.success(reservationService.queryReservationCalender(request));
     }
 
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
+    public ResponseBase changeStatus(@RequestBody ChangeReservationStatusRequest request) {
+        this.reservationService.changeStatus(request);
+        return ResponseBase.success();
+    }
 }
