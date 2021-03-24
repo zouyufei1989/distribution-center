@@ -1,0 +1,1 @@
+update ns_resources set name="到店预约记录" where id =508;

@@ -7,6 +7,7 @@
 
 	<select id="selectSearchList" parameterType="Map" resultType="Reservation">
 		SELECT
+			dr.id,
 			dr.order_id AS orderId,
 			dr.customer_group_id AS customerGroupId,
 			dr.date,
@@ -17,7 +18,10 @@
 			dr.update_date AS updateDate,
 			IFNULL(dc.name,dc.nick_name) AS customerName,
 			do.goods_name AS goodsName,
-			dc.phone
+			do.goods_id AS goodsId,
+			dc.phone,
+			dcg.serial_number AS serialNumber,
+			dcg.type AS customerType
 		FROM <include refid="tableName"/> dr
 		LEFT JOIN d_customer_group dcg ON dcg.id = dr.customer_group_id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
@@ -47,6 +51,12 @@
 			</if>
 			<if test="endTime!=null and endTime!=''">
 				AND dr.start_time &lt;= #{endTime}
+			</if>
+			<if test="customerName!=null and customerName!=''">
+				AND dc.name LIKE CONCAT('%',#{customerName},'%')
+			</if>
+			<if test="phone!=null and phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{phone},'%')
 			</if>
 		ORDER BY dr.id DESC
 		<if test="rows != null and  rows > 0">
@@ -84,10 +94,17 @@
 			<if test="endTime!=null and endTime!=''">
 				AND dr.start_time &lt;= #{endTime}
 			</if>
+			<if test="customerName!=null and customerName!=''">
+				AND dc.name LIKE CONCAT('%',#{customerName},'%')
+			</if>
+			<if test="phone!=null and phone!=''">
+				AND dc.phone LIKE CONCAT('%',#{phone},'%')
+			</if>
 	</select>
 	
 	<select id="findById" parameterType="String" resultType="Reservation">
-		SELECT 
+		SELECT
+			dr.id,
 			dr.order_id AS orderId,
 			dr.customer_group_id AS customerGroupId,
 			dr.date,
@@ -99,11 +116,17 @@
 			IFNULL(dc.name,dc.nick_name) AS customerName,
 			do.goods_name AS goodsName,
 			dc.phone,
-			do.goods_name AS goodsName,
-			dr.creator
+			do.goods_id AS goodsId,
+			dr.creator,
+			dcg.group_id AS groupId,
+			dc.phone,
+			dr.remark,
+			dr.cancel_date AS cancelDate,
+			dg.name AS groupName
 		FROM <include refid="tableName"/> dr
 		LEFT JOIN d_customer_group dcg ON dcg.id = dr.customer_group_id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		LEFT JOIN d_order do ON do.id = dr.order_id
 		WHERE dr.id = #{id}
 	</select>
@@ -114,6 +137,7 @@
 			update_date = NOW()
 			,updater = #{updater}
 			,update_ip = #{updateIp}
+			,remark = #{remark}
 			<if test="orderId!=null">
 				,order_id = #{orderId}
 			</if>

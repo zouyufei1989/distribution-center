@@ -3,7 +3,8 @@ package com.money.custom.service;
 import com.money.custom.entity.Reservation;
 import com.money.custom.entity.dto.ReservationCalendar;
 import com.money.custom.entity.request.ChangeReservationStatusRequest;
-import com.money.custom.entity.request.QueryReservationCalenderRequest;
+import com.money.custom.entity.request.QueryReservationCalenderByGoodsIdRequest;
+import com.money.custom.entity.request.QueryReservationCalenderByOrderIdRequest;
 import com.money.custom.entity.request.QueryReservationRequest;
 import com.money.framework.base.service.BaseService;
 
@@ -23,7 +24,9 @@ public interface ReservationService extends BaseService {
 
     List<String> changeStatus(ChangeReservationStatusRequest request);
 
-    List<ReservationCalendar> queryReservationCalender(QueryReservationCalenderRequest request);
+    List<ReservationCalendar> queryReservationCalender(QueryReservationCalenderByOrderIdRequest request);
+
+    List<ReservationCalendar> queryReservationCalender(QueryReservationCalenderByGoodsIdRequest request);
 
 
 }

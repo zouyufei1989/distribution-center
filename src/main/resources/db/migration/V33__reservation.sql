@@ -1,0 +1,1 @@
+alter table d_reservation add column remark varchar(500) after cancel_date;

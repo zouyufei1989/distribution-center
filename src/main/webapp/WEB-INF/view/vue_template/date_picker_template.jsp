@@ -3,7 +3,7 @@
 <!--bootstrap date picker-->
 <script type="text/javascript">
     Vue.component('v-date-picker', {
-        props: ['id', 'min_view_mode', 'max_view_mode', 'required', 'value', 'search_param', 'before_month', 'before_week','max_date'],
+        props: ['id', 'min_view_mode', 'max_view_mode', 'required', 'value', 'search_param', 'before_month', 'before_week', 'max_date'],
         data: function () {
             return {
                 today: new Date().Format('yyyy-MM-dd')
@@ -13,6 +13,11 @@
         computed: {
             div_id: function () {
                 return 'div_' + this.id;
+            }
+        },
+        watch: {
+            value: function (newVal, oldVal) {
+                $('#' + this.id).val(new Date(newVal).Format('yyyy-MM-dd'));
             }
         },
         mounted: function () {
@@ -48,9 +53,7 @@
 
 <template id='date-picker-template'>
     <div class="input-group date" :id='div_id'>
-        <input type="text" class="input form-control" :id="id" :required="required" :name="id" search-param v-if="search_param">
-        <input type="text" class="input form-control" :id="id" :required="required" :name="id" v-else>
-        <span class="input input-group-addon">
+        <input type="text" class="input form-control" :id="id" :required="required" :name="id" search-param v-if="search_param"> <input type="text" class="input form-control" :id="id" :required="required" :name="id" v-else> <span class="input input-group-addon">
             <i class="fa fa-calendar"></i>
         </span>
     </div>

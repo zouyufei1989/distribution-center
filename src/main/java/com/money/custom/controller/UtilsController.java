@@ -99,10 +99,17 @@ public class UtilsController extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "selectReservationStatus")
+    public GridResponseBase selectReservationStatus() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(ReservationStatusEnum.class));
+    }
+
+    @ResponseBody
     @RequestMapping(value = "selectGoodsType")
     public GridResponseBase selectGoodsType() {
         return new GridResponseBase(EnumUtils.getEnumEntriesVN(GoodsTypeEnum.class));
     }
+
     @ResponseBody
     @RequestMapping(value = "selectFirstCashback")
     public GridResponseBase selectFirstCashback() {

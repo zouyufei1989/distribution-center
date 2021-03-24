@@ -1,5 +1,7 @@
 package com.money.custom.entity.request;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Map;
 
 public class QueryReservationRequest extends QueryGridRequestBase {
@@ -11,18 +13,39 @@ public class QueryReservationRequest extends QueryGridRequestBase {
     private String endTime;
     private Integer status;
     private Integer goodsId;
+    private String customerName;
+    private String phone;
+    private String date;
 
     @Override
     public Map<String, Object> buildParams() {
         Map<String, Object> params = super.buildParams();
         params.put("openId", openId);
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
+        params.put("startDate", date);
+        params.put("endDate", date);
         params.put("startTime", startTime);
         params.put("endTime", endTime);
         params.put("status", status);
         params.put("goodsId", goodsId);
+        params.put("customerName", customerName);
+        params.put("phone", phone);
+
+        if(StringUtils.isNotEmpty(startDate)){
+            params.put("startDate", startDate);
+        }
+        if(StringUtils.isNotEmpty(endDate)){
+            params.put("endDate", endDate);
+        }
         return params;
+    }
+
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setGoodsId(Integer goodsId) {

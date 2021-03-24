@@ -1,7 +1,7 @@
 package com.money.h5.controller;
 
 import com.money.custom.entity.Reservation;
-import com.money.custom.entity.request.QueryReservationCalenderRequest;
+import com.money.custom.entity.request.QueryReservationCalenderByOrderIdRequest;
 import com.money.custom.entity.request.QueryReservationRequest;
 import com.money.custom.service.ReservationService;
 import com.money.framework.base.entity.ResponseBase;
@@ -36,7 +36,7 @@ public class H5ReservationController {
     @ResponseBody
     @RequestMapping(value = "queryReservationCalender", method = RequestMethod.POST)
     public ResponseBase queryReservationCalender(@Valid @RequestBody QueryReserveCalenderRequest request, BindingResult bindingResult) {
-        QueryReservationCalenderRequest queryReservationCalenderRequest = new QueryReservationCalenderRequest();
+        QueryReservationCalenderByOrderIdRequest queryReservationCalenderRequest = new QueryReservationCalenderByOrderIdRequest();
         queryReservationCalenderRequest.setStartDate(request.getStartDate());
         queryReservationCalenderRequest.setEndDate(request.getEndDate());
         queryReservationCalenderRequest.setOrderId(request.getOrderId());

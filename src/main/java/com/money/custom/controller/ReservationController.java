@@ -1,6 +1,7 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.Reservation;
+import com.money.custom.entity.request.QueryReservationCalenderByOrderIdRequest;
 import com.money.custom.entity.request.QueryReservationRequest;
 import com.money.custom.service.ReservationService;
 import com.money.framework.base.annotation.VisitLogFlag;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@VisitLogFlag(module = "客户管理", resource = "预约管理")
+@VisitLogFlag(module = "客户管理", resource = "到店预约记录")
 @Controller
 @RequestMapping("/reservation/*")
 public class ReservationController extends BaseController {
@@ -44,6 +45,12 @@ public class ReservationController extends BaseController {
     public ResponseBase edit(@RequestBody Reservation reservation) {
         this.reservationService.edit(reservation);
         return ResponseBase.success();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "queryReservationCalender", method = RequestMethod.POST)
+    public ResponseBase queryReservationCalender(QueryReservationCalenderByOrderIdRequest request) {
+        return ResponseBase.success(reservationService.queryReservationCalender(request));
     }
 
 }

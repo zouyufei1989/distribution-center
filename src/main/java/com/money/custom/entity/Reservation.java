@@ -1,5 +1,6 @@
 package com.money.custom.entity;
 
+import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.ReservationStatusEnum;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.DateUtils;
@@ -13,16 +14,22 @@ public class Reservation extends BaseEntity {
 
     private Integer id;
     private Integer orderId;
+    private Integer status;
     private Integer customerGroupId;
     private String date;
     private String startTime;
     private String endTime;
     private Date cancelDate;
+    private String remark;
 
     private String openId;
     private String goodsName;
+    private Integer goodsId;
     private String customerName;
     private String phone;
+    private String serialNumber;
+    private Integer customerType;
+
 
     public Reservation() {}
 
@@ -33,6 +40,42 @@ public class Reservation extends BaseEntity {
         this.startTime = reserveRequest.getStartTime();
         this.endTime = reserveRequest.getEndTime();
         copyOperationInfo(reserveRequest);
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Integer getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public String getCustomerTypeName() {
+        return EnumUtils.getNameByValue(CustomerTypeEnum.class, this.customerType);
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public Integer getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(Integer customerType) {
+        this.customerType = customerType;
     }
 
     public Date getCancelDate() {

@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     var calendar = new FullCalendar.Calendar($('#calendar')[0], {
-        buttonText: {
-            prev: '后退',
-            next : '前进',
-            today: '今天',
-            month: '月视图',
-            week: '周视图',
-            day: '日视图',
-            list: '日程'
-        },
+        // buttonText: {
+        //     prev: '后退',
+        //     next : '前进',
+        //     today: '今天',
+        //     month: '月视图',
+        //     week: '周视图',
+        //     day: '日视图',
+        //     list: '日程'
+        // },
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',

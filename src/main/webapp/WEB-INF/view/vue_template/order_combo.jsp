@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     Vue.component('order-combo', {
-        props: ['id', 'must_choose_one', 'customer_group_id', 'type', 'status', 'timestamp'],
+        props: ['id', 'must_choose_one', 'customer_group_id', 'type', 'status', 'timestamp', 'combine','value'],
         data: function () {
             return {
                 items: []
@@ -22,22 +22,21 @@
                     type: 'post',
                     async: false,
                     success: function (result) {
-                        var combineOrders = result.rows.filter(o => o.goodsCombine && !o.expired);
-                        if (combineOrders && combineOrders.length > 0) {
-                            items = items.concat(combineOrders.map(o => {
+                        var orders = result.rows.filter(o => !o.expired);
+                        if (orders && orders.length > 0) {
+                            items = items.concat(orders.map(o => {
                                 return {
                                     id: o.id,
                                     cnt: o.items[0] ? o.items[0].cnt : 0,
                                     cntUsed: o.items[0] ? o.items[0].cntUsed : 0,
                                     name: o.goodsName,
+                                    goodsCombine: o.goodsCombine
                                 }
                             }).filter(o => o.cnt > o.cntUsed));
                         }
-                        var singleOrders = result.rows.filter(o => !o.goodsCombine && !o.expired);
-                        if (singleOrders && singleOrders.length > 0) {
-                            items = items.concat(singleOrders.reduce((i, j) => {
-                                return i.items.concat(j.items)
-                            }).filter(o => o.cnt > o.cntUsed));
+
+                        if (typeof _this.combine != 'undefined' && _this.combine != null) {
+                            items = items.filter(o => o.goodsCombine == _this.combine);
                         }
                     }
                 });
@@ -53,6 +52,9 @@
                 var _this = this;
                 _this.$nextTick(function () {
                     $('#' + _this.id).select2();
+                    if(_this.value){
+                        $('#' + _this.id).val(_this.value).trigger('change');
+                    }
                 })
             },
             timestamp: function (newValue, oldValue) {
@@ -60,6 +62,9 @@
                 var _this = this;
                 _this.$nextTick(function () {
                     $('#' + _this.id).select2();
+                    if(_this.value){
+                        $('#' + _this.id).val(_this.value).trigger('change');
+                    }
                 })
             }
         },

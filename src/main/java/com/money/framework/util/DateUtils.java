@@ -132,7 +132,7 @@ public final class DateUtils {
 
     public static Date nextNDay(Integer day) {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DATE, day);
+        cal.add(Calendar.DATE, day);
         return cal.getTime();
     }
 

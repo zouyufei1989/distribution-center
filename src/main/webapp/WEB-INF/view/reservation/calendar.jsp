@@ -10,6 +10,10 @@
         .fc-header-toolbar button {
             padding: .4em .65em !important;
         }
+
+        .fc-scrollgrid td, th {
+            border: 1px solid rgb(221, 221, 221) !important;
+        }
     </style>
 </head>
 <body>
