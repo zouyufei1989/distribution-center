@@ -5,6 +5,21 @@
     <%@ include file="../template_meta.jsp" %>
     <%@ include file="../template_css.jsp" %>
     <%@ include file="../template_js.jsp" %>
+    <style type="text/css">
+        .fc-header-toolbar button {
+            padding: .4em .65em !important;
+            line-height: 1 !important;
+        }
+
+        .fc-scrollgrid td, th {
+            border: 1px solid rgb(221, 221, 221) !important;
+        }
+
+        .fc-event-title {
+            color: white
+        }
+    </style>
+    <link href="${pageContext.request.contextPath}/script/plugins/fullcalendar/main.min.css" rel="stylesheet">
 </head>
 <body>
 <%@ include file="../template_menu.jsp" %>
@@ -13,6 +28,7 @@
     <%@ include file="../template_header.jsp" %>
 
     <div class="wrapper wrapper-content animated fadeInRight">
+        <%@ include file="calendar.jsp" %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
@@ -64,8 +80,11 @@
 
 </body>
 <script type="text/javascript">
+    loadJS("${pageContext.request.contextPath}/script/plugins/fullcalendar/main.min.js");
+    loadJS("${pageContext.request.contextPath}/script/plugins/fullcalendar/locales/zh-cn.js");
     loadJS("../script/js/view/reservation/index.js", 1)
     loadJS("../script/js/view/reservation/update.js", 1)
+    loadJS("../script/js/view/reservation/calendar.js", 1)
 </script>
 
 </html>

@@ -40,6 +40,12 @@
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}
 			</if>
+			<if test="customerGroupId!=null">
+				AND dg.id = #{customerGroupId}
+			</if>
+			<if test="orderId!=null">
+				AND dr.order_id = #{orderId}
+			</if>
 			<if test="startDate!=null and startDate!=''">
 				AND dr.date &gt;= #{startDate}
 			</if>
@@ -81,6 +87,12 @@
 			</if>
 			<if test="openId!=null and openId!=''">
 				AND dc.open_id = #{openId}
+			</if>
+			<if test="customerGroupId!=null">
+				AND dg.id = #{customerGroupId}
+			</if>
+			<if test="orderId!=null">
+				AND dr.order_id = #{orderId}
 			</if>
 			<if test="startDate!=null and startDate!=''">
 				AND dr.date &gt;= #{startDate}

@@ -9,12 +9,12 @@ import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.DateUtils;
-import org.apache.http.util.Asserts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,6 +51,58 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.RESERVATION)
     @Override
     public String add(Reservation item) {
+        checkReservationParam(item);
+        Order order = checkReservationOrder(item);
+        Customer customer = checkReservationCustomer(item, order);
+        checkReservationUnique(item, order, (items) -> items.size() == 0);
+        checkReservationPeriod(item, order);
+
+        item.setCustomerGroupId(customer.getCustomerGroup().getId());
+        item.setStatus(ReservationStatusEnum.SUCCESS.getValue());
+        dao.add(item);
+        return item.getId().toString();
+    }
+
+    private void checkReservationPeriod(Reservation item, Order order) {
+        QueryReservationCalenderByOrderIdRequest queryReservationCalenderRequest = new QueryReservationCalenderByOrderIdRequest();
+        queryReservationCalenderRequest.setStartDate(item.getDate());
+        queryReservationCalenderRequest.setEndDate(item.getDate());
+        queryReservationCalenderRequest.setOrderId(order.getId());
+        List<ReservationCalendar> reservationCalendars = queryReservationCalender(queryReservationCalenderRequest);
+        Optional<ReservationCalendar> reservationPeriodOpt = reservationCalendars.stream().filter(i -> i.getStart().equals(item.getStartTime()) && i.getEnd().equals(item.getEndTime())).findAny();
+        Assert.isTrue(reservationPeriodOpt.isPresent(), "预约时间段不存在");
+        Assert.isTrue(reservationPeriodOpt.get().getAvailable() > 0, "选中时间段预约已满");
+    }
+
+    private void checkReservationUnique(Reservation item, Order order, Predicate<List<Reservation>> checkFunc) {
+        QueryReservationRequest queryReservationRequest = new QueryReservationRequest();
+        queryReservationRequest.setOrderId(order.getId());
+        queryReservationRequest.setDate(item.getDate());
+        List<Reservation> reservations = selectSearchList(queryReservationRequest);
+        Assert.isTrue(checkFunc.test(reservations), "该订单已预约" + item.getDate());
+    }
+
+    private Customer checkReservationCustomer(Reservation item, Order order) {
+        QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
+        queryCustomerRequest.setOpenId(item.getOpenId());
+        queryCustomerRequest.setGroupId(order.getGroupId());
+        List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);
+        Assert.notEmpty(customers, "用户不存在");
+        Customer customer = customers.get(0);
+        Assert.isTrue(customer.getCustomerGroup().getStatus().equals(CommonStatusEnum.ENABLE.getValue()), "用户状态非法");
+        Assert.isTrue(order.getCustomerGroupId().equals(customer.getCustomerGroup().getId()), "订单与用户信息不匹配");
+        return customer;
+    }
+
+    private Order checkReservationOrder(Reservation item) {
+        Order order = orderService.findById(item.getOrderId().toString());
+        Assert.notNull(order, "订单不存在");
+        Assert.isTrue(order.getStatus().equals(OrderStatusEnum.USING.getValue()), "订单状态非法");
+        Assert.isTrue(order.getGoodsTypeId().equals(GoodsTypeEnum.PACKAGE.getValue()) || order.getGoodsTypeId().equals(GoodsTypeEnum.ACTIVITY.getValue()), "仅支持套餐/活动预约");
+        return order;
+    }
+
+    private void checkReservationParam(Reservation item) {
         Assert.hasText(item.getOpenId(), "未知用户id");
         Assert.notNull(item.getOrderId(), "未知订单");
         Assert.hasText(item.getDate(), "预约日期不可为空");
@@ -61,68 +113,19 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         if (DateUtils.nowDate().equals(item.getDate())) {
             Assert.isTrue(item.getEndTime().compareTo(DateUtils.nowTime() + ":00") >= 0, "预约时间不可早于当前时间");
         }
-
-        Order order = orderService.findById(item.getOrderId().toString());
-        Assert.notNull(order, "订单不存在");
-        Assert.isTrue(order.getStatus().equals(OrderStatusEnum.USING.getValue()), "订单状态非法");
-        Assert.isTrue(order.getGoodsTypeId().equals(GoodsTypeEnum.PACKAGE.getValue()) || order.getGoodsTypeId().equals(GoodsTypeEnum.ACTIVITY.getValue()), "仅支持套餐/活动预约");
-
-        QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
-        queryCustomerRequest.setOpenId(item.getOpenId());
-        queryCustomerRequest.setGroupId(order.getGroupId());
-        List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);
-        Assert.notEmpty(customers, "用户不存在");
-        Customer customer = customers.get(0);
-        Assert.isTrue(customer.getCustomerGroup().getStatus().equals(CommonStatusEnum.ENABLE.getValue()), "用户状态非法");
-        Assert.isTrue(order.getCustomerGroupId().equals(customer.getCustomerGroup().getId()), "订单与用户信息不匹配");
-
-        QueryReservationCalenderByOrderIdRequest queryReservationCalenderRequest = new QueryReservationCalenderByOrderIdRequest();
-        queryReservationCalenderRequest.setStartDate(item.getDate());
-        queryReservationCalenderRequest.setEndDate(item.getDate());
-        queryReservationCalenderRequest.setOrderId(order.getId());
-        List<ReservationCalendar> reservationCalendars = queryReservationCalender(queryReservationCalenderRequest);
-        Optional<ReservationCalendar> reservationPeriodOpt = reservationCalendars.stream().filter(i -> i.getStart().equals(item.getStartTime()) && i.getEnd().equals(item.getEndTime())).findAny();
-        Assert.isTrue(reservationPeriodOpt.isPresent(), "预约时间段不存在");
-        Assert.isTrue(reservationPeriodOpt.get().getAvailable() > 0, "选中时间段预约已满");
-
-        item.setCustomerGroupId(customer.getCustomerGroup().getId());
-        item.setStatus(ReservationStatusEnum.SUCCESS.getValue());
-        dao.add(item);
-        return item.getId().toString();
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.RESERVATION)
     @Override
     public String edit(Reservation item) {
-
         Reservation reservation = findById(item.getId().toString());
         Assert.notNull(reservation, "预约不存在");
-        Assert.isTrue(reservation.getStatus().equals(ReservationStatusEnum.SUCCESS.getValue()), "预约当前状态不可修改");
+        Assert.isTrue(reservation.getStatus().equals(ReservationStatusEnum.SUCCESS.getValue()), "当前状态不可修改");
 
-        Assert.notNull(item.getOrderId(), "未知订单");
-        Assert.hasText(item.getDate(), "预约日期不可为空");
-        Assert.hasText(item.getStartTime(), "预约开始时间不可为空");
-        Assert.hasText(item.getEndTime(), "预约结束时间不可为空");
-        Assert.isTrue(item.getDate().compareTo(DateUtils.nowDate()) >= 0, "预约日期不可早于" + DateUtils.nowDate());
-        Assert.isTrue(item.getStartTime().compareTo(item.getEndTime()) < 0, "结束时间不可早于开始时间");
-        if (DateUtils.nowDate().equals(item.getDate())) {
-            Assert.isTrue(item.getEndTime().compareTo(DateUtils.nowTime() + ":00") >= 0, "预约时间不可早于当前时间");
-        }
-
-        Order order = orderService.findById(item.getOrderId().toString());
-        Assert.notNull(order, "订单不存在");
-        Assert.isTrue(order.getStatus().equals(OrderStatusEnum.USING.getValue()), "订单状态非法");
-        Assert.isTrue(order.getGoodsTypeId().equals(GoodsTypeEnum.PACKAGE.getValue()) || order.getGoodsTypeId().equals(GoodsTypeEnum.ACTIVITY.getValue()), "仅支持套餐/活动预约");
-
-        QueryReservationCalenderByOrderIdRequest queryReservationCalenderRequest = new QueryReservationCalenderByOrderIdRequest();
-        queryReservationCalenderRequest.setStartDate(item.getDate());
-        queryReservationCalenderRequest.setEndDate(item.getDate());
-        queryReservationCalenderRequest.setOrderId(order.getId());
-        List<ReservationCalendar> reservationCalendars = queryReservationCalender(queryReservationCalenderRequest);
-        Optional<ReservationCalendar> reservationPeriodOpt = reservationCalendars.stream().filter(i -> i.getStart().equals(item.getStartTime()) && i.getEnd().equals(item.getEndTime())).findAny();
-        Assert.isTrue(reservationPeriodOpt.isPresent(), "预约时间段不存在");
-        Assert.isTrue(reservationPeriodOpt.get().getAvailable() > 0, "选中时间段预约已满");
-
+        checkReservationParam(item);
+        Order order = checkReservationOrder(item);
+        checkReservationPeriod(item, order);
+        checkReservationUnique(item, order, (items) -> items.get(0).getId() == item.getId());
         dao.edit(item);
         return item.getId().toString();
     }

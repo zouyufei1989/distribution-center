@@ -16,6 +16,8 @@ public class QueryReservationRequest extends QueryGridRequestBase {
     private String customerName;
     private String phone;
     private String date;
+    private Integer customerGroupId;
+    private Integer orderId;
 
     @Override
     public Map<String, Object> buildParams() {
@@ -29,6 +31,8 @@ public class QueryReservationRequest extends QueryGridRequestBase {
         params.put("goodsId", goodsId);
         params.put("customerName", customerName);
         params.put("phone", phone);
+        params.put("customerGroupId", customerGroupId);
+        params.put("orderId", orderId);
 
         if(StringUtils.isNotEmpty(startDate)){
             params.put("startDate", startDate);
@@ -39,6 +43,17 @@ public class QueryReservationRequest extends QueryGridRequestBase {
         return params;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setCustomerGroupId(Integer customerGroupId) {
+        this.customerGroupId = customerGroupId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
