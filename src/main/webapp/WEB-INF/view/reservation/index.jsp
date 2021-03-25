@@ -28,12 +28,12 @@
     <%@ include file="../template_header.jsp" %>
 
     <div class="wrapper wrapper-content animated fadeInRight">
-        <%@ include file="calendar.jsp" %>
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <%@ include file="../template_btnGroup.jsp" %>
+                        <%@ include file="calendar.jsp" %>
                         <%@ include file="../template_search_export_btn.jsp" %>
                         <%@ include file="../vue_template/customer_type_combo.jsp" %>
                         <%@ include file="../vue_template/group_combo.jsp" %>
@@ -44,32 +44,34 @@
                         <%@ include file="../vue_template/date_picker_template.jsp" %>
                         <%@ include file="../vue_template/reservation_status_combo.jsp" %>
                         <%@ include file="../vue_template/reservation_period_combo.jsp" %>
-                        <form role="form" class="form-inline" style="padding: 0px">
-                            <div class="param_row">
-                                <div class="form-group">
-                                    <label>门店:</label>
-                                    <group-combo id="groupId" search-param></group-combo>
+                        <div id="tmp_grid">
+                            <form role="form" class="form-inline" style="padding: 0px">
+                                <div class="param_row">
+                                    <div class="form-group">
+                                        <label>门店:</label>
+                                        <group-combo id="groupId" search-param></group-combo>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>姓名:</label> <input type="text" id="customerName" search-param class="form-control"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>手机号:</label> <input type="text" id="phone" search-param class="form-control"/>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>姓名:</label> <input type="text" id="customerName" search-param class="form-control"/>
+                                <div class="param_row">
+                                    <div class="form-group">
+                                        <label>预约日期:</label>
+                                        <v-date-picker id="date" search-param></v-date-picker>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>状态:</label>
+                                        <reservation-status-combo id="status" must_choose_one="false" search-param></reservation-status-combo>
+                                    </div>
+                                    <reload-export-btn-group id="btnGroup" reload="true"></reload-export-btn-group>
                                 </div>
-                                <div class="form-group">
-                                    <label>手机号:</label> <input type="text" id="phone" search-param class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="param_row">
-                                <div class="form-group">
-                                    <label>预约日期:</label>
-                                    <v-date-picker id="date" search-param></v-date-picker>
-                                </div>
-                                <div class="form-group">
-                                    <label>状态:</label>
-                                    <reservation-status-combo id="status" must_choose_one="false" search-param></reservation-status-combo>
-                                </div>
-                                <reload-export-btn-group id="btnGroup" reload="true"></reload-export-btn-group>
-                            </div>
-                        </form>
-                        <%@ include file="../template_grid.jsp" %>
+                            </form>
+                            <%@ include file="../template_grid.jsp" %>
+                        </div>
                     </div>
                 </div>
             </div>

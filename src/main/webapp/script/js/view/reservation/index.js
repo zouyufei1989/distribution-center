@@ -18,17 +18,33 @@ $(document).ready(function () {
             {name: 'statusName', header: '状态'},
             {
                 name: 'id', header: '操作', formatter: function (val, opt, obj) {
-                   if(obj.status ==1){
-                       return hyperlinkeButtonFormatter('修改', 'showUpdateModal(\'' + JSON.stringify(obj) + '\')')
-                           + hyperlinkeButtonFormatter('取消', 'cancelReservation(' + obj.id + ')', '#ed5565')
-                           + hyperlinkeButtonFormatter('到店', 'goConsume(' + val + ')', '#f8ac59');
-                   }
-                   return '';
+                    if (obj.status == 1) {
+                        return hyperlinkeButtonFormatter('修改', 'showUpdateModal(\'' + JSON.stringify(obj) + '\')')
+                            + hyperlinkeButtonFormatter('取消', 'cancelReservation(' + obj.id + ')', '#ed5565')
+                            + hyperlinkeButtonFormatter('到店', 'goConsume(' + val + ')', '#f8ac59');
+                    }
+                    return '';
                 }
             },
             {name: 'customerGroupId', header: "customerGroupId", hidden: true},
             {name: 'id', header: "id", hidden: true},
         ]);
+
+    $('#btn_toggle_type').click(function () {
+        $('#tmp_grid').toggleClass("hidden");
+        $('#div_calendar').toggleClass("hidden");
+
+        if ($(this).text() === '日历模式') {
+            $(this).text("列表模式");
+            if (!calendar.isRendered) {
+                calendar.render();
+            }
+            fillCalendar();
+            return;
+        }
+        $(this).text("日历模式");
+
+    });
 });
 
 function cancelReservation(id) {

@@ -7,13 +7,12 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         themeSystem: "bootstrap",
         locale: 'zh-cn',
-        buttonIcons: false, // show the prev/next text
+        buttonIcons: true, // show the prev/next text
         weekNumbers: true,
         navLinks: true, // can click day/week names to navigate views
         dayMaxEvents: true, // allow "more" link when too many events
         initialView: 'dayGridMonth',
     });
-    calendar.render();
 });
 
 function fillCalendar() {
@@ -40,7 +39,7 @@ function fillCalendar() {
                 $.each(reservationMap, function (key, val) {
                     reservationEvents.push({
                         start: key,
-                        title: val.length + '人预约',
+                        title: val.length + '个预约',
                     });
                 })
 

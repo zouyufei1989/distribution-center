@@ -27,6 +27,9 @@ public class QueryMyReservationResponse extends GridResponseBase {
         private Integer status;
         private String statusName;
         private String goodsName;
+        private String date;
+        private String startTime;
+        private String endTime;
 
         public H5Reservation() {}
 
@@ -39,6 +42,21 @@ public class QueryMyReservationResponse extends GridResponseBase {
             this.status = item.getStatus();
             this.statusName = item.getStatusName();
             this.goodsName = item.getGoodsName();
+            this.date = item.getDate();
+            this.startTime = item.getStartTime();
+            this.endTime = item.getEndTime();
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public String getStartTime() {
+            return startTime;
+        }
+
+        public String getEndTime() {
+            return endTime;
         }
 
         public Integer getId() {
