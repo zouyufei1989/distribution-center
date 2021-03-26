@@ -2,11 +2,8 @@ package com.money.custom.entity.request;
 
 import com.money.framework.base.entity.OperationalEntity;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 public class ConsumeRequest extends OperationalEntity {
 
@@ -18,6 +15,25 @@ public class ConsumeRequest extends OperationalEntity {
     private Integer cnt;
     @NotNull(message = "客户id不可为空")
     private Integer customerGroupId;
+    private Integer reservationId;
+
+    public ConsumeRequest() {}
+
+    public ConsumeRequest(ReservationConsumptionRequest request) {
+        this.orderId = request.getOrderId();
+        this.cnt = request.getCnt();
+        this.customerGroupId = request.getCustomerGroupId();
+        this.reservationId = request.getReservationId();
+        copyOperationInfo(request);
+    }
+
+    public Integer getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(Integer reservationId) {
+        this.reservationId = reservationId;
+    }
 
     public Integer getCustomerGroupId() {
         return customerGroupId;

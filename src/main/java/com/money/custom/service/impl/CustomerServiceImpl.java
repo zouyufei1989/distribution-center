@@ -240,6 +240,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
                 consumeRequest.setOrderItemId(i.getId());
                 consumeRequest.setCnt(i.getCnt());
                 consumeRequest.setCustomerGroupId(request.getCustomerGroupId());
+                consumeRequest.setReservationId(request.getReservationId());
                 orderConsumptionService.consume(consumeRequest);
             });
         });

@@ -106,6 +106,7 @@
 		(
 			order_id,
 			goods_id,
+			reservation_id,
 			combine,
 			create_date,
 			creator,
@@ -115,6 +116,7 @@
 		(
 			#{orderId},
 			#{goodsId},
+			#{reservationId},
 			#{combine},
 			NOW(),
 		  	#{creator},

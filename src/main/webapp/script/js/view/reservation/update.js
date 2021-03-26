@@ -2,17 +2,14 @@ var updateVue;
 
 $(document).ready(function () {
 
-    bindModalHide('updateModal', function () {
-        updateVue.id = null;
-    }, 1);
-
     updateVue = new Vue({
         el: '#updateModal',
         data: {
             id: null,
             current: {},
             first: {},
-            timestamp: new Date().getTime(),
+            timestamp4Period: new Date().getTime(),
+            timestamp4Order: new Date().getTime(),
         },
         mounted: function () {
             var _this = this;
@@ -31,6 +28,13 @@ $(document).ready(function () {
                 _this.current.orderId = $('#orderToUse').val();
                 _this.refreshReservationPeriods();
             });
+            bindModalHide('updateModal', function () {
+                _this.id = null;
+            }, 1);
+            bindModalShow('updateModal', function () {
+                $('.select2_demo_3').select2();
+                _this.timestamp4Order = new Date().getTime();
+            }, 1);
         },
         watch: {
             id: function (newVal, oldVal) {
@@ -108,7 +112,7 @@ $(document).ready(function () {
                 });
             },
             refreshReservationPeriods() {
-                this.timestamp = new Date().getTime();
+                this.timestamp4Period = new Date().getTime();
             }
         }
     });

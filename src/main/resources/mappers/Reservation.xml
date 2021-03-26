@@ -68,7 +68,7 @@
 			<if test="phone!=null and phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
 			</if>
-		ORDER BY dr.id DESC
+		ORDER BY dr.start_time ASC
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
 		</if>
@@ -139,7 +139,8 @@
 			dc.phone,
 			dr.remark,
 			dr.cancel_date AS cancelDate,
-			dg.name AS groupName
+			dg.name AS groupName,
+			do.status AS orderStatus
 		FROM <include refid="tableName"/> dr
 		LEFT JOIN d_customer_group dcg ON dcg.id = dr.customer_group_id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
@@ -154,9 +155,14 @@
 			update_date = NOW()
 			,updater = #{updater}
 			,update_ip = #{updateIp}
-			,remark = #{remark}
 			<if test="orderId!=null">
 				,order_id = #{orderId}
+			</if>
+			<if test="remark!=null">
+				,remark = #{remark}
+			</if>
+			<if test="status!=null">
+				,status = #{status}
 			</if>
 			<if test="date != null and date!=''">
 				,date = #{date}

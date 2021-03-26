@@ -11,6 +11,7 @@ import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.*;
@@ -32,6 +33,8 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
     GroupService groupService;
     @Autowired
     GoodsService goodsService;
+    @Autowired
+    OrderConsumptionService orderConsumptionService;
 
     @Override
     public List<Reservation> selectSearchList(QueryReservationRequest request) {
@@ -79,6 +82,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         QueryReservationRequest queryReservationRequest = new QueryReservationRequest();
         queryReservationRequest.setOrderId(order.getId());
         queryReservationRequest.setDate(item.getDate());
+        queryReservationRequest.setStatus(ReservationStatusEnum.SUCCESS.getValue());
         List<Reservation> reservations = selectSearchList(queryReservationRequest);
         Assert.isTrue(checkFunc.test(reservations), "该订单已预约" + item.getDate());
     }
@@ -201,6 +205,41 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         }
 
         return reservationCalendars;
+    }
+
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.RESERVATION)
+    @Transactional
+    @Override
+    public String consumeReservation(ReservationConsumptionRequest request) {
+        ReservationService service = applicationContext.getBean(ReservationService.class);
+
+        Reservation reservation = findById(request.getReservationId().toString());
+        Assert.notNull(reservation, "预约不存在");
+        Assert.isTrue(reservation.getStatus().equals(ReservationStatusEnum.SUCCESS.getValue()), "当前状态不可修改");
+        reservation.setOrderId(request.getOrderId());
+        reservation.setStatus(ReservationStatusEnum.ARRIVED.getValue());
+        reservation.copyOperationInfo(request);
+        dao.edit(reservation);
+
+        ConsumeRequest consumeRequest = new ConsumeRequest(request);
+        orderConsumptionService.consume(consumeRequest);
+        getLogger().info("已到店使用预约{}的订单{} {}次", request.getReservationId(), request.getOrderId(), request.getCnt());
+
+        if (Objects.nonNull(request.getConsumeRequest())) {
+            getLogger().info("预约有额外消费项目");
+            request.getConsumeRequest().copyOperationInfo(request);
+            request.getConsumeRequest().setReservationId(request.getReservationId());
+            orderConsumptionService.consume(request.getConsumeRequest());
+        }
+
+        if (Objects.nonNull(request.getPurchaseConsumeRequest())) {
+            getLogger().info("预约有额外消费单品");
+            request.getPurchaseConsumeRequest().copyOperationInfo(request);
+            request.getPurchaseConsumeRequest().setReservationId(request.getReservationId());
+            customerService.purchaseThenConsumeAll(request.getPurchaseConsumeRequest());
+        }
+
+        return request.getReservationId().toString();
     }
 
 }

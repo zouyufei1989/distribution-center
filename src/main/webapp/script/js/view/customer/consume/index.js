@@ -66,8 +66,13 @@ $(document).ready(function () {
                     payBonus: 0,
                     payOffline: 0,
                 };
-                reloadGoodsTree();
-                customerVue.refreshCustomerInfo();
+
+                if (action === 'buySingle') {
+                    reloadGoodsTree();
+                    customerVue.refreshCustomerInfo();
+                } else {
+                    this.timestamp = new Date().getTime();
+                }
                 this.$nextTick(function () {
                     $('.select2_demo_3').select2().trigger('change');
                 })

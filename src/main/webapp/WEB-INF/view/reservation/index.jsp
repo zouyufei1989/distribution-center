@@ -39,39 +39,6 @@
             margin-right: 10px;
         }
 
-        #consumeModal .modal-dialog {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-
-        #consumeModal .modal-content {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-        }
-
-        #consumeModal .modal-body {
-            overflow-y: scroll;
-            position: absolute;
-            top: 20px;
-            bottom: 65px;
-            width: 100%;
-        }
-
-        #consumeModal .modal-header .close {
-            margin-right: 15px;
-        }
-
-        #consumeModal .modal-footer {
-            position: absolute;
-            width: 100%;
-            bottom: 0;
-        }
-
     </style>
     <link href="${pageContext.request.contextPath}/script/plugins/fullcalendar/main.min.css" rel="stylesheet">
 </head>
@@ -134,6 +101,7 @@
     </div>
 </div>
 <%@ include file="updateModal.jsp" %>
+<%@ include file="recharge.jsp" %>
 <%@ include file="consume/index.jsp" %>
 
 </body>
@@ -143,9 +111,11 @@
     loadJS("../script/js/view/reservation/index.js", 1)
     loadJS("../script/js/view/reservation/update.js", 1)
     loadJS("../script/js/view/reservation/calendar.js", 1)
+    loadJS("../script/js/view/reservation/recharge.js", 1)
     loadJS("../script/js/view/reservation/consume/index.js", 1)
     loadJS("../script/js/view/reservation/consume/reservationInfo.js", 1)
     loadJS("../script/js/view/reservation/consume/action.js", 1)
+
 </script>
 
 </html>

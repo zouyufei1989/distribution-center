@@ -39,43 +39,23 @@
                             items = items.filter(o => o.goodsCombine == _this.combine);
                         }
                         _this.items = items;
+                        _this.$nextTick(function () {
+                            $('#' + _this.id).select2();
+                            if (_this.value) {
+                                $('#' + _this.id).val(_this.value).trigger('change');
+                            }
+                        })
+
                     }
                 });
             }
         },
         mounted: function () {
-            $('#' + this.id).select2();
+            this.reload();
         },
         watch: {
-            customer_group_id: function (newValue, oldValue) {
-                this.reload();
-                var _this = this;
-                _this.$nextTick(function () {
-                    $('#' + _this.id).select2();
-                    if (_this.value) {
-                        $('#' + _this.id).val(_this.value).trigger('change');
-                    }
-                })
-            },
-            type: function (newValue, oldValue) {
-                this.reload();
-                var _this = this;
-                _this.$nextTick(function () {
-                    $('#' + _this.id).select2();
-                    if (_this.value) {
-                        $('#' + _this.id).val(_this.value).trigger('change');
-                    }
-                })
-            },
             timestamp: function (newValue, oldValue) {
                 this.reload();
-                var _this = this;
-                _this.$nextTick(function () {
-                    $('#' + _this.id).select2();
-                    if (_this.value) {
-                        $('#' + _this.id).val(_this.value).trigger('change');
-                    }
-                })
             }
         },
         template: '#order-combo-template'

@@ -13,6 +13,7 @@ import com.money.custom.entity.request.QueryOrderRequest;
 import com.money.custom.service.CustomerService;
 import com.money.custom.service.OrderConsumptionService;
 import com.money.custom.service.OrderService;
+import com.money.custom.service.ReservationService;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.http.util.Asserts;
@@ -36,6 +37,8 @@ public class OrderConsumptionServiceImpl extends BaseServiceImpl implements Orde
     OrderItemDao orderItemDao;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    ReservationService reservationService;
 
     @Override
     public List<OrderConsumption> selectSearchList(QueryOrderConsumptionRequest request) {

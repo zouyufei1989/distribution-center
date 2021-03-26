@@ -18,7 +18,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">预约项目:</label>
                                     <div class="col-sm-7">
-                                        <order-combo id="orderToUse" must_choose_one="false" :customer_group_id="current.customerGroupId" timestamp="" :value="current.orderId" combine=1 ></order-combo>
+                                        <order-combo id="orderToUse" must_choose_one="false" :customer_group_id="current.customerGroupId" :timestamp="timestamp4Order" :value="current.orderId" combine=1 ></order-combo>
                                         <span v-show="first!=null" class="help-block m-b-none text-warning">原项目: {{first?first.goodsName:''}}</span>
                                     </div>
                                 </div>
@@ -44,7 +44,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">预约时段:</label>
                                     <div class="col-sm-7">
-                                        <reservation-period-combo  id="period" :date="current.date" :orderid="current.orderId" :timestamp="timestamp" :value="period"></reservation-period-combo>
+                                        <reservation-period-combo  id="period" :date="current.date" :orderid="current.orderId" :timestamp="timestamp4Period" :value="period"></reservation-period-combo>
                                         <span v-show="first!=null" class="help-block m-b-none text-warning">原时段: {{first?(first.startTime + '-' + first.endTime):''}}</span>
                                     </div>
                                 </div>

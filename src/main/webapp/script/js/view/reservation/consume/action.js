@@ -50,11 +50,7 @@ $(document).ready(function () {
         actionVue.goodsChoosed[0].cnt = $('#purchaseCnt').val();
     });
 
-    $('#orderToUse').change(function () {
-        actionVue.consumeInfo.orderId = $('#orderToUse').val();
-        actionVue.consumeInfo.goodsName = $('#orderToUse option:checked').attr('data-name');
-    });
-
+    reloadGoodsTree();
 });
 
 function initTree(data) {
@@ -87,6 +83,9 @@ function initTree(data) {
 }
 
 function rebuildAttrs4Vue() {
+    if(!TREE){
+        return;
+    }
     var cnt = TREE.getChecked('id').length;
     if (cnt === 0) {
         actionVue.goodsChoosed = [];
@@ -206,18 +205,7 @@ function changeCnt(id, step) {
 function goConsume(reservationStr) {
     var reservation = JSON.parse(reservationStr);
     reservationVue.item = reservation;
-
-    actionVue.additionalConsumeFlag = false;
-    actionVue.customerGroupId = reservation.customerGroupId;
-    actionVue.action = '';
-    actionVue.goodsChoosed = [];
-    actionVue.consumeInfo = {cnt: 0};
-    actionVue.purchaseInfo = {
-        actuallyMoney: 0,
-        payMoney: 1,
-        payBonus: 0,
-        payOffline: 0,
-    };
+    reservationVue.timestamp = new Date().getTime();
     $('#consumeModal').modal('show');
 
 }

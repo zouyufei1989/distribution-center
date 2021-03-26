@@ -3,6 +3,7 @@ package com.money.custom.entity;
 import com.money.custom.entity.enums.CustomerTypeEnum;
 import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.enums.ReservationStatusEnum;
+import com.money.custom.entity.request.ReservationConsumptionRequest;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.DateUtils;
 import com.money.framework.util.EnumUtils;
@@ -15,7 +16,6 @@ public class Reservation extends BaseEntity {
 
     private Integer id;
     private Integer orderId;
-    private Integer status;
     private Integer customerGroupId;
     private String date;
     private String startTime;

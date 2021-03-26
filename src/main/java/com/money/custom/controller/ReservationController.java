@@ -1,10 +1,7 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.Reservation;
-import com.money.custom.entity.request.ChangeReservationStatusRequest;
-import com.money.custom.entity.request.ChangeStatusRequest;
-import com.money.custom.entity.request.QueryReservationCalenderByOrderIdRequest;
-import com.money.custom.entity.request.QueryReservationRequest;
+import com.money.custom.entity.request.*;
 import com.money.custom.service.ReservationService;
 import com.money.framework.base.annotation.VisitLogFlag;
 import com.money.framework.base.entity.GridResponseBase;
@@ -13,11 +10,13 @@ import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 
 @VisitLogFlag(module = "客户管理", resource = "到店预约记录")
@@ -62,6 +61,14 @@ public class ReservationController extends BaseController {
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
     public ResponseBase changeStatus(@RequestBody ChangeReservationStatusRequest request) {
         this.reservationService.changeStatus(request);
+        return ResponseBase.success();
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "consumeReservation", method = RequestMethod.POST)
+    public ResponseBase consumeReservation(@Valid @RequestBody ReservationConsumptionRequest request, BindingResult bindingResult) {
+        this.reservationService.consumeReservation(request);
         return ResponseBase.success();
     }
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<div class="modal inmodal fade" id="consumeModal" role="dialog" aria-hidden="true">
+<div class="modal inmodal fade" id="consumeModal" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body">
@@ -9,10 +9,10 @@
                     <%@ include file="reservationInfo.jsp" %>
                     <div class="row" id="div_actions">
                         <hr/>
-                        <div class="col-md-12 text-center" v-if="additionalConsumeFlag==false">
+                        <div class="col-md-12 text-center" v-show="additionalConsumeFlag==false">
                             <span class="addPeriod" @click="additionalConsume()">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+追加消费&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
                         </div>
-                        <div v-else>
+                        <div v-show="additionalConsumeFlag">
                             <div class="col-md-12">
                                 <form id="" class="form-horizontal">
                                     <div class="form-group">
@@ -28,6 +28,17 @@
                             <div class="col-md-12">
                                 <%@ include file="action.jsp" %>
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12 text-right" style="margin-top: 20px">
+                                        <button type="button" class="btn btn-w-m btn-default btn-update-footer" @click="cancel()">取消</button>
+                                        <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" v-if="action=='buyPackage'" @click="purchase($event)">购买</button>
+                                        <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" v-else @click="consumeReservation($event)">提交</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

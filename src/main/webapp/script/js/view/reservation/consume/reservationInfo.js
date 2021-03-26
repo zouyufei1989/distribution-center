@@ -1,11 +1,13 @@
 var reservationVue;
 
 $(document).ready(function () {
+
     reservationVue = new Vue({
         el: '#div_reservationInfo',
         data: {
             item: {},
             reservationUseCnt: 1,
+            timestamp: new Date().getTime()
         },
         mounted: function () {
             var _this = this;
@@ -30,11 +32,14 @@ $(document).ready(function () {
 
             $('#reservationInfoGoodsType').change(function () {
                 _this.item.goodsTypeId = $(this).val();
+                _this.timestamp = new Date().getTime();
             });
         },
         watch: {
             'item.customerGroupId': function (newValue, oldValue) {
-                this.queryCustomerInfo(newValue);
+                if (newValue) {
+                    this.queryCustomerInfo(newValue);
+                }
             }
         },
         methods: {
@@ -54,9 +59,12 @@ $(document).ready(function () {
                     success: function (result) {
                         actionVue.customerInfo = {
                             availableMoney: result.data.wallet.availableMoney4Show,
-                            availableBonus: result.data.bonusWallet.availableBonus/100.0,
+                            availableBonus: result.data.bonusWallet.availableBonus / 100.0,
                             customerGroupId: result.data.customerGroup.id,
-                            customerType:result.data.customerGroup.type,
+                            serialNumber: result.data.customerGroup.serialNumber,
+                            customerType: result.data.customerGroup.type,
+                            name: result.data.name || result.data.nickName,
+                            phone: result.data.phone
                         }
                     }
                 });

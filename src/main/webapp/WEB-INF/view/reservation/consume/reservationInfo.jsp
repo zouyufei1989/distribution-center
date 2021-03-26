@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label"><span class="text-danger">*</span> 消费项目：</label>
                     <div class="col-sm-5">
-                        <order-combo id="reservationInfoOrderToUse" :customer_group_id="item.customerGroupId" timestamp="" :value="item.orderId" :type="item.goodsTypeId"></order-combo>
+                        <order-combo id="reservationInfoOrderToUse" :customer_group_id="item.customerGroupId" :timestamp="timestamp" :type="item.goodsTypeId" :value="item.orderId"></order-combo>
                         <span v-show="!item.orderAvailable" class="help-block m-b-none text-warning">预约项目[{{item.goodsName}}]次数已用光</span>
                     </div>
                 </div>
