@@ -19,7 +19,7 @@
                                     <label class="col-sm-3 control-label">预约项目:</label>
                                     <div class="col-sm-7">
                                         <order-combo id="orderToUse" must_choose_one="false" :customer_group_id="current.customerGroupId" timestamp="" :value="current.orderId" combine=1 ></order-combo>
-                                        <span v-show="first!=null" class="help-block m-b-none text-warning">原项目: {{first.goodsName}}</span>
+                                        <span v-show="first!=null" class="help-block m-b-none text-warning">原项目: {{first?first.goodsName:''}}</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -38,14 +38,14 @@
                                     <label class="col-sm-3 control-label">预约日期:</label>
                                     <div class="col-sm-7">
                                         <v-date-picker id="reservationDate" :value="current.date" ></v-date-picker>
-                                        <span v-show="first!=null" class="help-block m-b-none text-warning">原日期: {{first.date}}</span>
+                                        <span v-show="first!=null" class="help-block m-b-none text-warning">原日期: {{first?first.date:''}}</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">预约时段:</label>
                                     <div class="col-sm-7">
                                         <reservation-period-combo  id="period" :date="current.date" :orderid="current.orderId" :timestamp="timestamp" :value="period"></reservation-period-combo>
-                                        <span v-show="first!=null" class="help-block m-b-none text-warning">原时段: {{first.startTime + '-' + first.endTime}}</span>
+                                        <span v-show="first!=null" class="help-block m-b-none text-warning">原时段: {{first?(first.startTime + '-' + first.endTime):''}}</span>
                                     </div>
                                 </div>
                                 <div class="form-group">

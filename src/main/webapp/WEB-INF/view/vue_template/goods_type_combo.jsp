@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     Vue.component('goods-type-combo', {
-        props: ['id', 'must_choose_one','data_exclude'],
+        props: ['id', 'must_choose_one', 'data_exclude', 'value'],
         data: function () {
             var data = [];
             var _this = this;
@@ -14,7 +14,7 @@
                 cached: false,
                 success: function (result) {
                     for (var key in result.rows) {
-                        if(_this.data_exclude ==key){
+                        if (_this.data_exclude == key) {
                             continue;
                         }
                         data.push({
@@ -33,9 +33,20 @@
             return {
                 items: data
             }
-        }, mounted: function () {
-            $('.select2_demo_3').select2();
-
+        },
+        watch: {
+            value: function (newVal, oldVal) {
+                $('#' + this.id).select2();
+                $('#' + this.id).val(this.value).trigger('change');
+            }
+        },
+        mounted: function () {
+            var _this = this;
+            _this.$nextTick(function () {
+                /*现在数据已经渲染完毕*/
+                $('#' + _this.id).select2();
+                $('#' + _this.id).val(_this.value).trigger('change');
+            })
         }, template: '#goods-type-combo-template'
     })
 </script>

@@ -21,12 +21,13 @@ $(document).ready(function () {
                     if (obj.status == 1) {
                         return hyperlinkeButtonFormatter('修改', 'showUpdateModal(\'' + JSON.stringify(obj) + '\')')
                             + hyperlinkeButtonFormatter('取消', 'cancelReservation(' + obj.id + ')', '#ed5565')
-                            + hyperlinkeButtonFormatter('到店', 'goConsume(' + val + ')', '#f8ac59');
+                            + hyperlinkeButtonFormatter('到店', 'goConsume(\'' + JSON.stringify(obj) + '\')', '#f8ac59');
                     }
                     return '';
                 }
             },
             {name: 'customerGroupId', header: "customerGroupId", hidden: true},
+            {name: 'orderId', header: "orderId"},
             {name: 'id', header: "id", hidden: true},
         ]);
 

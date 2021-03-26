@@ -1,0 +1,66 @@
+var reservationVue;
+
+$(document).ready(function () {
+    reservationVue = new Vue({
+        el: '#div_reservationInfo',
+        data: {
+            item: {},
+            reservationUseCnt: 1,
+        },
+        mounted: function () {
+            var _this = this;
+            $("#reservationUseCnt").TouchSpin({
+                verticalbuttons: true,
+                initval: 0,
+                min: 1,
+                max: 9999999,
+                step: 1,
+                decimals: 0,
+                buttondown_class: 'btn btn-white',
+                buttonup_class: 'btn btn-white',
+            }).on("change", function (e) {
+                _this.reservationUseCnt = $(e.target).val();
+            });
+
+            $('#reservationInfoOrderToUse').change(function () {
+                _this.item.orderId = $(this).val();
+                var cntAvailable = $(this).find("option:selected").attr("data-available");
+                $("#reservationUseCnt").trigger("touchspin.updatesettings", {max: isNaN(cntAvailable) ? 0 : parseInt(cntAvailable)});
+            });
+
+            $('#reservationInfoGoodsType').change(function () {
+                _this.item.goodsTypeId = $(this).val();
+            });
+        },
+        watch: {
+            'item.customerGroupId': function (newValue, oldValue) {
+                this.queryCustomerInfo(newValue);
+            }
+        },
+        methods: {
+            refreshCustomerInfo() {
+                this.queryCustomerInfo(this.item.customerGroupId);
+            },
+            queryCustomerInfo(id) {
+                var _this = this;
+                $.ajax({
+                    url: '../customer/findById',
+                    type: 'post',
+                    data: {
+                        id: id || _this.item.customerGroupId
+                    },
+                    async: true,
+                    cache: false,
+                    success: function (result) {
+                        actionVue.customerInfo = {
+                            availableMoney: result.data.wallet.availableMoney4Show,
+                            availableBonus: result.data.bonusWallet.availableBonus/100.0,
+                            customerGroupId: result.data.customerGroup.id,
+                            customerType:result.data.customerGroup.type,
+                        }
+                    }
+                });
+            }
+        }
+    });
+});

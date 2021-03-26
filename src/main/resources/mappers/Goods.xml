@@ -77,7 +77,7 @@
 			<if test="groupId!=null">
 				AND dgs.group_id = #{groupId}
 			</if>
-		ORDER BY status DESC
+		ORDER BY status DESC, dgs.id
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
 		</if>

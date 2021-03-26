@@ -27,4 +27,7 @@ public enum OrderStatusEnum implements IEnumKeyValue {
         return name;
     }
 
+    public static boolean orderAvailable(Integer orderStatus){
+        return orderStatus.equals(OrderStatusEnum.USING.getValue());
+    }
 }

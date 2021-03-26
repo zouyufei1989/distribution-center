@@ -51,6 +51,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.RESERVATION)
     @Override
     public String add(Reservation item) {
+        Assert.hasText(item.getOpenId(), "未知用户id");
         checkReservationParam(item);
         Order order = checkReservationOrder(item);
         Customer customer = checkReservationCustomer(item, order);
@@ -103,7 +104,6 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
     }
 
     private void checkReservationParam(Reservation item) {
-        Assert.hasText(item.getOpenId(), "未知用户id");
         Assert.notNull(item.getOrderId(), "未知订单");
         Assert.hasText(item.getDate(), "预约日期不可为空");
         Assert.hasText(item.getStartTime(), "预约开始时间不可为空");
@@ -125,7 +125,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         checkReservationParam(item);
         Order order = checkReservationOrder(item);
         checkReservationPeriod(item, order);
-        checkReservationUnique(item, order, (items) -> items.get(0).getId() == item.getId());
+        checkReservationUnique(item, order, (items) -> items.size() == 0 || items.get(0).getId() == item.getId());
         dao.edit(item);
         return item.getId().toString();
     }

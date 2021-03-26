@@ -21,9 +21,11 @@ $(document).ready(function () {
                 _this.refreshReservationPeriods();
             });
             $('#period').change(function () {
-                var period = $('#period').val().split('-');
-                _this.current.startTime = period[0];
-                _this.current.endTime = period[1];
+                if ($('#period').val()) {
+                    var period = $('#period').val().split('-');
+                    _this.current.startTime = period[0];
+                    _this.current.endTime = period[1];
+                }
             });
             $('#orderToUse').change(function () {
                 _this.current.orderId = $('#orderToUse').val();

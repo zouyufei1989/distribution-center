@@ -1,6 +1,7 @@
 package com.money.custom.entity;
 
 import com.money.custom.entity.enums.CustomerTypeEnum;
+import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.enums.ReservationStatusEnum;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.DateUtils;
@@ -29,6 +30,8 @@ public class Reservation extends BaseEntity {
     private String phone;
     private String serialNumber;
     private Integer customerType;
+    private Integer goodsTypeId;
+    private Integer orderStatus;
 
 
     public Reservation() {}
@@ -40,6 +43,26 @@ public class Reservation extends BaseEntity {
         this.startTime = reserveRequest.getStartTime();
         this.endTime = reserveRequest.getEndTime();
         copyOperationInfo(reserveRequest);
+    }
+
+    public boolean getOrderAvailable(){
+        return OrderStatusEnum.orderAvailable(this.orderStatus);
+    }
+
+    public Integer getGoodsTypeId() {
+        return goodsTypeId;
+    }
+
+    public Integer getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public void setGoodsTypeId(Integer goodsTypeId) {
+        this.goodsTypeId = goodsTypeId;
     }
 
     public String getRemark() {
