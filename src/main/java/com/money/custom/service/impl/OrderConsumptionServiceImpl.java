@@ -98,7 +98,7 @@ public class OrderConsumptionServiceImpl extends BaseServiceImpl implements Orde
 
         orderItemDao.consumeCnt(orderItems.stream().map(OrderItem::getId).collect(Collectors.toList()), request.getCnt());
 
-        if (orderItems.stream().allMatch(o -> o.getCnt().equals(o.getCntUsed()))) {
+        if (orderItems.stream().allMatch(o -> o.getCnt().equals(o.getCntUsed() + request.getCnt()))) {
             ChangeOrderStatusRequest changeOrderStatusRequest = new ChangeOrderStatusRequest(order.getId().toString(), OrderStatusEnum.USED.getValue());
             changeOrderStatusRequest.copyOperationInfo(request);
             orderService.changeStatus(changeOrderStatusRequest);
