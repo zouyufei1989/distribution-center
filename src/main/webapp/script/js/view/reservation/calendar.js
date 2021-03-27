@@ -25,6 +25,9 @@ function fillCalendar() {
         data: {
             rows: 0,
             groupId: $('#groupId').val(),
+            phone: $('#phone').val(),
+            status: $('#status').val(),
+            customerName: $('#customerName').val(),
             startDate: calendar.view.activeStart.Format("yyyy-MM-dd"),
             endDate: calendar.view.activeEnd.Format("yyyy-MM-dd"),
         },

@@ -1,6 +1,7 @@
 package com.money.custom.controller;
 
 import com.money.custom.entity.Group;
+import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.GoodsService;
@@ -40,6 +41,7 @@ public class GroupReservationPeriodController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "goodsList")
     public GridResponseBase listSearch(QueryGoodsRequest request) {
+        request.getGoods().setStatus(CommonStatusEnum.ENABLE.getValue());
         int recordCount = this.goodsService.selectSearchListCount(request);
         return new GridResponseBase(recordCount, request.calTotalPage(recordCount), this.goodsService.selectSearchList(request));
     }

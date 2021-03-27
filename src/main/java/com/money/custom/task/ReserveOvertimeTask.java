@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@ConditionalOnExpression("'${switch.task}'.equals('on')")
+//@ConditionalOnExpression("'${switch.task}'.equals('on')")
 @Component
 public class ReserveOvertimeTask extends ConfigurableTaskBase {
 
@@ -32,8 +32,9 @@ public class ReserveOvertimeTask extends ConfigurableTaskBase {
 
         QueryReservationRequest queryReservationRequest = new QueryReservationRequest();
         queryReservationRequest.setStatus(ReservationStatusEnum.SUCCESS.getValue());
+        queryReservationRequest.setDate(DateUtils.nowDate());
         List<Reservation> reservations = reservationService.selectSearchList(queryReservationRequest);
-        getLogger().info("预约成功记录{}个", reservations.size());
+        getLogger().info("{}预约成功记录{}个", DateUtils.nowDate(), reservations.size());
         if (CollectionUtils.isEmpty(reservations)) {
             return;
         }
@@ -43,7 +44,7 @@ public class ReserveOvertimeTask extends ConfigurableTaskBase {
         for (Reservation reservation : reservations) {
             long diff = (timestamp - reservation.getTimestamp()) / 1000 / 60;
             getLogger().info("预约 {} ：预约时间{} 当前时间{} 相差时间 {}分  基准差{}分", reservation.getId(), reservation.getDate() + " " + reservation.getStartTime(), datetime, diff, minutesOver);
-            if (diff != minutesOver) {
+            if (diff < minutesOver) {
                 continue;
             }
             reservationIds.add(reservation.getId().toString());
@@ -51,6 +52,8 @@ public class ReserveOvertimeTask extends ConfigurableTaskBase {
         }
 
         ChangeReservationStatusRequest changeReservationStatusRequest = new ChangeReservationStatusRequest(reservationIds, ReservationStatusEnum.OVERTIME.getValue());
+        changeReservationStatusRequest.setSrcStatus(ReservationStatusEnum.SUCCESS);
+        changeReservationStatusRequest.ofTask(this);
         reservationService.changeStatus(changeReservationStatusRequest);
         getLogger().info("共{}个预约超时", reservationIds.size());
     }

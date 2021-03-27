@@ -83,7 +83,7 @@
                                 <div class="param_row">
                                     <div class="form-group">
                                         <label>预约日期:</label>
-                                        <v-date-picker id="date" search-param></v-date-picker>
+                                        <v-date-picker id="date" search_param="true"></v-date-picker>
                                     </div>
                                     <div class="form-group">
                                         <label>状态:</label>

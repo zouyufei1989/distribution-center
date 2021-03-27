@@ -97,7 +97,17 @@ public class OperationalEntity implements Serializable {
 
         this.createDate = new Date();
         this.updateDate = new Date();
+    }
 
+    public void ofTask(Object task) {
+        this.creator = task.getClass().getSimpleName();
+        this.updater = task.getClass().getSimpleName();
+
+        this.createIp = "server";
+        this.updateIp = "server";
+
+        this.createDate = new Date();
+        this.updateDate = new Date();
     }
 
     public void ofH5(String openId) {

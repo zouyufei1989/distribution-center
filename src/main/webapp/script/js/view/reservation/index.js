@@ -15,7 +15,22 @@ $(document).ready(function () {
                 }
             },
             {name: 'goodsName', header: '预约活动/项目'},
-            {name: 'statusName', header: '状态'},
+            {
+                name: 'statusName', header: '状态', formatter: function (val, opt, obj) {
+                    if(obj.status  == 1){
+                        return colorfulTextFormatter(val,'text-info');
+                    }
+                    if(obj.status  == 2){
+                        return colorfulTextFormatter(val,'text-danger');
+                    }
+                    if(obj.status  == 3){
+                        return colorfulTextFormatter(val,'text-warning');
+                    }
+                    if(obj.status  == 4){
+                        return colorfulTextFormatter(val,'text-muted');
+                    }
+                }
+            },
             {
                 name: 'id', header: '操作', formatter: function (val, opt, obj) {
                     if (obj.status == 1) {
@@ -27,7 +42,6 @@ $(document).ready(function () {
                 }
             },
             {name: 'customerGroupId', header: "customerGroupId", hidden: true},
-            {name: 'orderId', header: "orderId"},
             {name: 'id', header: "id", hidden: true},
         ]);
 

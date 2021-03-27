@@ -63,7 +63,7 @@
 				AND dr.start_time &lt;= #{endTime}
 			</if>
 			<if test="customerName!=null and customerName!=''">
-				AND dc.name LIKE CONCAT('%',#{customerName},'%')
+				AND (dc.name LIKE CONCAT('%',#{customerName},'%') OR dc.nick_name LIKE CONCAT('%',#{customerName},'%'))
 			</if>
 			<if test="phone!=null and phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
@@ -111,7 +111,7 @@
 				AND dr.start_time &lt;= #{endTime}
 			</if>
 			<if test="customerName!=null and customerName!=''">
-				AND dc.name LIKE CONCAT('%',#{customerName},'%')
+				AND (dc.name LIKE CONCAT('%',#{customerName},'%') OR dc.nick_name LIKE CONCAT('%',#{customerName},'%'))
 			</if>
 			<if test="phone!=null and phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
@@ -217,6 +217,9 @@
 			<foreach collection="ids" item="id" open="(" close=")" separator=",">
 				#{id}
 			</foreach>
+			<if test="srcStatus!=null">
+				AND status = #{srcStatus}
+			</if>
  	</update>
 
 </mapper>
