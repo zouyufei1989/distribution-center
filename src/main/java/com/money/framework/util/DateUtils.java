@@ -29,6 +29,16 @@ public final class DateUtils {
 
     }
 
+    public static int timeCompareNow(String time) {
+        if (time.length() == 8) {
+            return time.compareTo(DateUtils.nowTime());
+        }
+        if (time.length() == 5) {
+            return (time + ":00").compareTo(DateUtils.nowTime());
+        }
+        throw new IllegalArgumentException("未知时间格式 " + time);
+    }
+
     public static Date parse(String dateStr, String format) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(format);

@@ -9,6 +9,7 @@ import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -115,7 +116,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         Assert.isTrue(item.getDate().compareTo(DateUtils.nowDate()) >= 0, "预约日期不可早于" + DateUtils.nowDate());
         Assert.isTrue(item.getStartTime().compareTo(item.getEndTime()) < 0, "结束时间不可早于开始时间");
         if (DateUtils.nowDate().equals(item.getDate())) {
-            Assert.isTrue(item.getEndTime().compareTo(DateUtils.nowTime() + ":00") >= 0, "预约时间不可早于当前时间");
+            Assert.isTrue(DateUtils.timeCompareNow(item.getEndTime()) > 0, "预约时间不可早于当前时间");
         }
     }
 
@@ -190,7 +191,12 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
 
         if (request.getStartDate().equals(request.getEndDate())) {
             for (GroupReservationPeriod period : groupReservationPeriods) {
-                long usedCnt = reservations.stream().filter(r -> r.getStartTime().compareTo(period.getStartTime()) >= 0 && r.getStartTime().compareTo(period.getEndTime()) <= 0).count();
+                long usedCnt = reservations.stream()
+                        .filter(r -> r.getStatus().equals(ReservationStatusEnum.SUCCESS.getValue()))
+                        .filter(r -> r.getStartTime().compareTo(period.getStartTime()) >= 0 && r.getStartTime().compareTo(period.getEndTime()) <= 0).count();
+                if (StringUtils.equals(request.getStartDate(), DateUtils.nowDate()) && DateUtils.timeCompareNow(period.getEndTime()) <= 0) {
+                    usedCnt = period.getCnt();
+                }
                 ReservationCalendar calendar = new ReservationCalendar(period, usedCnt);
                 reservationCalendars.add(calendar);
             }
@@ -214,6 +220,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         ReservationService service = applicationContext.getBean(ReservationService.class);
 
         Reservation reservation = findById(request.getReservationId().toString());
+        Assert.isTrue(StringUtils.equals(reservation.getDate(), DateUtils.nowDate()), "预约日期与当前日期不符");
         Assert.notNull(reservation, "预约不存在");
         Assert.isTrue(reservation.getStatus().equals(ReservationStatusEnum.SUCCESS.getValue()), "当前状态不可修改");
         reservation.setOrderId(request.getOrderId());
