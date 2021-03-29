@@ -14,24 +14,7 @@
             <result column="order_goodsTypeId" property="order.goodsTypeId"/>
             <result column="order_goodsCombine" property="order.goodsCombine"/>
             <result column="order_goodsName" property="order.goodsName"/>
-            <collection property="items" ofType="OrderItemConsumption">
-                <id column="iid" property="id"/>
-                <result column="orderItemId" property="orderItemId"/>
-                <result column="befSumCnt" property="befSumCnt"/>
-                <result column="befUsedCnt" property="befUsedCnt"/>
-                <result column="befAvailableCnt" property="befAvailableCnt"/>
-                <result column="cnt" property="cnt"/>
-                <result column="aftSumCnt" property="aftSumCnt"/>
-                <result column="aftUsedCnt" property="aftUsedCnt"/>
-                <result column="aftAvailableCnt" property="aftAvailableCnt"/>
-                <result column="icreateDate" property="createDate"/>
-                <result column="goodsName" property="goodsName"/>
-                <result column="goodsPrice" property="goodsPrice"/>
-                <result column="goodsUnit" property="goodsUnit"/>
-                <result column="groupName" property="groupName"/>
-                <result column="icreateDate" property="createDate"/>
-                <result column="orderConsumptionId" property="orderConsumptionId"/>
-            </collection>
+			<collection property="items" column="id" select="OrderConsumption.selectConsumptionItemsByConsumptionId"/>
         </resultMap>
 
 	<select id="selectSearchList" parameterType="Map" resultMap="OrderConsumptionMap">
@@ -44,25 +27,8 @@
 			do.goods_type_id AS order_goodsTypeId,
 			do.goods_combine AS order_goodsCombine,
 			do.goods_name AS order_goodsName,
-			doic.id AS iid,
-			doic.order_item_id AS orderItemId,
-			doic.bef_sum_cnt AS befSumCnt,
-			doic.bef_used_cnt AS befUsedCnt,
-			doic.bef_available_cnt AS befAvailableCnt,
-			doic.cnt,
-			doic.aft_sum_cnt AS aftSumCnt,
-			doic.aft_used_cnt AS aftUsedCnt,
-			doic.aft_available_cnt AS aftAvailableCnt,
-			doic.create_date AS icreateDate,
-			doi.goods_name AS goodsName,
-			doi.goods_price AS goodsPrice,
-			doi.goods_unit AS goodsUnit,
-			dg.name AS groupName,
-			doic.create_date AS icreateDate,
-			doic.order_consumption_id AS orderConsumptionId
+			dg.name AS groupName
 		FROM <include refid="tableName"/> doc
-		LEFT JOIN d_order_item_consumption doic ON doic.order_consumption_id = doc.id
-		LEFT JOIN d_order_item doi ON doi.id = doic.order_item_id
 		LEFT JOIN d_order do ON do.id = doc.order_id
 		LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
 		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
@@ -160,6 +126,33 @@
 		)
 		</foreach>
 	</insert>
+
+	<select id="selectConsumptionItemsByConsumptionId" resultType="OrderItemConsumption">
+		SELECT
+			doic.id AS id,
+			doic.order_item_id AS orderItemId,
+			doic.bef_sum_cnt AS befSumCnt,
+			doic.bef_used_cnt AS befUsedCnt,
+			doic.bef_available_cnt AS befAvailableCnt,
+			doic.cnt,
+			doic.aft_sum_cnt AS aftSumCnt,
+			doic.aft_used_cnt AS aftUsedCnt,
+			doic.aft_available_cnt AS aftAvailableCnt,
+			doic.create_date AS icreateDate,
+			doi.goods_name AS goodsName,
+			doi.goods_price AS goodsPrice,
+			doi.goods_unit AS goodsUnit,
+			dg.name AS groupName,
+			doic.order_consumption_id AS orderConsumptionId,
+			doic.create_date AS createDate
+		FROM d_order_item_consumption doic
+		LEFT JOIN d_order_item doi ON doi.id = doic.order_item_id
+		LEFT JOIN d_order do ON do.id = doic.order_id
+		LEFT JOIN d_customer_group dcg ON dcg.id = do.customer_group_id
+		LEFT JOIN d_customer dc ON dc.id = dcg.customer_id
+		LEFT JOIN d_group dg ON dg.id = dcg.group_id
+		WHERE doic.order_consumption_id = #{0}
+	</select>
 
 
 </mapper>
