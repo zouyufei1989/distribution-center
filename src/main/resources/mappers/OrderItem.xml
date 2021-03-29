@@ -111,4 +111,17 @@
 		</foreach>
 	</update>
 
+	<select id="selectOrderItemsOfOrder" resultType="OrderItem">
+		SELECT
+			id AS id,
+			goods_name AS goodsName,
+			cnt AS cnt,
+			cnt_used AS cntUsed,
+			goods_tag_name AS goodsTagName,
+			goods_price AS goodsPrice,
+			goods_unit AS goodsUnit
+		FROM d_order_item
+		WHERE order_id = #{0}
+	</select>
+
 </mapper>

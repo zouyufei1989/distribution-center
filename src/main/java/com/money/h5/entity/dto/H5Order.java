@@ -49,7 +49,7 @@ public class H5Order {
 
         this.reservable = false;
         if (Objects.nonNull(item.getGroupReserveFlag()) && Objects.nonNull(item.getReservationPeriodCnt())) {
-            this.reservable = item.getGroupReserveFlag().equals(GroupReserveFlagEnum.YES.getValue()) && item.getReservationPeriodCnt() > 0;
+            this.reservable = item.getGroupReserveFlag().equals(GroupReserveFlagEnum.YES.getValue()) && item.getReservationPeriodCnt() > 0 && this.leftCnt > 0;
         }
         this.reserveDays = item.getGroupReserveDays();
         reserveDaysStr = DateUtils.nextNDayStr(this.reserveDays);

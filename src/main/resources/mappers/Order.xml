@@ -38,15 +38,16 @@
             <result column="groupReserveDays" property="groupReserveDays"/>
             <result column="reservationPeriodCnt" property="reservationPeriodCnt"/>
 
-            <collection property="items" ofType="OrderItem">
-                <id column="iid" property="id"/>
-                <result column="igoodsName" property="goodsName"/>
-                <result column="igoodsCnt" property="cnt"/>
-                <result column="igoodsCntUsed" property="cntUsed"/>
-                <result column="igoodsTagName" property="goodsTagName"/>
-                <result column="igoodsPrice" property="goodsPrice"/>
-                <result column="igoodsUnit" property="goodsUnit"/>
-            </collection>
+			<collection property="items" column="id" select="OrderItem.selectOrderItemsOfOrder"/>
+		<!--            <collection property="items" ofType="OrderItem">-->
+<!--                <id column="iid" property="id"/>-->
+<!--                <result column="igoodsName" property="goodsName"/>-->
+<!--                <result column="igoodsCnt" property="cnt"/>-->
+<!--                <result column="igoodsCntUsed" property="cntUsed"/>-->
+<!--                <result column="igoodsTagName" property="goodsTagName"/>-->
+<!--                <result column="igoodsPrice" property="goodsPrice"/>-->
+<!--                <result column="igoodsUnit" property="goodsUnit"/>-->
+<!--            </collection>-->
         </resultMap>
 
 	<select id="selectSearchList" parameterType="Map" resultMap="OrderMap">
@@ -74,13 +75,6 @@
 			dop.actually_money AS actuallyMoney,
 			dg.name AS groupName,
 			nu.username AS creator,
-			doi.id AS iid,
-			doi.goods_name AS igoodsName,
-			doi.cnt AS igoodsCnt,
-			doi.cnt_used AS igoodsCntUsed,
-			doi.goods_tag_name AS igoodsTagName,
-			doi.goods_price AS igoodsPrice,
-			doi.goods_unit AS igoodsUnit,
 			dcp.name AS parentName,
 			dgs.serial_number AS goodsSerialNumber,
 			dgs.cover_img AS goodsCoverImg,
@@ -88,7 +82,6 @@
 			dg.reserve_days AS groupReserveDays,
 			period.cnt AS reservationPeriodCnt
 		FROM <include refid="tableName"/> do
-		LEFT JOIN d_order_item doi ON doi.order_id = do.id
 		LEFT JOIN d_customer_group dcg ON do.customer_group_id = dcg.id
 		LEFT JOIN d_customer_group dcgp ON dcg.parent_id = dcgp.id
 		LEFT JOIN d_customer dcp ON dcp.id = dcgp.customer_id
@@ -141,6 +134,12 @@
 			</if>
 			<if test="customer.customerGroup.groupId!=null">
 				AND dg.id = #{customer.customerGroup.groupId}
+			</if>
+			<if test="goodsTypes!=null and goodsTypes.size()>0">
+				AND do.goods_type_id IN
+				<foreach collection="goodsTypes" open="(" separator="," close=")" item="item">
+					#{item}
+				</foreach>
 			</if>
 		ORDER BY do.id DESC
 		<if test="rows != null and  rows > 0">
@@ -195,6 +194,12 @@
 			</if>
 			<if test="customer.customerGroup.groupId!=null">
 				AND dg.id = #{customer.customerGroup.groupId}
+			</if>
+			<if test="goodsTypes!=null and goodsTypes.size()>0">
+				AND do.goods_type_id IN
+				<foreach collection="goodsTypes" open="(" separator="," close=")" item="item">
+					#{item}
+				</foreach>
 			</if>
 	</select>
 

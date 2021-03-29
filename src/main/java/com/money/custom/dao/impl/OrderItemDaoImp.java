@@ -1,6 +1,7 @@
 package com.money.custom.dao.impl;
 
 import com.money.custom.dao.OrderItemDao;
+import com.money.custom.entity.OrderItem;
 import com.money.framework.base.annotation.SQLContext;
 import com.money.framework.base.dao.impl.BaseDaoImpl;
 import org.springframework.stereotype.Repository;
@@ -19,5 +20,10 @@ public class OrderItemDaoImp extends BaseDaoImpl implements OrderItemDao {
         params.put("orderItemIds", orderItemIds);
         params.put("cnt", cnt);
         update("consumeCnt", params);
+    }
+
+    @Override
+    public List<OrderItem> selectOrderItemsOfOrder(Integer orderId) {
+        return selectList("selectOrderItemsOfOrder", orderId);
     }
 }

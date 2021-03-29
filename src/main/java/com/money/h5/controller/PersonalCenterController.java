@@ -2,6 +2,7 @@ package com.money.h5.controller;
 
 import com.money.custom.entity.Customer;
 import com.money.custom.entity.Order;
+import com.money.custom.entity.enums.GoodsTypeEnum;
 import com.money.custom.entity.request.QueryOrderRequest;
 import com.money.custom.service.CustomerService;
 import com.money.custom.service.OrderService;
@@ -46,6 +47,7 @@ public class PersonalCenterController {
         QueryOrderRequest queryOrderRequest = new QueryOrderRequest();
         queryOrderRequest.setOpenId(request.getOpenId());
         queryOrderRequest.copyPagerFromH5Request(request);
+        queryOrderRequest.setGoodsType(GoodsTypeEnum.ACTIVITY, GoodsTypeEnum.PACKAGE);
         List<Order> orders = orderService.selectSearchList(queryOrderRequest);
         Integer recordCount = orderService.selectSearchListCount(queryOrderRequest);
         return new QueryOrderResponse(recordCount, request.calTotalPage(recordCount), orders);

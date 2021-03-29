@@ -68,7 +68,7 @@
 			<if test="phone!=null and phone!=''">
 				AND dc.phone LIKE CONCAT('%',#{phone},'%')
 			</if>
-		ORDER BY dr.start_time ASC
+		ORDER BY dr.status ,dr.date, dr.start_time
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
 		</if>
