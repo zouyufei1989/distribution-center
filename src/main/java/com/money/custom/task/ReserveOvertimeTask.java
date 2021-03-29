@@ -51,11 +51,15 @@ public class ReserveOvertimeTask extends ConfigurableTaskBase {
             getLogger().info("预约{}已超时", reservation.getId());
         }
 
+        getLogger().info("共{}个预约超时", reservationIds.size());
+        if(CollectionUtils.isEmpty(reservationIds)){
+            return;
+        }
+
         ChangeReservationStatusRequest changeReservationStatusRequest = new ChangeReservationStatusRequest(reservationIds, ReservationStatusEnum.OVERTIME.getValue());
         changeReservationStatusRequest.setSrcStatus(ReservationStatusEnum.SUCCESS);
         changeReservationStatusRequest.ofTask(this);
         reservationService.changeStatus(changeReservationStatusRequest);
-        getLogger().info("共{}个预约超时", reservationIds.size());
     }
 
 
