@@ -1,6 +1,7 @@
 package com.money.custom.service.impl;
 
 import com.money.custom.dao.OrderDao;
+import com.money.custom.dao.OrderItemDao;
 import com.money.custom.dao.OrderRefundDao;
 import com.money.custom.entity.*;
 import com.money.custom.entity.enums.GoodsTypeEnum;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,8 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
     @Autowired
     OrderItemService orderItemService;
     @Autowired
+    OrderItemDao orderItemDao;
+    @Autowired
     GoodsService goodsService;
     @Autowired
     CustomerGroupService customerGroupService;
@@ -40,7 +44,13 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 
     @Override
     public List<Order> selectSearchList(QueryOrderRequest request) {
-        return dao.selectSearchList(request);
+        List<Order> orders = dao.selectSearchList(request);
+        if (CollectionUtils.isNotEmpty(orders)) {
+            List<OrderItem> orderItems = orderItemDao.selectOrderItemsOfOrder(orders.stream().map(Order::getId).collect(Collectors.toList()));
+            Map<Integer, List<OrderItem>> orderItemMap = orderItems.stream().collect(Collectors.groupingBy(OrderItem::getOrderId));
+            orders.forEach(o -> o.setItems(orderItemMap.get(o.getId())));
+        }
+        return orders;
     }
 
     @Override
@@ -111,7 +121,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
         OrderRefund refund = new OrderRefund(refundRequest);
         orderRefundDao.add(refund);
 
-        if(refundRequest.getType().equals(OrderRefundTypeEnum.WALLET.getValue())){
+        if (refundRequest.getType().equals(OrderRefundTypeEnum.WALLET.getValue())) {
             RechargeRequest rechargeRequest = new RechargeRequest();
             rechargeRequest.setAmount(refundRequest.getRefundAmount());
             rechargeRequest.setCustomerGroupId(orderRefundParams.getCustomerGroupId());

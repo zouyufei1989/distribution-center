@@ -38,16 +38,6 @@
             <result column="groupReserveDays" property="groupReserveDays"/>
             <result column="reservationPeriodCnt" property="reservationPeriodCnt"/>
 
-			<collection property="items" column="id" select="OrderItem.selectOrderItemsOfOrder"/>
-		<!--            <collection property="items" ofType="OrderItem">-->
-<!--                <id column="iid" property="id"/>-->
-<!--                <result column="igoodsName" property="goodsName"/>-->
-<!--                <result column="igoodsCnt" property="cnt"/>-->
-<!--                <result column="igoodsCntUsed" property="cntUsed"/>-->
-<!--                <result column="igoodsTagName" property="goodsTagName"/>-->
-<!--                <result column="igoodsPrice" property="goodsPrice"/>-->
-<!--                <result column="igoodsUnit" property="goodsUnit"/>-->
-<!--            </collection>-->
         </resultMap>
 
 	<select id="selectSearchList" parameterType="Map" resultMap="OrderMap">

@@ -9,5 +9,5 @@ public interface OrderItemDao extends BaseDao {
 
     void consumeCnt(List<Integer> orderItemIds, Integer cnt);
 
-    List<OrderItem> selectOrderItemsOfOrder(Integer orderId);
+    List<OrderItem> selectOrderItemsOfOrder(List<Integer> orderIds);
 }

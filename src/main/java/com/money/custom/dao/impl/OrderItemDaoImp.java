@@ -23,7 +23,7 @@ public class OrderItemDaoImp extends BaseDaoImpl implements OrderItemDao {
     }
 
     @Override
-    public List<OrderItem> selectOrderItemsOfOrder(Integer orderId) {
-        return selectList("selectOrderItemsOfOrder", orderId);
+    public List<OrderItem> selectOrderItemsOfOrder(List<Integer> orderIds) {
+        return selectList("selectOrderItemsOfOrder", orderIds);
     }
 }
