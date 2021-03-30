@@ -69,7 +69,7 @@
                                 </template>
                                 <div class="form-group">
                                     <div class="col-sm-10">
-                                        <button type="button" data-style="zoom-in" class="ladda-button pull-right btn btn-w-m btn-primary btn-update-footer " @click="save($event)">保存</button>
+                                        <button type="button" data-style="zoom-in" class="ladda-button pull-right btn btn-w-m btn-primary btn-update-footer " @click="save($event)">确认</button>
                                         <button type="button" class="pull-right  btn btn-w-m btn-default btn-update-footer " @click="hide()">取消</button>
                                     </div>
                                 </div>
