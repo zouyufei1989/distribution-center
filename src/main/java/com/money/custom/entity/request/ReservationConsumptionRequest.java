@@ -4,6 +4,7 @@ import com.money.framework.base.entity.OperationalEntity;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class ReservationConsumptionRequest extends OperationalEntity {
 
@@ -17,15 +18,15 @@ public class ReservationConsumptionRequest extends OperationalEntity {
     @Min(value = 1,message = "最小消耗次数1次")
     private Integer cnt;
 
-    private ConsumeRequest consumeRequest;
+    private List<ConsumeRequest> consumeRequests;
     private PurchaseConsumeRequest purchaseConsumeRequest;
 
-    public ConsumeRequest getConsumeRequest() {
-        return consumeRequest;
+    public List<ConsumeRequest> getConsumeRequests() {
+        return consumeRequests;
     }
 
-    public void setConsumeRequest(ConsumeRequest consumeRequest) {
-        this.consumeRequest = consumeRequest;
+    public void setConsumeRequests(List<ConsumeRequest> consumeRequests) {
+        this.consumeRequests = consumeRequests;
     }
 
     public PurchaseConsumeRequest getPurchaseConsumeRequest() {

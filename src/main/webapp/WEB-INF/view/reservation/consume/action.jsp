@@ -39,8 +39,8 @@
             <order-combo async="true" id="orderToConsume" must_choose_one="false" type="2" :customer_group_id="customerInfo.customerGroupId" :timestamp="timestamp"></order-combo>
         </div>
         <div class="col-sm-1">
-            <button class="btn btn-link" style="padding-top: 7px" type="button" @click="refreshOrderCombo">
-                <i class="fa fa-refresh"></i>
+            <button class="btn btn-link" style="padding-top: 7px" type="button" @click="confirmConsumeRequest">
+                <i class="text-warning fa fa-plus"></i>
             </button>
         </div>
     </div>
@@ -48,6 +48,17 @@
         <label class="col-sm-3 control-label"> 消费次数：</label>
         <div class="col-sm-7">
             <input id="orderToConsumeCnt" v-model="consumeInfo.cnt" class="form-control" min="0" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"> 选中项目：</label>
+        <div class="col-sm-7">
+            <table class="table table-bordered table-striped">
+                <tr v-for="item in consumeRequests">
+                    <td>{{item.goodsName}}</td>
+                    <td>{{item.cnt}} 次</td>
+                </tr>
+            </table>
         </div>
     </div>
 </form>

@@ -9,6 +9,7 @@ import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.DateUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -217,7 +218,6 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
     @Transactional
     @Override
     public String consumeReservation(ReservationConsumptionRequest request) {
-        ReservationService service = applicationContext.getBean(ReservationService.class);
 
         Reservation reservation = findById(request.getReservationId().toString());
         Assert.isTrue(StringUtils.equals(reservation.getDate(), DateUtils.nowDate()), "预约日期与当前日期不符");
@@ -232,11 +232,13 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         orderConsumptionService.consume(consumeRequest);
         getLogger().info("已到店使用预约{}的订单{} {}次", request.getReservationId(), request.getOrderId(), request.getCnt());
 
-        if (Objects.nonNull(request.getConsumeRequest())) {
-            getLogger().info("预约有额外消费项目");
-            request.getConsumeRequest().copyOperationInfo(request);
-            request.getConsumeRequest().setReservationId(request.getReservationId());
-            orderConsumptionService.consume(request.getConsumeRequest());
+        if (CollectionUtils.isNotEmpty(request.getConsumeRequests())) {
+            getLogger().info("预约有额外消费项目 :{}个", request.getConsumeRequests().size());
+            request.getConsumeRequests().forEach(req -> {
+                req.copyOperationInfo(request);
+                req.setReservationId(request.getReservationId());
+                orderConsumptionService.consume(req);
+            });
         }
 
         if (Objects.nonNull(request.getPurchaseConsumeRequest())) {

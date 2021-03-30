@@ -47,6 +47,7 @@ $(document).ready(function () {
             consumeInfo: {
                 cnt: 0
             },
+            consumeRequests: [],
             timestamp: new Date().getTime(),
             additionalConsumeFlag: false,
         },
@@ -110,6 +111,7 @@ $(document).ready(function () {
                 this.action = action;
                 this.goodsChoosed = [];
                 this.consumeInfo = {cnt: 0};
+                this.consumeRequests = [];
                 this.purchaseInfo = {
                     actuallyMoney: 0,
                     payMoney: 1,
@@ -124,6 +126,10 @@ $(document).ready(function () {
                 this.$nextTick(function () {
                     $('.select2_demo_3').select2().trigger('change');
                 })
+            },
+            confirmConsumeRequest() {
+                this.consumeInfo.customerGroupId = this.customerInfo.customerGroupId;
+                this.consumeRequests.push(JSON.parse(JSON.stringify(this.consumeInfo)));
             },
             changePayType(payType, val) {
                 this.purchaseInfo[payType] = val;
@@ -180,41 +186,6 @@ $(document).ready(function () {
                     })
                 });
             },
-            consume(e) {
-                var _this = this;
-                var tip = '客户"' + this.customerInfo.name + '"本次消费项目"' + this.consumeInfo.goodsName + '"' + this.consumeInfo.cnt + '次，请确认。';
-                _this.consumeInfo.customerGroupId = _this.customerInfo.customerGroupId;
-                Confirm(tip, function () {
-                    loadingStart($(e.target), function () {
-                        $.ajax({
-                            url: "consume",
-                            type: 'post',
-                            data: JSON.stringify(_this.consumeInfo),
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json;charset=UTF-8'
-                            },
-                            async: true,
-                            cache: false,
-                            success: function (result) {
-                                if (result.success == false) {
-                                    loadingEnd(function () {
-                                        Alert("", result.message || "失败！", "error");
-                                    });
-                                    return;
-                                }
-
-                                loadingEnd(function () {
-                                    Alert("", "成功！", "success", function () {
-                                        $('#consumeModal').modal('hide');
-                                        reloadList();
-                                    });
-                                });
-                            }
-                        });
-                    })
-                });
-            },
             consumeReservation(e) {
                 var _this = this;
                 var req = {
@@ -240,9 +211,9 @@ $(document).ready(function () {
                     var cnt = this.goodsChoosed.map(i => i.cnt).reduce((i, j) => Number.parseInt(i) + Number.parseInt(j));
                     tip += '并购买' + this.goodsChoosed.length + '种产品' + cnt + '个，共计' + this.sumPrice + '元，实付款<span class="text-danger">' + this.purchaseInfo.actuallyMoney + '元</span>，请确认。';
                 } else if (this.action === 'consumePackage') {
-                    req.consumeRequest = _this.consumeInfo;
-                    req.consumeRequest.customerGroupId = _this.customerInfo.customerGroupId;
-                    tip += '并消费项目"' + this.consumeInfo.goodsName + '"<span class="text-danger">' + this.consumeInfo.cnt + '</span>次，请确认。'
+                    req.consumeRequests = _this.consumeRequests;
+                    var sumCnt = this.consumeRequests.map(i => Number.parseInt(i.cnt)).reduce((i, j) => i + j);
+                    tip += '本次消费' + this.consumeRequests.length + '种项目，共' + sumCnt + '次，请确认。'
                 }
 
                 Confirm(tip, function () {
