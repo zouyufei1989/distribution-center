@@ -4,6 +4,7 @@ import com.money.custom.entity.enums.ReservationStatusEnum;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ChangeReservationStatusRequest extends ChangeStatusBaseRequest<ReservationStatusEnum> {
 
@@ -22,7 +23,9 @@ public class ChangeReservationStatusRequest extends ChangeStatusBaseRequest<Rese
     @Override
     public Map<String, Object> buildParams() {
         Map<String, Object> params = super.buildParams();
-        params.put("srcStatus",srcStatus.getValue());
+        if(Objects.nonNull(srcStatus)){
+            params.put("srcStatus",srcStatus.getValue());
+        }
         return params;
     }
 
