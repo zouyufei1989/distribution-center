@@ -83,7 +83,7 @@ function initTree(data) {
 }
 
 function rebuildAttrs4Vue() {
-    if(!TREE){
+    if (!TREE) {
         return;
     }
     var cnt = TREE.getChecked('id').length;
@@ -204,8 +204,21 @@ function changeCnt(id, step) {
 
 function goConsume(reservationStr) {
     var reservation = JSON.parse(reservationStr);
-    reservationVue.item = reservation;
-    reservationVue.timestamp = new Date().getTime();
-    $('#consumeModal').modal('show');
-
+    $.ajax({
+        url: 'findById',
+        type: 'post',
+        data: {id: reservation.id},
+        async: true,
+        cache: false,
+        success: function (result) {
+            if (result.success && result.data.status == 1) {
+                reservationVue.item = reservation;
+                reservationVue.timestamp = new Date().getTime();
+                $('#consumeModal').modal('show');
+            } else {
+                Alert('', '订单状态"' + result.data.statusName + '" 不可到店', 'error');
+                reloadList();
+            }
+        }
+    });
 }
