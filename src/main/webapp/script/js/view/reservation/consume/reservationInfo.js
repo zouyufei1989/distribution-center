@@ -22,10 +22,12 @@ $(document).ready(function () {
                 buttonup_class: 'btn btn-white',
             }).on("change", function (e) {
                 _this.reservationUseCnt = $(e.target).val();
+                actionVue.reservation.cnt = _this.reservationUseCnt;
             });
 
             $('#reservationInfoOrderToUse').change(function () {
                 _this.item.orderId = $(this).val();
+                actionVue.reservation.goodsName = $(this).find('option:checked').attr('data-name');
                 var cntAvailable = $(this).find("option:selected").attr("data-available");
                 $("#reservationUseCnt").trigger("touchspin.updatesettings", {max: isNaN(cntAvailable) ? 0 : parseInt(cntAvailable)});
             });

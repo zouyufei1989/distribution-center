@@ -36,7 +36,7 @@ $(document).ready(function () {
     });
 
     $('#packageToPurchase').change(function () {
-        actionVue.goodsChoosed = [{
+        actionVue.packageToBuy = [{
             id: $('#packageToPurchase').val(),
             price: $('#packageToPurchase option:checked').attr('data-price'),
             name: $('#packageToPurchase option:checked').attr('data-name'),
@@ -44,10 +44,10 @@ $(document).ready(function () {
         }];
     });
     $('#purchaseCnt').change(function () {
-        if (actionVue.goodsChoosed.length == 0) {
+        if (actionVue.packageToBuy.length == 0) {
             return;
         }
-        actionVue.goodsChoosed[0].cnt = $('#purchaseCnt').val();
+        actionVue.packageToBuy[0].cnt = $('#purchaseCnt').val();
     });
 
     reloadGoodsTree();
@@ -102,6 +102,7 @@ function rebuildAttrs4Vue() {
             return {
                 id: i.id,
                 price: i['data-src'].price,
+                goodsName: i['data-src'].goodsName,
                 cnt: $('#txt_cnt_' + i.id).val()
             }
         });
@@ -122,6 +123,7 @@ function reloadGoodsTree() {
                 var goods = response.rows.map(i => {
                     return {
                         name: i.name + "(" + i.price4SingleShow + "元/" + i.unit4SingleShow + ")",
+                        goodsName: i.name,
                         price: i.items[0].price,
                         id: i.items[0].goodsId,
                         type: 'goods',

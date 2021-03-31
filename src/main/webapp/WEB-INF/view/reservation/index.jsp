@@ -19,9 +19,9 @@
             color: white
         }
 
-        .addPeriod{
+        .addPeriod {
             border: 1px dashed slategray;
-            padding:5px 20px 5px 20px;
+            padding: 5px 20px 5px 20px;
             cursor: pointer;
             border-radius: 3px;
         }
@@ -37,6 +37,10 @@
 
         .form-group input {
             margin-right: 10px;
+        }
+
+        .btn-success:disabled {
+            color: white !important;;
         }
 
     </style>

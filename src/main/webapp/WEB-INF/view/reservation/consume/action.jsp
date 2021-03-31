@@ -39,63 +39,14 @@
             <order-combo async="true" id="orderToConsume" must_choose_one="false" type="2" :customer_group_id="customerInfo.customerGroupId" :timestamp="timestamp"></order-combo>
         </div>
         <div class="col-sm-1">
-            <button class="btn btn-link" style="padding-top: 7px" type="button" @click="confirmConsumeRequest">
-                <i class="text-warning fa fa-plus"></i>
-            </button>
+            <button class="btn btn-outline btn-success" type="button" style="padding: 5px" @click="confirmConsumeRequest" v-if="consumeInfo.orderId && !isNaN(consumeInfo.orderId)">添加消费</button>
+            <button class="btn btn-outline btn-success" type="button" style="padding: 5px"  v-else disabled>添加消费</button>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"> 消费次数：</label>
         <div class="col-sm-7">
             <input id="orderToConsumeCnt" v-model="consumeInfo.cnt" class="form-control" min="0" required>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-3 control-label"> 选中项目：</label>
-        <div class="col-sm-7">
-            <table class="table table-bordered table-striped">
-                <tr v-for="item in consumeRequests">
-                    <td>{{item.goodsName}}</td>
-                    <td>{{item.cnt}} 次</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</form>
-<form class="form-horizontal" v-show="action=='buySingle' || action=='buyPackage'">
-    <div class="form-group">
-        <label class="col-sm-3 control-label"> 实收金额：</label>
-        <div class="col-sm-7">
-            <input v-model="purchaseInfo.actuallyMoney" id="actuallyMoney" class="form-control" min="0" required>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-3 control-label"> 使用余额：</label>
-        <div class="col-sm-3">
-            <label label4Radio> <input type="radio" :checked="purchaseInfo.payMoney==0" @click="changePayType('payMoney',0)" name="pay_money" id="single">否 </label> <label label4Radio> <input type="radio" :checked="purchaseInfo.payMoney==1" @click="changePayType('payMoney',1)" name="pay_money">是 </label>
-        </div>
-        <div class="col-sm-6" v-show="purchaseInfo.payMoney==1">
-            <label label4Radio style="color:#d2d2d2"> 当前可用余额: {{customerInfo.availableMoney}}</label> <label label4Radio style="color:#d2d2d2" v-show="moneyEnough"> 当前余额不足
-            <button type="button" style="padding:1px 10px" class="btn btn-primary btn-xs" @click="goRecharge()" v-show="customerInfo.customerType==2">去充值</button>
-        </label>
-        </div>
-    </div>
-    <div class="form-group" v-show="customerInfo.customerType == 2">
-        <label class="col-sm-3 control-label"> 使用积分：</label>
-        <div class="col-sm-3">
-            <label label4Radio> <input type="radio" :checked="purchaseInfo.payBonus==0 " @click="changePayType('payBonus',0)" name="pay_bonus">否 </label> <label label4Radio> <input type="radio" :checked="purchaseInfo.payBonus==1 " @click="changePayType('payBonus',1)" name="pay_bonus">是 </label>
-        </div>
-        <div class="col-sm-6" v-show="purchaseInfo.payBonus==1">
-            <label label4Radio style="color:#d2d2d2"> 当前可用积分: {{customerInfo.availableBonus}}</label>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-3 control-label"> 非余额（线下支付）：</label>
-        <div class="col-sm-3">
-            <label label4Radio> <input type="radio" :checked="purchaseInfo.payOffline==0" @click="changePayType('payOffline',0)" name="pay_offline">否 </label> <label label4Radio> <input type="radio" :checked="purchaseInfo.payOffline==1" @click="changePayType('payOffline',1)" name="pay_offline">是 </label>
-        </div>
-        <div class="col-sm-2" v-show="purchaseInfo.payOffline==1">
-            <input class="form-control" min="0" :value="extraMoneyOffline" disabled>
         </div>
     </div>
 </form>

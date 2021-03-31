@@ -7,6 +7,7 @@ $(document).ready(function () {
         reservationVue.item = {};
 
         actionVue.goodsChoosed = [];
+        actionVue.packageToBuy = [];
         actionVue.purchaseInfo = {
             actuallyMoney: 0,
             payMoney: 1,
@@ -24,6 +25,7 @@ $(document).ready(function () {
             cnt: 0
         }
         actionVue.additionalConsumeFlag = false;
+        reloadGoodsTree();
     }, 1);
 
     actionVue = new Vue({
@@ -31,12 +33,15 @@ $(document).ready(function () {
         data: {
             action: '',
             goodsChoosed: [],
+            packageToBuy: [],
+            reservation: {goodsName: '', cnt: 1},
             purchaseInfo: {
                 actuallyMoney: 0,
                 payMoney: 1,
                 payBonus: 0,
                 payOffline: 0,
             },
+            purchaseInfoBk: null,
             customerInfo: {
                 availableMoney: 0,
                 availableBonus: 0,
@@ -77,10 +82,17 @@ $(document).ready(function () {
             },
             sumPrice() {
                 var sum = 0;
-                if (this.goodsChoosed.length > 0) {
-                    sum = this.goodsChoosed.map(i => moneyFormatter(i.price * i.cnt)).reduce((i, j) => Number.parseFloat(i) + Number.parseFloat(j));
+                if (this.action == "buyPackage") {
+                    if (this.packageToBuy.length > 0) {
+                        sum = this.packageToBuy.map(i => moneyFormatter(i.price * i.cnt)).reduce((i, j) => Number.parseFloat(i) + Number.parseFloat(j));
+                    }
+                    this.purchaseInfo.actuallyMoney = sum;
+                } else {
+                    if (this.goodsChoosed.length > 0) {
+                        sum = this.goodsChoosed.map(i => moneyFormatter(i.price * i.cnt)).reduce((i, j) => Number.parseFloat(i) + Number.parseFloat(j));
+                    }
+                    this.purchaseInfo.actuallyMoney = sum;
                 }
-                this.purchaseInfo.actuallyMoney = sum;
                 return sum;
             },
             moneyEnough() {
@@ -100,27 +112,39 @@ $(document).ready(function () {
                     extra = 0;
                 }
                 return extra;
-            }
+            },
         },
         methods: {
+            removeGoodsChoosed(goodsId){
+                console.log(goodsId)
+                $('#txt_cnt_' + goodsId).val(0);
+                $('#txt_cnt_' + goodsId).trigger('change');
+            },
+            removePackageChoosed(i){
+                this.consumeRequests.splice(i,1);
+            },
             additionalConsume() {
                 this.additionalConsumeFlag = true;
                 this.chooseAction('buySingle');
             },
             chooseAction(action) {
                 this.action = action;
-                this.goodsChoosed = [];
-                this.consumeInfo = {cnt: 0};
-                this.consumeRequests = [];
-                this.purchaseInfo = {
-                    actuallyMoney: 0,
-                    payMoney: 1,
-                    payBonus: 0,
-                    payOffline: 0,
-                };
-                if (action === 'buySingle') {
-                    reloadGoodsTree();
+                var tmp = JSON.stringify(this.purchaseInfo);
+
+                if (this.purchaseInfoBk) {
+                    this.purchaseInfo = JSON.parse(this.purchaseInfoBk);
                 } else {
+                    this.purchaseInfo = {
+                        actuallyMoney: 0,
+                        payMoney: 1,
+                        payBonus: 0,
+                        payOffline: 0,
+                    };
+                }
+
+                this.purchaseInfoBk = tmp;
+
+                if (action != 'buySingle') {
                     this.timestamp = new Date().getTime();
                 }
                 this.$nextTick(function () {
@@ -130,6 +154,7 @@ $(document).ready(function () {
             confirmConsumeRequest() {
                 this.consumeInfo.customerGroupId = this.customerInfo.customerGroupId;
                 this.consumeRequests.push(JSON.parse(JSON.stringify(this.consumeInfo)));
+                $('#orderToConsume').val('').trigger('change');
             },
             changePayType(payType, val) {
                 this.purchaseInfo[payType] = val;
@@ -146,14 +171,14 @@ $(document).ready(function () {
             purchase(e) {
                 //购买套餐
                 var _this = this;
-                var tip = '客户"' + this.customerInfo.name + '"购买"' + this.goodsChoosed[0].name + '"' + this.goodsChoosed[0].cnt + '个，共计' + this.sumPrice + '元，实付款<span class="text-danger">' + this.purchaseInfo.actuallyMoney + '元</span>，请确认。';
+                var tip = '客户"' + this.customerInfo.name + '"购买"' + this.packageToBuy[0].name + '"' + this.packageToBuy[0].cnt + '个，共计' + this.sumPrice + '元，实付款<span class="text-danger">' + this.purchaseInfo.actuallyMoney + '元</span>，请确认。';
                 Confirm(tip, function () {
                     loadingStart($(e.target), function () {
                         $.ajax({
                             url: "../customer/purchase",
                             type: 'post',
                             data: JSON.stringify({
-                                goodsChoosed: _this.goodsChoosed,
+                                goodsChoosed: _this.packageToBuy,
                                 sumMoney: Number.parseFloat(_this.sumPrice) * 100,
                                 actuallyMoney: _this.purchaseInfo.actuallyMoney * 100,
                                 extraMoneyOffline: _this.extraMoneyOffline * 100,
@@ -196,7 +221,7 @@ $(document).ready(function () {
                 };
                 var tip = '将客户"' + this.customerInfo.name + '"的预约状态变为"<span class="text-info">已到店</span>"<br>';
 
-                if (this.action === 'buySingle') {
+                if (_this.goodsChoosed && _this.goodsChoosed.length > 0) {
                     req.purchaseConsumeRequest = {
                         goodsChoosed: _this.goodsChoosed,
                         sumMoney: Number.parseFloat(_this.sumPrice) * 100,
@@ -209,11 +234,12 @@ $(document).ready(function () {
                     };
 
                     var cnt = this.goodsChoosed.map(i => i.cnt).reduce((i, j) => Number.parseInt(i) + Number.parseInt(j));
-                    tip += '并购买' + this.goodsChoosed.length + '种产品' + cnt + '个，共计' + this.sumPrice + '元，实付款<span class="text-danger">' + this.purchaseInfo.actuallyMoney + '元</span>，请确认。';
-                } else if (this.action === 'consumePackage') {
+                    tip += '并购买' + this.goodsChoosed.length + '种产品' + cnt + '个，共计' + this.sumPrice + '元，实付款<span class="text-danger">' + this.purchaseInfo.actuallyMoney + '元</span><br>';
+                }
+                if (_this.consumeRequests && _this.consumeRequests.length > 0) {
                     req.consumeRequests = _this.consumeRequests;
                     var sumCnt = this.consumeRequests.map(i => Number.parseInt(i.cnt)).reduce((i, j) => i + j);
-                    tip += '本次消费' + this.consumeRequests.length + '种项目，共' + sumCnt + '次，请确认。'
+                    tip += '并消费' + this.consumeRequests.length + '种项目，共' + sumCnt + '次。'
                 }
 
                 Confirm(tip, function () {
