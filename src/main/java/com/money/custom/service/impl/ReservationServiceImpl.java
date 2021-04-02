@@ -86,7 +86,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         queryReservationRequest.setDate(item.getDate());
         queryReservationRequest.setStatus(ReservationStatusEnum.SUCCESS.getValue());
         List<Reservation> reservations = selectSearchList(queryReservationRequest);
-        Assert.isTrue(checkFunc.test(reservations), "该订单已预约" + item.getDate());
+        Assert.isTrue(checkFunc.test(reservations), "今日已预约该项目");
     }
 
     private Customer checkReservationCustomer(Reservation item, Order order) {
