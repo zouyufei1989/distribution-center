@@ -113,7 +113,7 @@
     JS_FROM_URL = JS_FROM_URL && JS_FROM_URL.substring(JS_FROM_URL.indexOf("/"));
     JS_FROM_URL = JS_FROM_URL && JS_FROM_URL.replace("#", "");
 
-    function sort(array, comparableFunc) {
+    function sortArr(array, comparableFunc) {
         for (var i = 0; i < array.length - 1; i++) {
             for (var j = 0; j < array.length - i - 1; j++) {
                 if (comparableFunc(array[j], array[j + 1])) {
@@ -471,6 +471,10 @@
 
     function getEleId4JQ(docId) {
         return '#' + docId.replace(new RegExp('\\.', 'g'), '\\.');
+    }
+
+    function getJqObj(id) {
+        return $(('#' + id).replace(new RegExp('\\.', 'g'), '\\.'));
     }
 
     $(document).ready(function () {

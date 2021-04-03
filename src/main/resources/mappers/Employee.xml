@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Employee">
+
+	<sql id="tableName">d_employee</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="Employee">
+		SELECT
+			id,
+			name,
+			phone,
+			open_id AS openId,
+			serial_number AS serialNumber,
+			nick_name AS nickName,
+			group_id AS groupId,
+			status,
+			create_date AS createDate,
+			creator,
+			update_date AS updateDate,
+			updater
+		FROM <include refid="tableName"/>
+		WHERE
+			1=1
+			<if test="employee.groupId!=null">
+				AND group_id = #{employee.groupId}
+			</if>
+			<if test="employee.status!=null">
+				AND status = #{employee.status}
+			</if>
+			<if test="employee.name!=null and employee.name!=''">
+				AND name LIKE CONCAT('%',#{employee.name},'%')
+			</if>
+			<if test="employee.phone!=null and employee.phone!=''">
+				AND phone LIKE CONCAT('%',#{employee.phone},'%')
+			</if>
+			<if test="employee.openId!=null and employee.openId!=''">
+				AND open_id =#{employee.openId}
+			</if>
+		ORDER BY status DESC,id
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/>
+		WHERE
+			1=1
+			<if test="employee.groupId!=null">
+				AND group_id = #{employee.groupId}
+			</if>
+			<if test="employee.status!=null">
+				AND status = #{employee.status}
+			</if>
+			<if test="employee.name!=null and employee.name!=''">
+				AND name LIKE CONCAT('%',#{employee.name},'%')
+			</if>
+			<if test="employee.phone!=null and employee.phone!=''">
+				AND phone LIKE CONCAT('%',#{employee.phone},'%')
+			</if>
+			<if test="employee.openId!=null and employee.openId!=''">
+				AND open_id =#{employee.openId}
+			</if>
+	</select>
+	
+	<select id="findById" parameterType="String" resultType="Employee">
+		SELECT 
+			id,
+			name,
+			phone,
+			open_id AS openId,
+			serial_number AS serialNumber,
+			nick_name AS nickName,
+			group_id AS groupId,
+			status
+		FROM <include refid="tableName"/>
+		WHERE id = #{id}
+	</select>
+
+	<insert id="add" parameterType="Employee" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			name,
+			phone,
+			open_id,
+			session_key,
+			serial_number,
+			nick_name,
+			head_cover,
+			group_id,
+			status,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{name},
+			#{phone},
+			#{openId},
+			#{sessionKey},
+			#{serialNumber},
+			#{nickName},
+			#{headCover},
+			#{groupId},
+			#{status},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="edit" parameterType="Employee">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			<if test="name != null">
+				,name = #{name}
+			</if>
+			<if test="phone != null">
+				,phone = #{phone}
+			</if>
+			<if test="openId != null">
+				,open_id = #{openId}
+			</if>
+			<if test="sessionKey != null">
+				,`session_key` = #{sessionKey}
+			</if>
+			<if test="nickName != null">
+				,`nick_name` = #{nickName}
+			</if>
+			<if test="headCover != null">
+				,`head_cover` = #{headCover}
+			</if>
+			<if test="status != null">
+				,status = #{status}
+			</if>
+		WHERE id = #{id}
+	</update>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>

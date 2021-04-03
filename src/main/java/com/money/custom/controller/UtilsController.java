@@ -123,6 +123,12 @@ public class UtilsController extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "selectEmployeeStatus")
+    public GridResponseBase selectEmployeeStatus() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(EmployeeStatusEnum.class));
+    }
+
+    @ResponseBody
     @RequestMapping(value = "uploadFileToUpyun", method = RequestMethod.POST)
     public UploadResponse uploadFileToUpyun(@RequestParam("file") MultipartFile file, Integer width, Integer height) throws IOException {
         FileUploaded fileUploaded = uploadUtils.saveFileToUpyun(file, width, height);

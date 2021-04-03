@@ -27,7 +27,7 @@
             }
         },
         mounted: function () {
-            $('#' + this.id).select2();
+            getJqObj(this.id).select2();
         },
         template: '#group-combo-template'
     })
