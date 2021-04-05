@@ -12,6 +12,7 @@ import com.money.framework.util.DateUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -37,6 +38,9 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
     GoodsService goodsService;
     @Autowired
     OrderConsumptionService orderConsumptionService;
+
+    @Value("${group.reserve_days.start}")
+    int RESERVE_DAYS_START;
 
     @Override
     public List<Reservation> selectSearchList(QueryReservationRequest request) {
@@ -114,7 +118,6 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         Assert.hasText(item.getDate(), "预约日期不可为空");
         Assert.hasText(item.getStartTime(), "预约开始时间不可为空");
         Assert.hasText(item.getEndTime(), "预约结束时间不可为空");
-        Assert.isTrue(item.getDate().compareTo(DateUtils.nowDate()) >= 0, "预约日期不可早于" + DateUtils.nowDate());
         Assert.isTrue(item.getStartTime().compareTo(item.getEndTime()) < 0, "结束时间不可早于开始时间");
         if (DateUtils.nowDate().equals(item.getDate())) {
             Assert.isTrue(DateUtils.timeCompareNow(item.getEndTime()) > 0, "预约时间不可早于当前时间");
@@ -162,7 +165,7 @@ public class ReservationServiceImpl extends BaseServiceImpl implements Reservati
         Assert.hasText(request.getEndDate(), "结束日期不可为空");
         Assert.notNull(request.getGoodsId(), "请指定商品id");
         Assert.isTrue(request.getStartDate().compareTo(request.getEndDate()) <= 0, "开始日期不可晚于结束日期");
-        Assert.isTrue(request.getStartDate().compareTo(DateUtils.nowDate()) >= 0, "预约日期不可早于" + DateUtils.nowDate());
+        Assert.isTrue(request.getStartDate().compareTo(DateUtils.nextNDayStr(RESERVE_DAYS_START)) >= 0, "预约日期不可早于" + DateUtils.nextNDayStr(RESERVE_DAYS_START));
 
         List<ReservationCalendar> reservationCalendars = new ArrayList<>();
 
