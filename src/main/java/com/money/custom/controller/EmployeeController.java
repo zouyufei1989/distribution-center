@@ -9,6 +9,7 @@ import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,6 +63,14 @@ public class EmployeeController extends BaseController {
     @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
     public ResponseBase changeStatus(@RequestBody ChangeEmployeeStatusRequest request) {
         this.employeeService.changeStatus(request);
+        return ResponseBase.success();
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "bindCustomerGroup", method = RequestMethod.POST)
+    public ResponseBase bindCustomerGroup(@Valid @RequestBody BindCustomer4EmployeeRequest request, BindingResult bindingResult) {
+        this.employeeService.bindCustomers(request);
         return ResponseBase.success();
     }
 

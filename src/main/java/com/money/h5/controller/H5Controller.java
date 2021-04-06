@@ -1,8 +1,10 @@
 package com.money.h5.controller;
 
+import com.money.custom.service.EmployeeService;
 import com.money.h5.entity.H5RequestBase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,9 @@ import java.util.Map;
 @Controller
 public class H5Controller {
 
+    @Autowired
+    EmployeeService employeeService;
+
     @ApiOperation(value = "测试")
     @ResponseBody
     @CrossOrigin(allowCredentials = "true", maxAge = 3600)
@@ -32,5 +37,6 @@ public class H5Controller {
         result.put("success", true);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 
 }

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="EmployeeCustomer">
+
+	<sql id="tableName">d_employee_customer</sql>
+
+	<select id="selectSearchList" parameterType="Map" resultType="EmployeeCustomer">
+		SELECT
+			id,
+			employee_id AS employeeId,
+			customer_group_id AS customerGroupId,
+			status,
+			parent_employee_id AS parentEmpoyeeId,
+			parent_id AS parentId,
+			inherit_chain AS inheritChain
+		FROM <include refid="tableName"/>
+		WHERE
+			status != -2
+			<if test="employeeId!=null">
+				AND employee_id = #{employeeId}
+			</if>
+			<if test="customerGroupIds!=null and customerGroupIds.size()>0">
+				AND customer_group_id IN
+				<foreach collection="customerGroupIds" open="(" separator="," close=")" item="item">
+					#{item}
+				</foreach>
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		ORDER BY status DESC, `index`
+		<if test="rows != null and  rows > 0">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<select id="selectSearchListCount" parameterType="Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM <include refid="tableName"/>
+		WHERE status != -2
+		<if test="employeeId!=null">
+			AND employee_id = #{employeeId}
+		</if>
+		<if test="customerGroupIds!=null and customerGroupIds.size()>0">
+				AND customer_group_id IN
+				<foreach collection="customerGroupIds" open="(" separator="," close=")" item="item">
+					#{item}
+				</foreach>
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+	</select>
+	
+	<insert id="addBatch" parameterType="EmployeeCustomer" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO <include refid="tableName"/>
+		(
+			employee_id,
+			customer_group_id,
+			status,
+			parent_employee_id,
+			parent_id,
+			inherit_chain,
+			create_date,
+			creator,
+			create_ip
+		)
+		VALUES 
+		(
+			#{employeeId},
+			#{customerGroupId},
+			#{status},
+			#{parentEmployeeId},
+			#{parentId},
+			#{inheritChain},
+			NOW(),
+		  	#{creator},
+		  	#{createIp}
+		)
+	</insert>
+
+	<update id="changeStatus" parameterType="Map">
+		UPDATE <include refid="tableName"/>
+		SET
+			update_date = NOW()
+			,updater = #{updater}
+			,status = #{status}
+		WHERE
+			id IN
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+ 	</update>
+
+</mapper>
