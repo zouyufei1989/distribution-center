@@ -1,0 +1,1 @@
+alter table d_employee change column identity_no identify_no varchar(20);

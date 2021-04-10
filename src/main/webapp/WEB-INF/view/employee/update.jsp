@@ -28,9 +28,33 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>身份证号：</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="identifyNo" required maxlength="19" minlength="18">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"> <span style="color: red;">*</span>入职日期：</label>
+                                    <div class="col-sm-7">
+                                        <v-date-picker id="joinDate"></v-date-picker>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>员工级别:</label>
+                                    <div class="col-sm-7">
+                                        <employee-level-combo id="employeeLevel" must-choose-one="true"></employee-level-combo>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>状态:</label>
                                     <div class="col-sm-7">
                                         <employee-status-combo id="status" must-choose-one="true"></employee-status-combo>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>性别:</label>
+                                    <div class="col-sm-7">
+                                        <gender-combo id="gender" must-choose-one="true"></gender-combo>
                                     </div>
                                 </div>
                                 <div class="form-group">

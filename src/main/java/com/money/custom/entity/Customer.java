@@ -27,7 +27,7 @@ public class Customer extends BaseEntity {
     private BonusPlan bonusPlan = new BonusPlan();
     private Customer parent;
     private Integer myCustomerCnt;
-
+    private Integer employeeId;
 
 
     public Customer() {}
@@ -42,6 +42,14 @@ public class Customer extends BaseEntity {
         openId = request.getOpenId();
 
         copyOperationInfo(request);
+    }
+
+    public Integer getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
     public Integer getMyCustomerCnt() {

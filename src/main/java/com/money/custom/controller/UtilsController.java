@@ -129,6 +129,18 @@ public class UtilsController extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "selectEmployeeLevel")
+    public GridResponseBase selectEmployeeLevel() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(EmployeeLevelEnum.class));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "selectGender")
+    public GridResponseBase selectGender() {
+        return new GridResponseBase(EnumUtils.getEnumEntriesVN(GenderEnum.class));
+    }
+
+    @ResponseBody
     @RequestMapping(value = "uploadFileToUpyun", method = RequestMethod.POST)
     public UploadResponse uploadFileToUpyun(@RequestParam("file") MultipartFile file, Integer width, Integer height) throws IOException {
         FileUploaded fileUploaded = uploadUtils.saveFileToUpyun(file, width, height);

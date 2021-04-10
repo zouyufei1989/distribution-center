@@ -6,6 +6,18 @@
     <%@ include file="../template_css.jsp" %>
     <%@ include file="../template_js.jsp" %>
     <style type="text/css">
+        #bindModal td {
+            border: none !important;
+        }
+
+        .shareholder_list {
+            border: #888888 dashed 1px;
+            border-radius: 7px;
+            margin-top: 10px;
+            padding: 10px;
+            height: 400px;
+            overflow:auto;
+        }
 
     </style>
 </head>
@@ -23,19 +35,21 @@
                             <%@ include file="../template_btnGroup.jsp" %>
                             <%@ include file="../vue_template/employee_status_combo.jsp" %>
                             <%@ include file="../vue_template/group_combo.jsp" %>
+                            <%@ include file="../vue_template/gender_combo.jsp" %>
+                            <%@ include file="../vue_template/employee_level_combo.jsp" %>
+                            <%@ include file="../vue_template/date_picker_template.jsp" %>
+                            <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
                             <%@ include file="../template_search_export_btn.jsp" %>
                             <div class="param_row">
                                 <div class="form-group">
                                     <label>门店:</label>
-                                    <group-combo id="employee.groupId" search-param ></group-combo>
+                                    <group-combo id="employee.groupId" search-param></group-combo>
                                 </div>
                                 <div class="form-group">
-                                    <label>姓名:</label>
-                                    <input type="text" id="employee.name" search-param class="form-control">
+                                    <label>姓名:</label> <input type="text" id="employee.name" search-param class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label>手机号:</label>
-                                    <input type="text" id="employee.phone" search-param class="form-control">
+                                    <label>手机号:</label> <input type="text" id="employee.phone" search-param class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>状态:</label>
@@ -53,11 +67,13 @@
 </div>
 
 <%@ include file="update.jsp" %>
+<%@ include file="bindModal.jsp" %>
 
 </body>
 <script type="text/javascript">
     loadJS("../script/js/view/employee/index.js", 1)
     loadJS("../script/js/view/employee/update.js", 1)
+    loadJS("../script/js/view/employee/bindModal.js", 1)
 </script>
 
 </html>

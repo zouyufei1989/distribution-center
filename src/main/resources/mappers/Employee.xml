@@ -7,35 +7,41 @@
 
 	<select id="selectSearchList" parameterType="Map" resultType="Employee">
 		SELECT
-			id,
-			name,
-			phone,
-			open_id AS openId,
-			serial_number AS serialNumber,
-			nick_name AS nickName,
-			group_id AS groupId,
-			status,
-			create_date AS createDate,
-			creator,
-			update_date AS updateDate,
-			updater
-		FROM <include refid="tableName"/>
+			de.id,
+			de.name,
+			de.phone,
+			de.open_id AS openId,
+			de.serial_number AS serialNumber,
+			de.nick_name AS nickName,
+			de.group_id AS groupId,
+			de.status,
+			de.gender,
+			de.employee_level AS employeeLevel,
+			de.join_date AS joinDate,
+			de.identify_no AS identifyNo,
+			de.create_date AS createDate,
+			de.creator,
+			de.update_date AS updateDate,
+			de.updater,
+			dg.name AS groupName
+		FROM <include refid="tableName"/> de
+		LEFT JOIN d_group dg ON dg.id = de.group_id
 		WHERE
 			1=1
 			<if test="employee.groupId!=null">
-				AND group_id = #{employee.groupId}
+				AND de.group_id = #{employee.groupId}
 			</if>
 			<if test="employee.status!=null">
-				AND status = #{employee.status}
+				AND de.status = #{employee.status}
 			</if>
 			<if test="employee.name!=null and employee.name!=''">
-				AND name LIKE CONCAT('%',#{employee.name},'%')
+				AND de.name LIKE CONCAT('%',#{employee.name},'%')
 			</if>
 			<if test="employee.phone!=null and employee.phone!=''">
-				AND phone LIKE CONCAT('%',#{employee.phone},'%')
+				AND de.phone LIKE CONCAT('%',#{employee.phone},'%')
 			</if>
 			<if test="employee.openId!=null and employee.openId!=''">
-				AND open_id =#{employee.openId}
+				AND de.open_id =#{employee.openId}
 			</if>
 		ORDER BY status DESC,id
 		<if test="rows != null and  rows > 0">
@@ -75,7 +81,11 @@
 			serial_number AS serialNumber,
 			nick_name AS nickName,
 			group_id AS groupId,
-			status
+			status,
+			gender,
+			employee_level AS employeeLevel,
+			join_date AS joinDate,
+			identify_no AS identifyNo
 		FROM <include refid="tableName"/>
 		WHERE id = #{id}
 	</select>
@@ -92,6 +102,10 @@
 			head_cover,
 			group_id,
 			status,
+			gender,
+			employee_level,
+			join_date,
+			identify_no,
 			create_date,
 			creator,
 			create_ip
@@ -107,6 +121,10 @@
 			#{headCover},
 			#{groupId},
 			#{status},
+			#{gender},
+			#{employeeLevel},
+			#{joinDate},
+			#{identifyNo},
 			NOW(),
 		  	#{creator},
 		  	#{createIp}
@@ -139,6 +157,18 @@
 			</if>
 			<if test="status != null">
 				,status = #{status}
+			</if>
+			<if test="gender != null">
+				,gender = #{gender}
+			</if>
+			<if test="employeeLevel != null">
+				,employee_no = #{employeeLevel}
+			</if>
+			<if test="joinDate != null and joinDate!=''">
+				,join_date = #{joinDate}
+			</if>
+			<if test="identifyNo != null and identifyNo!=''">
+				,identify_no = #{identifyNo}
 			</if>
 		WHERE id = #{id}
 	</update>

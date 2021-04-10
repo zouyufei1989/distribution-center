@@ -6,8 +6,10 @@ import com.money.custom.entity.Employee;
 import com.money.custom.entity.EmployeeCustomer;
 import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.EmployeeService;
+import com.money.custom.service.UtilsService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
@@ -29,6 +31,8 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
     EmployeeDao dao;
     @Autowired
     EmployeeCustomerDao employeeCustomerDao;
+    @Autowired
+    UtilsService utilsService;
 
     @Override
     public List<Employee> selectSearchList(QueryEmployeeRequest request) {
@@ -49,6 +53,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
     @Override
     public String add(MoAEmployeeRequest request) {
         Employee employee = Employee.build4Add(request);
+        employee.setSerialNumber(utilsService.generateSerialNumber(SerialNumberEnum.EM));
         dao.add(employee);
         return employee.getId().toString();
     }
@@ -75,7 +80,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
         queryEmployeeCustomerRequest.setCustomerGroupIds(request.getCustomerGroupIds());
         queryEmployeeCustomerRequest.setStatus(CommonStatusEnum.ENABLE.getValue());
         List<EmployeeCustomer> employeeCustomers = employeeCustomerDao.selectSearchList(queryEmployeeCustomerRequest);
-        Set<Integer> customerGroupIdsBinded = employeeCustomers.stream().map(EmployeeCustomer::getCustomGroupId).collect(Collectors.toSet());
+        Set<Integer> customerGroupIdsBinded = employeeCustomers.stream().map(EmployeeCustomer::getCustomerGroupId).collect(Collectors.toSet());
         List<Integer> customerGroupIdsToBind = request.getCustomerGroupIds().stream().filter(i -> !customerGroupIdsBinded.contains(i)).collect(Collectors.toList());
 
         transfer(request, employeeCustomers);
@@ -91,11 +96,12 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
             for (Integer customerGroupId : customerGroupIdsToBind) {
                 EmployeeCustomer item = new EmployeeCustomer();
                 item.copyOperationInfo(request);
-                item.setCustomGroupId(customerGroupId);
+                item.setCustomerGroupId(customerGroupId);
                 item.setEmployeeId(request.getEmployeeId());
+                item.setStatus(CommonStatusEnum.ENABLE.getValue());
                 newBinding.add(item);
             }
-            dao.addBatch(newBinding);
+            employeeCustomerDao.addBatch(newBinding);
         }
     }
 
@@ -114,7 +120,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
                 i.setStatus(CommonStatusEnum.ENABLE.getValue());
                 i.copyOperationInfo(request);
             });
-            dao.addBatch(employeeCustomers);
+            employeeCustomerDao.addBatch(employeeCustomers);
 
             ChangeStatusRequest changeStatusRequest = new ChangeStatusRequest(employeeCustomers.stream().map(i -> i.getId().toString()).collect(Collectors.toList()), CommonStatusEnum.DISABLE.getValue());
             employeeCustomerDao.changeStatus(changeStatusRequest);

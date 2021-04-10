@@ -27,7 +27,8 @@
 			dcg.create_date AS `customerGroup.createDate`,
 			dcg.total_new AS `customerGroup.totalNew`,
 			packages.cnt AS `customerGroup.packageCount`,
-			grpByParent.cnt AS myCustomerCnt
+			grpByParent.cnt AS myCustomerCnt,
+			employeeInfo.employee_id AS employeeId
 		FROM <include refid="tableName"/>  dc
 		LEFT JOIN d_customer_group dcg ON dcg.customer_id = dc.id
 		LEFT JOIN d_group dg ON dg.id = dcg.group_id
@@ -45,6 +46,9 @@
 				</if>
 			GROUP BY parent_id
 		) grpByParent ON grpByParent.parent_id = dcg.id
+		LEFT JOIN (
+			SELECT employee_id,customer_group_id FROM d_employee_customer WHERE status = 1
+		) employeeInfo ON employeeInfo.customer_group_id = dcg.id
 		WHERE
 			(dcg.status != -2 OR dcg.status IS NULL)
 			<if test="groupId!=null">

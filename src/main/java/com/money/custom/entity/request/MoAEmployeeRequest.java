@@ -16,15 +16,55 @@ public class MoAEmployeeRequest extends OperationalEntity {
     private String name;
     private String serialNumber;
     @NotBlank(message = "请输入手机号")
-    @Pattern(regexp="^1\\d{10}$",message="手机号长度错误")
+    @Pattern(regexp = "^1\\d{10}$", message = "手机号长度错误")
     private String phone;
     @NotNull(message = "请选择状态")
     private Integer status;
+    @NotBlank(message = "请输入入职日期")
+    private String joinDate;
+    @NotNull(message = "请选择性别")
+    private Integer gender;
+    @NotNull(message = "请选择员工级别")
+    private Integer employeeLevel;
+    @NotBlank(message = "请输入身份证号")
+    private String identifyNo;
 
     private String openId;
     private String sessionKey;
     private String nickName;
     private String headCover;
+
+    public String getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(String joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Integer getEmployeeLevel() {
+        return employeeLevel;
+    }
+
+    public void setEmployeeLevel(Integer employeeLevel) {
+        this.employeeLevel = employeeLevel;
+    }
+
+    public String getIdentifyNo() {
+        return identifyNo;
+    }
+
+    public void setIdentifyNo(String identifyNo) {
+        this.identifyNo = identifyNo;
+    }
 
     public Integer getId() {
         return id;

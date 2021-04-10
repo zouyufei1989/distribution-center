@@ -9,7 +9,7 @@ public class EmployeeCustomer extends BaseEntity {
 
     private Integer employeeId;
     private Integer parentEmployeeId;
-    private Integer customGroupId;
+    private Integer customerGroupId;
 
     private String inheritChain;
 
@@ -45,12 +45,12 @@ public class EmployeeCustomer extends BaseEntity {
         this.parentEmployeeId = parentEmployeeId;
     }
 
-    public Integer getCustomGroupId() {
-        return customGroupId;
+    public Integer getCustomerGroupId() {
+        return customerGroupId;
     }
 
-    public void setCustomGroupId(Integer customGroupId) {
-        this.customGroupId = customGroupId;
+    public void setCustomerGroupId(Integer customerGroupId) {
+        this.customerGroupId = customerGroupId;
     }
 
     public String getInheritChain() {

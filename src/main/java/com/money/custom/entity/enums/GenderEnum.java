@@ -1,15 +1,15 @@
 package com.money.custom.entity.enums;
 
-public enum EmployeeStatusEnum implements IEnumKeyValue {
+public enum GenderEnum implements IEnumKeyValue {
 
-    ENABLE(1, "在职"),
-    DISABLE(0, "离职"),
-    DELETED(-2, "删除");
+    SECRET(0, "保密"),
+    MALE(1, "男"),
+    FEMALE(2, "女");
 
     private Integer value;
     private String name;
 
-    EmployeeStatusEnum(Integer value, String name) {
+    GenderEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

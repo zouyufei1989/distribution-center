@@ -29,7 +29,6 @@
 			<if test="status!=null">
 				AND status = #{status}
 			</if>
-		ORDER BY status DESC, `index`
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
 		</if>
@@ -68,17 +67,19 @@
 			create_ip
 		)
 		VALUES 
-		(
-			#{employeeId},
-			#{customerGroupId},
-			#{status},
-			#{parentEmployeeId},
-			#{parentId},
-			#{inheritChain},
-			NOW(),
-		  	#{creator},
-		  	#{createIp}
-		)
+		<foreach collection="list" item="item" separator=",">
+			(
+				#{item.employeeId},
+				#{item.customerGroupId},
+				#{item.status},
+				#{item.parentEmployeeId},
+				#{item.parentId},
+				#{item.inheritChain},
+				NOW(),
+				#{item.creator},
+				#{item.createIp}
+			)
+		</foreach>
 	</insert>
 
 	<update id="changeStatus" parameterType="Map">
