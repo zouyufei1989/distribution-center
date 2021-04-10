@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-    // new Vue({el: '.param_row'});
     searchVue = new Vue({el: '.param_row', data: {groupId: null}});
 
     initGridData("list/search", null,
@@ -24,11 +23,17 @@ $(document).ready(function () {
         }
         bindModalVue.type = 'bind';
         bindModalVue.employee = _ROWS_CHOOSED[0];
-        bindModalVue.choosed = [];
-        bindModalVue.searchParam = {
-            phone: '',
-            bonusPlanId: ''
-        };
+        bindModalVue.refresh();
+        $('#bindModal').modal('show');
+    });
+
+    $('#btn_transfer_shareholder').click(function () {
+        if (_ROWS_CHOOSED.length != 1) {
+            Alert('', '请选择一条编辑数据', 'error');
+            return
+        }
+        bindModalVue.type = 'transfer';
+        bindModalVue.employee = _ROWS_CHOOSED[0];
         $('#bindModal').modal('show');
     });
 

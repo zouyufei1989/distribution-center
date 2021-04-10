@@ -11,7 +11,7 @@
                 <div class="wrapper animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-12" id="div_customerInfo">
-                            <form id="" class="form-horizontal">
+                            <form id="" class="form-horizontal" style="margin-bottom: 40px">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label"> 客户姓名：</label>
                                     <div class="col-sm-7">
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" v-show="type=='bind'">
                             <h4>选择要绑定的股东</h4>
                             <div class="shareholder_list">
                                 <table class="table table-striped table-hover">
@@ -73,10 +73,10 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div :class="{'col-md-6': type=='bind', 'col-md-7': type=='transfer','col-md-offset-3':type=='transfer'}">
                             <h4 class="text-info">已绑定的股东</h4>
-                            <div class="shareholder_list">
-                                <table class="table table-striped table-hover shareholder_table">
+                            <div :class="{'shareholder_list': type=='bind'}">
+                                <table class="table table-striped table-hover">
                                     <tr>
                                         <td colspan="3">
                                             <form role="form" class="form-inline" style="display: flex;justify-content: space-between">
@@ -87,19 +87,32 @@
                                         </td>
                                     </tr>
                                     <tr v-for="(item,i) in myShareHolders">
-                                        <td><label><input type="checkbox">&nbsp;&nbsp;{{item.name}}</label></td>
+                                        <td> {{item.name}}</td>
                                         <td> {{item.phone}}</td>
                                         <td> {{item.customerGroup.bonusPlanName}}</td>
                                     </tr>
                                 </table>
                             </div>
                         </div>
+
+                        <div class="col-lg-12" v-if="type=='transfer'">
+                            <form class="form-horizontal" style="margin-bottom: 40px">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"> 迁移至 ：</label>
+                                    <div class="col-sm-7">
+                                        <employee-combo id="transferId" must_choose_one="true" :group_id="employee.groupId" :exclude="employee.id"></employee-combo>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline btn-tool btn-default" type="button" data-dismiss="modal">取&nbsp;&nbsp;消</button>
-                <button class="btn btn-outline btn-tool btn-primary" type="button" @click="bindNew($event)">确&nbsp;&nbsp;定</button>
+                <button class="btn btn-tool btn-default" type="button" data-dismiss="modal">取&nbsp;&nbsp;消</button>
+                <button class="btn btn-tool btn-primary" type="button" @click="bindNew($event)" v-if="type=='bind'">确&nbsp;&nbsp;定</button>
+                <button class="btn btn-tool btn-primary" type="button" @click="transfer($event)" v-else>确&nbsp;&nbsp;定</button>
             </div>
         </div>
     </div>

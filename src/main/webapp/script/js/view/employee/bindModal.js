@@ -21,6 +21,10 @@ $(document).ready(function () {
             $('#bonusPlanId').change(function () {
                 _this.searchParam.bonusPlanId = $(this).val();
             });
+
+            bindModalShow('bindModal', function () {
+                bindModalVue.refresh();
+            }, 1)
         },
         computed: {
             myShareHolders: function () {
@@ -46,23 +50,18 @@ $(document).ready(function () {
                     this.shareHolders = [];
                     return;
                 }
-                $.ajax({
-                    url: '../customer/list/search',
-                    type: 'post',
-                    data: {
-                        rows: 0,
-                        groupId: newVal,
-                        'customer.customerGroup.type': 2
-                    },
-                    async: true,
-                    cache: false,
-                    success: function (result) {
-                        _this.shareHolders = result.rows;
-                    }
-                });
+                this.getShareholders();
             }
         },
         methods: {
+            refresh:function(){
+                this.choosed = [];
+                this.searchParam = {
+                    phone: '',
+                    bonusPlanId: ''
+                };
+                this.getShareholders();
+            },
             chooseAll: function (ele) {
                 var checked = ele.target.checked;
                 if (this.availableShareHolders) {
@@ -81,6 +80,19 @@ $(document).ready(function () {
                     });
                 } else {
                     Alert('', '请选择股东', 'error');
+                }
+
+            },
+            transfer: function (e) {
+                var _this = this;
+                var targetId = $('#transferId').val();
+                if (targetId) {
+                    Confirm('确定将员工'+_this.employee.name+'绑定股东迁移至'+$('#transferId').find('option:checked').text()+'吗?', function () {
+                        _this.choosed = _this.myShareHolders.map(i=>i.customerGroup.id);
+                        _this.bindCustomerGroup(targetId, e);
+                    });
+                } else {
+                    Alert('', '请选择迁移到员工', 'error');
                 }
 
             },
@@ -114,6 +126,23 @@ $(document).ready(function () {
                         }
                     });
                 })
+            },
+            getShareholders(){
+                var _this = this;
+                $.ajax({
+                    url: '../customer/list/search',
+                    type: 'post',
+                    data: {
+                        rows: 0,
+                        groupId: _this.employee.groupId,
+                        'customer.customerGroup.type': 2
+                    },
+                    async: true,
+                    cache: false,
+                    success: function (result) {
+                        _this.shareHolders = result.rows;
+                    }
+                });
             }
         }
     });

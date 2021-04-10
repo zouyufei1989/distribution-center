@@ -10,10 +10,13 @@
             border: none !important;
         }
 
+        #bindModal h4 {
+            margin-bottom: 15px
+        }
+
         .shareholder_list {
             border: #888888 dashed 1px;
             border-radius: 7px;
-            margin-top: 10px;
             padding: 10px;
             height: 400px;
             overflow:auto;
@@ -39,6 +42,7 @@
                             <%@ include file="../vue_template/employee_level_combo.jsp" %>
                             <%@ include file="../vue_template/date_picker_template.jsp" %>
                             <%@ include file="../vue_template/bonus_plan_combo.jsp" %>
+                            <%@ include file="../vue_template/employee_combo.jsp" %>
                             <%@ include file="../template_search_export_btn.jsp" %>
                             <div class="param_row">
                                 <div class="form-group">

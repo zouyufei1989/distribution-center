@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -85,8 +86,6 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
 
         transfer(request, employeeCustomers);
         newBinding(request, customerGroupIdsToBind);
-
-
     }
 
     private void newBinding(BindCustomer4EmployeeRequest request, List<Integer> customerGroupIdsToBind) {
@@ -112,6 +111,10 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
             employeeCustomers.forEach(i -> {
                 i.setParentId(i.getId());
                 i.setParentEmployeeId(i.getEmployeeId());
+
+                if (Objects.isNull(i.getInheritChain())) {
+                    i.setInheritChain(StringUtils.EMPTY);
+                }
                 if (StringUtils.isNotEmpty(i.getInheritChain())) {
                     i.setInheritChain(i.getInheritChain() + ",");
                 }
@@ -120,10 +123,10 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
                 i.setStatus(CommonStatusEnum.ENABLE.getValue());
                 i.copyOperationInfo(request);
             });
-            employeeCustomerDao.addBatch(employeeCustomers);
 
             ChangeStatusRequest changeStatusRequest = new ChangeStatusRequest(employeeCustomers.stream().map(i -> i.getId().toString()).collect(Collectors.toList()), CommonStatusEnum.DISABLE.getValue());
             employeeCustomerDao.changeStatus(changeStatusRequest);
+            employeeCustomerDao.addBatch(employeeCustomers);
         }
     }
 

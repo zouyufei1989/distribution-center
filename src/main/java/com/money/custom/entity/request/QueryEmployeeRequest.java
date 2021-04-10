@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class QueryEmployeeRequest extends QueryGridRequestBase {
 
-   private Employee employee;
+   private Employee employee = new Employee();
 
     @Override
     public Map<String, Object> buildParams() {
