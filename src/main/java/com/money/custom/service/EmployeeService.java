@@ -1,6 +1,7 @@
 package com.money.custom.service;
 
 import com.money.custom.entity.Employee;
+import com.money.custom.entity.dto.TreeNodeDto;
 import com.money.custom.entity.request.*;
 import com.money.framework.base.service.BaseService;
 
@@ -22,4 +23,5 @@ public interface EmployeeService extends BaseService {
 
     void bindCustomers(BindCustomer4EmployeeRequest request);
 
+    TreeNodeDto buildEmployeeRelationships(String employeeId);
 }

@@ -37,4 +37,14 @@ $(document).ready(function () {
         $('#bindModal').modal('show');
     });
 
+    $('#btn_preview').click(function () {
+        if (_ROWS_CHOOSED.length != 1) {
+            Alert('', '请选择一条数据', 'error');
+            return
+        }
+        $('#sp_employeeName').text(_ROWS_CHOOSED[0].name);
+        $('#relationshipModal').modal('show');
+        reloadRelationTree(_ROWS_CHOOSED[0].id);
+    });
+
 });

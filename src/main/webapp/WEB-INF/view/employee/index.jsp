@@ -22,6 +22,10 @@
             overflow:auto;
         }
 
+        .layui-tree-entry{
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -72,12 +76,14 @@
 
 <%@ include file="update.jsp" %>
 <%@ include file="bindModal.jsp" %>
+<%@ include file="relationshipModal.jsp" %>
 
 </body>
 <script type="text/javascript">
     loadJS("../script/js/view/employee/index.js", 1)
     loadJS("../script/js/view/employee/update.js", 1)
     loadJS("../script/js/view/employee/bindModal.js", 1)
+    loadJS("../script/js/view/employee/relationshipModal.js", 1)
 </script>
 
 </html>

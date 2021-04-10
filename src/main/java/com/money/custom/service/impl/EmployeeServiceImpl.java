@@ -2,12 +2,15 @@ package com.money.custom.service.impl;
 
 import com.money.custom.dao.EmployeeCustomerDao;
 import com.money.custom.dao.EmployeeDao;
+import com.money.custom.entity.Customer;
 import com.money.custom.entity.Employee;
 import com.money.custom.entity.EmployeeCustomer;
+import com.money.custom.entity.dto.TreeNodeDto;
 import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.*;
+import com.money.custom.service.CustomerService;
 import com.money.custom.service.EmployeeService;
 import com.money.custom.service.UtilsService;
 import com.money.framework.base.annotation.AddHistoryLog;
@@ -34,6 +37,8 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
     EmployeeCustomerDao employeeCustomerDao;
     @Autowired
     UtilsService utilsService;
+    @Autowired
+    CustomerService customerService;
 
     @Override
     public List<Employee> selectSearchList(QueryEmployeeRequest request) {
@@ -88,6 +93,43 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
         newBinding(request, customerGroupIdsToBind);
     }
 
+    @Override
+    public TreeNodeDto buildEmployeeRelationships(String employeeId) {
+        Assert.hasText(employeeId, "请指定员工ID");
+        TreeNodeDto root = new TreeNodeDto();
+
+        final Employee employee = findById(employeeId);
+        Assert.notNull(employee, "未查询到员工信息");
+        root.setId("emp_" + employee.getId());
+        root.setTitle(employee.getName());
+
+        QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
+        queryCustomerRequest.setGroupId(employee.getGroupId());
+        final List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);
+
+        customers.stream()
+                .filter(c -> Objects.nonNull(c.getEmployeeId()))
+                .filter(c -> StringUtils.equals(employeeId, c.getEmployeeId().toString()))
+                .forEach(c -> {
+                    TreeNodeDto child = new TreeNodeDto(c);
+                    root.getChildren().add(child);
+                    buildTreeNodeChildren(child, customers);
+                });
+
+        return root;
+    }
+
+    void buildTreeNodeChildren(TreeNodeDto node, List<Customer> customers) {
+        customers.stream()
+                .filter(c -> Objects.nonNull(c.getCustomerGroup().getParentId()))
+                .filter(c -> StringUtils.equals(c.getCustomerGroup().getParentId().toString(), node.getId()))
+                .forEach(c -> {
+                    TreeNodeDto child = new TreeNodeDto(c);
+                    node.getChildren().add(child);
+                    buildTreeNodeChildren(child, customers);
+                });
+    }
+
     private void newBinding(BindCustomer4EmployeeRequest request, List<Integer> customerGroupIdsToBind) {
         getLogger().info("待新绑定{}人", customerGroupIdsToBind.size());
         if (CollectionUtils.isNotEmpty(customerGroupIdsToBind)) {
@@ -105,6 +147,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
     }
 
     private void transfer(BindCustomer4EmployeeRequest request, List<EmployeeCustomer> employeeCustomers) {
+        Assert.isTrue(employeeCustomers.stream().noneMatch(i -> i.getEmployeeId().equals(request.getEmployeeId())), "转移员工和原员工相同");
         getLogger().info("转移股东{}人", employeeCustomers.size());
         if (CollectionUtils.isNotEmpty(employeeCustomers)) {
 

@@ -22,6 +22,7 @@
 			dcg.expire_date AS `customerGroup.expireDate`,
 			dcg.create_date AS createDate,
 			dcg.group_id AS `customerGroup.groupId`,
+			dcg.parent_id AS `customerGroup.parentId`,
 			dcg.type AS `customerGroup.type`,
 			dcg.id AS `customerGroup.id`,
 			dcg.create_date AS `customerGroup.createDate`,
