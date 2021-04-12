@@ -6,9 +6,7 @@ import com.money.custom.entity.Customer;
 import com.money.custom.entity.Employee;
 import com.money.custom.entity.EmployeeCustomer;
 import com.money.custom.entity.dto.TreeNodeDto;
-import com.money.custom.entity.enums.CommonStatusEnum;
-import com.money.custom.entity.enums.HistoryEntityEnum;
-import com.money.custom.entity.enums.SerialNumberEnum;
+import com.money.custom.entity.enums.*;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.CustomerService;
 import com.money.custom.service.EmployeeService;
@@ -75,6 +73,13 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
     @Override
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.EMPLOYEE)
     public List<String> changeStatus(ChangeEmployeeStatusRequest request) {
+        if (request.getStatus().equals(EmployeeStatusEnum.DELETED.getValue())) {
+            QueryEmployeeCustomerRequest queryEmployeeCustomerRequest = new QueryEmployeeCustomerRequest();
+            queryEmployeeCustomerRequest.setStatus(CommonStatusEnum.ENABLE.getValue());
+            queryEmployeeCustomerRequest.setEmployeeIds(request.getIds());
+            final int bindingCnt = employeeCustomerDao.selectSearchListCount(queryEmployeeCustomerRequest);
+            Assert.isTrue(bindingCnt == 0, "选中员工下仍有股东信息");
+        }
         dao.changeStatus(request);
         return request.getIds();
     }
@@ -172,5 +177,4 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
             employeeCustomerDao.addBatch(employeeCustomers);
         }
     }
-
 }

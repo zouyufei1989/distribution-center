@@ -7,6 +7,7 @@ public class QueryEmployeeCustomerRequest extends QueryGridRequestBase {
 
     private Integer employeeId;
     private List<Integer> customerGroupIds;
+    private List<String> employeeIds;
     private Integer status;
 
 
@@ -15,6 +16,7 @@ public class QueryEmployeeCustomerRequest extends QueryGridRequestBase {
         Map<String, Object> params = super.buildParams();
         params.put("employeeId", employeeId);
         params.put("customerGroupIds", customerGroupIds);
+        params.put("employeeIds", employeeIds);
         params.put("status", status);
         return params;
     }
@@ -29,5 +31,9 @@ public class QueryEmployeeCustomerRequest extends QueryGridRequestBase {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public void setEmployeeIds(List<String> employeeIds) {
+        this.employeeIds = employeeIds;
     }
 }

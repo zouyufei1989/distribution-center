@@ -22,6 +22,8 @@ public class Employee extends BaseEntity {
     private Integer employeeLevel;
     private String joinDate;
 
+    private Integer customerCnt;
+
 
     public static Employee build4Add(MoAEmployeeRequest request) {
         Employee employee = new Employee();
@@ -49,6 +51,14 @@ public class Employee extends BaseEntity {
         employee.setJoinDate(request.getJoinDate());
         employee.copyOperationInfo(request);
         return employee;
+    }
+
+    public Integer getCustomerCnt() {
+        return customerCnt;
+    }
+
+    public void setCustomerCnt(Integer customerCnt) {
+        this.customerCnt = customerCnt;
     }
 
     public String getGenderName() {

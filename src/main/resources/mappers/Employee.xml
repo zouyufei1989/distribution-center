@@ -23,11 +23,15 @@
 			de.creator,
 			de.update_date AS updateDate,
 			de.updater,
-			dg.name AS groupName
+			dg.name AS groupName,
+			emp.cnt AS customerCnt
 		FROM <include refid="tableName"/> de
+		LEFT JOIN (
+			SELECT COUNT(*) AS cnt, employee_id FROM d_employee_customer WHERE status = 1 GROUP BY employee_id
+		) emp ON emp.employee_id = de.id
 		LEFT JOIN d_group dg ON dg.id = de.group_id
 		WHERE
-			1=1
+			de.status !=-2
 			<if test="employee.groupId!=null">
 				AND de.group_id = #{employee.groupId}
 			</if>
@@ -54,7 +58,7 @@
 			COUNT(*)
 		FROM <include refid="tableName"/>
 		WHERE
-			1=1
+			status != -2
 			<if test="employee.groupId!=null">
 				AND group_id = #{employee.groupId}
 			</if>

@@ -26,6 +26,12 @@
 					#{item}
 				</foreach>
 			</if>
+			<if test="employeeIds!=null and employeeIds.size()>0">
+				AND employee_id IN
+				<foreach collection="employeeIds" open="(" separator="," close=")" item="item">
+					#{item}
+				</foreach>
+			</if>
 			<if test="status!=null">
 				AND status = #{status}
 			</if>
@@ -43,14 +49,20 @@
 			AND employee_id = #{employeeId}
 		</if>
 		<if test="customerGroupIds!=null and customerGroupIds.size()>0">
-				AND customer_group_id IN
-				<foreach collection="customerGroupIds" open="(" separator="," close=")" item="item">
-					#{item}
-				</foreach>
-			</if>
-			<if test="status!=null">
-				AND status = #{status}
-			</if>
+			AND customer_group_id IN
+			<foreach collection="customerGroupIds" open="(" separator="," close=")" item="item">
+				#{item}
+			</foreach>
+		</if>
+		<if test="employeeIds!=null and employeeIds.size()>0">
+			AND employee_id IN
+			<foreach collection="employeeIds" open="(" separator="," close=")" item="item">
+				#{item}
+			</foreach>
+		</if>
+		<if test="status!=null">
+			AND status = #{status}
+		</if>
 	</select>
 	
 	<insert id="addBatch" parameterType="EmployeeCustomer" useGeneratedKeys="true" keyProperty="id">

@@ -1,12 +1,13 @@
 package com.money.custom.entity.request;
 
 import com.money.custom.entity.enums.DeletableTableNameEnum;
+import com.money.framework.base.entity.OperationalEntity;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DeleteByIdsRequest {
+public class DeleteByIdsRequest extends OperationalEntity {
 
     private DeletableTableNameEnum tableNameEnum;
     private List<String> ids;
