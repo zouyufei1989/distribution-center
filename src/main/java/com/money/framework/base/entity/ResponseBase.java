@@ -1,5 +1,6 @@
 package com.money.framework.base.entity;
 
+import com.alibaba.fastjson.JSONObject;
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.framework.base.exception.PandabusSpecException;
 import io.swagger.annotations.ApiModel;
@@ -14,6 +15,7 @@ public class ResponseBase {
     private Boolean success = true;
     private Object data;
     private Object extraData;
+    private JSONObject extraJsonObj = new JSONObject();
 
     public static ResponseBase success() {
         return new ResponseBase();
@@ -25,7 +27,7 @@ public class ResponseBase {
         return responseBase;
     }
 
-    public static ResponseBase success(Object data,Object extraData) {
+    public static ResponseBase success(Object data, Object extraData) {
         ResponseBase responseBase = new ResponseBase();
         responseBase.setData(data);
         responseBase.setExtraData(extraData);
@@ -56,6 +58,14 @@ public class ResponseBase {
         this.code = ResponseCodeEnum.ERROR.getValue();
         this.message = ResponseCodeEnum.ERROR.getName();
         return this;
+    }
+
+    public void addJsonAttr(String attrName, Object val) {
+        this.extraJsonObj.put(attrName, val);
+    }
+
+    public JSONObject getExtraJsonObj() {
+        return extraJsonObj;
     }
 
     public Object getExtraData() {

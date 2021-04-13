@@ -2,18 +2,23 @@ package com.money.h5.service;
 
 import com.gexin.fastjson.JSON;
 import com.money.custom.entity.Customer;
+import com.money.custom.entity.Employee;
 import com.money.custom.entity.Sms;
 import com.money.custom.entity.enums.RedisKeyEnum;
 import com.money.custom.entity.enums.ResponseCodeEnum;
+import com.money.custom.entity.request.MoAEmployeeRequest;
 import com.money.custom.entity.request.QueryCustomerRequest;
+import com.money.custom.entity.request.QueryEmployeeRequest;
 import com.money.custom.service.AssignActivityService;
 import com.money.custom.service.CustomerService;
+import com.money.custom.service.EmployeeService;
 import com.money.custom.service.SmsService;
 import com.money.custom.utils.VerifyCodeUtils;
 import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.RedisUtils;
 import com.money.h5.entity.dto.H5Customer;
+import com.money.h5.entity.dto.H5Employee;
 import com.money.h5.entity.dto.WechatPhoneResponse;
 import com.money.h5.entity.request.*;
 import com.money.h5.entity.response.WechatLoginResponse;
@@ -24,11 +29,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.management.Query;
-import javax.xml.ws.Response;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 public class H5Service extends BaseServiceImpl {
@@ -43,6 +45,8 @@ public class H5Service extends BaseServiceImpl {
     SmsService smsService;
     @Autowired
     AssignActivityService assignActivityService;
+    @Autowired
+    EmployeeService employeeService;
 
     public ResponseBase login(LoginRequest loginRequest) {
         WechatLoginResponse wechatLoginResponse = wechatService.jscode2session(loginRequest.getJsCode());
@@ -51,6 +55,20 @@ public class H5Service extends BaseServiceImpl {
         String openId = wechatLoginResponse.getOpenId();
         String sessionKey = wechatLoginResponse.getSession_key();
         redisUtils.setObject(RedisKeyEnum.WECHAT_SESSION_KEY.getName() + openId, sessionKey);
+
+        final Employee employee = tryEmployee(openId);
+        if (Objects.nonNull(employee) && StringUtils.isNotEmpty(employee.getPhone()) && StringUtils.isNotEmpty(employee.getHeadCover()) && StringUtils.isNotEmpty(employee.getNickName())) {
+            final ResponseBase success = ResponseBase.success(openId, new H5Employee(employee));
+            success.addJsonAttr("employee", true);
+            return success;
+        }
+        if (Objects.nonNull(employee)) {
+            ResponseBase error = ResponseBase.error(ResponseCodeEnum.ASK_4_USER_INFO);
+            error.setData(openId);
+            error.setExtraData(loginRequest.getPhone());
+            error.addJsonAttr("employee", true);
+            return error;
+        }
 
         Customer customer = customerService.findByOpenId(openId);
 
@@ -71,6 +89,18 @@ public class H5Service extends BaseServiceImpl {
         return error;
     }
 
+    private Employee tryEmployee(String openId) {
+        QueryEmployeeRequest queryEmployeeRequest = new QueryEmployeeRequest();
+        queryEmployeeRequest.getEmployee().setOpenId(openId);
+        final List<Employee> employees = employeeService.selectSearchList(queryEmployeeRequest);
+        if (CollectionUtils.isEmpty(employees)) {
+            return null;
+        }
+
+        return employees.get(0);
+
+    }
+
     @Transactional
     public ResponseBase completeCustomerInfo(TransWechatInfo2CustomerRequest request) {
         String phone = request.getPhone();
@@ -82,6 +112,10 @@ public class H5Service extends BaseServiceImpl {
             WechatPhoneResponse phoneResponse = wechatService.gainPhone(request);
             phone = phoneResponse.getPurePhoneNumber();
             getLogger().info("获取小程序手机号 {}", phone);
+        }
+
+        if (tryEmployee(request, phone)) {
+            return ResponseBase.success();
         }
 
         Customer customerByOpenId = customerService.findByOpenId(request.getOpenId());
@@ -106,6 +140,26 @@ public class H5Service extends BaseServiceImpl {
         wechatDiffWeb(request, phone, customerByOpenId, customerByPhone);
         return ResponseBase.success();
 
+    }
+
+    private boolean tryEmployee(TransWechatInfo2CustomerRequest request, String phone) {
+        QueryEmployeeRequest queryEmployeeRequest = new QueryEmployeeRequest();
+        queryEmployeeRequest.getEmployee().setPhone(phone);
+        final List<Employee> employees = employeeService.selectSearchList(queryEmployeeRequest);
+        if (CollectionUtils.isEmpty(employees)) {
+            return false;
+        }
+
+        MoAEmployeeRequest moAEmployeeRequest = new MoAEmployeeRequest();
+        moAEmployeeRequest.setId(employees.get(0).getId());
+        moAEmployeeRequest.setNickName(request.getNickName());
+        moAEmployeeRequest.setHeadCover(request.getAvatarUrl());
+        moAEmployeeRequest.setPhone(phone);
+        moAEmployeeRequest.setOpenId(request.getOpenId());
+        moAEmployeeRequest.ofH5(request);
+        employeeService.edit(moAEmployeeRequest);
+
+        return true;
     }
 
     private void wechatDiffWeb(TransWechatInfo2CustomerRequest request, String phone, Customer customerByOpenId, Customer customerByPhone) {
@@ -168,6 +222,13 @@ public class H5Service extends BaseServiceImpl {
         String code = redisUtils.getObject(redisKey, String.class);
         Assert.isTrue(StringUtils.equals(code, request.getSmsCode()), ResponseCodeEnum.WRONG_SMS_VERIFY_CODE.getName());
 
+        final Employee employee = tryEmployee(request);
+        if (Objects.nonNull(employee)) {
+            ResponseBase success = ResponseBase.success(request.getPhone(), employee.getOpenId());
+            success.addJsonAttr("employee", true);
+            return success;
+        }
+
         String openId = autoRegisterIfNewPhone(request);
         return ResponseBase.success(request.getPhone(), openId);
     }
@@ -187,6 +248,17 @@ public class H5Service extends BaseServiceImpl {
         customerService.add(customer);
         getLogger().info("创建新用户 {}", loginRequest.getPhone());
         return StringUtils.EMPTY;
+    }
+
+    Employee tryEmployee(SmsLoginRequest loginRequest) {
+        QueryEmployeeRequest request = new QueryEmployeeRequest();
+        request.getEmployee().setPhone(loginRequest.getPhone());
+        final List<Employee> employees = employeeService.selectSearchList(request);
+        if (CollectionUtils.isNotEmpty(employees)) {
+            getLogger().info("手机号 {} 已存在", loginRequest.getPhone());
+            return employees.get(0);
+        }
+        return null;
     }
 
     public String getActivityDistributionUniqueCode(QueryByIdRequest request) {
