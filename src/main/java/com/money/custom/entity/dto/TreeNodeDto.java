@@ -12,6 +12,8 @@ public class TreeNodeDto {
     private String title;
     private List<TreeNodeDto> children = new ArrayList<>();
 
+    private Customer customer;
+
     public TreeNodeDto() {}
 
     public TreeNodeDto(Customer customer) {
@@ -20,6 +22,11 @@ public class TreeNodeDto {
         if (customer.getCustomerGroup().getType().equals(CustomerTypeEnum.SHARE_HOLDER.getValue())) {
             title += "（" + customer.getCustomerGroup().getTypeName() + "）";
         }
+        this.customer = customer;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public String getId() {
