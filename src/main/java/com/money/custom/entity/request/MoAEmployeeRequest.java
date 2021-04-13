@@ -24,8 +24,6 @@ public class MoAEmployeeRequest extends OperationalEntity {
     private String joinDate;
     @NotNull(message = "请选择性别")
     private Integer gender;
-    @NotNull(message = "请选择员工级别")
-    private Integer employeeLevel;
     @NotBlank(message = "请输入身份证号")
     private String identifyNo;
 
@@ -48,14 +46,6 @@ public class MoAEmployeeRequest extends OperationalEntity {
 
     public void setGender(Integer gender) {
         this.gender = gender;
-    }
-
-    public Integer getEmployeeLevel() {
-        return employeeLevel;
-    }
-
-    public void setEmployeeLevel(Integer employeeLevel) {
-        this.employeeLevel = employeeLevel;
     }
 
     public String getIdentifyNo() {

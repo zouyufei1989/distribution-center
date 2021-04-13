@@ -31,7 +31,7 @@ public class Employee extends BaseEntity {
         employee.setPhone(request.getPhone());
         employee.setGroupId(request.getGroupId());
         employee.setStatus(request.getStatus());
-        employee.setEmployeeLevel(request.getEmployeeLevel());
+        employee.setEmployeeLevel(EmployeeLevelEnum.CLERK.getValue());
         employee.setGender(request.getGender());
         employee.setIdentifyNo(request.getIdentifyNo());
         employee.setJoinDate(request.getJoinDate());
@@ -45,7 +45,6 @@ public class Employee extends BaseEntity {
         employee.setName(request.getName());
         employee.setPhone(request.getPhone());
         employee.setStatus(request.getStatus());
-        employee.setEmployeeLevel(request.getEmployeeLevel());
         employee.setGender(request.getGender());
         employee.setIdentifyNo(request.getIdentifyNo());
         employee.setJoinDate(request.getJoinDate());

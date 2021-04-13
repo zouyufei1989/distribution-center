@@ -1,5 +1,7 @@
 package com.money.custom.entity.enums;
 
+import com.money.framework.base.entity.VisitLogTypeEnum;
+
 public enum EmployeeStatusEnum implements IEnumKeyValue {
 
     ENABLE(1, "在职"),
@@ -23,5 +25,11 @@ public enum EmployeeStatusEnum implements IEnumKeyValue {
     public String getName() {
         return name;
     }
+
+    @Override
+    public boolean availableForMap() {
+        return this != EmployeeStatusEnum.DELETED;
+    }
+
 
 }

@@ -40,12 +40,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label"><span style="color: red;">*</span>员工级别:</label>
-                                    <div class="col-sm-7">
-                                        <employee-level-combo id="employeeLevel" must-choose-one="true"></employee-level-combo>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-sm-3 control-label"><span style="color: red;">*</span>状态:</label>
                                     <div class="col-sm-7">
                                         <employee-status-combo id="status" must-choose-one="true"></employee-status-combo>
