@@ -1,14 +1,14 @@
 package com.money.custom.entity.request;
 
 import com.money.framework.base.entity.OperationalEntity;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class BindCustomer4EmployeeRequest extends OperationalEntity {
 
-    @NotEmpty(message = "未选中股东")
+    @NotEmpty(message = "选中股东")
     private List<Integer> customerGroupIds;
     @NotNull(message = "请指定员工id")
     private Integer employeeId;

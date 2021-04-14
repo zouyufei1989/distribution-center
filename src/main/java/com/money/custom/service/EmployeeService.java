@@ -23,5 +23,7 @@ public interface EmployeeService extends BaseService {
 
     void bindCustomers(BindCustomer4EmployeeRequest request);
 
+    void transferCustomers(TransferCustomer4EmployeeRequest request);
+
     TreeNodeDto buildEmployeeRelationships(String employeeId);
 }

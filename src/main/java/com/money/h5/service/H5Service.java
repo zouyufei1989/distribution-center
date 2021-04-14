@@ -59,14 +59,14 @@ public class H5Service extends BaseServiceImpl {
         final Employee employee = tryEmployee(openId);
         if (Objects.nonNull(employee) && StringUtils.isNotEmpty(employee.getPhone()) && StringUtils.isNotEmpty(employee.getHeadCover()) && StringUtils.isNotEmpty(employee.getNickName())) {
             final ResponseBase success = ResponseBase.success(openId, new H5Employee(employee));
-            success.addJsonAttr("employee", true);
+            markAsEmployee(success);
             return success;
         }
         if (Objects.nonNull(employee)) {
             ResponseBase error = ResponseBase.error(ResponseCodeEnum.ASK_4_USER_INFO);
             error.setData(openId);
             error.setExtraData(loginRequest.getPhone());
-            error.addJsonAttr("employee", true);
+            markAsEmployee(error);
             return error;
         }
 
@@ -225,7 +225,7 @@ public class H5Service extends BaseServiceImpl {
         final Employee employee = tryEmployee(request);
         if (Objects.nonNull(employee)) {
             ResponseBase success = ResponseBase.success(request.getPhone(), employee.getOpenId());
-            success.addJsonAttr("employee", true);
+            markAsEmployee(success);
             return success;
         }
 
@@ -263,5 +263,9 @@ public class H5Service extends BaseServiceImpl {
 
     public String getActivityDistributionUniqueCode(QueryByIdRequest request) {
         return assignActivityService.getActivityDistributionUniqueCode(request.getId());
+    }
+
+    void markAsEmployee(ResponseBase responseBase) {
+        responseBase.addJsonAttr("employee", true);
     }
 }

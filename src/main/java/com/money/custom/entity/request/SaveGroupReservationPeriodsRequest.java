@@ -2,11 +2,9 @@ package com.money.custom.entity.request;
 
 import com.money.custom.entity.GroupReservationPeriod;
 import com.money.framework.base.entity.OperationalEntity;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class SaveGroupReservationPeriodsRequest extends OperationalEntity {

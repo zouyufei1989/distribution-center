@@ -19,11 +19,15 @@
             border-radius: 7px;
             padding: 10px;
             height: 400px;
-            overflow:auto;
+            overflow: auto;
         }
 
-        .layui-tree-entry{
+        .layui-tree-entry {
             margin-top: 10px;
+        }
+
+        .text-choosed {
+            color: #1ab394 !important;
         }
 
     </style>

@@ -54,7 +54,9 @@
                                         <td colspan="3">
                                             <form role="form" class="form-inline" style="display: flex;justify-content: space-between">
                                                 <div class="form-group">
-                                                    <label><input type="checkbox" style="margin-top: 10px;" @change="chooseAll($event)">&nbsp;&nbsp;全部</label>
+                                                    <button class="btn btn-link" style="padding-top: 7px" type="button" @click="clearSearchParam">
+                                                        全部
+                                                    </button>
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="text" class="form-control" v-model="searchParam.phone" placeholder="请输入姓名或手机号">
@@ -65,8 +67,8 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    <tr v-for="(item,i) in availableShareHolders">
-                                        <td><label><input type="checkbox" :value="item.customerGroup.id" v-model="choosed">&nbsp;&nbsp;{{item.name}}</label></td>
+                                    <tr v-for="(item,i) in availableShareHolders" @click="choose(i)" >
+                                        <td> {{item.name}}</td>
                                         <td> {{item.phone}}</td>
                                         <td> {{item.customerGroup.bonusPlanName}}</td>
                                     </tr>
@@ -86,7 +88,12 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    <tr v-for="(item,i) in myShareHolders">
+                                    <tr v-for="(item,i) in myShareHolders" v-show="!item.choosed"  @click="revert(i)">
+                                        <td> {{item.name}}</td>
+                                        <td> {{item.phone}}</td>
+                                        <td> {{item.customerGroup.bonusPlanName}}</td>
+                                    </tr>
+                                    <tr v-for="(item,i) in myShareHolders" v-show="item.choosed" class="text-choosed" @click="revert(i)">
                                         <td> {{item.name}}</td>
                                         <td> {{item.phone}}</td>
                                         <td> {{item.customerGroup.bonusPlanName}}</td>

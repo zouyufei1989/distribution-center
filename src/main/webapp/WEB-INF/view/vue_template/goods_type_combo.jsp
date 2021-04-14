@@ -24,7 +24,7 @@
                     }
                 }
             });
-            data = sort(data, (i, j) => {
+            data = sortArr(data, (i, j) => {
                 return i.value == j.value ? 0 : i.value - j.value;
             });
             if (this.must_choose_one == 'false' || this.must_choose_one == false) {
@@ -36,7 +36,7 @@
         },
         watch: {
             value: function (newVal, oldVal) {
-                $('#' + this.id).select2();
+                $('.select2_demo_3').select2();
                 $('#' + this.id).val(this.value).trigger('change');
             }
         },
@@ -44,7 +44,7 @@
             var _this = this;
             _this.$nextTick(function () {
                 /*现在数据已经渲染完毕*/
-                $('#' + _this.id).select2();
+                $('.select2_demo_3').select2();
                 $('#' + _this.id).val(_this.value).trigger('change');
             })
         }, template: '#goods-type-combo-template'

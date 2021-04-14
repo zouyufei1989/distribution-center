@@ -1,8 +1,10 @@
 package com.money.custom.service.impl;
 
+import com.google.common.collect.Lists;
 import com.money.custom.dao.EmployeeCustomerDao;
 import com.money.custom.dao.EmployeeDao;
 import com.money.custom.entity.Customer;
+import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.Employee;
 import com.money.custom.entity.EmployeeCustomer;
 import com.money.custom.entity.dto.TreeNodeDto;
@@ -88,14 +90,74 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
     @Override
     public void bindCustomers(BindCustomer4EmployeeRequest request) {
         QueryEmployeeCustomerRequest queryEmployeeCustomerRequest = new QueryEmployeeCustomerRequest();
-        queryEmployeeCustomerRequest.setCustomerGroupIds(request.getCustomerGroupIds());
+        queryEmployeeCustomerRequest.setEmployeeId(request.getEmployeeId());
+        queryEmployeeCustomerRequest.setStatus(CommonStatusEnum.ENABLE.getValue());
+        final List<EmployeeCustomer> empCusBound = employeeCustomerDao.selectSearchList(queryEmployeeCustomerRequest);
+        final Set<Integer> customerGroupBound = empCusBound.stream().map(EmployeeCustomer::getCustomerGroupId).collect(Collectors.toSet());
+
+        final Set<String> unBindIds = empCusBound.stream().filter(e -> !request.getCustomerGroupIds().contains(e.getCustomerGroupId())).map(e -> e.getId().toString()).collect(Collectors.toSet());
+        Set<Integer> customerGroupIdsToBind = request.getCustomerGroupIds().stream().filter(i -> !customerGroupBound.contains(i)).collect(Collectors.toSet());
+
+        unbind(unBindIds);
+        newBinding(request, customerGroupIdsToBind);
+    }
+
+    private void newBinding(BindCustomer4EmployeeRequest request, Set<Integer> customerGroupIdsToBind) {
+        getLogger().info("待新绑定{}人", customerGroupIdsToBind.size());
+        if (CollectionUtils.isNotEmpty(customerGroupIdsToBind)) {
+            List<EmployeeCustomer> newBinding = new ArrayList<>();
+            for (Integer customerGroupId : customerGroupIdsToBind) {
+                EmployeeCustomer item = new EmployeeCustomer();
+                item.copyOperationInfo(request);
+                item.setCustomerGroupId(customerGroupId);
+                item.setEmployeeId(request.getEmployeeId());
+                item.setStatus(CommonStatusEnum.ENABLE.getValue());
+                newBinding.add(item);
+            }
+            employeeCustomerDao.addBatch(newBinding);
+        }
+    }
+
+    private void unbind(Set<String> unBindIds) {
+        getLogger().info("解绑{}人", unBindIds.size());
+        if (CollectionUtils.isNotEmpty(unBindIds)) {
+            ChangeStatusRequest changeStatusRequest = new ChangeStatusRequest(Lists.newArrayList(unBindIds), CommonStatusEnum.DISABLE.getValue());
+            employeeCustomerDao.changeStatus(changeStatusRequest);
+        }
+    }
+
+    @Override
+    public void transferCustomers(TransferCustomer4EmployeeRequest request) {
+        Assert.isTrue(!request.getSrcEmployeeId().equals(request.getEmployeeId()), "转移员工和原员工相同");
+        QueryEmployeeCustomerRequest queryEmployeeCustomerRequest = new QueryEmployeeCustomerRequest();
+        queryEmployeeCustomerRequest.setEmployeeId(request.getSrcEmployeeId());
         queryEmployeeCustomerRequest.setStatus(CommonStatusEnum.ENABLE.getValue());
         List<EmployeeCustomer> employeeCustomers = employeeCustomerDao.selectSearchList(queryEmployeeCustomerRequest);
-        Set<Integer> customerGroupIdsBinded = employeeCustomers.stream().map(EmployeeCustomer::getCustomerGroupId).collect(Collectors.toSet());
-        List<Integer> customerGroupIdsToBind = request.getCustomerGroupIds().stream().filter(i -> !customerGroupIdsBinded.contains(i)).collect(Collectors.toList());
+        Assert.notEmpty(employeeCustomers, "原员工无所属股东");
 
-        transfer(request, employeeCustomers);
-        newBinding(request, customerGroupIdsToBind);
+        getLogger().info("转移股东{}人", employeeCustomers.size());
+        if (CollectionUtils.isNotEmpty(employeeCustomers)) {
+
+            employeeCustomers.forEach(i -> {
+                i.setParentId(i.getId());
+                i.setParentEmployeeId(i.getEmployeeId());
+
+                if (Objects.isNull(i.getInheritChain())) {
+                    i.setInheritChain(StringUtils.EMPTY);
+                }
+                if (StringUtils.isNotEmpty(i.getInheritChain())) {
+                    i.setInheritChain(i.getInheritChain() + ",");
+                }
+                i.setInheritChain(i.getInheritChain() + i.getId());
+                i.setEmployeeId(request.getEmployeeId());
+                i.setStatus(CommonStatusEnum.ENABLE.getValue());
+                i.copyOperationInfo(request);
+            });
+
+            ChangeStatusRequest changeStatusRequest = new ChangeStatusRequest(employeeCustomers.stream().map(i -> i.getId().toString()).collect(Collectors.toList()), CommonStatusEnum.DISABLE.getValue());
+            employeeCustomerDao.changeStatus(changeStatusRequest);
+            employeeCustomerDao.addBatch(employeeCustomers);
+        }
     }
 
     @Override
@@ -135,46 +197,4 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
                 });
     }
 
-    private void newBinding(BindCustomer4EmployeeRequest request, List<Integer> customerGroupIdsToBind) {
-        getLogger().info("待新绑定{}人", customerGroupIdsToBind.size());
-        if (CollectionUtils.isNotEmpty(customerGroupIdsToBind)) {
-            List<EmployeeCustomer> newBinding = new ArrayList<>();
-            for (Integer customerGroupId : customerGroupIdsToBind) {
-                EmployeeCustomer item = new EmployeeCustomer();
-                item.copyOperationInfo(request);
-                item.setCustomerGroupId(customerGroupId);
-                item.setEmployeeId(request.getEmployeeId());
-                item.setStatus(CommonStatusEnum.ENABLE.getValue());
-                newBinding.add(item);
-            }
-            employeeCustomerDao.addBatch(newBinding);
-        }
-    }
-
-    private void transfer(BindCustomer4EmployeeRequest request, List<EmployeeCustomer> employeeCustomers) {
-        Assert.isTrue(employeeCustomers.stream().noneMatch(i -> i.getEmployeeId().equals(request.getEmployeeId())), "转移员工和原员工相同");
-        getLogger().info("转移股东{}人", employeeCustomers.size());
-        if (CollectionUtils.isNotEmpty(employeeCustomers)) {
-
-            employeeCustomers.forEach(i -> {
-                i.setParentId(i.getId());
-                i.setParentEmployeeId(i.getEmployeeId());
-
-                if (Objects.isNull(i.getInheritChain())) {
-                    i.setInheritChain(StringUtils.EMPTY);
-                }
-                if (StringUtils.isNotEmpty(i.getInheritChain())) {
-                    i.setInheritChain(i.getInheritChain() + ",");
-                }
-                i.setInheritChain(i.getInheritChain() + i.getId());
-                i.setEmployeeId(request.getEmployeeId());
-                i.setStatus(CommonStatusEnum.ENABLE.getValue());
-                i.copyOperationInfo(request);
-            });
-
-            ChangeStatusRequest changeStatusRequest = new ChangeStatusRequest(employeeCustomers.stream().map(i -> i.getId().toString()).collect(Collectors.toList()), CommonStatusEnum.DISABLE.getValue());
-            employeeCustomerDao.changeStatus(changeStatusRequest);
-            employeeCustomerDao.addBatch(employeeCustomers);
-        }
-    }
 }

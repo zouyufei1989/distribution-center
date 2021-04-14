@@ -75,6 +75,14 @@ public class EmployeeController extends BaseController {
 
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
+    @RequestMapping(value = "transferCustomerGroup", method = RequestMethod.POST)
+    public ResponseBase bindCustomerGroup(@Valid @RequestBody TransferCustomer4EmployeeRequest request, BindingResult bindingResult) {
+        this.employeeService.transferCustomers(request);
+        return ResponseBase.success();
+    }
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
     @RequestMapping(value = "buildEmployeeRelationships", method = RequestMethod.POST)
     public ResponseBase buildEmployeeRelationships(String employeeId) {
         final TreeNodeDto treeNode = this.employeeService.buildEmployeeRelationships(employeeId);
