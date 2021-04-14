@@ -55,6 +55,9 @@
 			<if test="groupId!=null">
 				AND dg.id = #{groupId}
 			</if>
+			<if test="customer.groupId!=null">
+				AND dg.id = #{customer.groupId}
+			</if>
 			<if test="exactPhone!=null and exactPhone!=''">
 				AND dc.phone = #{exactPhone}
 			</if>
@@ -109,6 +112,9 @@
 			(dcg.status != -2 OR dcg.status IS NULL)
 			<if test="groupId!=null">
 				AND dcg.group_id = #{groupId}
+			</if>
+			<if test="customer.groupId!=null">
+				AND dcg.group_id = #{customer.groupId}
 			</if>
 			<if test="exactPhone!=null and exactPhone!=''">
 				AND dc.phone = #{exactPhone}
