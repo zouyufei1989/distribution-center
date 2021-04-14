@@ -60,7 +60,7 @@
                                                     <input type="text" class="form-control" v-model="searchParam.phone" placeholder="请输入姓名或手机号">
                                                 </div>
                                                 <div class="form-group">
-                                                    <bonus-plan-combo must_choose_one="false" id="bonusPlanId" style="width:100px"></bonus-plan-combo>
+                                                    <bonus-plan-combo must_choose_one="false" :group_id="employee.groupId" id="bonusPlanId" style="width:100px"></bonus-plan-combo>
                                                 </div>
                                             </form>
                                         </td>
