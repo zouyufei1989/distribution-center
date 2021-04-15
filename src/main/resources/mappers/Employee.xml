@@ -13,6 +13,7 @@
 			de.open_id AS openId,
 			de.serial_number AS serialNumber,
 			de.nick_name AS nickName,
+			de.head_cover AS headCover,
 			de.group_id AS groupId,
 			de.status,
 			de.gender,
@@ -46,6 +47,12 @@
 			</if>
 			<if test="employee.openId!=null and employee.openId!=''">
 				AND de.open_id =#{employee.openId}
+			</if>
+			<if test="employee.nickName!=null and employee.nickName!=''">
+				AND de.nick_name =#{employee.nickName}
+			</if>
+			<if test="employee.headCover!=null and employee.headCover!=''">
+				AND de.head_cover =#{employee.headCover}
 			</if>
 		ORDER BY status DESC,id
 		<if test="rows != null and  rows > 0">
@@ -84,6 +91,7 @@
 			open_id AS openId,
 			serial_number AS serialNumber,
 			nick_name AS nickName,
+			head_cover AS headCover,
 			group_id AS groupId,
 			status,
 			gender,

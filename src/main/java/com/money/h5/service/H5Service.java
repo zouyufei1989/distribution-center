@@ -56,7 +56,7 @@ public class H5Service extends BaseServiceImpl {
         String sessionKey = wechatLoginResponse.getSession_key();
         redisUtils.setObject(RedisKeyEnum.WECHAT_SESSION_KEY.getName() + openId, sessionKey);
 
-        final Employee employee = tryEmployee(openId);
+        final Employee employee = tryEmployee(openId, loginRequest.getPhone());
         if (Objects.nonNull(employee) && StringUtils.isNotEmpty(employee.getPhone()) && StringUtils.isNotEmpty(employee.getHeadCover()) && StringUtils.isNotEmpty(employee.getNickName())) {
             final ResponseBase success = ResponseBase.success(openId, new H5Employee(employee));
             markAsEmployee(success);
@@ -89,12 +89,17 @@ public class H5Service extends BaseServiceImpl {
         return error;
     }
 
-    private Employee tryEmployee(String openId) {
+    private Employee tryEmployee(String openId, String phone) {
         QueryEmployeeRequest queryEmployeeRequest = new QueryEmployeeRequest();
         queryEmployeeRequest.getEmployee().setOpenId(openId);
-        final List<Employee> employees = employeeService.selectSearchList(queryEmployeeRequest);
-        if (CollectionUtils.isEmpty(employees)) {
-            return null;
+        List<Employee> employees = employeeService.selectSearchList(queryEmployeeRequest);
+        if (employees.size() != 1) {
+            queryEmployeeRequest = new QueryEmployeeRequest();
+            queryEmployeeRequest.getEmployee().setPhone(phone);
+            employees = employeeService.selectSearchList(queryEmployeeRequest);
+            if (employees.size() != 1) {
+                return null;
+            }
         }
 
         return employees.get(0);
@@ -115,7 +120,9 @@ public class H5Service extends BaseServiceImpl {
         }
 
         if (tryEmployee(request, phone)) {
-            return ResponseBase.success();
+            final ResponseBase success = ResponseBase.success();
+            markAsEmployee(success);
+            return success;
         }
 
         Customer customerByOpenId = customerService.findByOpenId(request.getOpenId());
@@ -150,14 +157,8 @@ public class H5Service extends BaseServiceImpl {
             return false;
         }
 
-        MoAEmployeeRequest moAEmployeeRequest = new MoAEmployeeRequest();
-        moAEmployeeRequest.setId(employees.get(0).getId());
-        moAEmployeeRequest.setNickName(request.getNickName());
-        moAEmployeeRequest.setHeadCover(request.getAvatarUrl());
-        moAEmployeeRequest.setPhone(phone);
-        moAEmployeeRequest.setOpenId(request.getOpenId());
-        moAEmployeeRequest.ofH5(request);
-        employeeService.edit(moAEmployeeRequest);
+        final Employee employee = Employee.buildFromWechat4Edit(request, employees.get(0).getId(), phone);
+        employeeService.edit(employee);
 
         return true;
     }
@@ -201,7 +202,7 @@ public class H5Service extends BaseServiceImpl {
         String code = redisUtils.getObject(key, String.class);
         if (StringUtils.isNotEmpty(code)) {
             ResponseBase error = ResponseBase.error(ResponseCodeEnum.TOO_FREQUENCY_4_SMS_VERIFY_CODE);
-            error.setData(redisUtils.getExpiredSec(key));
+            error.setData(redisUtils.getExpiredSec(key) + "：" + code);
             return error;
         }
 

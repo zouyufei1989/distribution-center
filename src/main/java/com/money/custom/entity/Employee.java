@@ -6,6 +6,7 @@ import com.money.custom.entity.enums.GenderEnum;
 import com.money.custom.entity.request.MoAEmployeeRequest;
 import com.money.framework.base.entity.BaseEntity;
 import com.money.framework.util.EnumUtils;
+import com.money.h5.entity.request.TransWechatInfo2CustomerRequest;
 
 public class Employee extends BaseEntity {
 
@@ -48,6 +49,20 @@ public class Employee extends BaseEntity {
         employee.setGender(request.getGender());
         employee.setIdentifyNo(request.getIdentifyNo());
         employee.setJoinDate(request.getJoinDate());
+        employee.setOpenId(request.getOpenId());
+        employee.setNickName(request.getNickName());
+        employee.setHeadCover(request.getHeadCover());
+        employee.copyOperationInfo(request);
+        return employee;
+    }
+
+    public static Employee buildFromWechat4Edit(TransWechatInfo2CustomerRequest request,Integer id,String phone) {
+        Employee employee = new Employee();
+        employee.setId(id);
+        employee.setPhone(phone);
+        employee.setOpenId(request.getOpenId());
+        employee.setNickName(request.getNickName());
+        employee.setHeadCover(request.getAvatarUrl());
         employee.copyOperationInfo(request);
         return employee;
     }

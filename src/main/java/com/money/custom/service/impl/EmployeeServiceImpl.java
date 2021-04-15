@@ -186,6 +186,12 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
         return root;
     }
 
+    @AddHistoryLog(historyLogEntity = HistoryEntityEnum.EMPLOYEE)
+    @Override
+    public void edit(Employee employee) {
+        dao.edit(employee);
+    }
+
     void buildTreeNodeChildren(TreeNodeDto node, List<Customer> customers) {
         customers.stream()
                 .filter(c -> Objects.nonNull(c.getCustomerGroup().getParentId()))
