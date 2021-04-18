@@ -22,13 +22,19 @@ public class QueryEmployeeCustomerResponse extends ResponseBase {
         private String openId;
         private Integer childrenCnt;
         private String phone;
+        private String avatar;
 
         public H5CustomerOfEmployee(TreeNodeDto item) {
             id = item.getCustomer().getCustomerGroup().getId();
             name = item.getCustomer().getName();
             openId = item.getCustomer().getOpenId();
             phone = item.getCustomer().getPhone();
+            avatar = item.getCustomer().getHeadCover();
             childrenCnt = item.getChildren().size();
+        }
+
+        public String getAvatar() {
+            return avatar;
         }
 
         public Integer getId() {

@@ -85,21 +85,23 @@
 	
 	<select id="findById" parameterType="String" resultType="Employee">
 		SELECT 
-			id,
-			name,
-			phone,
-			open_id AS openId,
-			serial_number AS serialNumber,
-			nick_name AS nickName,
-			head_cover AS headCover,
-			group_id AS groupId,
-			status,
-			gender,
-			employee_level AS employeeLevel,
-			join_date AS joinDate,
-			identify_no AS identifyNo
-		FROM <include refid="tableName"/>
-		WHERE id = #{id}
+			de.id,
+			de.name,
+			de.phone,
+			de.open_id AS openId,
+			de.serial_number AS serialNumber,
+			de.nick_name AS nickName,
+			de.head_cover AS headCover,
+			de.group_id AS groupId,
+			de.status,
+			de.gender,
+			de.employee_level AS employeeLevel,
+			de.join_date AS joinDate,
+			de.identify_no AS identifyNo,
+			dg.name AS groupName
+		FROM <include refid="tableName"/> de
+		LEFT JOIN d_group dg ON dg.id = de.group_id
+		WHERE de.id = #{id}
 	</select>
 
 	<insert id="add" parameterType="Employee" useGeneratedKeys="true" keyProperty="id">
