@@ -60,6 +60,7 @@ public class H5Service extends BaseServiceImpl {
         if (Objects.nonNull(employee) && StringUtils.isNotEmpty(employee.getPhone()) && StringUtils.isNotEmpty(employee.getHeadCover()) && StringUtils.isNotEmpty(employee.getNickName())) {
             final ResponseBase success = ResponseBase.success(openId, new H5Employee(employee));
             markAsEmployee(success);
+            getLogger().info("员工登录: openId - {} ; phone - {}.", openId, loginRequest.getPhone());
             return success;
         }
         if (Objects.nonNull(employee)) {
@@ -67,12 +68,14 @@ public class H5Service extends BaseServiceImpl {
             error.setData(openId);
             error.setExtraData(loginRequest.getPhone());
             markAsEmployee(error);
+            getLogger().info("员工登录 - 请求补充信息: openId - {} ; phone - {}.", openId, loginRequest.getPhone());
             return error;
         }
 
         Customer customer = customerService.findByOpenId(openId);
 
         if (Objects.nonNull(customer) && StringUtils.isNotEmpty(customer.getPhone()) && StringUtils.isNotEmpty(customer.getHeadCover()) && StringUtils.isNotEmpty(customer.getNickName())) {
+            getLogger().info("客户登录: openId - {}.", openId);
             return ResponseBase.success(openId, new H5Customer(customer));
         }
 
@@ -86,6 +89,7 @@ public class H5Service extends BaseServiceImpl {
         ResponseBase error = ResponseBase.error(ResponseCodeEnum.ASK_4_USER_INFO);
         error.setData(openId);
         error.setExtraData(loginRequest.getPhone());
+        getLogger().info("客户登录: openId - {}， 请求补充信息.", openId);
         return error;
     }
 
@@ -122,6 +126,7 @@ public class H5Service extends BaseServiceImpl {
         if (tryEmployee(request, phone)) {
             final ResponseBase success = ResponseBase.success();
             markAsEmployee(success);
+            getLogger().info("客户补充信息: phone - {}.", request.getPhone());
             return success;
         }
 
@@ -227,9 +232,11 @@ public class H5Service extends BaseServiceImpl {
         if (Objects.nonNull(employee)) {
             ResponseBase success = ResponseBase.success(request.getPhone(), employee.getOpenId());
             markAsEmployee(success);
+            getLogger().info("员工短息登录: phone - {}.", request.getPhone());
             return success;
         }
 
+        getLogger().info("顾客短息登录: phone - {}.", request.getPhone());
         String openId = autoRegisterIfNewPhone(request);
         return ResponseBase.success(request.getPhone(), openId);
     }

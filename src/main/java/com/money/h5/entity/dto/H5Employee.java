@@ -17,6 +17,7 @@ public class H5Employee {
     private String groupName;
     @ApiModelProperty(value = "手机号")
     private String phone;
+    private String avatar;
 
     public H5Employee() {}
 
@@ -26,6 +27,11 @@ public class H5Employee {
         openId = employee.getOpenId();
         groupName = employee.getGroupName();
         phone = employee.getPhone();
+        avatar = employee.getHeadCover();
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 
     public Integer getId() {
