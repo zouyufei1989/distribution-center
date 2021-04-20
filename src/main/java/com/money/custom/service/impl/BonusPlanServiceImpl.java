@@ -1,19 +1,17 @@
 package com.money.custom.service.impl;
 
-import com.money.custom.dao.BannerDao;
 import com.money.custom.dao.BonusPlanDao;
-import com.money.custom.entity.Banner;
 import com.money.custom.entity.BonusPlan;
+import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryBonusPlanRequest;
-import com.money.custom.entity.request.QueryGridRequestBase;
-import com.money.custom.service.BannerService;
 import com.money.custom.service.BonusPlanService;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -55,6 +53,13 @@ public class BonusPlanServiceImpl extends BaseServiceImpl implements BonusPlanSe
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.BONUS_PLAN)
     @Override
     public List<String> changeStatus(ChangeStatusRequest request) {
+        if (request.getStatus().equals(CommonStatusEnum.DELETED.getValue())) {
+            QueryBonusPlanRequest queryBonusPlanRequest = new QueryBonusPlanRequest();
+            queryBonusPlanRequest.setStatus(CommonStatusEnum.ENABLE.getValue());
+            queryBonusPlanRequest.setGroupId(request.getGroupId());
+            List<BonusPlan> bonusPlans = selectSearchList(queryBonusPlanRequest);
+            Assert.isTrue(bonusPlans.stream().filter(b -> request.getIds().contains(b.getId().toString())).allMatch(b -> b.getUsedCount() == 0), "选中方案有股东使用");
+        }
         dao.changeStatus(request);
         return request.getIds();
     }
