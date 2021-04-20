@@ -97,16 +97,22 @@ public class H5Service extends BaseServiceImpl {
         QueryEmployeeRequest queryEmployeeRequest = new QueryEmployeeRequest();
         queryEmployeeRequest.getEmployee().setOpenId(openId);
         List<Employee> employees = employeeService.selectSearchList(queryEmployeeRequest);
-        if (employees.size() != 1) {
-            queryEmployeeRequest = new QueryEmployeeRequest();
-            queryEmployeeRequest.getEmployee().setPhone(phone);
-            employees = employeeService.selectSearchList(queryEmployeeRequest);
-            if (employees.size() != 1) {
-                return null;
-            }
+        if (employees.size() == 1) {
+            return employees.get(0);
         }
 
-        return employees.get(0);
+        if (StringUtils.isBlank(phone)) {
+            return null;
+        }
+
+        queryEmployeeRequest = new QueryEmployeeRequest();
+        queryEmployeeRequest.getEmployee().setPhone(phone);
+        employees = employeeService.selectSearchList(queryEmployeeRequest);
+        if (employees.size() == 1) {
+            return employees.get(0);
+        }
+
+        return null;
 
     }
 
