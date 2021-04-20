@@ -32,9 +32,11 @@ $(document).ready(function () {
             {name: 'customerGroup.expireDate', header: '股东到期时间'},
             {name: 'createDate', header: '创建时间', formatter: yyyyMMddhhmmFormatter},
             {name: 'customerGroup.statusName', header: '状态'},
-            {name: 'myCustomerCnt', header: '我的客源',formatter:function(val,opt,obj){
-                    return hyperlinkeButtonFormatter(val , 'showMyCustomer(' + obj.customerGroup.id + ',"' + obj.name + '")')
-            }},
+            {
+                name: 'myCustomerCnt', header: '我的客源', formatter: function (val, opt, obj) {
+                    return hyperlinkeButtonFormatter(val, 'showMyCustomer(' + obj.customerGroup.id + ',"' + obj.name + '")')
+                }
+            },
             {
                 name: 'id', header: '操作', formatter: function (val, opt, obj) {
                     if (obj.customerGroup.type == 2) {
@@ -46,6 +48,9 @@ $(document).ready(function () {
             {name: 'customerGroup.groupId', header: "groupId", hidden: true},
             {name: 'customerGroup.bonusPlanId', header: "bonusPlanId", hidden: true},
             {name: 'customerGroup.type', header: "type", hidden: true},
+            {name: 'customerGroup.orderToConsumeCnt', header: "orderToConsumeCnt", hidden: true},
+            {name: 'bonusWallet.availableBonus', header: "availableBonus", hidden: true},
+            {name: 'wallet.sumMoney', header: "sumMoney", hidden: true},
             {name: 'customerGroup.id', header: "type", key: true, hidden: true},
             {
                 name: 'id', header: "id", hidden: true, formatter: function (val, opt, obj) {
@@ -77,15 +82,15 @@ function showPackageList(id, name) {
         async: false,
         cached: false,
         success: function (result) {
-            packagesVue.packages = result.rows.filter(i => i.items.length>0 && (i.status == 2 || i.status == 3))
+            packagesVue.packages = result.rows.filter(i => i.items.length > 0 && (i.status == 2 || i.status == 3))
             $('#packagesModal').modal('show');
         }
     });
 }
 
-function showMyCustomer(id,parentName){
+function showMyCustomer(id, parentName) {
     $('#sp_parentName').html(parentName);
-    initGridData("list/search", {parentId:id},
+    initGridData("list/search", {parentId: id},
         [
             {name: 'name', header: '客户姓名'},
             {name: 'customerGroup.serialNumber', header: '客户编号'},
@@ -94,4 +99,25 @@ function showMyCustomer(id,parentName){
             {name: 'customerGroup.statusName', header: '状态'}]
         , "table_list_mycustomer", "pager_list_mycustomer");
     $('#myCustomerModal').modal('show');
+}
+
+function deleteTip() {
+    var tip = "该用户尚";
+    var typs = [];
+    if (_ROWS_CHOOSED.filter(i => i['wallet.sumMoney']>0).length > 0) {
+        typs.push("余额未使用");
+    }
+    if (_ROWS_CHOOSED.filter(i => i['bonusWallet.availableBonus']>0).length > 0) {
+        typs.push("分红（积分）未提现");
+    }
+    if (_ROWS_CHOOSED.filter(i => i['customerGroup.orderToConsumeCnt']>0).length > 0) {
+        typs.push("订单未使用");
+    }
+
+    if (typs.length > 0) {
+        tip = "该用户尚有" + typs.join("、") + "；删除后将无法恢复<br>";
+    }
+
+    tip += "确定要删除选中行?";
+    return tip;
 }

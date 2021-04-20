@@ -105,7 +105,11 @@
 
                 //逻辑删除
                 $("#btn_delete").click(function () {
-                    Confirm("确定要删除选中行？", function () {
+                    var tip = "确定要删除选中行?";
+                    if(typeof deleteTip ==='function'){
+                        tip = deleteTip();
+                    }
+                    Confirm(tip, function () {
                         if (typeof deleteRow === 'function') {
                             deleteRow();
                         } else {

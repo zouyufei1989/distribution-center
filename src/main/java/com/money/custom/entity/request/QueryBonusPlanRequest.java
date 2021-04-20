@@ -24,4 +24,8 @@ public class QueryBonusPlanRequest extends QueryGridRequestBase {
         return params;
     }
 
+    public void setStatus(Integer status){
+        this.bonusPlan.setStatus(status);
+    }
+
 }

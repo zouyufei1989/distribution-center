@@ -25,6 +25,7 @@ public class CustomerGroup extends BaseEntity {
 
     private String bonusPlanName;
     private Integer packageCount;
+    private Integer orderToConsumeCnt;
 
     public CustomerGroup() {}
 
@@ -41,6 +42,14 @@ public class CustomerGroup extends BaseEntity {
         setType(request.getType());
         setCashbackFirst(request.getCashbackFirst());
         totalNew = CustomerTotalNewEnum.NEW.getValue();
+    }
+
+    public Integer getOrderToConsumeCnt() {
+        return orderToConsumeCnt;
+    }
+
+    public void setOrderToConsumeCnt(Integer orderToConsumeCnt) {
+        this.orderToConsumeCnt = orderToConsumeCnt;
     }
 
     public Integer getCashbackFirst() {

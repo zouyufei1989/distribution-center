@@ -29,15 +29,21 @@
 			dcg.total_new AS `customerGroup.totalNew`,
 			packages.cnt AS `customerGroup.packageCount`,
 			grpByParent.cnt AS myCustomerCnt,
-			employeeInfo.employee_id AS employeeId
+			employeeInfo.employee_id AS employeeId,
+			dbw.available_bonus AS `bonusWallet.availableBonus`,
+			orderToConsume.cnt AS `customerGroup.orderToConsumeCnt`
 		FROM <include refid="tableName"/>  dc
 		LEFT JOIN d_customer_group dcg ON dcg.customer_id = dc.id
 		LEFT JOIN d_group dg ON dg.id = dcg.group_id
 		LEFT JOIN d_bonus_plan dbp ON dbp.id = dcg.bonus_plan_id
 		LEFT JOIN d_wallet dw ON dw.id = dcg.wallet_id
+		LEFT JOIN d_bonus_wallet dbw ON dbw.id = dcg.bonus_wallet_id
 		LEFT JOIN (
 			SELECT customer_group_id , count(*) cnt FROM d_order WHERE status IN (2,3) AND goods_type_id = 2 GROUP BY customer_group_id
 		) packages ON packages.customer_group_id = dcg.id
+		LEFT JOIN (
+			SELECT customer_group_id , count(*) cnt FROM d_order WHERE status =2 GROUP BY customer_group_id
+		) orderToConsume ON orderToConsume.customer_group_id = dcg.id
 		LEFT JOIN (
 			SELECT parent_id, count(*) cnt FROM d_customer_group
 			WHERE
