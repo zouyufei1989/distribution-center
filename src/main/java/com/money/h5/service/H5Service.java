@@ -98,6 +98,7 @@ public class H5Service extends BaseServiceImpl {
         queryEmployeeRequest.getEmployee().setOpenId(openId);
         List<Employee> employees = employeeService.selectSearchList(queryEmployeeRequest);
         if (employees.size() == 1) {
+            getLogger().info("通过openId {} 查询到员工信息", openId);
             return employees.get(0);
         }
 
@@ -109,6 +110,7 @@ public class H5Service extends BaseServiceImpl {
         queryEmployeeRequest.getEmployee().setPhone(phone);
         employees = employeeService.selectSearchList(queryEmployeeRequest);
         if (employees.size() == 1) {
+            getLogger().info("通过phone {} 查询到员工信息", phone);
             return employees.get(0);
         }
 
