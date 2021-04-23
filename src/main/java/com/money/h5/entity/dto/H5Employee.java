@@ -4,6 +4,7 @@ import com.money.custom.entity.Employee;
 import com.money.custom.entity.Goods;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.util.Assert;
 
 @ApiModel(description = "员工信息")
 public class H5Employee {
@@ -22,6 +23,7 @@ public class H5Employee {
     public H5Employee() {}
 
     public H5Employee(Employee employee) {
+        Assert.notNull(employee, "员工不存在");
         id = employee.getId();
         name = employee.getName();
         openId = employee.getOpenId();
