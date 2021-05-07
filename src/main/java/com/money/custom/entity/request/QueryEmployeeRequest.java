@@ -22,4 +22,8 @@ public class QueryEmployeeRequest extends QueryGridRequestBase {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    public void setOpenId(String openId){
+        this.employee.setOpenId(openId);
+    }
 }
