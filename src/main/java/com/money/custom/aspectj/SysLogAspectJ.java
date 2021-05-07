@@ -73,9 +73,9 @@ public class SysLogAspectJ {
         }
 
         long execMM = System.currentTimeMillis() - start;
-        logger.info("exec duration: {} \t {} ", execMM, point.getSignature().toString());
-        logger.info("exec param: {}", params);
-        logger.info("exec response: {} ", JSON.toJSONString(returnValue));
+        logger.info("[{}] exec duration: {} \t {} ", methodName, execMM, point.getSignature().toString());
+        logger.info("[{}]  exec param: {}", methodName, params);
+        logger.info("[{}]  exec response: {} ", methodName, JSON.toJSONString(returnValue));
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
         request.setAttribute("method_exec_mm", execMM);
