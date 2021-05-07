@@ -2,6 +2,7 @@ package com.money.h5.entity.dto;
 
 import com.money.custom.entity.Employee;
 import com.money.custom.entity.Goods;
+import com.money.custom.entity.enums.CommonStatusEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.util.Assert;
@@ -24,6 +25,7 @@ public class H5Employee {
 
     public H5Employee(Employee employee) {
         Assert.notNull(employee, "员工不存在");
+        Assert.isTrue(employee.getStatus().equals(CommonStatusEnum.ENABLE.getValue()), "员工不可用");
         id = employee.getId();
         name = employee.getName();
         openId = employee.getOpenId();
