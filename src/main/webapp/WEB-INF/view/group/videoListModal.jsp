@@ -2,7 +2,7 @@
 
 <div class="modal inmodal fade" id="videoListModal" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="max-height: 500px;overflow: scroll">
             <div class="modal-body">
                 <h3>介绍视频列表</h3>
                 <div class="wrapper animated fadeInRight">
