@@ -11,6 +11,8 @@ import com.money.custom.service.BannerService;
 import com.money.custom.service.GroupService;
 import com.money.h5.entity.H5GridRequestBase;
 import com.money.h5.entity.H5RequestBase;
+import com.money.h5.entity.request.QueryByIdRequest;
+import com.money.h5.entity.request.QueryByOperationalIdRequest;
 import com.money.h5.entity.response.QueryBannerResponse;
 import com.money.h5.entity.response.QueryGoodsResponse;
 import com.money.h5.entity.response.QueryGroupResponse;
@@ -43,12 +45,13 @@ public class HomeController {
         return new QueryBannerResponse(banners);
     }
 
-    @ApiOperation(value = "获取门店列表（可分页）")
+    @ApiOperation(value = "获取门店列表（可分页）",notes = "传入当前登录用户的id，则返回该用户所属门店信息；否则返回全部门店")
     @ResponseBody
     @RequestMapping(value = "queryGroups", method = RequestMethod.POST)
-    public QueryGroupResponse queryGroups(@Valid @RequestBody H5GridRequestBase request, BindingResult bindingResult) {
+    public QueryGroupResponse queryGroups(@Valid @RequestBody QueryByOperationalIdRequest request, BindingResult bindingResult) {
         QueryGroupRequest queryGroupRequest = new QueryGroupRequest();
         queryGroupRequest.copyPagerFromH5Request(request);
+        queryGroupRequest.setCustomerGroupId(request.getId());
         List<Group> groups = groupService.selectSearchList(queryGroupRequest);
         int recordCount = groupService.selectSearchListCount(queryGroupRequest);
         return new QueryGroupResponse(recordCount, request.calTotalPage(recordCount), groups);

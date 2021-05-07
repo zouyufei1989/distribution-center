@@ -46,6 +46,9 @@
 			<if test="groupId != null">
 				AND dg.id = #{groupId}
 			</if>
+			<if test="customerGroupId != null">
+				AND dg.id = (SELECT group_id FROM d_customer_group WHERE id = #{customerGroupId})
+			</if>
 		ORDER BY status DESC, `index`
 		<if test="rows != null and  rows > 0">
 			LIMIT #{start}, #{rows}
@@ -69,6 +72,9 @@
 			</if>
 			<if test="groupId != null">
 				AND id = #{groupId}
+			</if>
+			<if test="customerGroupId != null">
+				AND id = (SELECT group_id FROM d_customer_group WHERE id = #{customerGroupId})
 			</if>
 	</select>
 	
