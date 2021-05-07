@@ -64,4 +64,4 @@
     </div>
 </div>
 
-<upload-img-modal id="urlModal" title="banner" img="img_url"></upload-img-modal>
+<upload-img-modal id="urlModal" title="banner" img="img_url"  width="686" height="314"></upload-img-modal>
