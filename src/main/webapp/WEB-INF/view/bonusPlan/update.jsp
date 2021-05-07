@@ -75,5 +75,3 @@
         </div>
     </div>
 </div>
-
-<upload-img-modal id="urlModal" title="banner" img="img_url"></upload-img-modal>

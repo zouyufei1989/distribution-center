@@ -28,5 +28,3 @@
         </div>
     </div>
 </div>
-
-<upload-img-modal id="thumbnailModal" title="商品展示图" img="thumbnailUrl"></upload-img-modal>
