@@ -144,7 +144,6 @@
 			#{openRules},
 			#{reserveFlag},
 			#{reserveDays},
-			#{openRules},
 			NOW(),
 			#{creator},
 		  	#{createIp}

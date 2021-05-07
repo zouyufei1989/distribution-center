@@ -2,6 +2,7 @@ package com.money.custom.service.impl;
 
 import com.money.custom.dao.GroupDao;
 import com.money.custom.entity.Group;
+import com.money.custom.entity.enums.GroupReserveFlagEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.enums.RedisKeyEnum;
 import com.money.custom.entity.request.ChangeStatusRequest;
@@ -44,6 +45,7 @@ public class GroupServiceImpl extends BaseServiceImpl implements GroupService {
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.GROUP)
     @Override
     public String add(Group item) {
+        item.setReserveFlag(GroupReserveFlagEnum.NO.getValue());
         dao.add(item);
         return item.getId().toString();
     }
