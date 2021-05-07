@@ -25,7 +25,6 @@ public class H5Employee {
 
     public H5Employee(Employee employee) {
         Assert.notNull(employee, "员工不存在");
-        Assert.isTrue(employee.getStatus().equals(CommonStatusEnum.ENABLE.getValue()), "员工不可用");
         id = employee.getId();
         name = employee.getName();
         openId = employee.getOpenId();

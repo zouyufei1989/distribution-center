@@ -1,6 +1,9 @@
 package com.money.h5.controller;
 
+import com.money.custom.entity.Employee;
 import com.money.custom.entity.dto.TreeNodeDto;
+import com.money.custom.entity.enums.CommonStatusEnum;
+import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.service.EmployeeService;
 import com.money.framework.base.entity.ResponseBase;
 import com.money.h5.entity.dto.H5Employee;
@@ -36,7 +39,11 @@ public class H5EmployeeController {
     @ResponseBody
     @RequestMapping(value = "queryEmployeeInfo", method = RequestMethod.POST)
     public ResponseBase queryEmployeeInfo(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
-        return ResponseBase.success(new H5Employee(employeeService.findById(request.getId())));
+        Employee employee = employeeService.findById(request.getId());
+        if (!CommonStatusEnum.ENABLE.getValue().equals(employee.getStatus())) {
+            return ResponseBase.error(ResponseCodeEnum.EMPLOYEE_DISABLED);
+        }
+        return ResponseBase.success(new H5Employee(employee));
     }
 
 }
