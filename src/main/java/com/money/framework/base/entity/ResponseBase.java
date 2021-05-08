@@ -92,6 +92,12 @@ public class ResponseBase {
         this.code = code;
     }
 
+    public void setError(ResponseCodeEnum code){
+       this.success = false;
+       this.code = code.getValue();
+       this.message = code.getName();
+    }
+
     public String getMessage() {
         return message;
     }
