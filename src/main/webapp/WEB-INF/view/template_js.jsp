@@ -496,7 +496,7 @@
             return false;
         });
 
-        TIMEOUT_INTERVAL = setInterval(isTimeOut, 1000 * 30);
+        TIMEOUT_INTERVAL = setInterval(isTimeOut, 1000 * 60);
         initXSSFilter();
         $('input').attr('autocomplete', 'off');
 
