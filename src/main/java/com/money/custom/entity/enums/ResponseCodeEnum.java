@@ -18,7 +18,7 @@ public enum ResponseCodeEnum {
     TOO_FREQUENCY_4_SMS_VERIFY_CODE(11, "频繁获取短信验证码"),
     WRONG_SMS_VERIFY_CODE(12, "短信验证码错误"),
     EMPLOYEE_DISABLED(13, "员工不可用"),
-    CUSTOMER_NO_GROUP(14, "此系统仅供内部会员使用"),
+    CUSTOMER_NO_GROUP(14, "目前该功能仅限会员使用"),
 
     SUCCESS(0, "成功");
 
