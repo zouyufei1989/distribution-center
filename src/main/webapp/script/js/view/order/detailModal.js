@@ -31,6 +31,12 @@ $(document).ready(function () {
         computed: {
             parentAvailableBonus() {
                 return moneyFormatter(this.refundParams.availableBonus);
+            },
+            orderCreateDate(){
+                if(this.order?.createDate){
+                    return this.order.createDate.replace('<br>',' ')
+                }
+                return '';
             }
         }
     });

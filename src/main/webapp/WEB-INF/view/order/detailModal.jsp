@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">消费时间:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" v-model="order.createDate" disabled>
+                                        <input type="text" class="form-control" v-model="orderCreateDate" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -68,15 +68,14 @@
                     </div>
                 </div>
                 <hr>
-                <h4>消费明细</h4>
+                <h4>项目内容</h4>
                 <div class="wrapper animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-12">
                             <form id="" class="form-horizontal ">
                                 <div class="form-group" v-for="(item,i) in orderItems">
                                     <label class="col-sm-3 control-label">{{item.goodsTagName}}</label>
-                                    <label class="col-sm-3 control-label">{{item.goodsName}}({{moneyFormatter(item.goodsPrice)}}/{{item.goodsUnit}}) * {{item.cnt}}</label>
-                                    <label class="col-sm-3 control-label">¥ {{moneyFormatter(item.goodsPrice*item.cnt)}}</label>
+                                    <label class="col-sm-3 control-label">{{item.goodsName}}({{moneyFormatter(item.goodsPrice)}}/{{item.goodsUnit}})</label>
                                     <button v-show="refund && refundParams.orderStatus<5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" @click="refundMoney()">退款</button>
                                     <button v-show="refund && refundParams.orderStatus>=5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" disabled>已退款</button>
                                 </div>
