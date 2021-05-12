@@ -23,7 +23,7 @@
                     }
                 }
             });
-            data = sort(data, (i, j) => {
+            data = sortArr(data, (i, j) => {
                 return i.value == j.value ? 0 : i.value - j.value;
             });
             if (this.must_choose_one == 'false' || this.must_choose_one == false) {
