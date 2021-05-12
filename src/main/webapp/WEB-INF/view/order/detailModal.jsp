@@ -74,8 +74,8 @@
                         <div class="col-lg-12">
                             <form id="" class="form-horizontal ">
                                 <div class="form-group" v-for="(item,i) in orderItems">
-                                    <label class="col-sm-3 control-label">{{item.goodsTagName}}</label>
-                                    <label class="col-sm-3 control-label">{{item.goodsName}}({{moneyFormatter(item.goodsPrice)}}/{{item.goodsUnit}})</label>
+                                    <label class="col-sm-3 control-label">{{i+1}}.</label>
+                                    <label class="col-sm-7" style="padding-top: 5px">{{item.goodsName}}({{moneyFormatter(item.goodsPrice)}}/{{item.goodsUnit}})</label>
                                     <button v-show="refund && refundParams.orderStatus<5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" @click="refundMoney()">退款</button>
                                     <button v-show="refund && refundParams.orderStatus>=5 && i==orderItems.length-1" style="margin-top: 5px;margin-left: 85px" type="button" data-style="zoom-in" class="btn btn-primary btn-xs" disabled>已退款</button>
                                 </div>
