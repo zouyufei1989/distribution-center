@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import com.money.custom.dao.EmployeeCustomerDao;
 import com.money.custom.dao.EmployeeDao;
 import com.money.custom.entity.Customer;
-import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.Employee;
 import com.money.custom.entity.EmployeeCustomer;
 import com.money.custom.entity.dto.TreeNodeDto;
-import com.money.custom.entity.enums.*;
+import com.money.custom.entity.enums.CommonStatusEnum;
+import com.money.custom.entity.enums.EmployeeStatusEnum;
+import com.money.custom.entity.enums.HistoryEntityEnum;
+import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.CustomerService;
 import com.money.custom.service.EmployeeService;
@@ -162,11 +164,18 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
 
     @Override
     public TreeNodeDto buildEmployeeRelationships(String employeeId) {
-        Assert.hasText(employeeId, "请指定员工ID");
         TreeNodeDto root = new TreeNodeDto();
 
+        if (StringUtils.isEmpty(employeeId)) {
+            getLogger().error("employeeId不可为空");
+            return null;
+        }
+
         final Employee employee = findById(employeeId);
-        Assert.notNull(employee, "未查询到员工信息");
+        if (Objects.isNull(employee)) {
+            getLogger().error("未查询到员工信息");
+            return null;
+        }
         root.setId("emp_" + employee.getId());
         root.setTitle(employee.getName());
 

@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Api(description = "员工端")
 @RequestMapping(value = "h5Employee")
@@ -32,6 +33,11 @@ public class H5EmployeeController {
     @RequestMapping(value = "queryEmployeeCustomerList", method = RequestMethod.POST)
     public QueryEmployeeCustomerResponse queryEmployeeCustomerList(@Valid @RequestBody QueryByIdRequest request, BindingResult bindingResult) {
         final TreeNodeDto treeNodeDto = employeeService.buildEmployeeRelationships(request.getId());
+        if (Objects.isNull(treeNodeDto)) {
+            QueryEmployeeCustomerResponse queryEmployeeCustomerResponse = new QueryEmployeeCustomerResponse();
+            queryEmployeeCustomerResponse.setError(ResponseCodeEnum.EMPLOYEE_DISABLED);
+            return queryEmployeeCustomerResponse;
+        }
         return new QueryEmployeeCustomerResponse(treeNodeDto.getChildren());
     }
 

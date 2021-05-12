@@ -58,8 +58,13 @@ public class HomeController {
         queryGroupRequest.setCustomerGroupId(request.getId());
         List<Group> groups = groupService.selectSearchList(queryGroupRequest);
         int recordCount = groupService.selectSearchListCount(queryGroupRequest);
+        QueryGroupResponse queryGroupResponse = new QueryGroupResponse(recordCount, request.calTotalPage(recordCount), groups);
 
-        return new QueryGroupResponse(recordCount, request.calTotalPage(recordCount), groups);
+        if (recordCount != 1) {
+            queryGroupResponse.setError(ResponseCodeEnum.CUSTOMER_NO_GROUP);
+        }
+
+        return queryGroupResponse;
 
     }
 
