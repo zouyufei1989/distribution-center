@@ -105,4 +105,12 @@ public class CustomerController extends BaseController {
         return ResponseBase.success();
     }
 
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "changeStatus", method = RequestMethod.POST)
+    public ResponseBase changeStatus(@RequestBody ChangeStatusRequest request) {
+        this.customerGroupService.changeStatus(request);
+        return ResponseBase.success();
+    }
+
 }
