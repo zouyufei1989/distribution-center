@@ -201,6 +201,12 @@
 		  	#{creator},
 		  	#{createIp}
 		)
+		ON DUPLICATE KEY
+		UPDATE
+			update_date = NOW()
+			,updater = #{updater}
+			,update_ip = #{updateIp}
+			,name = VALUES(name)
 	</insert>
 
 	<update id="edit" parameterType="Customer">
