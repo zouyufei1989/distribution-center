@@ -25,6 +25,7 @@ public class MoAEmployeeRequest extends OperationalEntity {
     @NotNull(message = "请选择性别")
     private Integer gender;
     @NotBlank(message = "请输入身份证号")
+    @Length(max = 20, message = "身份证号不可超过20个字符")
     private String identifyNo;
 
     private String openId;

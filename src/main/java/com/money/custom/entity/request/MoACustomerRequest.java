@@ -23,7 +23,7 @@ public class MoACustomerRequest extends OperationalEntity {
     private String expireDate;
     @Length(max = 20, message = "银行卡号不可超过20个字符")
     private String bankCardNumber;
-    @Length(max = 20, message = "开户行不可超过50个字符")
+    @Length(max = 50, message = "开户行不可超过50个字符")
     private String bankName;
     @NotNull(message = "请选择状态")
     private Integer status;

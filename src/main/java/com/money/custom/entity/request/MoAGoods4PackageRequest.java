@@ -12,6 +12,7 @@ public class MoAGoods4PackageRequest extends OperationalEntity {
     @Length(max = 20, message = "商品名称不可超过20个字符")
     @NotBlank(message = "请输入商品名称")
     private String name;
+    @Length(max = 2000, message = "商品简介不可超过2000个字符")
     private String desc;
     @NotNull(message = "请选择套餐状态")
     private Integer status;

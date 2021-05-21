@@ -28,8 +28,10 @@ public class Group extends BaseEntity {
     @NotBlank(message = "请输入详细地址")
     private String address;
     @NotBlank(message = "请输入负责人姓名")
+    @Length(max = 10, message = "负责人姓名不可超过10个字符")
     private String ownerName;
     @NotBlank(message = "请输入店铺电话")
+    @Length(max = 20, message = "请输入店铺电话不可超过20个字符")
     private String ownerPhone;
     @Length(max = 500, message = "门店描述不可超过500个字符")
     private String desc;
@@ -43,6 +45,7 @@ public class Group extends BaseEntity {
     @NotNull(message = "请输入门店排序")
     private Integer index;
     @NotBlank(message = "请选择营业时间")
+    @Length(max = 500, message = "营业时间不可超过500个字符")
     private String openRules;
     @NotNull(message = "门店经纬度不可为空")
     private Double lng;

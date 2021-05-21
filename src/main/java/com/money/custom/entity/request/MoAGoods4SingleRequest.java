@@ -28,7 +28,7 @@ public class MoAGoods4SingleRequest extends OperationalEntity {
     private String unit;
     @NotBlank(message = "请上传商品展示图")
     private String thumbnail;
-    @Length(max = 500, message = "描述不可超过500个字符")
+    @Length(max = 2000, message = "描述不可超过500个字符")
     private String desc;
     @IgnoreXss
     private String detail;
