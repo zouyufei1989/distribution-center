@@ -1,5 +1,6 @@
 package com.money.custom.controller;
 
+import com.money.custom.entity.enums.DeletableTableNameEnum;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.CustomerGroupService;
 import com.money.custom.service.CustomerService;
@@ -11,6 +12,8 @@ import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @VisitLogFlag(module = "客户管理", resource = "客户信息管理")
 @Controller
@@ -111,6 +116,17 @@ public class CustomerController extends BaseController {
     public ResponseBase changeStatus(@RequestBody ChangeStatusRequest request) {
         this.customerGroupService.changeStatus(request);
         return ResponseBase.success();
+    }
+
+
+    @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
+    @ResponseBody
+    @RequestMapping(value = "deleteByIds", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> deleteByIds(@RequestBody DeleteByIdsRequest request) {
+        Map<String, Object> result = new HashMap<>();
+        request.setTableNameEnum(DeletableTableNameEnum.CUSTOMER_GROUP);
+        this.customerService.deleteByIds(request);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

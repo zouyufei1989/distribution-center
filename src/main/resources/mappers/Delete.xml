@@ -4,7 +4,7 @@
 <mapper namespace="Delete">
 
 	<insert id="backup" parameterType="Map">
-		INSERT INTO ${tableName}_del_bk
+		INSERT INTO ${tableName}_bk
 			SELECT * from ${tableName} WHERE id IN
 			<foreach collection="ids" item="id" separator="," open="(" close=")">
 				#{id}
