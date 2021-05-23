@@ -210,6 +210,7 @@ public class H5Service extends BaseServiceImpl {
 
     public ResponseBase sendSmsVerifyCode(String phone) {
         Assert.isTrue(StringUtils.isNoneBlank(phone), "手机号不可为空");
+        Assert.isTrue(customerService.phoneExists(phone), "手机号" + phone + "未注册");
 
         String key = RedisKeyEnum.SMS_VERIFY_CODE.getName() + phone;
         String code = redisUtils.getObject(key, String.class);
