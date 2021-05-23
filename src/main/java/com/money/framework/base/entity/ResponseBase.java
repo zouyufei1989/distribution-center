@@ -2,7 +2,7 @@ package com.money.framework.base.entity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.money.custom.entity.enums.ResponseCodeEnum;
-import com.money.framework.base.exception.PandabusSpecException;
+import com.money.framework.base.exception.CustomSpecException;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -44,9 +44,9 @@ public class ResponseBase {
 
     public ResponseBase error(Throwable ex) {
         this.success = false;
-        if (ex instanceof PandabusSpecException) {
-            this.code = ((PandabusSpecException) ex).getCode();
-            this.message = ((PandabusSpecException) ex).getMsg();
+        if (ex instanceof CustomSpecException) {
+            this.code = ((CustomSpecException) ex).getCode();
+            this.message = ((CustomSpecException) ex).getMsg();
             return this;
         }
         if (ex instanceof IllegalArgumentException) {

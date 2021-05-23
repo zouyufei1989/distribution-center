@@ -1,7 +1,7 @@
 package com.money.framework.util.upyun;
 
 import com.money.custom.entity.enums.ResponseCodeEnum;
-import com.money.framework.base.exception.PandabusSpecException;
+import com.money.framework.base.exception.CustomSpecException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -66,7 +66,7 @@ public class UpYunUtil {
         if (result) {
             return URL + filePath;
         } else {
-            throw PandabusSpecException.businessError(ResponseCodeEnum.UPLOAD_FAIL);
+            throw CustomSpecException.businessError(ResponseCodeEnum.UPLOAD_FAIL);
         }
     }
 
@@ -96,7 +96,7 @@ public class UpYunUtil {
 
             return URL + filePath;
         } else {
-            throw PandabusSpecException.businessError(ResponseCodeEnum.UPLOAD_FAIL);
+            throw CustomSpecException.businessError(ResponseCodeEnum.UPLOAD_FAIL);
         }
 
     }

@@ -7,7 +7,7 @@ import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.custom.entity.request.ChangeStatusRequest;
 import com.money.custom.entity.request.QueryUserRequest;
 import com.money.custom.service.UserService;
-import com.money.framework.base.exception.PandabusSpecException;
+import com.money.framework.base.exception.CustomSpecException;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.RSAUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -83,7 +83,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
             String srcPwd = RSAUtils.privateDecrypt(password, RSA_PRI_KEY);
             Pattern pattern = Pattern.compile("(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}");
             if (!pattern.matcher(srcPwd).matches()) {
-                throw  PandabusSpecException.businessError(ResponseCodeEnum.WEEK_PASSWORD);
+                throw  CustomSpecException.businessError(ResponseCodeEnum.WEEK_PASSWORD);
             }
         }
     }

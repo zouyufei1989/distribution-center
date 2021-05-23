@@ -7,7 +7,7 @@ import com.money.custom.entity.request.ChangeStatusBaseRequest;
 import com.money.custom.entity.request.QueryGridRequestBase;
 import com.money.framework.base.annotation.SQLContext;
 import com.money.framework.base.dao.BaseDao;
-import com.money.framework.base.exception.PandabusSpecException;
+import com.money.framework.base.exception.CustomSpecException;
 import com.money.framework.util.EnumUtils;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Repository("baseDaoImpl")
@@ -85,7 +84,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
         Class<T> statusEnumCls = request.getEnumClass();
         Optional<IEnumKeyValue> opt = EnumUtils.getByValue(statusEnumCls, request.getStatus());
         if (!opt.isPresent()) {
-            throw  PandabusSpecException.businessError(ResponseCodeEnum.ILLEGAL_STATUS);
+            throw  CustomSpecException.businessError(ResponseCodeEnum.ILLEGAL_STATUS);
         }
     }
 

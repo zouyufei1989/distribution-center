@@ -1,14 +1,12 @@
 package com.money.framework.base.entity;
 
 import com.money.custom.entity.enums.CommonStatusEnum;
-import com.money.framework.base.exception.PandabusSpecException;
 import com.money.framework.util.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.Objects;
 
 public class BaseEntity extends OperationalEntity implements Serializable {

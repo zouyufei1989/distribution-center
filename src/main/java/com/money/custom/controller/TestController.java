@@ -1,28 +1,18 @@
 package com.money.custom.controller;
 
 import com.money.custom.dao.UtilsDao;
-import com.money.custom.entity.enums.ResponseCodeEnum;
-import com.money.framework.base.entity.TempFile;
-import com.money.framework.base.exception.PandabusSpecException;
 import com.money.framework.base.web.controller.BaseController;
 import com.money.framework.util.AESUtil;
 import com.money.framework.util.RedisUtils;
 import com.money.framework.util.UploadUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 @Controller

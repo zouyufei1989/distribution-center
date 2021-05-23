@@ -13,9 +13,6 @@ public class LoginRequest extends H5RequestBase {
     @NotEmpty(message = "jsCode不可为空")
     private String jsCode;
 
-    @ApiModelProperty(value = "顾客不存在，是否自动创建")
-    private boolean autoCreate = false;
-
     public String getJsCode() {
         return jsCode;
     }
@@ -24,11 +21,4 @@ public class LoginRequest extends H5RequestBase {
         this.jsCode = jsCode;
     }
 
-    public boolean isAutoCreate() {
-        return autoCreate;
-    }
-
-    public void setAutoCreate(boolean autoCreate) {
-        this.autoCreate = autoCreate;
-    }
 }

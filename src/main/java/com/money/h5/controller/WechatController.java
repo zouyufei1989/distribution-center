@@ -3,10 +3,7 @@ package com.money.h5.controller;
 import com.money.custom.service.AssignActivityService;
 import com.money.framework.base.entity.ResponseBase;
 import com.money.h5.entity.H5RequestBase;
-import com.money.h5.entity.request.LoginRequest;
-import com.money.h5.entity.request.QueryByIdRequest;
-import com.money.h5.entity.request.SmsLoginRequest;
-import com.money.h5.entity.request.TransWechatInfo2CustomerRequest;
+import com.money.h5.entity.request.*;
 import com.money.h5.service.H5Service;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -70,6 +67,13 @@ public class WechatController {
     @RequestMapping(value = "smsLogin", method = RequestMethod.POST)
     public ResponseBase smsLogin(@Valid @RequestBody SmsLoginRequest request, BindingResult bindingResult) {
         return h5Service.smsLogin(request);
+    }
+
+    @ApiOperation(value = "微信手机号单点登录，登录成功返回手机号")
+    @ResponseBody
+    @RequestMapping(value = "phoneLogin", method = RequestMethod.POST)
+    public ResponseBase phoneLogin(@Valid @RequestBody PhoneLoginRequest request, BindingResult bindingResult) {
+        return h5Service.phoneLogin(request);
     }
 
 }

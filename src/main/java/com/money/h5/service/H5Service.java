@@ -6,7 +6,6 @@ import com.money.custom.entity.Employee;
 import com.money.custom.entity.Sms;
 import com.money.custom.entity.enums.RedisKeyEnum;
 import com.money.custom.entity.enums.ResponseCodeEnum;
-import com.money.custom.entity.request.MoAEmployeeRequest;
 import com.money.custom.entity.request.QueryCustomerRequest;
 import com.money.custom.entity.request.QueryEmployeeRequest;
 import com.money.custom.service.AssignActivityService;
@@ -15,6 +14,7 @@ import com.money.custom.service.EmployeeService;
 import com.money.custom.service.SmsService;
 import com.money.custom.utils.VerifyCodeUtils;
 import com.money.framework.base.entity.ResponseBase;
+import com.money.framework.base.exception.CustomSpecException;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.framework.util.RedisUtils;
 import com.money.h5.entity.dto.H5Customer;
@@ -53,8 +53,6 @@ public class H5Service extends BaseServiceImpl {
         Assert.isTrue(wechatLoginResponse.success(), "获取openId失败:" + wechatLoginResponse.getErrmsg());
 
         String openId = wechatLoginResponse.getOpenId();
-        String sessionKey = wechatLoginResponse.getSession_key();
-        redisUtils.setObject(RedisKeyEnum.WECHAT_SESSION_KEY.getName() + openId, sessionKey);
 
         final Employee employee = tryEmployee(openId, loginRequest.getPhone());
         if (Objects.nonNull(employee) && StringUtils.isNotEmpty(employee.getPhone()) && StringUtils.isNotEmpty(employee.getHeadCover()) && StringUtils.isNotEmpty(employee.getNickName())) {
@@ -73,21 +71,18 @@ public class H5Service extends BaseServiceImpl {
         }
 
         Customer customer = customerService.findByOpenId(openId);
+        getLogger().info("openId - {} 顾客 ：{}", openId, JSON.toJSONString(customer));
+        if (Objects.isNull(customer)) {
+            customer = customerService.findByPhone(loginRequest.getPhone());
+            getLogger().info("phone - {} 顾客 ：{}", loginRequest.getPhone(), JSON.toJSONString(customer));
+        }
 
         if (Objects.nonNull(customer) && StringUtils.isNotEmpty(customer.getPhone()) && StringUtils.isNotEmpty(customer.getHeadCover()) && StringUtils.isNotEmpty(customer.getNickName())) {
             getLogger().info("客户登录: openId - {}.", openId);
             return ResponseBase.success(openId, new H5Customer(customer));
         }
 
-        if (Objects.isNull(customer)) {
-            if (!loginRequest.isAutoCreate()) {
-                return ResponseBase.error(ResponseCodeEnum.ASK_4_SMS_LOGIN);
-            }
-            getLogger().info("openId {}不存在，自动创建用户", openId);
-            AddCustomer4WechatRequest addCustomer4WechatRequest = new AddCustomer4WechatRequest();
-            addCustomer4WechatRequest.setOpenId(openId);
-            customerService.addFromWechat(addCustomer4WechatRequest);
-        }
+        Assert.notNull(customer, ResponseCodeEnum.CUSTOMER_NO_GROUP.getName());
 
         ResponseBase error = ResponseBase.error(ResponseCodeEnum.ASK_4_USER_INFO);
         error.setData(openId);
@@ -100,8 +95,8 @@ public class H5Service extends BaseServiceImpl {
         QueryEmployeeRequest queryEmployeeRequest = new QueryEmployeeRequest();
         queryEmployeeRequest.getEmployee().setOpenId(openId);
         List<Employee> employees = employeeService.selectSearchList(queryEmployeeRequest);
+        getLogger().info("通过openId {} 查询到员工信息 {}", openId, employees.size());
         if (employees.size() == 1) {
-            getLogger().info("通过openId {} 查询到员工信息", openId);
             return employees.get(0);
         }
 
@@ -155,12 +150,13 @@ public class H5Service extends BaseServiceImpl {
         }
 
         Customer customerByPhone = customersByPhone.get(0);
-        if (customerByOpenId.getId().equals(customerByPhone.getId())) {
+
+        if (Objects.nonNull(customerByOpenId) && Objects.nonNull(customerByPhone) && customerByOpenId.getId().equals(customerByPhone.getId())) {
             wechatSameWeb(request, phone, customerByOpenId);
             return ResponseBase.success();
         }
 
-        wechatDiffWeb(request, phone, customerByOpenId, customerByPhone);
+        wechatDiffWeb(request, phone, request.getOpenId(), customerByPhone);
         return ResponseBase.success();
 
     }
@@ -179,17 +175,17 @@ public class H5Service extends BaseServiceImpl {
         return true;
     }
 
-    private void wechatDiffWeb(TransWechatInfo2CustomerRequest request, String phone, Customer customerByOpenId, Customer customerByPhone) {
+    private void wechatDiffWeb(TransWechatInfo2CustomerRequest request, String phone, String openId, Customer customerByPhone) {
         getLogger().info("后台已创建，小程序已创建，且不是同一人");
-        customerService.deleteByOpenId(customerByOpenId.getOpenId());
-        getLogger().info("删除之前小程序登录自动创建的用户:{}", JSON.toJSONString(customerByOpenId));
+        customerService.deleteByOpenId(openId);
+        getLogger().info("删除之前小程序登录自动创建的用户:{}", openId);
 
         Customer customer = new Customer();
         customer.setId(customerByPhone.getId());
         customer.setNickName(request.getNickName());
         customer.setHeadCover(request.getAvatarUrl());
         customer.setPhone(phone);
-        customer.setOpenId(customerByOpenId.getOpenId());
+        customer.setOpenId(openId);
         customer.ofH5(request);
         customerService.edit(customer);
     }
@@ -213,7 +209,6 @@ public class H5Service extends BaseServiceImpl {
 
     public ResponseBase sendSmsVerifyCode(String phone) {
         Assert.isTrue(StringUtils.isNoneBlank(phone), "手机号不可为空");
-        Assert.isTrue(customerService.phoneExists(phone), "手机号" + phone + "未注册");
 
         String key = RedisKeyEnum.SMS_VERIFY_CODE.getName() + phone;
         String code = redisUtils.getObject(key, String.class);
@@ -240,7 +235,7 @@ public class H5Service extends BaseServiceImpl {
         String code = redisUtils.getObject(redisKey, String.class);
         Assert.isTrue(StringUtils.equals(code, request.getSmsCode()), ResponseCodeEnum.WRONG_SMS_VERIFY_CODE.getName());
 
-        final Employee employee = tryEmployee(request);
+        final Employee employee = tryEmployee(request.getPhone());
         if (Objects.nonNull(employee)) {
             ResponseBase success = ResponseBase.success(request.getPhone(), employee.getOpenId());
             markAsEmployee(success);
@@ -249,33 +244,68 @@ public class H5Service extends BaseServiceImpl {
         }
 
         getLogger().info("顾客短息登录: phone - {}.", request.getPhone());
-        String openId = autoRegisterIfNewPhone(request);
+        String openId = autoRegisterIfNewPhone(request.getPhone(), request.isAutoCreate());
+
         return ResponseBase.success(request.getPhone(), openId);
     }
 
-    String autoRegisterIfNewPhone(SmsLoginRequest loginRequest) {
+    public ResponseBase phoneLogin(PhoneLoginRequest request) {
+        Assert.hasText(request.getJsCode(), "jsCode丢失");
+        WechatLoginResponse wechatLoginResponse = wechatService.jscode2session(request.getJsCode());
+        redisUtils.setObject(RedisKeyEnum.WECHAT_SESSION_KEY.getName() + request.getPhone(), wechatLoginResponse.getSession_key());
+        String openId = wechatLoginResponse.getOpenId();
+
+        WechatPhoneResponse wechatPhoneResponse = wechatService.gainPhone(request);
+        String phone = wechatPhoneResponse.getPurePhoneNumber();
+        Assert.hasText(phone, "手机号不可为空");
+
+        final Employee employee = tryEmployee(phone);
+        if (Objects.nonNull(employee)) {
+            ResponseBase success = ResponseBase.success(phone, employee.getOpenId());
+            markAsEmployee(success);
+            getLogger().info("员工短息登录: phone - {}.", phone);
+            return success;
+        }
+
+        getLogger().info("顾客短息登录: phone - {}.", phone);
+        autoRegisterIfNewPhone(phone, request.isAutoCreate());
+
+        Customer byPhone = customerService.findByPhone(phone);
+        byPhone.setNickName(request.getNickName());
+        byPhone.setHeadCover(request.getAvatarUrl());
+        byPhone.setOpenId(wechatLoginResponse.getOpenId());
+        customerService.edit(byPhone);
+        getLogger().info("更新顾客信息 {}", JSON.toJSONString(byPhone));
+
+        return ResponseBase.success(phone, openId);
+    }
+
+    String autoRegisterIfNewPhone(String phone, boolean autoCreate) {
         QueryCustomerRequest request = new QueryCustomerRequest();
-        request.setExactPhone(loginRequest.getPhone());
+        request.setExactPhone(phone);
         List<Customer> customers = customerService.selectSearchList(request);
         if (CollectionUtils.isNotEmpty(customers)) {
-            getLogger().info("手机号 {} 已存在", loginRequest.getPhone());
+            getLogger().info("手机号 {} 已存在", phone);
             return customers.get(0).getOpenId();
         }
 
-        Customer customer = new Customer();
-        customer.setPhone(loginRequest.getPhone());
-        customer.ofH5(loginRequest);
-        customerService.add(customer);
-        getLogger().info("创建新用户 {}", loginRequest.getPhone());
-        return StringUtils.EMPTY;
+        if (autoCreate) {
+            Customer customer = new Customer();
+            customer.setPhone(phone);
+            customer.ofH5(phone);
+            customerService.add(customer);
+            getLogger().info("创建新用户 {}", phone);
+            return StringUtils.EMPTY;
+        }
+        throw CustomSpecException.businessError(ResponseCodeEnum.CUSTOMER_NO_GROUP);
     }
 
-    Employee tryEmployee(SmsLoginRequest loginRequest) {
+    Employee tryEmployee(String phone) {
         QueryEmployeeRequest request = new QueryEmployeeRequest();
-        request.getEmployee().setPhone(loginRequest.getPhone());
+        request.getEmployee().setPhone(phone);
         final List<Employee> employees = employeeService.selectSearchList(request);
         if (CollectionUtils.isNotEmpty(employees)) {
-            getLogger().info("手机号 {} 已存在", loginRequest.getPhone());
+            getLogger().info("手机号 {} 已存在", phone);
             return employees.get(0);
         }
         return null;

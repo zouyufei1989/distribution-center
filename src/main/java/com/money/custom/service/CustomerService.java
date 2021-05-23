@@ -17,6 +17,8 @@ public interface CustomerService extends BaseService {
 
     Customer findByOpenId(String openId);
 
+    Customer findByPhone(String phone);
+
     String add(MoACustomerRequest request);
 
     String add(Customer customer);

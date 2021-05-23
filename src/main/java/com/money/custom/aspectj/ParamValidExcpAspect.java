@@ -1,6 +1,6 @@
 package com.money.custom.aspectj;
 
-import com.money.framework.base.exception.PandabusSpecException;
+import com.money.framework.base.exception.CustomSpecException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +38,8 @@ public class ParamValidExcpAspect {
     }
 
     @ResponseBody
-    @ExceptionHandler({PandabusSpecException.class}) //指定拦截异常的类型
-    public ResponseEntity<Map<String, Object>> pandabusExceptionHandler(PandabusSpecException e) {
+    @ExceptionHandler({CustomSpecException.class}) //指定拦截异常的类型
+    public ResponseEntity<Map<String, Object>> pandabusExceptionHandler(CustomSpecException e) {
         Map<String, Object> result = new HashMap<>();
 
         result.put("message", e.getMsg());

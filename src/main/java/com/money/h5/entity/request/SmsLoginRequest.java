@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 @ApiModel("短信验证码登录")
 public class SmsLoginRequest extends H5RequestBase {
@@ -13,6 +12,16 @@ public class SmsLoginRequest extends H5RequestBase {
     @ApiModelProperty(value = "短信验证码")
     @NotBlank(message = "验证码不可为空")
     private String smsCode;
+    @ApiModelProperty(value = "顾客不存在，是否自动创建")
+    private boolean autoCreate = false;
+
+    public boolean isAutoCreate() {
+        return autoCreate;
+    }
+
+    public void setAutoCreate(boolean autoCreate) {
+        this.autoCreate = autoCreate;
+    }
 
     public String getSmsCode() {
         return smsCode;

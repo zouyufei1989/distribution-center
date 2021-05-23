@@ -17,6 +17,16 @@ public class TransWechatInfo2CustomerRequest extends H5RequestBase {
     private String rawData;
     @ApiModelProperty(value = "加密算法的初始向量")
     private String iv;
+    @ApiModelProperty(value = "微信获取的jscode")
+    private String jsCode;
+
+    public String getJsCode() {
+        return jsCode;
+    }
+
+    public void setJsCode(String jsCode) {
+        this.jsCode = jsCode;
+    }
 
     public String getNickName() {
         return nickName;

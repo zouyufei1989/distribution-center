@@ -3,13 +3,11 @@ package com.money.custom.service.impl;
 import com.money.custom.dao.CustomerDao;
 import com.money.custom.entity.*;
 import com.money.custom.entity.enums.HistoryEntityEnum;
-import com.money.custom.entity.enums.OrderStatusEnum;
 import com.money.custom.entity.enums.ResponseCodeEnum;
-import com.money.custom.entity.enums.SerialNumberEnum;
 import com.money.custom.entity.request.*;
 import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
-import com.money.framework.base.exception.PandabusSpecException;
+import com.money.framework.base.exception.CustomSpecException;
 import com.money.framework.base.service.impl.BaseServiceImpl;
 import com.money.h5.entity.request.AddCustomer4WechatRequest;
 import org.apache.commons.collections4.CollectionUtils;
@@ -105,13 +103,21 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         return findById(customerGroupIds[0]);
     }
 
+    @Override
+    public Customer findByPhone(String phone) {
+        QueryCustomerRequest request = new QueryCustomerRequest();
+        request.setExactPhone(phone);
+        List<Customer> customers = selectSearchList(request);
+        return CollectionUtils.isEmpty(customers) ? null : customers.get(0);
+    }
+
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER)
     @Override
     @Transactional
     public String add(MoACustomerRequest request) {
         List<Customer> customers = queryCustomerUsingPhone(request.getPhone());
         if (customers.stream().anyMatch(c -> Objects.nonNull(c.getCustomerGroup().getGroupId()) && c.getCustomerGroup().getGroupId().equals(request.getGroupId()))) {
-            throw PandabusSpecException.businessError(ResponseCodeEnum.CUSTOMER_GROUP_EXISTS);
+            throw CustomSpecException.businessError(ResponseCodeEnum.CUSTOMER_GROUP_EXISTS);
         }
 
         Customer customer = new Customer(request);

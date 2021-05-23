@@ -2,7 +2,7 @@ package com.money.framework.base.web.controller;
 
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.framework.base.entity.OperationalEntity;
-import com.money.framework.base.exception.PandabusSpecException;
+import com.money.framework.base.exception.CustomSpecException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public abstract class BaseController {
 
     protected void requireGroupId(OperationalEntity operationalEntity) {
         if (Objects.isNull(operationalEntity.getGroupId())) {
-            throw PandabusSpecException.businessError(ResponseCodeEnum.GROUP_ID_NEEDED);
+            throw CustomSpecException.businessError(ResponseCodeEnum.GROUP_ID_NEEDED);
         }
     }
 }
