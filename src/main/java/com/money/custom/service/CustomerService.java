@@ -32,4 +32,8 @@ public interface CustomerService extends BaseService {
     void purchaseThenConsumeAll(PurchaseConsumeRequest request);
 
     String deleteByOpenId(String openId);
+
+    boolean phoneExists(String phone);
+
+    boolean phoneExists(String phone,Integer groupId);
 }

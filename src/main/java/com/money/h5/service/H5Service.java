@@ -80,6 +80,9 @@ public class H5Service extends BaseServiceImpl {
         }
 
         if (Objects.isNull(customer)) {
+            if (!loginRequest.isAutoCreate()) {
+                return ResponseBase.error(ResponseCodeEnum.ASK_4_SMS_LOGIN);
+            }
             getLogger().info("openId {}不存在，自动创建用户", openId);
             AddCustomer4WechatRequest addCustomer4WechatRequest = new AddCustomer4WechatRequest();
             addCustomer4WechatRequest.setOpenId(openId);

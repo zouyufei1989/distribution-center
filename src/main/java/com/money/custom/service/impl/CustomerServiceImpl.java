@@ -252,4 +252,19 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         return openId;
     }
 
+    @Override
+    public boolean phoneExists(String phone) {
+        QueryCustomerRequest request = new QueryCustomerRequest();
+        request.setExactPhone(phone);
+        return selectSearchListCount(request) > 0;
+    }
+
+    @Override
+    public boolean phoneExists(String phone, Integer groupId) {
+        if (Objects.isNull(groupId)) {
+            return phoneExists(phone);
+        }
+        return queryCustomerUsingPhone(phone).stream().anyMatch(c -> c.getCustomerGroup().getGroupId().equals(groupId));
+    }
+
 }

@@ -19,6 +19,8 @@ public enum ResponseCodeEnum {
     WRONG_SMS_VERIFY_CODE(12, "短信验证码错误"),
     EMPLOYEE_DISABLED(13, "员工不可用"),
     CUSTOMER_NO_GROUP(14, "目前该功能仅限会员使用"),
+    ASK_4_SMS_LOGIN(15, "单点登录失败，尝试短信登录"),
+    UNREGISTER_PHONE(16, "手机号未注册"),
 
     SUCCESS(0, "成功");
 
