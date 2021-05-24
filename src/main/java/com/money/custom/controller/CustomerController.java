@@ -122,11 +122,10 @@ public class CustomerController extends BaseController {
     @VisitLogFlag(type = VisitLogTypeEnum.EDIT)
     @ResponseBody
     @RequestMapping(value = "deleteByIds", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> deleteByIds(@RequestBody DeleteByIdsRequest request) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseBase deleteByIds(@RequestBody DeleteByIdsRequest request) {
         request.setTableNameEnum(DeletableTableNameEnum.CUSTOMER_GROUP);
-        this.customerService.deleteByIds(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        this.customerGroupService.deleteByIds(request);
+        return ResponseBase.success();
     }
 
 }

@@ -212,4 +212,13 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
                 });
     }
 
+    @Override
+    protected void canDeleteByIds(DeleteByIdsRequest request) {
+        QueryEmployeeCustomerRequest queryEmployeeCustomerRequest = new QueryEmployeeCustomerRequest();
+        queryEmployeeCustomerRequest.setStatus(CommonStatusEnum.ENABLE.getValue());
+        queryEmployeeCustomerRequest.setEmployeeIds(request.getIds());
+        final int bindingCnt = employeeCustomerDao.selectSearchListCount(queryEmployeeCustomerRequest);
+        Assert.isTrue(bindingCnt == 0, "选中员工下仍有股东信息");
+        super.canDeleteByIds(request);
+    }
 }

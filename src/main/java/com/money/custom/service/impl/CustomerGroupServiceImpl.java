@@ -5,10 +5,10 @@ import com.money.custom.entity.BonusWallet;
 import com.money.custom.entity.Customer;
 import com.money.custom.entity.CustomerGroup;
 import com.money.custom.entity.Wallet;
+import com.money.custom.entity.enums.CommonStatusEnum;
 import com.money.custom.entity.enums.HistoryEntityEnum;
 import com.money.custom.entity.enums.SerialNumberEnum;
-import com.money.custom.entity.request.AssignBonusPlanRequest;
-import com.money.custom.entity.request.ChangeStatusRequest;
+import com.money.custom.entity.request.*;
 import com.money.custom.service.*;
 import com.money.framework.base.annotation.AddHistoryLog;
 import com.money.framework.base.entity.OperationalEntity;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerGroupServiceImpl extends BaseServiceImpl implements CustomerGroupService {
@@ -64,6 +65,19 @@ public class CustomerGroupServiceImpl extends BaseServiceImpl implements Custome
     public List<String> changeStatus(ChangeStatusRequest request) {
         dao.changeStatus(request);
         return request.getIds();
+    }
+
+    @Override
+    protected void canDeleteByIds(DeleteByIdsRequest request) {
+        QueryCustomerRequest queryCustomerRequest = new QueryCustomerRequest();
+        queryCustomerRequest.setCustomerGroupIds(request.getIds().stream().map(i -> Integer.parseInt(i)).collect(Collectors.toList()));
+        List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);
+
+        Assert.isTrue(customers.stream().allMatch(c -> c.getCustomerGroup().getOrderToConsumeCnt() == 0), "选中顾客仍有订单");
+        Assert.isTrue(customers.stream().allMatch(c -> c.getBonusWallet().getAvailableBonus() == 0), "选中顾客仍有积分");
+        Assert.isTrue(customers.stream().allMatch(c -> c.getWallet().getSumMoney() == 0), "选中顾客仍有余额");
+
+        super.canDeleteByIds(request);
     }
 
 }
