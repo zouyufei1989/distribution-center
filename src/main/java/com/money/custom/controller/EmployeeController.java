@@ -9,10 +9,7 @@ import com.money.framework.base.entity.GridResponseBase;
 import com.money.framework.base.entity.ResponseBase;
 import com.money.framework.base.entity.VisitLogTypeEnum;
 import com.money.framework.base.web.controller.BaseController;
-import com.sun.tools.internal.ws.processor.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 @VisitLogFlag(module = "门店管理", resource = "员工管理")
 @Controller
