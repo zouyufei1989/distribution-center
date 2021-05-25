@@ -31,7 +31,8 @@
 			grpByParent.cnt AS myCustomerCnt,
 			employeeInfo.employee_id AS employeeId,
 			dbw.available_bonus AS `bonusWallet.availableBonus`,
-			IFNULL(orderToConsume.cnt,0) AS `customerGroup.orderToConsumeCnt`
+			IFNULL(orderToConsume.cnt,0) AS `customerGroup.orderToConsumeCnt`,
+			IFNULL(orderToConsume.packageCnt,0) AS `customerGroup.packageToConsumeCnt`
 		FROM <include refid="tableName"/>  dc
 		LEFT JOIN d_customer_group dcg ON dcg.customer_id = dc.id
 		LEFT JOIN d_group dg ON dg.id = dcg.group_id
@@ -42,7 +43,7 @@
 			SELECT customer_group_id , count(*) cnt FROM d_order WHERE status IN (2,3) AND goods_type_id = 2 GROUP BY customer_group_id
 		) packages ON packages.customer_group_id = dcg.id
 		LEFT JOIN (
-			SELECT customer_group_id , count(*) cnt FROM d_order WHERE status =2 GROUP BY customer_group_id
+			SELECT customer_group_id , count(*) cnt ,sum(goods_type_id = 2) packageCnt FROM d_order WHERE status =2 GROUP BY customer_group_id
 		) orderToConsume ON orderToConsume.customer_group_id = dcg.id
 		LEFT JOIN (
 			SELECT parent_id, count(*) cnt FROM d_customer_group

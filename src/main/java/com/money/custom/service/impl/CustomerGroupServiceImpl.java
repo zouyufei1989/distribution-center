@@ -73,7 +73,7 @@ public class CustomerGroupServiceImpl extends BaseServiceImpl implements Custome
         queryCustomerRequest.setCustomerGroupIds(request.getIds().stream().map(i -> Integer.parseInt(i)).collect(Collectors.toList()));
         List<Customer> customers = customerService.selectSearchList(queryCustomerRequest);
 
-        Assert.isTrue(customers.stream().allMatch(c -> c.getCustomerGroup().getOrderToConsumeCnt() == 0), "选中顾客仍有订单");
+        Assert.isTrue(customers.stream().allMatch(c -> c.getCustomerGroup().getPackageToConsumeCnt() == 0), "选中顾客仍有套餐未消费");
         Assert.isTrue(customers.stream().allMatch(c -> c.getBonusWallet().getAvailableBonus() == 0), "选中顾客仍有积分");
         Assert.isTrue(customers.stream().allMatch(c -> c.getWallet().getSumMoney() == 0), "选中顾客仍有余额");
 
