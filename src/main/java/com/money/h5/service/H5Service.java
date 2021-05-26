@@ -231,11 +231,11 @@ public class H5Service extends BaseServiceImpl {
         if (Objects.nonNull(employee)) {
             ResponseBase success = ResponseBase.success(phone, employee.getOpenId());
             markAsEmployee(success);
-            getLogger().info("员工短息登录: phone - {}.", phone);
+            getLogger().info("员工手机登录: phone - {}.", phone);
             return success;
         }
 
-        getLogger().info("顾客短息登录: phone - {}.", phone);
+        getLogger().info("顾客手机登录: phone - {}.", phone);
         autoRegisterIfNewPhone(phone, request.isAutoCreate());
 
         Customer byPhone = customerService.findByPhone(phone);
