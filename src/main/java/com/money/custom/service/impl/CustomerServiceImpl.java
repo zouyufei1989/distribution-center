@@ -109,7 +109,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
         QueryCustomerRequest request = new QueryCustomerRequest();
         request.setExactPhone(phone);
         List<Customer> customers = selectSearchList(request);
-        return CollectionUtils.isEmpty(customers) ? null : customers.get(0);
+        return customers.size() != 1 ? null : customers.get(0);
     }
 
     @AddHistoryLog(historyLogEntity = HistoryEntityEnum.CUSTOMER)
