@@ -7,13 +7,27 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.gexin.fastjson.JSON;
+import com.money.custom.entity.Customer;
+import com.money.custom.service.CustomerService;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UnitTest {
+
+    @Autowired
+    CustomerService customerService;
+
+    @Test
+    public void testFindCustomer(){
+        Customer byOpenId = customerService.findByOpenId("oSpLm5PPyJv5tO-HCGnH5mGUR6lA");
+        System.out.println(JSON.toJSONString(byOpenId));
+    }
 
     public void testSms(){
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4GJ1kgWpTmXjUz8tYgV8", "Z5soA9a7e0vC0NPseirNe5CuWWjKxf");

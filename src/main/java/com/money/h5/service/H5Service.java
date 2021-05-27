@@ -78,12 +78,14 @@ public class H5Service extends BaseServiceImpl {
             getLogger().info("openId - {} 顾客 ：{}", openId, JSON.toJSONString(customer));
         }
 
-        if (Objects.nonNull(customer) && StringUtils.isNotEmpty(customer.getPhone()) && StringUtils.isNotEmpty(customer.getHeadCover()) && StringUtils.isNotEmpty(customer.getNickName())) {
+        Assert.notNull(customer, ResponseCodeEnum.CUSTOMER_NO_GROUP.getName());
+        Assert.notNull(customer.getCustomerGroup(), ResponseCodeEnum.CUSTOMER_NO_GROUP.getName());
+        Assert.notNull(customer.getCustomerGroup().getId(), ResponseCodeEnum.CUSTOMER_NO_GROUP.getName());
+
+        if (StringUtils.isNotEmpty(customer.getPhone()) && StringUtils.isNotEmpty(customer.getHeadCover()) && StringUtils.isNotEmpty(customer.getNickName())) {
             getLogger().info("客户登录: openId - {} phone - {}.", openId, loginRequest.getPhone());
             return ResponseBase.success(openId, new H5Customer(customer));
         }
-
-        Assert.notNull(customer, ResponseCodeEnum.CUSTOMER_NO_GROUP.getName());
 
         ResponseBase error = ResponseBase.error(ResponseCodeEnum.ASK_4_USER_INFO);
         error.setData(openId);
