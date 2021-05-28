@@ -13,6 +13,7 @@ import com.money.h5.entity.response.QueryOrderResponse;
 import com.money.h5.entity.response.QueryPersonalInfoResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @Api(description = "个人中心")
 @RequestMapping(value = "personalCenter")
@@ -36,7 +38,13 @@ public class PersonalCenterController {
     @ResponseBody
     @RequestMapping(value = "queryPersonalInfo", method = RequestMethod.POST)
     public QueryPersonalInfoResponse queryGoodsDetail(@Valid @RequestBody H5RequestBase request, BindingResult bindingResult) {
-        Customer customer = customerService.findByOpenId(request.getOpenId());
+        Customer customer = null;
+        if (StringUtils.isNotEmpty(request.getPhone())) {
+            customer = customerService.findByPhone(request.getPhone());
+        }
+        if (Objects.isNull(customer)) {
+            customer = customerService.findByOpenId(request.getOpenId());
+        }
         return new QueryPersonalInfoResponse(customer);
     }
 
