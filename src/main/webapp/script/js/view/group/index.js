@@ -20,7 +20,7 @@ $(document).ready(function () {
             {
                 name: 'detailImg', header: '详情图片列表', formatter: function (val, opt, obj) {
                     var cnt = 0;
-                    if (val) {
+                    if (val && val!="null") {
                         cnt = val.split(";").length;
                     }
                     return hyperlinkeButtonFormatter(cnt, "showCoverImgModal('" + val + "'," + obj.id + ")");
@@ -29,7 +29,7 @@ $(document).ready(function () {
             {
                 name: 'videoList', header: '介绍视频列表', formatter: function (val, opt, obj) {
                     var cnt = 0;
-                    if (val) {
+                    if (val && val!="null") {
                         cnt = JSON.parse(val).length;
                     }
                     return hyperlinkeButtonFormatter(cnt, "showVideoListModal('" + val + "'," + obj.id + ")");
