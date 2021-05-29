@@ -1,1 +1,1 @@
-var JS_VERSION = 2.0;
+var JS_VERSION = 2.1;
