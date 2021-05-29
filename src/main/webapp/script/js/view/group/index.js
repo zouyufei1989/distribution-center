@@ -20,19 +20,27 @@ $(document).ready(function () {
             {
                 name: 'detailImg', header: '详情图片列表', formatter: function (val, opt, obj) {
                     var cnt = 0;
-                    if (val && val!="null") {
+                    var data = val;
+                    if (data == "null") {
+                        data = "";
+                    }
+                    if (data) {
                         cnt = val.split(";").length;
                     }
-                    return hyperlinkeButtonFormatter(cnt, "showCoverImgModal('" + val + "'," + obj.id + ")");
+                    return hyperlinkeButtonFormatter(cnt, "showCoverImgModal('" + data + "'," + obj.id + ")");
                 }
             },
             {
                 name: 'videoList', header: '介绍视频列表', formatter: function (val, opt, obj) {
                     var cnt = 0;
-                    if (val && val!="null") {
+                    var data = val;
+                    if (data == "null" || data == null) {
+                        data = "";
+                    }
+                    if (data) {
                         cnt = JSON.parse(val).length;
                     }
-                    return hyperlinkeButtonFormatter(cnt, "showVideoListModal('" + val + "'," + obj.id + ")");
+                    return hyperlinkeButtonFormatter(cnt, "showVideoListModal('" + data + "'," + obj.id + ")");
                 }
             },
             {name: 'openRules4Show', header: '营业时间', width: 120},
@@ -44,7 +52,7 @@ $(document).ready(function () {
                     if (val === 0) {
                         input = $('<input type="checkbox" class="js-switch"/>');
                     }
-                    input.attr('data-id',obj.id);
+                    input.attr('data-id', obj.id);
                     return input.prop("outerHTML");
                 }
             },
@@ -86,7 +94,7 @@ function showVideoListModal(videoList, groupId) {
 function gridCompleted() {
     $.each($('.js-switch'), function (i, item) {
         new Switchery(item, {color: '#1AB394'});
-        $(item).change(function(e){
+        $(item).change(function (e) {
             console.log($(e.target).is(":checked"))
             $.ajax({
                 url: '../groupReservationPeriod/changeReserveFlag',
@@ -103,9 +111,9 @@ function gridCompleted() {
                 async: false,
                 cache: false,
                 success: function (result) {
-                    if(result.success ){
+                    if (result.success) {
                         toastr.success('门店预约修改成功')
-                    }else{
+                    } else {
                         toastr.error('门店预约修改失败')
                     }
                 }
