@@ -231,6 +231,12 @@ public class H5Service extends BaseServiceImpl {
 
         final Employee employee = tryEmployee(phone);
         if (Objects.nonNull(employee)) {
+            employee.setHeadCover(request.getAvatarUrl());
+            employee.setNickName(request.getNickName());
+            employee.setOpenId(wechatLoginResponse.getOpenId());
+            employeeService.edit(employee);
+            getLogger().info("更新员工信息 {}", JSON.toJSONString(employee));
+
             ResponseBase success = ResponseBase.success(phone, employee.getOpenId());
             markAsEmployee(success);
             getLogger().info("员工手机登录: phone - {}.", phone);

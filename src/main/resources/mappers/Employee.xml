@@ -176,7 +176,7 @@
 				,gender = #{gender}
 			</if>
 			<if test="employeeLevel != null">
-				,employee_no = #{employeeLevel}
+				,employee_level = #{employeeLevel}
 			</if>
 			<if test="joinDate != null and joinDate!=''">
 				,join_date = #{joinDate}
