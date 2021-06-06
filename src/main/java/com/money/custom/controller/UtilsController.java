@@ -147,6 +147,12 @@ public class UtilsController extends BaseController {
         return UploadResponse.success(fileUploaded);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "getUpyunParams", method = RequestMethod.POST)
+    public ResponseBase getUpyunParams(String fileName) throws Exception {
+        return UploadResponse.success(upYunUtil.getParams4FormUpload(fileName));
+    }
+
     @RequestMapping(value = "/getFile")
     public void getFile(String fileName, HttpServletResponse response) throws IOException {
         File file = new File(fileName);

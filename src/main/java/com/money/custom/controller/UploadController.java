@@ -11,5 +11,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/uploadExcel/*")
 public class UploadController extends BaseController {
 
-
 }

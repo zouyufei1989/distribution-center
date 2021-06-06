@@ -8,9 +8,9 @@ $(document).ready(function () {
             groupId: null,
         },
         methods: {
-            effectUrl(url){
+            effectUrl(url) {
                 console.log(url)
-                return url && url.length>0;
+                return url && url.length > 0;
             },
             show() {
                 $('#videoListModal').modal('show');
@@ -24,14 +24,71 @@ $(document).ready(function () {
             hideUploadCoverModal() {
                 $('#uploadVideoCoverModal').modal('hide');
             },
-            upload(e,attr,formId) {
+            upload(e, attr, formId) {
                 var _this = this;
-                var file = $('#'+formId + ' input').val();
+                var file = $('#' + formId + ' input').val();
                 if (file == '') {
                     Alert("", "请选择文件!");
                     return;
                 }
                 loadingStart($(e.target), function () {
+                    $.ajax({
+                        url: '../utils/getUpyunParams',
+                        type: 'post',
+                        data: {
+                            fileName: $('#' + formId + ' input')[0].files[0].name
+                        },
+                        async: true,
+                        cache: false,
+                        success: function (result) {
+                            var formData = new FormData();
+                            formData.append("policy", result.data.policy);
+                            formData.append("signature", result.data.signature);
+                            formData.append("file", $('#' + formId + ' input')[0].files[0]);
+                            $.ajax({
+                                url: result.data.url,
+                                type: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (data) {
+                                    loadingEnd(function () {
+                                        var uploadResponse = $.parseJSON(data);
+                                        if (uploadResponse.code == 200) {
+                                            $('#' + formId + ' input').val('')
+                                            _this.hideUploadModal();
+                                            _this.hideUploadCoverModal();
+
+                                            var fileUrl = result.data.prefix + uploadResponse.url;
+
+                                            var i = 0;
+                                            for (; i < _this.videoList.length; i++) {
+                                                if (!_this.videoList[i]) {
+                                                    break;
+                                                } else if (!_this.videoList[i][attr]) {
+                                                    break;
+                                                }
+                                            }
+                                            if (i == _this.videoList.length) {
+                                                var item = {imgUrl: '', videoUrl: ''};
+                                                item[attr] = fileUrl;
+                                                _this.videoList.push(item);
+                                            } else {
+                                                _this.videoList[i][attr] = fileUrl;
+                                                console.log(fileUrl)
+                                            }
+
+                                            return;
+                                        }
+                                        Alert("", "上传失败!", "error");
+                                    });
+                                },
+                                error: function (responseStr) {
+                                }
+                            });
+                        }
+                    });
+                    return;
                     var option = {
                         url: "../utils/uploadFileToUpyun",
                         type: "POST",
@@ -39,7 +96,7 @@ $(document).ready(function () {
                         success: function (result) {
                             loadingEnd(function () {
                                 if (result.success) {
-                                    $('#'+formId + ' input').val('')
+                                    $('#' + formId + ' input').val('')
                                     _this.hideUploadModal();
                                     _this.hideUploadCoverModal();
 
@@ -47,15 +104,15 @@ $(document).ready(function () {
                                     for (; i < _this.videoList.length; i++) {
                                         if (!_this.videoList[i]) {
                                             break;
-                                        }else if (!_this.videoList[i][attr]){
+                                        } else if (!_this.videoList[i][attr]) {
                                             break;
                                         }
                                     }
-                                    if(i==_this.videoList.length){
-                                        var item = {imgUrl:'',videoUrl:''};
+                                    if (i == _this.videoList.length) {
+                                        var item = {imgUrl: '', videoUrl: ''};
                                         item[attr] = result.fileUrl;
                                         _this.videoList.push(item);
-                                    }else{
+                                    } else {
                                         _this.videoList[i][attr] = result.fileUrl;
                                     }
 
@@ -65,19 +122,19 @@ $(document).ready(function () {
                             });
                         }
                     }
-                    $("#"+formId).ajaxSubmit(option);
+                    $("#" + formId).ajaxSubmit(option);
                 });
             },
             removeImg(i) {
                 this.videoList[i].imgUrl = "";
-                if(!this.videoList[i].videoUrl){
-                    this.videoList.splice(i,1);
+                if (!this.videoList[i].videoUrl) {
+                    this.videoList.splice(i, 1);
                 }
             },
             removeVideo(i) {
                 this.videoList[i].videoUrl = "";
-                if(!this.videoList[i].imgUrl){
-                    this.videoList.splice(i,1);
+                if (!this.videoList[i].imgUrl) {
+                    this.videoList.splice(i, 1);
                 }
             },
             save(e) {

@@ -1,4 +1,5 @@
 package com.money.test;
+
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
@@ -10,6 +11,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.gexin.fastjson.JSON;
 import com.money.custom.entity.Customer;
 import com.money.custom.service.CustomerService;
+import com.money.framework.util.upyun.UpYunUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,21 @@ public class UnitTest {
 
     @Autowired
     CustomerService customerService;
+    @Autowired
+    UpYunUtil upYunUtil;
 
     @Test
-    public void testFindCustomer(){
+    public void testUpyunParams() throws Exception {
+        System.out.println(JSON.toJSONString(upYunUtil.getParams4FormUpload("a.txt")));
+    }
+
+    @Test
+    public void testFindCustomer() {
         Customer byOpenId = customerService.findByOpenId("oSpLm5PPyJv5tO-HCGnH5mGUR6lA");
         System.out.println(JSON.toJSONString(byOpenId));
     }
 
-    public void testSms(){
+    public void testSms() {
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4GJ1kgWpTmXjUz8tYgV8", "Z5soA9a7e0vC0NPseirNe5CuWWjKxf");
         IAcsClient client = new DefaultAcsClient(profile);
 

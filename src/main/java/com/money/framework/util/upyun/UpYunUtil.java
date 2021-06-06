@@ -1,9 +1,14 @@
 package com.money.framework.util.upyun;
 
+import com.alibaba.fastjson.JSONObject;
+import com.gexin.fastjson.JSON;
 import com.money.custom.entity.enums.ResponseCodeEnum;
 import com.money.framework.base.exception.CustomSpecException;
+import com.money.framework.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.springframework.util.Base64Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +25,8 @@ public class UpYunUtil {
     private String USER_NAME;
     @Value("${web.image.upyun.user.pwd}")
     private String USER_PWD;
+    @Value("${web.image.upyun.form.pwd}")
+    private String FORM_PWD;
     @Value("${web.image.upyun.large.catalogue}")
     private String LARGE_CATALOGUE;
     @Value("${web.image.upyun.thumbnail.catalogue}")
@@ -39,6 +46,27 @@ public class UpYunUtil {
     private static final String DIR_ROOT = "/";
 
     private static UpYun upyun = null;
+
+
+    public Map<String, Object> getParams4FormUpload(String fileName) throws Exception {
+        Assert.hasText(fileName, "文件名不可为空");
+        String filePath = DIR_ROOT + UPLOAD_FOLDER + PATH_SEPARATOR + fileName;
+
+        JSONObject options = new JSONObject();
+        options.put("bucket", BUCKET_NAME);
+        options.put("save-key", filePath);
+        options.put("expiration", String.valueOf(System.currentTimeMillis() / 1000 + 30 * 60));
+        String policy = Base64Utils.encodeToString(JSON.toJSONString(options).getBytes("UTF-8"));
+        String signature = MD5Utils.getMD5(policy + "&" + FORM_PWD);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("url", "http://v0.api.upyun.com/" + BUCKET_NAME);
+        params.put("policy", policy);
+        params.put("signature", signature);
+        params.put("prefix", URL);
+
+        return params;
+    }
 
     public String saveFile(File picFile) throws IOException {
         return saveFile(picFile, null);

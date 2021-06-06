@@ -500,9 +500,9 @@
         initXSSFilter();
         $('input').attr('autocomplete', 'off');
 
-        $.ajaxSetup({
-            headers: {"X-XSRF-TOKEN": getCookie('XSRF-TOKEN')}
-        });
+        // $.ajaxSetup({
+        //     headers: {"X-XSRF-TOKEN": getCookie('XSRF-TOKEN')}
+        // });
 
         $('.modal-body h3').after('<hr/>');
         $('.modal-body h5').after('<hr/>');

@@ -1,21 +1,15 @@
 package com.money.framework.util;
 
 import com.money.custom.entity.dto.FileUploaded;
-import com.money.framework.base.entity.TempFile;
 import com.money.framework.util.upyun.UpYunUtil;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 @Component

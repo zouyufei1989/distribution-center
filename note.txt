@@ -58,3 +58,7 @@ nginx:
         https://zlz-test.xyz:8081/store/
         https://prod.zlz-test.xyz/store/login
         https://hwmhealth.com/store/login   （推荐使用）
+
+upyun
+https://console.upyun.com/services/file/
+18698277572 qq450134117
