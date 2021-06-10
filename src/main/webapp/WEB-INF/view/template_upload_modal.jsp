@@ -47,8 +47,15 @@
                     $("#" + _this.formId).ajaxSubmit(option);
                 });
             });
-        }
-        ,
+        },
+        methods:{
+            showTip(){
+                if(this.height && this.width){
+                    return true;
+                }
+                return false;
+            }
+        },
         template: '#upload-template'
     })
 
@@ -76,6 +83,11 @@
                                         <button type="button" data-style="zoom-in" class="ladda-button btn btn-w-m btn-primary btn-update-footer" :id="btnId">上&nbsp;&nbsp;&nbsp;&nbsp;传</button>
                                     </span>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group" v-show="showTip()" style="margin-top:-15px">
+                            <div class="col-sm-offset-3 col-sm-8">
+                                <label class="control-label"> 建议尺寸 {{width}} * {{height}}</label>
                             </div>
                         </div>
                     </form>
